@@ -20,28 +20,23 @@ class EmptySet(TreeGrammar):
     pass
 
 
-@dataclass
+@dataclass(frozen=True)
 class Application(TreeGrammar):
     f: Symbol
     children: tuple[TreeGrammar]
 
-    def __init__(self, f: Symbol, *children):
-        self.f = f
-        self.children = flatten(children, tuple)
-
-    def __hash__(self):
-        return hash((self.f, self.children))
+    @classmethod
+    def of(cls, f: Symbol, *children):
+        return cls(f, flatten(children, tuple))
 
 
-@dataclass
+@dataclass(frozen=True)
 class Union(TreeGrammar):
     children: frozenset[TreeGrammar]
 
-    def __init__(self, *children):
-        self.children = flatten(children, frozenset)
-
-    def __hash__(self):
-        return hash(self.children)
+    @classmethod
+    def of(cls, *children):
+        return cls(flatten(children, frozenset))
 
 
 @fixpoint(lambda: False)

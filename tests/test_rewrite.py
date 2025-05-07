@@ -4,35 +4,35 @@ from core.grammar import *
 
 @rewrite
 def E():
-    return Union(
+    return Union.of(
         Constant(1),
-        Application("+", (Constant(1), E()))
+        Application.of("+", (Constant(1), E()))
     )
 
 
 @rewrite
 def X():
-    return Union(X(), X())
+    return Union.of(X(), X())
 
 
 @rewrite
 def A():
-    return Union(A(), B())
+    return Union.of(A(), B())
 
 
 @rewrite
 def B():
-    return Union(A())
+    return Union.of(A())
 
 
 def test_nonempty_basic():
     assert not is_nonempty(EmptySet())
-    assert not is_nonempty(Union(EmptySet(), EmptySet()))
+    assert not is_nonempty(Union.of(EmptySet(), EmptySet()))
     assert is_nonempty(Constant(1))
-    assert is_nonempty(Application("+", (Constant(1), Constant(2))))
-    assert is_nonempty(Union(Constant(1), EmptySet()))
-    assert is_nonempty(Union(EmptySet(), Constant(1)))
-    assert is_nonempty(Union(Constant(1), Constant(2)))
+    assert is_nonempty(Application.of("+", (Constant(1), Constant(2))))
+    assert is_nonempty(Union.of(Constant(1), EmptySet()))
+    assert is_nonempty(Union.of(EmptySet(), Constant(1)))
+    assert is_nonempty(Union.of(Constant(1), Constant(2)))
 
 
 def test_nonempty():

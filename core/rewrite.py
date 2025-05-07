@@ -86,7 +86,7 @@ class RewriteSystem:
         self.solver = None
 
     def fresh_var(self, base="") -> Var:
-        name = f"{base}@{self.id}"
+        name = f"@{self.id}" # base can be used for debugging.
         self.id += 1
         var = Var(name)
         return var
@@ -107,10 +107,11 @@ class RewriteSystem:
         return t
 
     def expand_args(self, args: tuple) -> tuple:
-        return tuple(
+        expanded = tuple(
             self.expand_term(arg) if isinstance(arg, Term) else arg
             for arg in args
         )
+        return expanded
 
     def rewrite(self, f):
         """
@@ -120,7 +121,8 @@ class RewriteSystem:
         """
         @wraps(f)
         def var_for_call(*args) -> Var:
-            expand_f = lambda *unexpanded: f(*self.expand_args(unexpanded))
+            def expand_f(*unexpanded):
+                return f(*self.expand_args(unexpanded))
             thunk = Thunk(expand_f, args)
             if (f, args) in self.call_names:
                 return self.call_names[(f, args)]
