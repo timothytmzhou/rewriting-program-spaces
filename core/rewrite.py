@@ -1,156 +1,98 @@
 from dataclasses import dataclass
+from functools import wraps
+from typing import Callable, Optional
 from networkx import DiGraph
-from functools import partial, wraps
-from typing import Any, TypeVar, Callable, Hashable, Optional
-
-T = TypeVar("T")
+from contextlib import contextmanager
+from collections import deque
 
 
 class Term:
-    pass
+    def compact(self):
+        return self
 
 
 @dataclass(frozen=True)
-class Var(Term):
-    name: str
+class Var:
+    f: Callable
+    args: tuple
 
-
-@dataclass
-class Thunk[T]:
-    f: Callable[..., T]
-    args: tuple[Hashable]
-
-    def __call__(self):
-        return self.f(*self.args)
-
-    def __repr__(self):
-        return f"Thunk({self.f.__name__}, {str(self.args)})"
-
-    def __hash__(self):
-        return hash((self.f, self.args))
-
-
-type ThunkableTerm = Term | Thunk[Term]
-
-
-class FixpointSolver:
-    f: Callable[[Term], Any]
-    bot: Callable[[], Any]
-    worklist: list[Term]
-    dependencies: DiGraph
-    cache: dict[Term, Any]
-    current_term: Term
-
-    def __init__(self, f, bot):
-        self.f = f
-        self.bot = bot
-        self.worklist = []
-        self.dependencies = DiGraph()
-        self.cache = {}
-        self.current_term = None
-
-    def visit_subterm(self, t: Term):
-        if t in self.cache:
-            return self.cache[t]
-        self.worklist.append(t)
-        self.cache[t] = self.bot()
-        if self.current_term is not None:
-            self.dependencies.add_edge(t, self.current_term)
-        return self.cache[t]
-
-    def compute_fixpoint(self, start: Term):
-        self.visit_subterm(start)
-        while self.worklist:
-            current = self.worklist.pop()
-            self.current_term = current
-            assert current in self.cache
-            old = self.cache[current]
-            result = self.f(current)
-            self.cache[current] = result
-            if old != result and current in self.dependencies:
-                for parent in self.dependencies.successors(current):
-                    self.worklist.append(parent)
-        return self.cache[start]
+    def expand(self):
+        expanded_args = (
+            arg.expand() if isinstance(arg, Var) else arg
+            for arg in self.args
+        )
+        return self.f(*expanded_args)
 
 
 class RewriteSystem:
-    env: dict[Var, ThunkableTerm]
-    id: int
-    call_names: dict[tuple[Callable, tuple], Var]
-    solver: Optional[FixpointSolver]
+    equations: dict[Var, Term]
+    dependencies: DiGraph
+    worklist: deque[Var]
 
     def __init__(self):
-        self.env = {}
-        self.id = 0
-        self.call_names = {}
-        self.solver = None
+        self.dependencies = DiGraph()
+        self.equations = {}
+        self.worklist = deque()
 
-    def fresh_var(self, base="") -> Var:
-        name = f"@{self.id}" # base can be used for debugging.
-        self.id += 1
-        var = Var(name)
+    def clear(self):
+        self.dependencies.clear()
+        self.equations.clear()
+        self.worklist.clear()
+
+
+rewriter = RewriteSystem()  # not super thread safe
+is_rewriting: bool = False
+origin: Optional[Var] = None
+
+
+@contextmanager
+def rewriting():
+    global is_rewriting
+    try:
+        is_rewriting = True
+        yield
+    finally:
+        is_rewriting = False
+
+
+def set_origin(new_origin: Var):
+    global origin
+    origin = new_origin
+
+
+def rewrite(f):
+    """
+    Rewrite a (infinitely recursive) function into a capsule of equations.
+    """
+    def start_rewrite(start: Var) -> Term:
+        assert not rewriter.worklist
+        rewriter.worklist.append(start)
+        to_compact = []
+        while rewriter.worklist:
+            current = rewriter.worklist.pop()
+            if current in rewriter.equations:
+                continue
+            set_origin(current)
+            rewriter.equations[current] = current.expand()
+            to_compact.append(current)
+
+        # simplify the equations
+        for var in to_compact:
+            term = rewriter.equations[var]
+            assert isinstance(term, Term)
+            rewriter.equations[var] = term.compact()
+        return rewriter.equations[start]
+
+    def visit(var) -> Var:
+        rewriter.worklist.append(var)
+        rewriter.dependencies.add_edge(var, origin)
         return var
 
-    def expand_term(self, t: Term) -> Term:
-        if isinstance(t, Var):
-            assert t in self.env
-            value = self.env[t]
-            expanded: Term
-            if isinstance(value, Thunk):
-                expanded = value()
-                self.env[t] = expanded
-            else:
-                expanded = value
-            assert not isinstance(
-                expanded, Var), "This is likely due to a single variable definition, which is not allowed."
-            return expanded
-        return t
-
-    def expand_args(self, args: tuple) -> tuple:
-        expanded = tuple(
-            self.expand_term(arg) if isinstance(arg, Term) else arg
-            for arg in args
-        )
-        return expanded
-
-    def rewrite(self, f):
-        """
-        Decorator to convert a function into a rewrite rule.
-        The function should return a Term and only have hashable, non-keyword arguments.
-        Calling the wrapped function will return a Var that represents the result of the rewrite.
-        """
-        @wraps(f)
-        def var_for_call(*args) -> Var:
-            def expand_f(*unexpanded):
-                return f(*self.expand_args(unexpanded))
-            thunk = Thunk(expand_f, args)
-            if (f, args) in self.call_names:
-                return self.call_names[(f, args)]
-            else:
-                var = self.fresh_var(f"{f.__name__}({', '.join(map(str, args))})")
-                self.call_names[(f, args)] = var
-                self.env[var] = thunk
-                return var
-        return var_for_call
-
-    def fix(self, bot, f):
-        """
-        Transforms a function into one which will perform a fixpoint computation.
-        The function should take a Term and return a result.
-        """
-        @wraps(f)
-        def wrapped(t):
-            expanded = self.expand_term(t)
-            if self.solver is None:
-                self.solver = FixpointSolver(f, bot)
-                result = self.solver.compute_fixpoint(expanded)
-                self.solver = None
-                return result
-            else:
-                return self.solver.visit_subterm(expanded)
-        return wrapped
-
-
-rewriter = RewriteSystem()
-rewrite = rewriter.rewrite
-fixpoint = lambda bot: partial(rewriter.fix, bot)
+    @wraps(f)
+    def apply(*args) -> Var | Term:
+        var = Var(f, args)
+        if is_rewriting:
+            return visit(var)
+        with rewriting():
+            return start_rewrite(var)
+    return apply
