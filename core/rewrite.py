@@ -1,9 +1,12 @@
 from dataclasses import dataclass
 from functools import wraps
-from typing import Callable, Optional
+from typing import Any, Callable, Optional, TypeVar
 from networkx import DiGraph
 from contextlib import contextmanager
 from collections import deque
+import networkx as nx
+
+T = TypeVar('T')
 
 
 class Term:
@@ -26,6 +29,7 @@ class Var:
 
 class RewriteSystem:
     equations: dict[Var, Term]
+    fix_cache: dict[tuple[Callable, Var], Any]
     dependencies: DiGraph
     worklist: deque[Var]
 
@@ -33,26 +37,39 @@ class RewriteSystem:
         self.dependencies = DiGraph()
         self.equations = {}
         self.worklist = deque()
+        self.fix_cache = {}
 
     def clear(self):
         self.dependencies.clear()
         self.equations.clear()
         self.worklist.clear()
+        self.fix_cache.clear()
 
 
 rewriter = RewriteSystem()  # not super thread safe
-is_rewriting: bool = False
+doing_rewrite: bool = False
+doing_fixpoint: bool = False
 origin: Optional[Var] = None
 
 
 @contextmanager
 def rewriting():
-    global is_rewriting
+    global doing_rewrite
     try:
-        is_rewriting = True
+        doing_rewrite = True
         yield
     finally:
-        is_rewriting = False
+        doing_rewrite = False
+
+
+@contextmanager
+def fixpointing():
+    global doing_fixpoint
+    try:
+        doing_fixpoint = True
+        yield
+    finally:
+        doing_fixpoint = False
 
 
 def set_origin(new_origin: Var):
@@ -64,9 +81,9 @@ def rewrite(f):
     """
     Rewrite a (infinitely recursive) function into a capsule of equations.
     """
-    def start_rewrite(start: Var) -> Term:
+    def start_rewrite(start_var: Var) -> Term:
         assert not rewriter.worklist
-        rewriter.worklist.append(start)
+        rewriter.worklist.append(start_var)
         to_compact = []
         while rewriter.worklist:
             current = rewriter.worklist.pop()
@@ -81,18 +98,59 @@ def rewrite(f):
             term = rewriter.equations[var]
             assert isinstance(term, Term)
             rewriter.equations[var] = term.compact()
-        return rewriter.equations[start]
+        return rewriter.equations[start_var]
 
     def visit(var) -> Var:
         rewriter.worklist.append(var)
-        rewriter.dependencies.add_edge(var, origin)
+        rewriter.dependencies.add_edge(origin, var)
         return var
 
     @wraps(f)
     def apply(*args) -> Var | Term:
         var = Var(f, args)
-        if is_rewriting:
+        if doing_rewrite:
             return visit(var)
         with rewriting():
             return start_rewrite(var)
     return apply
+
+
+def _fixpoint(f: Callable[[Term], T], bot: Callable[..., T]) -> Callable[[Term], T]:
+    """
+    Kildall's algorithm for computing LFPs of functions on cyclic terms.
+    """
+    def kildall(start: Var) -> T:
+        # initialize fixpoint cache with anything we don't know the value of already
+        uncomputed = [
+            var for var in nx.dfs_postorder_nodes(rewriter.dependencies, start)
+            if (f, var) not in rewriter.fix_cache
+        ]
+        worklist = deque(uncomputed)
+        for var in uncomputed:
+            rewriter.fix_cache[(f, var)] = bot()
+        while worklist:
+            current = worklist.pop()
+            current_term = rewriter.equations[current]
+            assert isinstance(current_term, Term)
+            new = f(current_term)
+            if new != rewriter.fix_cache[(f, current)]:
+                rewriter.fix_cache[(f, current)] = new
+                for pred in rewriter.dependencies.predecessors(current):
+                    if pred not in worklist:
+                        worklist.append(pred)
+        return rewriter.fix_cache[(f, start)]
+
+    @wraps(f)
+    def apply(t: Term) -> T:
+        if doing_fixpoint:
+            assert isinstance(t, Var)
+            return rewriter.fix_cache[(f, t)]
+        if isinstance(t, Var):
+            with fixpointing():
+                return kildall(t)
+        else:
+            return f(t)
+    return apply
+
+
+fixpoint = lambda bot: lambda f: _fixpoint(f, bot)
