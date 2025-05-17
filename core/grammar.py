@@ -27,7 +27,13 @@ class Application(TreeGrammar):
 
     @classmethod
     def of(cls, f: Symbol, *children):
-        return cls(f, flatten(children, tuple))
+        flattened = flatten(children, tuple)
+        if any(isinstance(c, EmptySet) for c in flattened):
+            return EmptySet()
+        return cls(f, flattened)
+    
+    def __str__(self):
+        return f"{self.f}({', '.join(str(c) for c in self.children)})"
 
 
 @dataclass(frozen=True)
@@ -36,7 +42,13 @@ class Union(TreeGrammar):
 
     @classmethod
     def of(cls, *children):
-        return cls(flatten(children, frozenset))
+        flattened = flatten(children, frozenset) - {EmptySet()}
+        if not flattened:
+            return EmptySet()
+        return cls(flattened)
+
+    def __str__(self):
+        return f"Union({', '.join(str(c) for c in self.children)})"
 
 
 @fixpoint(lambda: False)
@@ -44,7 +56,7 @@ def is_nonempty(t: TreeGrammar) -> bool:
     match t:
         case EmptySet():
             return False
-        case Constant(c):
+        case Constant():
             return True
         case Application(_, children):
             return all(is_nonempty(c) for c in children)
