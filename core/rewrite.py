@@ -26,6 +26,9 @@ class Var:
         )
         return self.f(*expanded_args)
 
+    def __str__(self):
+        return f"{self.f.__name__}({', '.join(str(arg) for arg in self.args)})"
+
 
 class RewriteSystem:
     equations: dict[Var, Term]
@@ -44,6 +47,12 @@ class RewriteSystem:
         self.equations.clear()
         self.worklist.clear()
         self.fix_cache.clear()
+
+    def __str__(self):
+        return "\n".join(
+            f"{var} = {term}"
+            for var, term in self.equations.items()
+        )
 
 
 rewriter = RewriteSystem()  # not super thread safe
@@ -70,6 +79,8 @@ def fixpointing():
         yield
     finally:
         doing_fixpoint = False
+
+# TODO: need to update dependency generation so we can update during compaction.
 
 
 def set_origin(new_origin: Var):
@@ -100,7 +111,7 @@ def rewrite(f):
             rewriter.equations[var] = term.compact()
         return rewriter.equations[start_var]
 
-    def visit(var) -> Var:
+    def visit(var: Var) -> Var:
         rewriter.worklist.append(var)
         rewriter.dependencies.add_edge(origin, var)
         return var

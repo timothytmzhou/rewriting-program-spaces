@@ -14,6 +14,8 @@ class ConstantParser[T](Parser):
     c: T
     parsed: bool = False
 
+    def __str__(self):
+        return f"ConstantParser({self.c}, {self.parsed})"
 
 @dataclass(frozen=True)
 class EmptyParser(Parser):
@@ -23,8 +25,8 @@ class EmptyParser(Parser):
 @dataclass(frozen=True)
 class Concatenation(Parser):
     f: Symbol
-    parsed: tuple[TreeGrammar]
-    remaining: tuple[Parser]
+    parsed: tuple[Parser, ...]
+    remaining: tuple[Parser, ...]
     rearrange: tuple[int]
 
     @classmethod
@@ -40,7 +42,15 @@ class Concatenation(Parser):
             rearrange = tuple(range(len(children)))
         else:
             rearrange = tuple(rearrange)
-        return cls(f, (), flatten(children, tuple), rearrange)
+        flattened = flatten(children, tuple)
+        if any(isinstance(c, EmptyParser) for c in flattened):
+            return EmptyParser()
+        return cls(f, (), flattened, rearrange)
+
+    def __str__(self):
+        parsed = ', '.join(str(c) for c in self.parsed)
+        remaining = ', '.join(str(c) for c in self.remaining)
+        return f"{self.f}({parsed} => {remaining})"
 
 
 @dataclass(frozen=True)
@@ -49,7 +59,13 @@ class Choice(Parser):
 
     @classmethod
     def of(cls, *children):
-        return cls(flatten(children, frozenset))
+        flattened = flatten(children, frozenset) - {EmptyParser()}
+        if not flattened:
+            return EmptyParser()
+        return cls(flattened)
+
+    def __str__(self):
+        return " | ".join(str(c) for c in self.children)
 
 
 @rewrite
@@ -70,16 +86,16 @@ def D(x, p: Parser):
 
 
 @rewrite
-def delta(p: Parser) -> TreeGrammar:
+def delta(p: Parser) -> Parser:
     match p:
         case ConstantParser(c, True):
-            return Constant(c)
+            return p
         case Choice(children):
-            return Union.of(delta(c) for c in children)
-        case Concatenation(f, parsed, remaining) if not remaining:
-            return Application.of(f, parsed)
+            return Choice.of(delta(c) for c in children)
+        case Concatenation() if not p.remaining:
+            return p
         case _:
-            return EmptySet()
+            return EmptyParser()
 
 
 @rewrite
@@ -92,7 +108,7 @@ def image(p: Parser) -> TreeGrammar:
         case Choice(children):
             return Union.of(image(c) for c in children)
         case Concatenation(f, parsed, remaining, rearrange):
-            concat_children = list(parsed) + [image(r) for r in remaining]
+            concat_children = [image(p) for p in parsed + remaining]
             return Application.of(
                 f,
                 (concat_children[i] for i in rearrange)
