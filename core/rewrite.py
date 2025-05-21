@@ -156,7 +156,6 @@ def _fixpoint(f: Callable[[Term], T], bot: Callable[..., T]) -> Callable[[Term],
                 for pred in rewriter.dependencies.predecessors(current):
                     if pred not in worklist and pred in nodes:
                         worklist.append(pred)
-        # assert len(rewriter.fix_cache) == len(rewriter.equations)
         return rewriter.fix_cache[(f, start)]
 
     @wraps(f)
