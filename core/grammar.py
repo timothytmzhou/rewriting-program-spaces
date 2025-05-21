@@ -25,13 +25,16 @@ class Application(TreeGrammar):
     f: Symbol
     children: tuple[TreeGrammar]
 
+    def subterms(self):
+        return self.children
+
     @classmethod
     def of(cls, f: Symbol, *children):
         flattened = flatten(children, tuple)
         if any(isinstance(c, EmptySet) for c in flattened):
             return EmptySet()
         return cls(f, flattened)
-    
+
     def __str__(self):
         return f"{self.f}({', '.join(str(c) for c in self.children)})"
 
@@ -39,6 +42,9 @@ class Application(TreeGrammar):
 @dataclass(frozen=True)
 class Union(TreeGrammar):
     children: frozenset[TreeGrammar]
+
+    def subterms(self):
+        return self.children
 
     @classmethod
     def of(cls, *children):

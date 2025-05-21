@@ -17,6 +17,7 @@ class ConstantParser[T](Parser):
     def __str__(self):
         return f"ConstantParser({self.c}, {self.parsed})"
 
+
 @dataclass(frozen=True)
 class EmptyParser(Parser):
     pass
@@ -28,6 +29,9 @@ class Concatenation(Parser):
     parsed: tuple[Parser, ...]
     remaining: tuple[Parser, ...]
     rearrange: tuple[int]
+
+    def subterms(self):
+        return self.parsed + self.remaining
 
     @classmethod
     def of(cls, f, *children, rearrange=None):
@@ -57,6 +61,9 @@ class Concatenation(Parser):
 class Choice(Parser):
     children: frozenset[Parser]
 
+    def subterms(self):
+        return self.children
+
     @classmethod
     def of(cls, *children):
         flattened = flatten(children, frozenset) - {EmptyParser()}
@@ -66,6 +73,21 @@ class Choice(Parser):
 
     def __str__(self):
         return " | ".join(str(c) for c in self.children)
+
+
+@fixpoint(lambda: False)
+def parser_nonempty(p: Parser) -> bool:
+    match p:
+        case EmptyParser():
+            return False
+        case ConstantParser():
+            return True
+        case Choice(children):
+            return any(parser_nonempty(c) for c in children)
+        case Concatenation(_, parsed, remaining):
+            return all(parser_nonempty(c) for c in parsed + remaining)
+        case _:
+            raise TypeError(f"Unexpected type: {type(p)}")
 
 
 @rewrite
@@ -108,7 +130,7 @@ def image(p: Parser) -> TreeGrammar:
         case Choice(children):
             return Union.of(image(c) for c in children)
         case Concatenation(f, parsed, remaining, rearrange):
-            concat_children = [image(p) for p in parsed + remaining]
+            concat_children = [image(c) for c in parsed + remaining]
             return Application.of(
                 f,
                 (concat_children[i] for i in rearrange)
