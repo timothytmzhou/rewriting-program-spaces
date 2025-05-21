@@ -1,11 +1,13 @@
 from __future__ import annotations
+import networkx as nx
 from dataclasses import dataclass
 from functools import wraps
-from typing import Any, Callable, Iterable, Optional, TypeVar
+from typing import Any, Callable, Iterable, TypeVar
 from networkx import DiGraph
 from contextlib import contextmanager
 from collections import deque
-import networkx as nx
+from .utils import replace_adjacency_list
+
 
 T = TypeVar('T')
 
@@ -29,7 +31,7 @@ class Term:
 
 
 @dataclass(frozen=True)
-class Var: # should not subclass Term here since we want mypy to distinguish
+class Var:  # should not subclass Term here since we want mypy to distinguish
     f: Callable
     args: tuple
 
@@ -108,15 +110,19 @@ def rewrite(f):
                 continue
             term = current.expand()
             rewriter.equations[current] = term
-            for dep in term._var_descendents():
-                rewriter.dependencies.add_edge(current, dep)
+            rewriter.dependencies.add_edges_from(
+                (current, dep) for dep in term._var_descendents()
+            )
             to_compact.append(current)
 
         # simplify the equations
         for var in to_compact:
             term = rewriter.equations[var]
             assert isinstance(term, Term)
-            rewriter.equations[var] = term.compact()
+            compacted = term.compact()
+            rewriter.equations[var] = compacted
+            replace_adjacency_list(rewriter.dependencies, var,
+                                   compacted._var_descendents())
         return start_var
 
     def visit(var: Var) -> Var:

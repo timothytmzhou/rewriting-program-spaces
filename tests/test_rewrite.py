@@ -31,19 +31,19 @@ class TestEquationGeneration:
     def test_E(self):
         E()
         assert len(rewriter.equations) == 1
-        assert dependencies_isomorphic_to([("E", "E")])
+        assert dependencies_isomorphic_to(DiGraph([("E", "E")]))
 
     @reset
     def test_A(self):
         A()
         assert len(rewriter.equations) == 2
-        assert dependencies_isomorphic_to([("A", "B"), ("B", "A"), ("A", "A")])
+        assert dependencies_isomorphic_to(DiGraph({"A": [], "B": []}))
 
     @reset
     def test_X(self):
         X()
         assert len(rewriter.equations) == 1
-        assert dependencies_isomorphic_to([("X", "X")])
+        assert dependencies_isomorphic_to(DiGraph({"empty": []}))
 
 
 class TestFixpoint:

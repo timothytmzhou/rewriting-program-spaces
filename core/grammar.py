@@ -27,6 +27,9 @@ class Application(TreeGrammar):
 
     def subterms(self):
         return self.children
+    
+    def compact(self):
+        return Application.of(self.f, self.children)
 
     @classmethod
     def of(cls, f: Symbol, *children):
@@ -45,6 +48,9 @@ class Union(TreeGrammar):
 
     def subterms(self):
         return self.children
+    
+    def compact(self):
+        return Union.of(c for c in self.children if is_nonempty(c))
 
     @classmethod
     def of(cls, *children):

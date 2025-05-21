@@ -33,6 +33,11 @@ class Concatenation(Parser):
     def subterms(self):
         return self.parsed + self.remaining
 
+    def compact(self):
+        if any(not parser_nonempty(p) for p in self.parsed + self.remaining):
+            return EmptyParser()
+        return self
+
     @classmethod
     def of(cls, f, *children, rearrange=None):
         """
@@ -63,6 +68,9 @@ class Choice(Parser):
 
     def subterms(self):
         return self.children
+
+    def compact(self):
+        return Choice.of(p for p in self.children if parser_nonempty(p))
 
     @classmethod
     def of(cls, *children):

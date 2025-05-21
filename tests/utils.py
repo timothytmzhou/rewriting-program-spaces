@@ -14,8 +14,8 @@ def reset(test_function):
     return wrapper
 
 
-def dependencies_isomorphic_to(edges):
+def dependencies_isomorphic_to(G: DiGraph):
     """
     Check if the dependencies graph is isomorphic to the given edges.
     """
-    return is_isomorphic(rewriter.dependencies, DiGraph(edges))
+    return is_isomorphic(rewriter.dependencies, G)
