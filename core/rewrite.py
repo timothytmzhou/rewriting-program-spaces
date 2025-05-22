@@ -18,13 +18,11 @@ class Term:
         return set()
 
     def _var_descendents(self) -> Iterable[Var]:
-        worklist = deque([self])
-        while worklist:
-            current = worklist.pop()
-            if isinstance(current, Term):
-                worklist.extend(current.subterms())
-            elif isinstance(current, Var):
-                yield current
+        for subterm in self.subterms():
+            if isinstance(subterm, Term):
+                yield from subterm._var_descendents()
+            elif isinstance(subterm, Var):
+                yield subterm
 
     def compact(self):
         return self
@@ -93,8 +91,6 @@ def rewriting():
     finally:
         doing_rewrite = False
 
-
-# TODO: need to update dependency generation so we can update during compaction.
 
 def rewrite(f):
     """
