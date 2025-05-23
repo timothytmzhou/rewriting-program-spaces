@@ -27,7 +27,7 @@ class Application(TreeGrammar):
 
     def subterms(self):
         return self.children
-    
+
     def compact(self):
         return Application.of(self.f, self.children)
 
@@ -48,7 +48,7 @@ class Union(TreeGrammar):
 
     def subterms(self):
         return self.children
-    
+
     def compact(self):
         return Union.of(c for c in self.children if is_nonempty(c))
 
@@ -76,3 +76,7 @@ def is_nonempty(t: TreeGrammar) -> bool:
             return any(is_nonempty(c) for c in children)
         case _:
             raise TypeError(f"Unexpected type: {type(t)}")
+
+
+def is_empty(t: TreeGrammar) -> bool:
+    return not is_nonempty(t)

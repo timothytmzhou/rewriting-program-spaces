@@ -24,12 +24,12 @@ def parses_nothing():
 @reset
 def test_parser():
     assert parser_nonempty(parse_E())
-    assert not parser_nonempty(parses_nothing())
+    assert parser_empty(parses_nothing())
 
 
 @reset
 def test_derivative():
     assert parser_nonempty(D(1, parse_E()))
-    assert not parser_nonempty(D(0, parse_E()))
+    assert parser_empty(D(0, parse_E()))
     assert parser_nonempty(D("+", D(1, parse_E())))
-    assert not parser_nonempty(D("-", D(1, parse_E())))
+    assert parser_empty(D("-", D(1, parse_E())))

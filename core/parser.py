@@ -34,7 +34,7 @@ class Concatenation(Parser):
         return self.parsed + self.remaining
 
     def compact(self):
-        if any(not parser_nonempty(p) for p in self.parsed + self.remaining):
+        if any(parser_empty(p) for p in self.parsed + self.remaining):
             return EmptyParser()
         return self
 
@@ -95,6 +95,10 @@ def parser_nonempty(p: Parser) -> bool:
             return all(parser_nonempty(c) for c in parsed + remaining)
         case _:
             raise TypeError(f"Unexpected type: {type(p)}")
+
+
+def parser_empty(p: Parser) -> bool:
+    return not parser_nonempty(p)
 
 
 @rewrite

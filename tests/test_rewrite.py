@@ -49,8 +49,8 @@ class TestEquationGeneration:
 class TestFixpoint:
     @reset
     def test_nonempty_basic(self):
-        assert not is_nonempty(EmptySet())
-        assert not is_nonempty(Union.of(EmptySet(), EmptySet()))
+        assert is_empty(EmptySet())
+        assert is_empty(Union.of(EmptySet(), EmptySet()))
         assert is_nonempty(Constant(1))
         assert is_nonempty(Application.of("+", (Constant(1), Constant(2))))
         assert is_nonempty(Union.of(Constant(1), EmptySet()))
@@ -60,9 +60,9 @@ class TestFixpoint:
     @reset
     def test_nonempty(self):
         assert is_nonempty(E())
-        assert not is_nonempty(X())
+        assert is_empty(X())
 
     @reset
     def test_nonempty_mutual(self):
-        assert not is_nonempty(A())
-        assert not is_nonempty(B())
+        assert is_empty(A())
+        assert is_empty(B())
