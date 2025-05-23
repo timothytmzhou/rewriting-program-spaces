@@ -79,6 +79,7 @@ def E():
         Application.of("+", (Constant(1), E()))
     )
 
+# E ::=  1 | 1 + E
 
 @rewrite
 def Twos():
@@ -101,6 +102,7 @@ class TestNumerics:
         assert is_nonempty(even_val(E()))
         assert not is_nonempty(odd_val(odd_val(even_val(E()))))
         assert is_nonempty(even_val(Twos()))
+        assert not is_nonempty(Application.of("+", [Constant(1), even_val(Twos())]))
         assert not is_nonempty(odd_val(Twos()))
 
     @reset
