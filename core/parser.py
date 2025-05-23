@@ -28,7 +28,7 @@ class Concatenation(Parser):
     f: Symbol
     parsed: tuple[Parser, ...]
     remaining: tuple[Parser, ...]
-    rearrange: tuple[int]
+    rearrange: tuple[int, ...]
 
     def subterms(self):
         return self.parsed + self.remaining
@@ -44,16 +44,15 @@ class Concatenation(Parser):
         Builds a parser that emits ASTS of form f(x_1, x_2, ..., x_n) where
         x_i are the parsed subtrees.
         :param f: The function to apply to the parsed subtrees.
-        :param children: The remaining parsers to apply. Either multiple parserrs or a single iterable of parsers.
-        :param rearrange: The order in which to rearrange the parsed subtrees when emitting ASTs.
+        :param children: The remaining parsers to apply. Either multiple parserrs 
+                         or a single iterable of parsers.
+        :param rearrange: The order (tuple of ints) in which to rearrange 
+                          the parsed subtrees when emitting ASTs.
         """
-        if rearrange is None:
-            rearrange = tuple(range(len(children)))
-        else:
-            rearrange = tuple(rearrange)
         flattened = flatten(children, tuple)
         if any(isinstance(c, EmptyParser) for c in flattened):
             return EmptyParser()
+        rearrange = tuple(range(len(flattened))) if rearrange is None else rearrange
         return cls(f, (), flattened, rearrange)
 
     def __str__(self):
