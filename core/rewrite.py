@@ -106,6 +106,7 @@ def rewrite(f):
                 continue
             term = current.expand()
             rewriter.equations[current] = term
+            rewriter.dependencies.add_node(current)
             rewriter.dependencies.add_edges_from(
                 (current, dep) for dep in term._var_descendents()
             )
