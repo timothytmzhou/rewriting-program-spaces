@@ -63,11 +63,12 @@ def odds(t: TreeGrammar):
 @reset
 def test_even_odd():
     assert is_nonempty(constant1())
-    assert not is_nonempty(odds(Constant(2)))
+    assert is_empty(odds(Constant(2)))
     assert is_nonempty(evens(ones()))
-    assert not is_nonempty(odds(odds(evens(ones()))))
+    assert is_empty(odds(odds(evens(ones()))))
     assert is_nonempty(evens(twos()))
-    assert not is_nonempty(odds(twos()))
+    assert is_empty(odds(twos()))
+    assert is_empty(evens(Application.of("+", (Constant(1), evens(twos())))))
 
 
 @rewrite
@@ -91,8 +92,8 @@ def less_than(n: int, t: TreeGrammar):
 @reset
 def test_less_than():
     assert is_nonempty(less_than(2, ones()))
-    assert not is_nonempty(less_than(-1, ones()))
-    assert not is_nonempty(less_than(0, ones()))
-    assert not is_nonempty(less_than(1, twos()))
-    assert not is_nonempty(less_than(48, Constant(49)))
+    assert is_empty(less_than(-1, ones()))
+    assert is_empty(less_than(0, ones()))
+    assert is_empty(less_than(1, twos()))
+    assert is_empty(less_than(48, Constant(49)))
     assert is_nonempty(less_than(48, Constant(47)))
