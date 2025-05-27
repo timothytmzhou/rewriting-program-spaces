@@ -1,29 +1,31 @@
 from collections import defaultdict
 import torch
 from tqdm import tqdm
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, PreTrainedTokenizer, PreTrainedModel
 from .constrained_decoding import RealizabilityChecker
 from typing import Any
 
 
-def load_model_and_tokenizer(model_id, dtype, device):
+def load_model_and_tokenizer(model_id: str, dtype: torch.dtype):
     # Load tokenizer
-    tokenizer = AutoTokenizer.from_pretrained(model_id)
+    tokenizer: PreTrainedTokenizer = AutoTokenizer.from_pretrained(model_id)
     tokenizer.pad_token = "[PAD]"
     # tokenizer.pad_token = tokenizer.eos_token
 
     # Load model
-    model = AutoModelForCausalLM.from_pretrained(model_id, device_map="auto")
-    model.to(dtype=dtype)
-    model.resize_token_embeddings(len(tokenizer))
+    model: PreTrainedModel = AutoModelForCausalLM.from_pretrained(model_id, device_map="auto")
+    model.to(dtype=dtype)  # type: ignore
+    model.resize_token_embeddings(len(tokenizer))  # type: ignore
+    return model, tokenizer
 
 
-def tokenize_prompt(tokenizer, prompt, model):
+def tokenize_prompt(tokenizer: PreTrainedTokenizer, prompt: str, model: PreTrainedModel):
     # Tokenize prompt into ids
-    input_ids = tokenizer(
-        [prompt], add_special_tokens=False, return_tensors="pt", padding=True
+    input_ids: torch.Tensor = tokenizer(
+        prompt, add_special_tokens=False, return_tensors="pt", padding=True
     )["input_ids"]
     input_ids = input_ids.to(model.device)
+    print(input_ids)
 
 
 def generate_solution(
@@ -42,7 +44,7 @@ def generate_solution(
             and (not generated_tokens or (generated_tokens[-1] != tokenizer.eos_token_id))):
 
         # If no possible tokens remain, backtrack
-        if len(forbidden_tokens[tuple(generated_tokens)]) == len(tokenizer.vocabulary):
+        if len(forbidden_tokens[tuple(generated_tokens)]) == len(tokenizer):
             forbidden_tokens[tuple(generated_tokens[:-1])].add(generated_tokens[-1])
             generated_tokens = generated_tokens[:-1]
             continue
@@ -57,7 +59,7 @@ def generate_solution(
             top_p=top_p,
             top_k=top_k,
             temperature=temp,
-            bad_words_ids=list(forbidden_tokens[generated_tokens]),
+            bad_words_ids=list(forbidden_tokens[tuple(generated_tokens)]),
             repetition_penalty=repetition_penalty,
             num_return_sequences=1,
             return_dict_in_generate=True,
@@ -73,7 +75,7 @@ def generate_solution(
             forbidden_tokens[tuple(generated_tokens)].add(output[-1])
 
     # Detokenize generated output
-    return tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
+    return tokenizer.decode(generated_tokens, skip_special_tokens=True)
 
 
 def run_llm(
@@ -90,8 +92,9 @@ def run_llm(
         top_k: float = 0):
 
     device = torch.device(device)
-    model, tokenizer = load_model_and_tokenizer(model_id, dtype, device)
+    model, tokenizer = load_model_and_tokenizer(model_id, dtype)
     input_ids = tokenize_prompt(tokenizer, prompt, model)
+    print(input_ids)
     outputs = []
     # Initialize map to track forbidden tokens
     forbidden_tokens: defaultdict[Any, set[int]] = defaultdict(set)
