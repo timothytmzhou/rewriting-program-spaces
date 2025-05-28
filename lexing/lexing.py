@@ -85,11 +85,16 @@ class LexerState:
         return LexerState(self.prefix, continuations)
 
 
-def partial_lex(inp: str, lexerspec: LexerSpec, final: bool = False):
+def partial_lex(inp: str, lexerspec: LexerSpec):
     lstate = compute_lexer_state(inp, lexerspec)
     lstate = lstate.remove_ignorable_tokens()
-    if final:
-        lstate = lstate.finalize()
+    return lstate.get_partial_lexes()
+
+
+def lex(inp: str, lexerspec: LexerSpec):
+    lstate = compute_lexer_state(inp, lexerspec)
+    lstate = lstate.finalize()
+    lstate = lstate.remove_ignorable_tokens()    
     return lstate.get_partial_lexes()
 
 

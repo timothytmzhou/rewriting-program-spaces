@@ -105,7 +105,7 @@ def test_partial_lex_finalize():
          RegexLeaf("print", grn.parse("rint$"), "p"))
     }
 
-    assert partial_lex("a p", lspec, True) == {
+    assert lex("a p", lspec) == {
         (RegexLeaf("var", EPS, "a"),
          RegexLeaf("var", EPS, "p"))
     }
