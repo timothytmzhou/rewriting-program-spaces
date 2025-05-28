@@ -29,7 +29,7 @@ def tokenize_prompt(tokenizer: PreTrainedTokenizer, prompt: str, model: PreTrain
 
 
 def generate_solution(
-        model, tokenizer, input_ids, realizability_checker,
+        model, tokenizer, input_ids, realizability_checker: RealizabilityChecker,
         max_new_tokens, temp, repetition_penalty, top_p, top_k,
         forbidden_tokens):
     # Initialize checker
@@ -66,10 +66,12 @@ def generate_solution(
             output_scores=True,
         )
         output = output[len(input_ids):]
+        final = (output[-1] == tokenizer.eos_token_id)
 
-        # Else, check realizability and accept valid tokens or forbid suggestion
+        # Check realizability and accept valid tokens or forbid suggestion
         if realizability_checker.realizable(
-                tokenizer.decode(output, skip_special_tokens=True)):
+                tokenizer.decode(output, skip_special_tokens=True),
+                final):
             generated_tokens = output
         else:
             forbidden_tokens[tuple(generated_tokens)].add(output[-1])
