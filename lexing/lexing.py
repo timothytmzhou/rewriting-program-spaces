@@ -15,13 +15,15 @@ class LexerSpec:
     ignore_regex: grn.Pattern = grn.NULL
 
     def __post_init__(self):
-        self.hash = hash(frozenset(self.tok2regex).union([self.ignore_regex]))
+        # TODO: Fix hash function or remove
+        # self.hash = hash(frozenset(self.tok2regex).union([self.ignore_regex]))
+        self.hash = 1
 
     def __hash__(self):
         return self.hash
 
-    def get_lexemes(self) -> set[RegexLeaf]:
-        return ({RegexLeaf(IGNORE, self.ignore_regex, "")}.union(self.tok2regex))
+    def get_lexemes(self) -> list[RegexLeaf]:
+        return ([RegexLeaf(IGNORE, self.ignore_regex, "")] + list(self.tok2regex))
 
 
 @dataclass
@@ -98,7 +100,7 @@ def lex(inp: str, lexerspec: LexerSpec):
     return lstate.get_partial_lexes()
 
 
-@functools.lru_cache
+# @functools.lru_cache
 def compute_lexer_state(inp: str, lexerspec: LexerSpec) -> LexerState:
     if len(inp) == 0:
         return LexerState()

@@ -10,7 +10,6 @@ def load_model_and_tokenizer(model_id: str, dtype: torch.dtype):
     # Load tokenizer
     tokenizer: PreTrainedTokenizer = AutoTokenizer.from_pretrained(model_id)
     tokenizer.pad_token = "[PAD]"
-    # tokenizer.pad_token = tokenizer.eos_token
 
     # Load model
     model: PreTrainedModel = AutoModelForCausalLM.from_pretrained(model_id, device_map="auto")
@@ -25,15 +24,17 @@ def tokenize_prompt(tokenizer: PreTrainedTokenizer, prompt: str, model: PreTrain
         prompt, add_special_tokens=False, return_tensors="pt", padding=True
     )["input_ids"]
     input_ids = input_ids.to(model.device)
-    print(input_ids)
+    return input_ids
 
 
 def generate_solution(
-        model, tokenizer, input_ids, realizability_checker: RealizabilityChecker,
+        model, tokenizer: PreTrainedTokenizer, input_ids,
+        realizability_checker: RealizabilityChecker,
         max_new_tokens, temp, repetition_penalty, top_p, top_k,
-        forbidden_tokens):
+        forbidden_tokens: defaultdict[Any, set[int]],
+        num_guesses: int = 100):
     # Initialize checker
-    generated_tokens: list = []
+    generated_tokens: list[int] = []
 
     # Check if problem is unrealizable
     if not realizability_checker.realizable(""):
@@ -43,15 +44,23 @@ def generate_solution(
     while (len(generated_tokens) < max_new_tokens
             and (not generated_tokens or (generated_tokens[-1] != tokenizer.eos_token_id))):
 
-        # If no possible tokens remain, backtrack
-        if len(forbidden_tokens[tuple(generated_tokens)]) == len(tokenizer):
-            forbidden_tokens[tuple(generated_tokens[:-1])].add(generated_tokens[-1])
-            generated_tokens = generated_tokens[:-1]
-            continue
+        # If no possible tokens remain or num_guesses exceeded, end string or backtrack
+        if len(forbidden_tokens[tuple(generated_tokens)]) == min(num_guesses, len(tokenizer)):
+            # Try to end the string if the string is valid; else backtrack
+            if realizability_checker.realizable(
+                    tokenizer.decode(generated_tokens, skip_special_tokens=True),
+                    True):
+                return generated_tokens
+            else:
+                forbidden_tokens[tuple(generated_tokens[:-1])].add(generated_tokens[-1])
+                generated_tokens = generated_tokens[:-1]
+                continue
 
         # Otherwise, generate the next token
+        bad_words = list(map(lambda id: [id], forbidden_tokens[tuple(generated_tokens)]))
+        print(torch.tensor([list(input_ids[0]) + generated_tokens]))
         output = model.generate(
-            input_ids + generated_tokens,
+            torch.tensor([list(input_ids[0]) + generated_tokens]),
             do_sample=True,
             pad_token_id=tokenizer.eos_token_id,
             eos_token_id=tokenizer.eos_token_id,
@@ -59,13 +68,13 @@ def generate_solution(
             top_p=top_p,
             top_k=top_k,
             temperature=temp,
-            bad_words_ids=list(forbidden_tokens[tuple(generated_tokens)]),
+            bad_words_ids=bad_words if bad_words else None,
             repetition_penalty=repetition_penalty,
             num_return_sequences=1,
             return_dict_in_generate=True,
             output_scores=True,
         )
-        output = output[len(input_ids):]
+        output = output.sequences[0][len(input_ids[0]):].tolist()
         final = (output[-1] == tokenizer.eos_token_id)
 
         # Check realizability and accept valid tokens or forbid suggestion

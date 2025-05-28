@@ -22,7 +22,7 @@ class RealizabilityChecker:
         lexes = partial_lex(pref, self.lexerspec) if not final else lex(pref, self.lexerspec)
 
         # Build term representing set of possible parse trees
-        terms = [reduce(lambda leaf, parser: D(leaf, parser), lex, self.grammar) for lex in lexes]
+        terms = [reduce(lambda parser, leaf: D(leaf, parser), lex, self.grammar) for lex in lexes]
         big_term = Choice.of(terms) if not final else delta(Choice.of(terms))
 
         # TODO: Build corresponding set of good ASTs

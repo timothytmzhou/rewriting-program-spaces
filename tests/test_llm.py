@@ -8,13 +8,14 @@ from runllm.run_llm import run_llm
 
 def test_run_llm_simpl_gcd():
     lspec = LexerSpec({
-        RegexLeaf("6", grn.parse("6"))
+        RegexLeaf("int", grn.parse("675"))
     })
 
     a = RealizabilityChecker(
         None,
-        ConstantParser(RegexLeaf("6", grn.parse("6"))),
-        None,
+        ConstantParser(RegexLeaf("int", grn.parse("675"))),
         None,
         lspec)
-    print(run_llm(a, "My favorite number is "))
+    prompt = "I will only write 675 and then end the string. "
+    num = run_llm(a, prompt)[0]
+    print(prompt + num)
