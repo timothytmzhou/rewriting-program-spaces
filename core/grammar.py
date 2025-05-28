@@ -1,7 +1,7 @@
 from dataclasses import dataclass
+from lexing.leaves import Leaf
 from .rewrite import *
 from .utils import flatten
-from typing import Iterable
 
 Symbol = str
 
@@ -11,8 +11,8 @@ class TreeGrammar(Term):
 
 
 @dataclass(frozen=True)
-class Constant[T](TreeGrammar):
-    c: T
+class Constant(TreeGrammar):
+    c: Leaf
 
 
 @dataclass(frozen=True)

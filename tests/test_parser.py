@@ -1,15 +1,16 @@
 from core.parser import *
+from lexing.leaves import IntLeaf, StringLeaf
 from .utils import *
 
 
 @rewrite
 def parse_E():
     return Choice.of(
-        ConstantParser(1),
+        ConstantParser(IntLeaf(1)),
         Concatenation.of(
-            "+",
-            ConstantParser(1),
-            ConstantParser("+"),
+            StringLeaf("+"),
+            ConstantParser(IntLeaf(1)),
+            ConstantParser(StringLeaf("+")),
             parse_E(),
             rearrange=(0, 2)
         )

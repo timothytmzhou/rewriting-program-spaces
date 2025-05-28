@@ -10,8 +10,8 @@ class Parser(Term):
 
 
 @dataclass(frozen=True)
-class ConstantParser[T](Parser):
-    c: T
+class ConstantParser(Parser):
+    c: Leaf
     parsed: bool = False
 
     def __str__(self):
@@ -104,8 +104,11 @@ def parser_empty(p: Parser) -> bool:
 @rewrite
 def D(x, p: Parser):
     match p:
-        case ConstantParser(c, False) if c == x:
-            return ConstantParser(c, True)
+        case ConstantParser(c, False):
+            inter = c.update(x)
+            if inter:
+                return ConstantParser(inter, True)
+            return EmptyParser()
         case Choice(children):
             return Choice.of(D(x, c) for c in children)
         case Concatenation(_, parsed, remaining) if remaining:
