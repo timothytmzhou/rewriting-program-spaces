@@ -32,7 +32,7 @@ def generate_solution(
         realizability_checker: RealizabilityChecker,
         max_new_tokens, temp, repetition_penalty, top_p, top_k,
         forbidden_tokens: defaultdict[Any, set[int]],
-        num_guesses: int = 100):
+        num_guesses: int = 100) -> str:
     # Initialize checker
     generated_tokens: list[int] = []
 
@@ -51,7 +51,7 @@ def generate_solution(
             if realizability_checker.realizable(
                     tokenizer.decode(generated_tokens, skip_special_tokens=True),
                     True):
-                return generated_tokens
+                return tokenizer.decode(generated_tokens, skip_special_tokens=True)
             else:
                 forbidden_tokens[tuple(generated_tokens[:-1])].add(generated_tokens[-1])
                 generated_tokens = generated_tokens[:-1]
@@ -105,8 +105,7 @@ def run_llm(
     device = torch.device(device)
     model, tokenizer = load_model_and_tokenizer(model_id, dtype)
     input_ids = tokenize_prompt(tokenizer, prompt, model)
-    print(input_ids)
-    outputs = []
+    outputs: list[str] = []
     # Initialize map to track forbidden tokens
     forbidden_tokens: defaultdict[Any, set[int]] = defaultdict(set)
     for _ in tqdm(range(num_iter), desc="Running Inference"):

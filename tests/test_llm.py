@@ -8,14 +8,14 @@ from runllm.run_llm import run_llm
 
 def test_run_llm_simpl_gcd():
     lspec = LexerSpec({
-        RegexLeaf("int", grn.parse("675"))
+        RegexLeaf("int", grn.parse("6"))
     })
 
     a = RealizabilityChecker(
         None,
-        ConstantParser(RegexLeaf("int", grn.parse("675"))),
+        ConstantParser(RegexLeaf("int", grn.parse("6"))),
         None,
         lspec)
-    prompt = "I will only write 675 and then end the string. "
+    prompt = "3 + 3 = "
     num = run_llm(a, prompt)[0]
     print(prompt + num)
