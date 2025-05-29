@@ -1,6 +1,5 @@
 from __future__ import annotations
 from dataclasses import dataclass, field, replace
-import functools
 import greenery as grn
 
 from lexing.leaves import EPS, RegexLeaf
@@ -35,8 +34,10 @@ class LexerState:
         return {tuple(self.prefix) + cont for cont in self.continuations}
 
     def simplify(self) -> LexerState:
-        if (self.continuations
-                and all(cont[len(self.prefix)].nullable()for cont in self.continuations)):
+        if (
+            self.continuations
+            and all(cont[len(self.prefix)].nullable()for cont in self.continuations)
+        ):
             prefix = self.prefix + next(iter(self.continuations))
             continuations = {t[1:] for t in self.continuations}
             return LexerState(prefix, continuations).simplify()
@@ -96,7 +97,7 @@ def partial_lex(inp: str, lexerspec: LexerSpec):
 def lex(inp: str, lexerspec: LexerSpec):
     lstate = compute_lexer_state(inp, lexerspec)
     lstate = lstate.finalize()
-    lstate = lstate.remove_ignorable_tokens()    
+    lstate = lstate.remove_ignorable_tokens()
     return lstate.get_partial_lexes()
 
 

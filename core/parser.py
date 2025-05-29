@@ -44,9 +44,9 @@ class Concatenation(Parser):
         Builds a parser that emits ASTS of form f(x_1, x_2, ..., x_n) where
         x_i are the parsed subtrees.
         :param f: The function to apply to the parsed subtrees.
-        :param children: The remaining parsers to apply. Either multiple parserrs 
+        :param children: The remaining parsers to apply. Either multiple parsers
                          or a single iterable of parsers.
-        :param rearrange: The order (tuple of ints) in which to rearrange 
+        :param rearrange: The order (tuple of ints) in which to rearrange
                           the parsed subtrees when emitting ASTs.
         """
         flattened = flatten(children, tuple)
@@ -124,7 +124,7 @@ def D(x, p: Parser):
 @rewrite
 def delta(p: Parser) -> Parser:
     match p:
-        case ConstantParser(c, True):
+        case ConstantParser(_, True):
             return p
         case Choice(children):
             return Choice.of(delta(c) for c in children)

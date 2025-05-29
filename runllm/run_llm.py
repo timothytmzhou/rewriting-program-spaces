@@ -18,7 +18,7 @@ def load_model_and_tokenizer(model_id: str, dtype: torch.dtype):
     return model, tokenizer
 
 
-def tokenize_prompt(tokenizer: PreTrainedTokenizer, prompt: str, model: PreTrainedModel):
+def tokenize_prompt(tokenizer: PreTrainedTokenizer, prompt: str, model):
     # Tokenize prompt into ids
     input_ids: torch.Tensor = tokenizer(
         prompt, add_special_tokens=False, return_tensors="pt", padding=True
@@ -41,9 +41,10 @@ def generate_solution(
         return "NO SOLUTION"
 
     # Generate a solution
-    while (len(generated_tokens) < max_new_tokens
-            and (not generated_tokens or (generated_tokens[-1] != tokenizer.eos_token_id))):
-
+    while (
+        len(generated_tokens) < max_new_tokens
+        and (not generated_tokens or (generated_tokens[-1] != tokenizer.eos_token_id))
+    ):
         # If no possible tokens remain or num_guesses exceeded, end string or backtrack
         if len(forbidden_tokens[tuple(generated_tokens)]) == min(num_guesses, len(tokenizer)):
             # Try to end the string if the string is valid; else backtrack
@@ -58,7 +59,6 @@ def generate_solution(
 
         # Otherwise, generate the next token
         bad_words = list(map(lambda id: [id], forbidden_tokens[tuple(generated_tokens)]))
-        print(torch.tensor([list(input_ids[0]) + generated_tokens]))
         output = model.generate(
             torch.tensor([list(input_ids[0]) + generated_tokens]),
             do_sample=True,
@@ -76,6 +76,7 @@ def generate_solution(
         )
         output = output.sequences[0][len(input_ids[0]):].tolist()
         final = (output[-1] == tokenizer.eos_token_id)
+        print(tokenizer.decode(output, skip_special_tokens=True))
 
         # Check realizability and accept valid tokens or forbid suggestion
         if realizability_checker.realizable(
@@ -84,7 +85,6 @@ def generate_solution(
             generated_tokens = output
         else:
             forbidden_tokens[tuple(generated_tokens)].add(output[-1])
-
     # Detokenize generated output
     return tokenizer.decode(generated_tokens, skip_special_tokens=True)
 
@@ -113,7 +113,7 @@ def run_llm(
         result = generate_solution(
             model, tokenizer, input_ids, realizability_checker,
             max_new_tokens, temp, repetition_penalty, top_p, top_k,
-            forbidden_tokens
+            forbidden_tokens, 10
         )
         outputs.append(result)
     return outputs

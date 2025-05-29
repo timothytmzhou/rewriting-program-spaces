@@ -1,13 +1,19 @@
+from lexing.leaves import IntLeaf, StringLeaf
 from .utils import *
 from core.rewrite import *
 from core.grammar import *
 
 
+ONE = IntLeaf(1)
+TWO = IntLeaf(2)
+PLUS = StringLeaf("+")
+
+
 @rewrite
 def E():
     return Union.of(
-        Constant(1),
-        Application.of("+", (Constant(1), E()))
+        Constant(ONE),
+        Application.of(PLUS, (Constant(ONE), E()))
     )
 
 
@@ -51,11 +57,11 @@ class TestFixpoint:
     def test_nonempty_basic(self):
         assert is_empty(EmptySet())
         assert is_empty(Union.of(EmptySet(), EmptySet()))
-        assert is_nonempty(Constant(1))
-        assert is_nonempty(Application.of("+", (Constant(1), Constant(2))))
-        assert is_nonempty(Union.of(Constant(1), EmptySet()))
-        assert is_nonempty(Union.of(EmptySet(), Constant(1)))
-        assert is_nonempty(Union.of(Constant(1), Constant(2)))
+        assert is_nonempty(Constant(ONE))
+        assert is_nonempty(Application.of(PLUS, (Constant(ONE), Constant(2))))
+        assert is_nonempty(Union.of(Constant(ONE), EmptySet()))
+        assert is_nonempty(Union.of(EmptySet(), Constant(ONE)))
+        assert is_nonempty(Union.of(Constant(ONE), Constant(2)))
 
     @reset
     def test_nonempty(self):

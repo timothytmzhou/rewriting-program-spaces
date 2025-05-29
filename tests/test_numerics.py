@@ -1,27 +1,33 @@
+from lexing.leaves import IntLeaf, StringLeaf
 from .utils import *
 from core.rewrite import *
 from core.grammar import *
 
 
+ONE = IntLeaf(1)
+TWO = IntLeaf(2)
+PLUS = StringLeaf("+")
+
+
 @rewrite
 def ones():
     return Union.of(
-        Constant(1),
-        Application.of("+", (Constant(1), ones()))
+        Constant(ONE),
+        Application.of(PLUS, (Constant(ONE), ones()))
     )
 
 
 @rewrite
 def twos():
     return Union.of(
-        Constant(2),
-        Application.of("+", (Constant(2), twos()))
+        Constant(TWO),
+        Application.of(PLUS, (Constant(TWO), twos()))
     )
 
 
 @rewrite
 def constant1():
-    return Constant(1)
+    return Constant(ONE)
 
 
 @rewrite
@@ -29,12 +35,12 @@ def evens(t: TreeGrammar):
     match t:
         case EmptySet():
             return EmptySet()
-        case Constant(c):
-            return t if c % 2 == 0 else EmptySet()
-        case Application("+", (left, right)):
+        case Constant(c) if isinstance(c, IntLeaf):
+            return t if c.value % 2 == 0 else EmptySet()
+        case Application(PLUS, (left, right)):
             return Union.of(
-                Application.of("+", evens(left), evens(right)),
-                Application.of("+", odds(left), odds(right))
+                Application.of(PLUS, evens(left), evens(right)),
+                Application.of(PLUS, odds(left), odds(right))
             )
         case Union(children):
             return Union.of(evens(c) for c in children)
@@ -47,12 +53,12 @@ def odds(t: TreeGrammar):
     match t:
         case EmptySet():
             return EmptySet()
-        case Constant(c):
-            return t if c % 2 == 1 else EmptySet()
-        case Application("+", (left, right)):
+        case Constant(c) if isinstance(c, IntLeaf):
+            return t if c.value % 2 == 1 else EmptySet()
+        case Application(PLUS, (left, right)):
             return Union.of(
-                Application.of("+", evens(left), odds(right)),
-                Application.of("+", odds(left), evens(right))
+                Application.of(PLUS, evens(left), odds(right)),
+                Application.of(PLUS, odds(left), evens(right))
             )
         case Union(children):
             return Union.of(odds(c) for c in children)
@@ -63,12 +69,12 @@ def odds(t: TreeGrammar):
 @reset
 def test_even_odd():
     assert is_nonempty(constant1())
-    assert is_empty(odds(Constant(2)))
+    assert is_empty(odds(Constant(TWO)))
     assert is_nonempty(evens(ones()))
     assert is_empty(odds(odds(evens(ones()))))
     assert is_nonempty(evens(twos()))
     assert is_empty(odds(twos()))
-    assert is_empty(evens(Application.of("+", (Constant(1), evens(twos())))))
+    assert is_empty(evens(Application.of(PLUS, (Constant(ONE), evens(twos())))))
 
 
 @rewrite
@@ -76,11 +82,11 @@ def less_than(n: int, t: TreeGrammar):
     match t:
         case EmptySet():
             return EmptySet()
-        case Constant(c):
-            return t if c < n else EmptySet()
-        case Application("+", (left, right)):
+        case Constant(c) if isinstance(c, IntLeaf):
+            return t if c.value < n else EmptySet()
+        case Application(PLUS, (left, right)):
             return Union.of(
-                Application.of("+", less_than(j, left), less_than(n - j, right))
+                Application.of(PLUS, less_than(j, left), less_than(n - j, right))
                 for j in range(n)
             )
         case Union(children):
@@ -95,5 +101,5 @@ def test_less_than():
     assert is_empty(less_than(-1, ones()))
     assert is_empty(less_than(0, ones()))
     assert is_empty(less_than(1, twos()))
-    assert is_empty(less_than(48, Constant(49)))
-    assert is_nonempty(less_than(48, Constant(47)))
+    assert is_empty(less_than(48, Constant(IntLeaf(49))))
+    assert is_nonempty(less_than(48, Constant(IntLeaf(47))))
