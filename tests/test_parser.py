@@ -8,11 +8,10 @@ def parse_E():
     return Choice.of(
         ConstantParser(IntLeaf(1)),
         Concatenation.of(
-            StringLeaf("+"),
             ConstantParser(IntLeaf(1)),
             ConstantParser(StringLeaf("+")),
             parse_E(),
-            rearrange=(0, 2)
+            rearrange=Rearrangement("+", (0, 2))
         )
     )
 

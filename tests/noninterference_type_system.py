@@ -51,17 +51,21 @@ def vars() -> Parser:
     return Choice.of(LOWVAR, HIGHVAR)
 
 
+def bin_rearr(sym: str) -> Rearrangement:
+    return Rearrangement(sym, (0, 2))
+
+
 @rewrite
 def exps() -> Parser:
     return Choice.of(
         vars(),
         INTS,
-        Concatenation.of("+", (exps(), PLUS, exps()), rearrange=(0, 2)),
-        Concatenation.of("<", (exps(), LESS, exps()), rearrange=(0, 2)),
-        Concatenation.of("<=", (exps(), LESSEQ, exps()), rearrange=(0, 2)),
-        Concatenation.of(">", (exps(), GREATER, exps()), rearrange=(0, 2)),
-        Concatenation.of(">=", (exps(), GREATEREQ, exps()), rearrange=(0, 2)),
-        Concatenation.of("=", (exps(), EQUAL, exps()), rearrange=(0, 2))
+        Concatenation.of((exps(), PLUS, exps()), bin_rearr("+")),
+        Concatenation.of((exps(), LESS, exps()), bin_rearr("<")),
+        Concatenation.of((exps(), LESSEQ, exps()), bin_rearr("<=")),
+        Concatenation.of((exps(), GREATER, exps()), bin_rearr(">")),
+        Concatenation.of((exps(), GREATEREQ, exps()), bin_rearr(">=")),
+        Concatenation.of((exps(), EQUAL, exps()), bin_rearr("="))
     )
 
 
@@ -69,12 +73,12 @@ def exps() -> Parser:
 def commands() -> Parser:
     return Choice.of(
         SKIP,
-        Concatenation.of("assign", (vars(), GETS, exps()), rearrange=(0, 2)),
-        Concatenation.of("seq", (commands(), SEMICOLON, commands()), rearrange=(0, 2)),
+        Concatenation.of((vars(), GETS, exps()), bin_rearr(":=")),
+        Concatenation.of((commands(), SEMICOLON, commands()), bin_rearr(";")),
         Concatenation.of(
-            "ite", (IF, exps(), THEN, commands(), ELSE, commands()), rearrange=(1, 3, 5)
+            (IF, exps(), THEN, commands(), ELSE, commands()), Rearrangement("ite", (1, 3, 5))
         ),
-        Concatenation.of("while", (WHILE, exps(), DO, commands()), rearrange=(1, 3))
+        Concatenation.of((WHILE, exps(), DO, commands()), Rearrangement("while", (1, 3)))
     )
 
 
@@ -85,13 +89,13 @@ class SecurityLevel(Enum):
 
 
 @rewrite
-def sec_lhs_var(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
+def secure_lefthand_vars(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
     # LHS variables
     match t:
         case EmptySet():
             return EmptySet()
         case Union(children):
-            return Union.of(sec_lhs_var(c, slevel) for c in children)
+            return Union.of(secure_lefthand_vars(c, slevel) for c in children)
         case Constant(c) if isinstance(c, RegexLeaf) and c.sort == "h":
             return t if slevel == SecurityLevel.HIGH else EmptySet()
         case Constant(c) if isinstance(c, RegexLeaf) and c.sort == "l":
@@ -101,7 +105,7 @@ def sec_lhs_var(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
 
 
 @rewrite
-def secexp(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
+def secure_exps(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
     # Expressions
     match t:
         case EmptySet():
@@ -111,62 +115,62 @@ def secexp(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
         case Constant(c) if isinstance(c, RegexLeaf) and slevel == SecurityLevel.HIGH:
             return t if c.sort in {"h", "l", "int"} else EmptySet()
         case Application(op, (left, right)):
-            return Application(op, (secexp(left, slevel), secexp(right, slevel)))
+            return Application(op, (secure_exps(left, slevel), secure_exps(right, slevel)))
         case Union(children):
-            return Union.of(secexp(c, slevel) for c in children)
+            return Union.of(secure_exps(c, slevel) for c in children)
         case _:
             raise ValueError
 
 
 @rewrite
-def seccmd(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
+def secure_cmds(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
     # Commands
-    low_asts: list[TreeGrammar]
+    secure_asts: list[TreeGrammar]
     match t:
         case EmptySet():
-            low_asts = []
+            secure_asts = []
         case Constant(_):
-            low_asts = [t]
+            secure_asts = [t]
         case Application("assign", (left, right)):
-            low_asts = [
-                Application("assign", (sec_lhs_var(left, SecurityLevel.HIGH), right))
+            secure_asts = [
+                Application("assign", (secure_lefthand_vars(left, SecurityLevel.HIGH), right))
             ]
             if slevel == SecurityLevel.LOW:
-                low_asts.append(
+                secure_asts.append(
                     Application(
                         "assign",
                         (
-                            sec_lhs_var(left, SecurityLevel.LOW),
-                            secexp(right, SecurityLevel.LOW),
+                            secure_lefthand_vars(left, SecurityLevel.LOW),
+                            secure_exps(right, SecurityLevel.LOW),
                         ),
                     )
                 )
         case Application("seq", (left, right)):
-            low_asts = [
-                Application("seq", (seccmd(left, slevel), seccmd(right, slevel)))
+            secure_asts = [
+                Application("seq", (secure_cmds(left, slevel), secure_cmds(right, slevel)))
             ]
         case Application("ite", (guard, thencmd, elsecmd)):
-            low_asts = [
+            secure_asts = [
                 Application(
                     "ite",
                     (
-                        secexp(guard, slevel),
-                        seccmd(thencmd, slevel),
-                        seccmd(elsecmd, slevel),
+                        secure_exps(guard, slevel),
+                        secure_cmds(thencmd, slevel),
+                        secure_cmds(elsecmd, slevel),
                     ),
                 )
             ]
         case Application("while", (guard, body)):
-            low_asts = [
-                Application("while", (secexp(guard, slevel), seccmd(body, slevel)))
+            secure_asts = [
+                Application("while", (secure_exps(guard, slevel), secure_cmds(body, slevel)))
             ]
         case Union(children):
-            low_asts = [seccmd(c, slevel) for c in children]
+            secure_asts = [secure_cmds(c, slevel) for c in children]
         case _:
             raise ValueError
     if slevel == SecurityLevel.LOW:
-        return Union.of(seccmd(t, SecurityLevel.HIGH), *low_asts)
-    return Union.of(*low_asts)
+        return Union.of(secure_cmds(t, SecurityLevel.HIGH), *secure_asts)
+    return Union.of(*secure_asts)
 
 
 # PARSING AND CHECKING STRINGS
@@ -199,7 +203,7 @@ lexer_spec = LexerSpec(
 @reset
 def test_noninterference():
     noninterference_checker = RealizabilityChecker(
-        lambda asts: seccmd(asts, SecurityLevel.LOW), commands(), None, lexer_spec
+        lambda asts: secure_cmds(asts, SecurityLevel.LOW), commands(), lexer_spec
     )
     assert noninterference_checker.realizable("")
     assert noninterference_checker.realizable("skip")

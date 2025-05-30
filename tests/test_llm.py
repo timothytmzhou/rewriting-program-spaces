@@ -14,7 +14,6 @@ def test_run_llm_simpl_gcd():
     a = RealizabilityChecker(
         None,
         ConstantParser(RegexLeaf("int", grn.parse("6"))),
-        None,
         lspec)
     prompt = "[INST] 3 + 3 = [/INST]"
     num = run_llm(a, prompt)[0]

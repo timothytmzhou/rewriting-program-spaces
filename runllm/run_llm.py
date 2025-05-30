@@ -20,7 +20,7 @@ class Config:
     model_id: str = "codellama/CodeLlama-13b-Instruct-hf"
     device: str = "cuda"
     dtype: torch.dtype = torch.bfloat16
-    
+
     # Generation parameters
     max_new_tokens: int = 100
     temperature: float = 0.5
@@ -28,7 +28,6 @@ class Config:
     top_p: float = 1.0
     top_k: float = 0
     num_guesses: int = 10
-
 
 
 class LanguageModelRunner:
@@ -108,11 +107,11 @@ class LanguageModelRunner:
                 generated_tokens,
                 forbidden_tokens[tuple(generated_tokens)]
             )
-            
+
             new_tokens = output.sequences[0][len(input_ids[0]):].tolist()
             is_final = (new_tokens[-1] == self.tokenizer.eos_token_id)
             decoded_output = self.tokenizer.decode(new_tokens, skip_special_tokens=True)
-            
+
             if realizability_checker.realizable(decoded_output, is_final):
                 generated_tokens = new_tokens
             else:

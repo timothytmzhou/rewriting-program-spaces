@@ -24,11 +24,16 @@ class EmptyParser(Parser):
 
 
 @dataclass(frozen=True)
-class Concatenation(Parser):
+class Rearrangement:
     f: Symbol
+    reorder: tuple[int, ...]
+
+
+@dataclass(frozen=True)
+class Concatenation(Parser):
     parsed: tuple[Parser, ...]
     remaining: tuple[Parser, ...]
-    rearrange: tuple[int, ...]
+    rearrange: Rearrangement
 
     def subterms(self):
         return self.parsed + self.remaining
@@ -39,7 +44,7 @@ class Concatenation(Parser):
         return self
 
     @classmethod
-    def of(cls, f, *children, rearrange=None):
+    def of(cls, *children, rearrange=None):
         """
         Builds a parser that emits ASTS of form f(x_1, x_2, ..., x_n) where
         x_i are the parsed subtrees.
@@ -53,7 +58,7 @@ class Concatenation(Parser):
         if any(isinstance(c, EmptyParser) for c in flattened):
             return EmptyParser()
         rearrange = tuple(range(len(flattened))) if rearrange is None else rearrange
-        return cls(f, (), flattened, rearrange)
+        return cls((), flattened, rearrange)
 
     def __str__(self):
         parsed = ', '.join(str(c) for c in self.parsed)
@@ -91,7 +96,7 @@ def parser_nonempty(p: Parser) -> bool:
             return True
         case Choice(children):
             return any(parser_nonempty(c) for c in children)
-        case Concatenation(_, parsed, remaining):
+        case Concatenation(parsed, remaining, _):
             return all(parser_nonempty(c) for c in parsed + remaining)
         case _:
             raise TypeError(f"Unexpected type: {type(p)}")
@@ -111,7 +116,7 @@ def D(x, p: Parser) -> Parser:
             return EmptyParser()
         case Choice(children):
             return Choice.of(D(x, c) for c in children)
-        case Concatenation(_, parsed, remaining) if remaining:
+        case Concatenation(parsed, remaining, _) if remaining:
             derived = D(x, remaining[0])
             return Choice.of(
                 replace(p, remaining=(derived,) + remaining[1:]),
@@ -143,13 +148,13 @@ def image(p: Parser) -> TreeGrammar:
             return EmptySet()
         case Choice(children):
             return Union.of(image(c) for c in children)
-        case Concatenation(f, parsed, remaining, rearrange):
+        case Concatenation(parsed, remaining, rearrange):
             if any(parser_empty(c) for c in parsed + remaining):
                 return EmptySet()
             concat_children = [image(c) for c in parsed + remaining]
             return Application.of(
-                f,
-                (concat_children[i] for i in rearrange)
+                rearrange.f,
+                (concat_children[i] for i in rearrange.reorder)
             )
         case _:
             raise TypeError(f"Unexpected type: {type(p)}")
