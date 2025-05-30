@@ -1,3 +1,5 @@
 networkx
 transformers
 greenery
+torch
+accelerate

@@ -16,6 +16,6 @@ def test_run_llm_simpl_gcd():
         ConstantParser(RegexLeaf("int", grn.parse("6"))),
         None,
         lspec)
-    prompt = "3 + 3 = "
+    prompt = "[INST] 3 + 3 = [/INST]"
     num = run_llm(a, prompt)[0]
     print(prompt + num)
