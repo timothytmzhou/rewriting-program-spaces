@@ -20,7 +20,7 @@ class EmptySet(TreeGrammar):
     pass
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, eq=False)
 class Application(TreeGrammar):
     f: Symbol
     children: tuple[TreeGrammar]
@@ -42,7 +42,7 @@ class Application(TreeGrammar):
         return f"{self.f}({', '.join(str(c) for c in self.children)})"
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, eq=False)
 class Union(TreeGrammar):
     children: frozenset[TreeGrammar]
 

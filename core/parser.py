@@ -29,7 +29,7 @@ class Rearrangement:
     reorder: tuple[int, ...]
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, eq=False)
 class Concatenation(Parser):
     parsed: tuple[Parser, ...]
     remaining: tuple[Parser, ...]
@@ -66,7 +66,7 @@ class Concatenation(Parser):
         return f"{self.f}({parsed} => {remaining})"
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, eq=False)
 class Choice(Parser):
     children: frozenset[Parser]
 
