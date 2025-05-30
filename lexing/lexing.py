@@ -1,8 +1,8 @@
 from __future__ import annotations
 from dataclasses import dataclass, field, replace
-import greenery as grn
-
-from lexing.leaves import EPS, RegexLeaf
+import functools
+import regex as re
+from lexing.leaves import RegexLeaf
 
 
 IGNORE = "RESERVED_IGNORE_SORT_TITLE"
@@ -11,7 +11,7 @@ IGNORE = "RESERVED_IGNORE_SORT_TITLE"
 @dataclass
 class LexerSpec:
     tok2regex: frozenset[RegexLeaf]
-    ignore_regex: grn.Pattern = grn.NULL
+    ignore_regex: re.Pattern = re.compile(r'^(?!)$')
 
     def __post_init__(self):
         # TODO: Fix hash function or remove
@@ -45,8 +45,7 @@ class LexerState:
 
     def finalize(self) -> LexerState:
         if self.continuations:
-            continuations = {c[:-1] + (replace(c[-1], remainder=EPS),)
-                             for c in self.continuations if c[-1].nullable()}
+            continuations = {c for c in self.continuations if c[-1].nullable()}
             return LexerState(self.prefix, continuations)
         return self
 
@@ -64,7 +63,7 @@ class LexerState:
                         derived = lexeme.deriv(char)
                         if derived.nonempty():
                             new_continuations.add((
-                                state[:-1] + (replace(state[-1], remainder=EPS),) + (derived,)))
+                                state + (derived,)))
                 if state[-1].deriv(char).nonempty():
                     new_continuations.add(state[:-1] + (state[-1].deriv(char),))
         return LexerState(self.prefix, new_continuations)
@@ -101,7 +100,7 @@ def lex(inp: str, lexerspec: LexerSpec):
     return lstate.get_partial_lexes()
 
 
-# @functools.lru_cache
+@functools.lru_cache
 def compute_lexer_state(inp: str, lexerspec: LexerSpec) -> LexerState:
     if len(inp) == 0:
         return LexerState()

@@ -2,9 +2,8 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, replace
 from typing import Optional
-import greenery as grn
-
-EPS = grn.rxelems.from_fsm(grn.EPSILON)
+import regex as re
+from regex import Pattern
 
 
 class Leaf[T](ABC):
@@ -41,7 +40,7 @@ class StringLeaf[str](Leaf):
 @dataclass(frozen=True)
 class RegexLeaf(Leaf):
     sort: str
-    remainder: grn.Pattern
+    terminal_regex: Pattern
     prefix: str = ""
 
     # TODO: If we introduce support for put, we will need to generalize update.
@@ -51,10 +50,10 @@ class RegexLeaf(Leaf):
         return None
 
     def nullable(self) -> bool:
-        return self.remainder.matches("")
+        return re.fullmatch(self.terminal_regex, self.prefix)
 
     def nonempty(self) -> bool:
-        return not self.remainder.empty()
+        return re.fullmatch(self.terminal_regex, self.prefix, partial=True)
 
     def deriv(self, string: str) -> RegexLeaf:
-        return RegexLeaf(self.sort, self.remainder.derive(string), self.prefix + string)
+        return RegexLeaf(self.sort, self.terminal_regex, self.prefix + string)

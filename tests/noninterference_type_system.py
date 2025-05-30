@@ -1,4 +1,4 @@
-import greenery as grn
+import regex as re
 from enum import Enum
 
 from core.parser import *
@@ -10,23 +10,23 @@ from tests.utils import reset
 
 
 # SYNTAX
-LOWVARLEAF = RegexLeaf("l", grn.parse("l"))
-HIGHVARLEAF = RegexLeaf("h", grn.parse("h"))
-INTSLEAF = RegexLeaf("int", grn.parse("0|([1-9][0-9]*)"))
-PLUSLEAF = RegexLeaf("+", grn.parse("\\+"))
-LESSLEAF = RegexLeaf("<", grn.parse("<"))
-LESSEQLEAF = RegexLeaf("<=", grn.parse("<="))
-GREATERLEAF = RegexLeaf(">", grn.parse(">"))
-GREATEREQLEAF = RegexLeaf(">=", grn.parse(">="))
-EQUALLEAF = RegexLeaf("=", grn.parse("="))
-GETSLEAF = RegexLeaf(":=", grn.parse(":="))
-SKIPLEAF = RegexLeaf("skip", grn.parse("skip"))
-SEMICOLONLEAF = RegexLeaf(";", grn.parse(";"))
-IFLEAF = RegexLeaf("if", grn.parse("if"))
-THENLEAF = RegexLeaf("then", grn.parse("then"))
-ELSELEAF = RegexLeaf("else", grn.parse("else"))
-WHILELEAF = RegexLeaf("while", grn.parse("while"))
-DOLEAF = RegexLeaf("do", grn.parse("do"))
+LOWVARLEAF = RegexLeaf("l", re.compile("l"))
+HIGHVARLEAF = RegexLeaf("h", re.compile("h"))
+INTSLEAF = RegexLeaf("int", re.compile("0|([1-9][0-9]*)"))
+PLUSLEAF = RegexLeaf("+", re.compile("\\+"))
+LESSLEAF = RegexLeaf("<", re.compile("<"))
+LESSEQLEAF = RegexLeaf("<=", re.compile("<="))
+GREATERLEAF = RegexLeaf(">", re.compile(">"))
+GREATEREQLEAF = RegexLeaf(">=", re.compile(">="))
+EQUALLEAF = RegexLeaf("=", re.compile("="))
+GETSLEAF = RegexLeaf(":=", re.compile(":="))
+SKIPLEAF = RegexLeaf("skip", re.compile("skip"))
+SEMICOLONLEAF = RegexLeaf(";", re.compile(";"))
+IFLEAF = RegexLeaf("if", re.compile("if"))
+THENLEAF = RegexLeaf("then", re.compile("then"))
+ELSELEAF = RegexLeaf("else", re.compile("else"))
+WHILELEAF = RegexLeaf("while", re.compile("while"))
+DOLEAF = RegexLeaf("do", re.compile("do"))
 
 LOWVAR = ConstantParser(LOWVARLEAF)
 HIGHVAR = ConstantParser(HIGHVARLEAF)
@@ -51,7 +51,7 @@ def vars() -> Parser:
     return Choice.of(LOWVAR, HIGHVAR)
 
 
-def bin_rearr(sym: str) -> Rearrangement:
+def bin_rearrangement(sym: str) -> Rearrangement:
     return Rearrangement(sym, (0, 2))
 
 
@@ -60,12 +60,12 @@ def exps() -> Parser:
     return Choice.of(
         vars(),
         INTS,
-        Concatenation.of((exps(), PLUS, exps()), rearrange=bin_rearr("+")),
-        Concatenation.of((exps(), LESS, exps()), rearrange=bin_rearr("<")),
-        Concatenation.of((exps(), LESSEQ, exps()), rearrange=bin_rearr("<=")),
-        Concatenation.of((exps(), GREATER, exps()), rearrange=bin_rearr(">")),
-        Concatenation.of((exps(), GREATEREQ, exps()), rearrange=bin_rearr(">=")),
-        Concatenation.of((exps(), EQUAL, exps()), rearrange=bin_rearr("="))
+        Concatenation.of((exps(), PLUS, exps()), rearrange=bin_rearrangement("+")),
+        Concatenation.of((exps(), LESS, exps()), rearrange=bin_rearrangement("<")),
+        Concatenation.of((exps(), LESSEQ, exps()), rearrange=bin_rearrangement("<=")),
+        Concatenation.of((exps(), GREATER, exps()), rearrange=bin_rearrangement(">")),
+        Concatenation.of((exps(), GREATEREQ, exps()), rearrange=bin_rearrangement(">=")),
+        Concatenation.of((exps(), EQUAL, exps()), rearrange=bin_rearrangement("="))
     )
 
 
@@ -73,12 +73,15 @@ def exps() -> Parser:
 def commands() -> Parser:
     return Choice.of(
         SKIP,
-        Concatenation.of((vars(), GETS, exps()), rearrange=bin_rearr("assign")),
-        Concatenation.of((commands(), SEMICOLON, commands()), rearrange=bin_rearr("seq")),
+        Concatenation.of((vars(), GETS, exps()), rearrange=bin_rearrangement("assign")),
+        Concatenation.of((commands(), SEMICOLON, commands()),
+                         rearrange=bin_rearrangement("seq")),
         Concatenation.of(
-            (IF, exps(), THEN, commands(), ELSE, commands()), rearrange=Rearrangement("ite", (1, 3, 5))
+            (IF, exps(), THEN, commands(), ELSE, commands()),
+            rearrange=Rearrangement("ite", (1, 3, 5))
         ),
-        Concatenation.of((WHILE, exps(), DO, commands()), rearrange=Rearrangement("while", (1, 3)))
+        Concatenation.of((WHILE, exps(), DO, commands()),
+                         rearrange=Rearrangement("while", (1, 3)))
     )
 
 
@@ -196,7 +199,7 @@ lexer_spec = LexerSpec(
             DOLEAF,
         }
     ),
-    ignore_regex=grn.parse(r"\s+"),
+    ignore_regex=re.compile(r"\s+"),
 )
 
 
