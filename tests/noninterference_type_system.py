@@ -60,12 +60,12 @@ def exps() -> Parser:
     return Choice.of(
         vars(),
         INTS,
-        Concatenation.of((exps(), PLUS, exps()), bin_rearr("+")),
-        Concatenation.of((exps(), LESS, exps()), bin_rearr("<")),
-        Concatenation.of((exps(), LESSEQ, exps()), bin_rearr("<=")),
-        Concatenation.of((exps(), GREATER, exps()), bin_rearr(">")),
-        Concatenation.of((exps(), GREATEREQ, exps()), bin_rearr(">=")),
-        Concatenation.of((exps(), EQUAL, exps()), bin_rearr("="))
+        Concatenation.of((exps(), PLUS, exps()), rearrange=bin_rearr("+")),
+        Concatenation.of((exps(), LESS, exps()), rearrange=bin_rearr("<")),
+        Concatenation.of((exps(), LESSEQ, exps()), rearrange=bin_rearr("<=")),
+        Concatenation.of((exps(), GREATER, exps()), rearrange=bin_rearr(">")),
+        Concatenation.of((exps(), GREATEREQ, exps()), rearrange=bin_rearr(">=")),
+        Concatenation.of((exps(), EQUAL, exps()), rearrange=bin_rearr("="))
     )
 
 
@@ -73,12 +73,12 @@ def exps() -> Parser:
 def commands() -> Parser:
     return Choice.of(
         SKIP,
-        Concatenation.of((vars(), GETS, exps()), bin_rearr(":=")),
-        Concatenation.of((commands(), SEMICOLON, commands()), bin_rearr(";")),
+        Concatenation.of((vars(), GETS, exps()), rearrange=bin_rearr("assign")),
+        Concatenation.of((commands(), SEMICOLON, commands()), rearrange=bin_rearr("seq")),
         Concatenation.of(
-            (IF, exps(), THEN, commands(), ELSE, commands()), Rearrangement("ite", (1, 3, 5))
+            (IF, exps(), THEN, commands(), ELSE, commands()), rearrange=Rearrangement("ite", (1, 3, 5))
         ),
-        Concatenation.of((WHILE, exps(), DO, commands()), Rearrangement("while", (1, 3)))
+        Concatenation.of((WHILE, exps(), DO, commands()), rearrange=Rearrangement("while", (1, 3)))
     )
 
 
@@ -115,7 +115,7 @@ def secure_exps(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
         case Constant(c) if isinstance(c, RegexLeaf) and slevel == SecurityLevel.HIGH:
             return t if c.sort in {"h", "l", "int"} else EmptySet()
         case Application(op, (left, right)):
-            return Application(op, (secure_exps(left, slevel), secure_exps(right, slevel)))
+            return Application.of(op, (secure_exps(left, slevel), secure_exps(right, slevel)))
         case Union(children):
             return Union.of(secure_exps(c, slevel) for c in children)
         case _:
@@ -133,11 +133,11 @@ def secure_cmds(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
             secure_asts = [t]
         case Application("assign", (left, right)):
             secure_asts = [
-                Application("assign", (secure_lefthand_vars(left, SecurityLevel.HIGH), right))
+                Application.of("assign", (secure_lefthand_vars(left, SecurityLevel.HIGH), right))
             ]
             if slevel == SecurityLevel.LOW:
                 secure_asts.append(
-                    Application(
+                    Application.of(
                         "assign",
                         (
                             secure_lefthand_vars(left, SecurityLevel.LOW),
@@ -147,11 +147,11 @@ def secure_cmds(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
                 )
         case Application("seq", (left, right)):
             secure_asts = [
-                Application("seq", (secure_cmds(left, slevel), secure_cmds(right, slevel)))
+                Application.of("seq", (secure_cmds(left, slevel), secure_cmds(right, slevel)))
             ]
         case Application("ite", (guard, thencmd, elsecmd)):
             secure_asts = [
-                Application(
+                Application.of(
                     "ite",
                     (
                         secure_exps(guard, slevel),
@@ -162,7 +162,7 @@ def secure_cmds(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
             ]
         case Application("while", (guard, body)):
             secure_asts = [
-                Application("while", (secure_exps(guard, slevel), secure_cmds(body, slevel)))
+                Application.of("while", (secure_exps(guard, slevel), secure_cmds(body, slevel)))
             ]
         case Union(children):
             secure_asts = [secure_cmds(c, slevel) for c in children]
