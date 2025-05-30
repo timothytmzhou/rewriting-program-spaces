@@ -144,8 +144,6 @@ def image(p: Parser) -> TreeGrammar:
         case Choice(children):
             return Union.of(image(c) for c in children)
         case Concatenation(f, parsed, remaining, rearrange):
-            if any(parser_empty(c) for c in parsed + remaining):
-                return EmptySet()
             concat_children = [image(c) for c in parsed + remaining]
             return Application.of(
                 f,

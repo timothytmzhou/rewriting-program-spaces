@@ -34,6 +34,8 @@ class Var:  # should not subclass Term here since we want mypy to distinguish
     args: tuple
 
     def expand(self) -> Term:
+        if self in rewriter.equations:
+            return rewriter.equations[self]
         expanded_args = [
             arg.expand() if isinstance(arg, Var) else arg
             for arg in self.args
