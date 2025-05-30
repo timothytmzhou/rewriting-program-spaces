@@ -102,7 +102,7 @@ def parser_empty(p: Parser) -> bool:
 
 
 @rewrite
-def D(x, p: Parser):
+def D(x, p: Parser) -> Parser:
     match p:
         case ConstantParser(c, False):
             inter = c.update(x)
@@ -144,6 +144,8 @@ def image(p: Parser) -> TreeGrammar:
         case Choice(children):
             return Union.of(image(c) for c in children)
         case Concatenation(f, parsed, remaining, rearrange):
+            if any(parser_empty(c) for c in parsed + remaining):
+                return EmptySet()
             concat_children = [image(c) for c in parsed + remaining]
             return Application.of(
                 f,

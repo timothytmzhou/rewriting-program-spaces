@@ -9,7 +9,7 @@ from typing import Any
 def load_model_and_tokenizer(model_id: str, dtype: torch.dtype):
     # Load tokenizer
     tokenizer: PreTrainedTokenizer = AutoTokenizer.from_pretrained(model_id)
-    tokenizer.pad_token = "[PAD]"
+    tokenizer.pad_token = tokenizer.eos_token
 
     # Load model
     model: PreTrainedModel = AutoModelForCausalLM.from_pretrained(model_id, device_map="auto")

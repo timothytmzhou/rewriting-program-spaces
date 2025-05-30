@@ -1,5 +1,6 @@
 from functools import reduce
-from core.parser import D, Choice, delta, parser_nonempty
+from core.grammar import is_nonempty
+from core.parser import D, Choice, delta, image
 from lexing.lexing import LexerSpec, partial_lex, lex
 
 
@@ -26,6 +27,7 @@ class RealizabilityChecker:
         big_term = Choice.of(terms) if not final else delta(Choice.of(terms))
 
         # TODO: Build corresponding set of good ASTs
+        good_asts = self.constraint(image(big_term))
 
         # TODO: Check nonemptiness of term
-        return parser_nonempty(big_term)
+        return is_nonempty(good_asts)
