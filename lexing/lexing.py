@@ -1,5 +1,5 @@
 from __future__ import annotations
-from dataclasses import dataclass, field, replace
+from dataclasses import dataclass, field
 import functools
 import regex as re
 from lexing.leaves import RegexLeaf

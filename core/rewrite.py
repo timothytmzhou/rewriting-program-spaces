@@ -1,4 +1,5 @@
 from __future__ import annotations
+from matplotlib import pyplot as plt
 import networkx as nx
 from dataclasses import dataclass
 from functools import wraps
@@ -78,6 +79,14 @@ class RewriteSystem:
             for (f, var), result in self.fix_cache.items()
         )
         return f"Equations:\n{equations}\n\nFixpoint Cache:\n{fix_cache}"
+
+    def plot(self):
+        """Plots the dependency graph of the rewrite system."""
+        pos = nx.spring_layout(self.dependencies)
+        nx.draw(self.dependencies, pos, with_labels=True, arrows=True)
+        labels = {var: str(term) for var, term in self.equations.items()}
+        nx.draw_networkx_labels(self.dependencies, pos, labels=labels)
+        plt.show()
 
 
 rewriter = RewriteSystem()  # not super thread safe

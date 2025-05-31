@@ -57,3 +57,6 @@ class RegexLeaf(Leaf):
 
     def deriv(self, string: str) -> RegexLeaf:
         return RegexLeaf(self.sort, self.terminal_regex, self.prefix + string)
+
+    def __str__(self) -> str:
+        return f"({self.sort}, {self.prefix})"

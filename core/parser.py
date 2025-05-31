@@ -28,6 +28,9 @@ class Rearrangement:
     f: Symbol
     reorder: tuple[int, ...]
 
+    def __str__(self):
+        return f"{self.f}"
+
 
 @dataclass(frozen=True, eq=False)
 class Concatenation(Parser):
@@ -63,7 +66,7 @@ class Concatenation(Parser):
     def __str__(self):
         parsed = ', '.join(str(c) for c in self.parsed)
         remaining = ', '.join(str(c) for c in self.remaining)
-        return f"{self.f}({parsed} => {remaining})"
+        return f"{self.rearrange}({parsed} => {remaining})"
 
 
 @dataclass(frozen=True, eq=False)

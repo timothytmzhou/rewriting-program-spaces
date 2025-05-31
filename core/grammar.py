@@ -14,6 +14,9 @@ class TreeGrammar(Term):
 class Constant(TreeGrammar):
     c: Leaf
 
+    def __str__(self):
+        return f"Constant({self.c})"
+
 
 @dataclass(frozen=True)
 class EmptySet(TreeGrammar):
