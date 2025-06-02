@@ -55,18 +55,15 @@ class RewriteSystem:
     equations: dict[Var, Term]
     fix_cache: dict[tuple[Callable, Var], Any]
     dependencies: DiGraph
-    worklist: deque[Var]
 
     def __init__(self):
         self.dependencies = DiGraph()
         self.equations = {}
-        self.worklist = deque()
         self.fix_cache = {}
 
     def clear(self):
         self.dependencies.clear()
         self.equations.clear()
-        self.worklist.clear()
         self.fix_cache.clear()
 
     def __str__(self):
@@ -108,19 +105,20 @@ def rewrite(f):
     Rewrite a (infinitely recursive) function into a capsule of equations.
     """
     def start_rewrite(start_var: Var) -> Var:
-        assert not rewriter.worklist
-        rewriter.worklist.append(start_var)
+        worklist = deque([start_var])
         to_compact = []
-        while rewriter.worklist:
-            current = rewriter.worklist.pop()
+        while worklist:
+            current = worklist.popleft()
             if current in rewriter.equations:
                 continue
             term = current.expand()
             rewriter.equations[current] = term
             rewriter.dependencies.add_node(current)
+            var_descendents = list(term._var_descendents())
             rewriter.dependencies.add_edges_from(
-                (current, dep) for dep in term._var_descendents()
+                (current, dep) for dep in var_descendents
             )
+            worklist.extend(var_descendents)
             to_compact.append(current)
 
         # simplify the equations
@@ -133,16 +131,12 @@ def rewrite(f):
                                    compacted._var_descendents())
         return start_var
 
-    def visit(var: Var) -> Var:
-        rewriter.worklist.append(var)
-        return var
-
     @wraps(f)
     def apply(*args) -> Var:
         # TODO: could cache less
         var = Var(f, args)
         if doing_rewrite:
-            return visit(var)
+            return var
         with rewriting():
             return start_rewrite(var)
     return apply
