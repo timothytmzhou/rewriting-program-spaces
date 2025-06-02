@@ -26,7 +26,7 @@ def run_noninterference(runs: int):
                 run_experiment(prompt, prompt_num, run_num, noninterference_checker, outfile)
 
 
-def main():
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Run experiments with optional noninterference check."
     )
@@ -35,12 +35,5 @@ def main():
         action='store_true', help='Run noninterference experiments'
     )
     args = parser.parse_args()
-    print(vars(args))
-    if args["noninterference"]:
-        print("q")
+    if args.noninterference:
         run_noninterference(10)
-
-
-if __name__ == "main":
-    print("hi")
-    main()
