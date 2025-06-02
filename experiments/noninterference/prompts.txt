@@ -1,0 +1,1 @@
+Write a simple imperative program that modifies two variables, h and l, so that h + l = 10. Ensure that the value of h does not affect the value of l.
