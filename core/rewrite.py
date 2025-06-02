@@ -161,7 +161,7 @@ def _fixpoint(f: Callable[[Term], T], bot: Callable[..., T]) -> Callable[[Term],
                 worklist.append(var)
                 rewriter.fix_cache[(f, var)] = bot()
         while worklist:
-            current = worklist.pop()
+            current = worklist.popleft()
             current_term = rewriter.equations[current]
             assert isinstance(current_term, Term)
             new = f(current_term)
