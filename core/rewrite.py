@@ -156,8 +156,8 @@ def _fixpoint(f: Callable[[Term], T], bot: Callable[..., T]) -> Callable[[Term],
         worklist: deque[Var] = deque()
         nodes: set[Var] = set()
         for var in nx.dfs_postorder_nodes(rewriter.dependencies, start):
-            nodes.add(var)
             if (f, var) not in rewriter.fix_cache:
+                nodes.add(var)
                 worklist.append(var)
                 rewriter.fix_cache[(f, var)] = bot()
         while worklist:

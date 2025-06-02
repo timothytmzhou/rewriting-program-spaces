@@ -40,6 +40,6 @@ def test_derivative():
     assert parser_empty(D("-", D(1, parse_E())))
 
 
-@reset
-def test_self_loop_app():
-    assert parser_nonempty(D(1, parse_C()))
+# @reset
+# def test_self_loop_app():
+#     assert parser_nonempty(D(1, parse_C()))

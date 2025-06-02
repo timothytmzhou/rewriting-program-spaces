@@ -3,3 +3,4 @@ transformers
 greenery
 torch
 accelerate
+matplotlib
