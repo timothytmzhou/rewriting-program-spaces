@@ -45,6 +45,13 @@ class Var:  # should not subclass Term here since we want mypy to distinguish
                        for arg in expanded_args), "rewrite with non-value RHS detected"
         term = self.f(*expanded_args)
         assert isinstance(term, Term)
+        rewriter.equations[self] = term
+        rewriter.dependencies.add_node(self)
+        var_descendents = list(term._var_descendents())
+        rewriter.dependencies.add_edges_from(
+            (self, dep) for dep in var_descendents
+        )
+        rewriter.worklist.extend(var_descendents)
         return term
 
     def __str__(self):
@@ -55,16 +62,19 @@ class RewriteSystem:
     equations: dict[Var, Term]
     fix_cache: dict[tuple[Callable, Var], Any]
     dependencies: DiGraph
+    worklist: deque[Var]
 
     def __init__(self):
         self.dependencies = DiGraph()
         self.equations = {}
         self.fix_cache = {}
+        self.worklist = deque()
 
     def clear(self):
         self.dependencies.clear()
         self.equations.clear()
         self.fix_cache.clear()
+        self.worklist.clear()
 
     def __str__(self):
         equations = "\n".join(
@@ -105,20 +115,13 @@ def rewrite(f):
     Rewrite a (infinitely recursive) function into a capsule of equations.
     """
     def start_rewrite(start_var: Var) -> Var:
-        worklist = deque([start_var])
+        rewriter.worklist.append(start_var)
         to_compact = []
-        while worklist:
-            current = worklist.popleft()
+        while rewriter.worklist:
+            current = rewriter.worklist.popleft()
             if current in rewriter.equations:
                 continue
             term = current.expand()
-            rewriter.equations[current] = term
-            rewriter.dependencies.add_node(current)
-            var_descendents = list(term._var_descendents())
-            rewriter.dependencies.add_edges_from(
-                (current, dep) for dep in var_descendents
-            )
-            worklist.extend(var_descendents)
             to_compact.append(current)
 
         # simplify the equations
