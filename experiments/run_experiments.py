@@ -22,6 +22,8 @@ def run_noninterference(runs: int):
 
     with open(input_file, "r") as infile, open(output_file, "w") as outfile:
         for prompt_num, prompt in enumerate(infile):
+            if prompt and prompt.startswith("#"):
+                continue
             for run_num in range(runs):
                 run_experiment(prompt, prompt_num, run_num, noninterference_checker, outfile)
 
@@ -36,4 +38,4 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     if args.noninterference:
-        run_noninterference(10)
+        run_noninterference(1)
