@@ -14,7 +14,6 @@ T = TypeVar('T')
 
 
 class Term:
-    # TODO: define subterms using init_subclass instead of making the user do it manually
     def subterms(self) -> Iterable[Term]:
         return set()
 

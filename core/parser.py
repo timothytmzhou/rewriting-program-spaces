@@ -47,7 +47,7 @@ class Concatenation(Parser):
         return self
 
     @classmethod
-    def of(cls, *children, rearrange=None):
+    def of(cls, *children, rearrange: Rearrangement):
         """
         Builds a parser that emits ASTS of form f(x_1, x_2, ..., x_n) where
         x_i are the parsed subtrees.
@@ -60,7 +60,6 @@ class Concatenation(Parser):
         flattened = flatten(children, tuple)
         if any(isinstance(c, EmptyParser) for c in flattened):
             return EmptyParser()
-        rearrange = tuple(range(len(flattened))) if rearrange is None else rearrange
         return cls((), flattened, rearrange)
 
     def __str__(self):
