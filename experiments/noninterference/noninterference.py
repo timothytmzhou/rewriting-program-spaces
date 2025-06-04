@@ -72,19 +72,25 @@ def exps() -> Parser:
 def commands() -> Parser:
     return Choice.of(
         SKIP,
-        Concatenation.of((vars(), GETS, exps()), rearrange=bin_rearrangement("assign")),
-        Concatenation.of((commands(), SEMICOLON, commands()),
-                         rearrange=bin_rearrangement("seq")),
+        Concatenation.of(
+            (vars(), GETS, exps()),
+            rearrange=bin_rearrangement("assign"),
+        ),
+        Concatenation.of(
+            (commands(), SEMICOLON, commands()),
+            rearrange=bin_rearrangement("seq"),
+        ),
         Concatenation.of(
             (IF, exps(), THEN, commands(), ELSE, commands()),
-            rearrange=Rearrangement("ite", (1, 3, 5))
+            rearrange=Rearrangement("ite", (1, 3, 5)),
         ),
-        Concatenation.of((WHILE, exps(), DO, commands()),
-                         rearrange=Rearrangement("while", (1, 3)))
+        Concatenation.of(
+            (WHILE, exps(), DO, commands()),
+            rearrange=Rearrangement("while", (1, 3)),
+        ),
     )
 
 
-# CONSTRAINTS
 class SecurityLevel(Enum):
     HIGH = 1
     LOW = 0
@@ -92,12 +98,14 @@ class SecurityLevel(Enum):
 
 @rewrite
 def secure_lefthand_vars(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
-    # LHS variables
     match t:
         case EmptySet():
             return EmptySet()
         case Union(children):
-            return Union.of(secure_lefthand_vars(c, slevel) for c in children)
+            return Union.of(
+                secure_lefthand_vars(c, slevel)
+                for c in children
+            )
         case Constant(c) if isinstance(c, RegexLeaf) and c.sort == "h":
             return t if slevel == SecurityLevel.HIGH else EmptySet()
         case Constant(c) if isinstance(c, RegexLeaf) and c.sort == "l":
@@ -108,7 +116,6 @@ def secure_lefthand_vars(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
 
 @rewrite
 def secure_exps(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
-    # Expressions
     match t:
         case EmptySet():
             return EmptySet()
@@ -117,25 +124,38 @@ def secure_exps(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
         case Constant(c) if isinstance(c, RegexLeaf) and slevel == SecurityLevel.HIGH:
             return t if c.sort in {"h", "l", "int"} else EmptySet()
         case Application(op, (left, right)):
-            return Application.of(op, (secure_exps(left, slevel), secure_exps(right, slevel)))
+            return Application.of(
+                op,
+                (
+                    secure_exps(left, slevel),
+                    secure_exps(right, slevel),
+                ),
+            )
         case Union(children):
-            return Union.of(secure_exps(c, slevel) for c in children)
+            return Union.of(
+                secure_exps(c, slevel)
+                for c in children
+            )
         case _:
             raise ValueError
 
 
 @rewrite
 def secure_cmds(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
-    # Commands
-    secure_asts: list[TreeGrammar]
     match t:
         case EmptySet():
-            secure_asts = []
+            secure_asts: list[TreeGrammar] = []
         case Constant(_):
             secure_asts = [t]
         case Application("assign", (left, right)):
             secure_asts = [
-                Application.of("assign", (secure_lefthand_vars(left, SecurityLevel.HIGH), right))
+                Application.of(
+                    "assign",
+                    (
+                        secure_lefthand_vars(left, SecurityLevel.HIGH),
+                        right,
+                    ),
+                )
             ]
             if slevel == SecurityLevel.LOW:
                 secure_asts.append(
@@ -149,7 +169,13 @@ def secure_cmds(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
                 )
         case Application("seq", (left, right)):
             secure_asts = [
-                Application.of("seq", (secure_cmds(left, slevel), secure_cmds(right, slevel)))
+                Application.of(
+                    "seq",
+                    (
+                        secure_cmds(left, slevel),
+                        secure_cmds(right, slevel),
+                    ),
+                )
             ]
         case Application("ite", (guard, thencmd, elsecmd)):
             secure_asts = [
@@ -164,18 +190,31 @@ def secure_cmds(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
             ]
         case Application("while", (guard, body)):
             secure_asts = [
-                Application.of("while", (secure_exps(guard, slevel), secure_cmds(body, slevel)))
+                Application.of(
+                    "while",
+                    (
+                        secure_exps(guard, slevel),
+                        secure_cmds(body, slevel),
+                    ),
+                )
             ]
         case Union(children):
-            secure_asts = [secure_cmds(c, slevel) for c in children]
+            secure_asts = [
+                secure_cmds(c, slevel)
+                for c in children
+            ]
         case _:
             raise ValueError
+
     if slevel == SecurityLevel.LOW:
-        return Union.of(secure_cmds(t, SecurityLevel.HIGH), *secure_asts)
+        return Union.of(
+            secure_cmds(t, SecurityLevel.HIGH),
+            *secure_asts,
+        )
+
     return Union.of(*secure_asts)
 
 
-# PARSING AND CHECKING STRINGS
 lexer_spec = LexerSpec(
     tok2regex=frozenset(
         {
@@ -201,7 +240,8 @@ lexer_spec = LexerSpec(
     ignore_regex=re.compile(r"\s+"),
 )
 
-
 noninterference_checker = RealizabilityChecker(
-    lambda asts: secure_cmds(asts, SecurityLevel.LOW), commands(), lexer_spec
+    lambda asts: secure_cmds(asts, SecurityLevel.LOW),
+    commands(),
+    lexer_spec,
 )
