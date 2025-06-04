@@ -28,10 +28,23 @@ class Term:
         return self
 
 
+vHashMap: dict[tuple[Callable, tuple], int] = dict()
+vctr = 0
+
+
 @dataclass(frozen=True)
 class Var:  # should not subclass Term here since we want mypy to distinguish
     f: Callable
     args: tuple
+    hashval: int = -1
+
+    def __post_init__(self):
+        global vctr
+        object.__setattr__(self, 'hashval', vHashMap.get((self.f, self.args)))
+        if self.hashval is None:
+            vctr += 1
+            vHashMap[(self.f, self.args)] = vctr
+            object.__setattr__(self, 'hashval', vctr)
 
     def expand(self) -> Term:
         if self in rewriter.equations:
@@ -55,6 +68,9 @@ class Var:  # should not subclass Term here since we want mypy to distinguish
 
     def __str__(self):
         return f"{self.f.__name__}({', '.join(str(arg) for arg in self.args)})"
+
+    def __hash__(self):
+        return self.hashval
 
 
 class RewriteSystem:
@@ -90,7 +106,7 @@ class RewriteSystem:
         """Plots the dependency graph of the rewrite system."""
         pos = nx.spring_layout(self.dependencies)
         nx.draw(self.dependencies, pos, with_labels=True, arrows=True)
-        labels = {var: str(term) for var, term in self.equations.items()}
+        labels = {var: str(var) for var, term in self.equations.items()}
         nx.draw_networkx_labels(self.dependencies, pos, labels=labels)
         plt.show()
 
