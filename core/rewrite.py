@@ -28,10 +28,6 @@ class Term:
         return self
 
 
-vHashMap: dict[tuple[Callable, tuple], int] = dict()
-vctr = 0
-
-
 @dataclass(frozen=True)
 class Var:  # should not subclass Term here since we want mypy to distinguish
     f: Callable
@@ -39,12 +35,7 @@ class Var:  # should not subclass Term here since we want mypy to distinguish
     hashval: int = -1
 
     def __post_init__(self):
-        global vctr
-        object.__setattr__(self, 'hashval', vHashMap.get((self.f, self.args)))
-        if self.hashval is None:
-            vctr += 1
-            vHashMap[(self.f, self.args)] = vctr
-            object.__setattr__(self, 'hashval', vctr)
+        object.__setattr__(self, 'hashval', hash((self.f, self.args)))
 
     def expand(self) -> Term:
         if self in rewriter.equations:
