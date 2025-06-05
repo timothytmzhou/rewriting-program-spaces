@@ -24,7 +24,12 @@ class Term:
             elif isinstance(subterm, Var):
                 yield subterm
 
-    def compact(self):
+    def compact(self, full=False):
+        """
+        Defines simplfication rules for terms.
+        If full is True, one should do more extensive simplificaiton
+        (e.g. with fixpoint computation). Otherwise it should be cheap.
+        """
         return self
 
 
@@ -134,7 +139,7 @@ def rewrite(f):
         for var in to_compact:
             term = rewriter.equations[var]
             assert isinstance(term, Term)
-            compacted = term.compact()
+            compacted = term.compact(full=True)
             rewriter.equations[var] = compacted
             replace_adjacency_list(rewriter.dependencies, var,
                                    compacted._var_descendents())

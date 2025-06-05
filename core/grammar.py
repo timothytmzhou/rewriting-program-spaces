@@ -23,7 +23,7 @@ class EmptySet(TreeGrammar):
     pass
 
 
-@dataclass(frozen=True, eq=False)
+@dataclass(frozen=True)
 class Application(TreeGrammar):
     f: Symbol
     children: tuple[TreeGrammar]
@@ -31,36 +31,37 @@ class Application(TreeGrammar):
     def subterms(self):
         return self.children
 
-    def compact(self):
-        return Application.of(self.f, self.children)
+    def compact(self, full=False):
+        check_empty = is_empty if full else lambda p: isinstance(p, EmptySet)
+        if any(check_empty(c) for c in self.children):
+            return EmptySet()
+        return self
 
     @classmethod
     def of(cls, f: Symbol, *children):
         flattened = flatten(children, tuple)
-        if any(isinstance(c, EmptySet) for c in flattened):
-            return EmptySet()
-        return cls(f, flattened)
+        return cls(f, flattened).compact(full=False)
 
     def __str__(self):
         return f"{self.f}({', '.join(str(c) for c in self.children)})"
 
 
-@dataclass(frozen=True, eq=False)
+@dataclass(frozen=True)
 class Union(TreeGrammar):
     children: frozenset[TreeGrammar]
 
     def subterms(self):
         return self.children
 
-    def compact(self):
-        return Union.of(c for c in self.children if is_nonempty(c))
+    def compact(self, full=False):
+        check_empty = is_empty if full else lambda p: isinstance(p, EmptySet)
+        new_children = frozenset(c for c in self.children if not check_empty(c))
+        return Union(new_children) if new_children else EmptySet()
 
     @classmethod
     def of(cls, *children):
-        flattened = flatten(children, frozenset) - {EmptySet()}
-        if not flattened:
-            return EmptySet()
-        return cls(flattened)
+        flattened = flatten(children, frozenset)
+        return cls(flattened).compact()
 
     def __str__(self):
         return f"Union({', '.join(str(c) for c in self.children)})"

@@ -6,9 +6,6 @@ from experiments.noninterference.noninterference import *
 
 @reset
 def test_noninterference():
-    noninterference_checker = RealizabilityChecker(
-        lambda asts: secure_cmds(asts, SecurityLevel.LOW), commands(), lexer_spec
-    )
     assert noninterference_checker.realizable("")
     assert noninterference_checker.realizable("skip")
     assert noninterference_checker.realizable("h := l; skip")
@@ -21,6 +18,7 @@ def test_noninterference():
     assert not noninterference_checker.realizable("while h + l < 10 do l := l + 1")
 
 
+@reset
 def test_noninterference_large(n: int = 2):
     pref = ""
     for i in range(n):

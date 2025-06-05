@@ -32,7 +32,7 @@ class Rearrangement:
         return f"{self.f}"
 
 
-@dataclass(frozen=True, eq=False)
+@dataclass(frozen=True)
 class Concatenation(Parser):
     parsed: tuple[Parser, ...]
     remaining: tuple[Parser, ...]
@@ -41,8 +41,9 @@ class Concatenation(Parser):
     def subterms(self):
         return self.parsed + self.remaining
 
-    def compact(self):
-        if any(parser_empty(p) for p in self.parsed + self.remaining):
+    def compact(self, full=False):
+        check_empty = parser_empty if full else lambda p: isinstance(p, EmptyParser)
+        if any(check_empty(p) for p in self.parsed + self.remaining):
             return EmptyParser()
         return self
 
@@ -58,9 +59,7 @@ class Concatenation(Parser):
                           the parsed subtrees when emitting ASTs.
         """
         flattened = flatten(children, tuple)
-        if any(isinstance(c, EmptyParser) for c in flattened):
-            return EmptyParser()
-        return cls((), flattened, rearrange)
+        return cls((), flattened, rearrange).compact(full=False)
 
     def __str__(self):
         parsed = ', '.join(str(c) for c in self.parsed)
@@ -68,22 +67,22 @@ class Concatenation(Parser):
         return f"{self.rearrange}({parsed} => {remaining})"
 
 
-@dataclass(frozen=True, eq=False)
+@dataclass(frozen=True)
 class Choice(Parser):
     children: frozenset[Parser]
 
     def subterms(self):
         return self.children
 
-    def compact(self):
-        return Choice.of(p for p in self.children if parser_nonempty(p))
+    def compact(self, full=False):
+        check_empty = parser_empty if full else lambda p: isinstance(p, EmptyParser)
+        new_children = frozenset(c for c in self.children if not check_empty(c))
+        return Choice(new_children) if new_children else EmptyParser()
 
     @classmethod
     def of(cls, *children):
-        flattened = flatten(children, frozenset) - {EmptyParser()}
-        if not flattened:
-            return EmptyParser()
-        return cls(flattened)
+        flattened = flatten(children, frozenset)
+        return cls(flattened).compact(full=False)
 
     def __str__(self):
         return " | ".join(str(c) for c in self.children)
