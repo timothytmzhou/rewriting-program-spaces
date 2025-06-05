@@ -13,6 +13,9 @@ LOWVARLEAF = RegexLeaf("l", re.compile("l"))
 HIGHVARLEAF = RegexLeaf("h", re.compile("h"))
 INTSLEAF = RegexLeaf("int", re.compile("0|([1-9][0-9]*)"))
 PLUSLEAF = RegexLeaf("+", re.compile("\\+"))
+MINUSLEAF = RegexLeaf("-", re.compile("\\-"))
+TIMESLEAF = RegexLeaf("*", re.compile("\\*"))
+DIVLEAF = RegexLeaf("/", re.compile("/"))
 LESSLEAF = RegexLeaf("<", re.compile("<"))
 LESSEQLEAF = RegexLeaf("<=", re.compile("<="))
 GREATERLEAF = RegexLeaf(">", re.compile(">"))
@@ -26,11 +29,18 @@ THENLEAF = RegexLeaf("then", re.compile("then"))
 ELSELEAF = RegexLeaf("else", re.compile("else"))
 WHILELEAF = RegexLeaf("while", re.compile("while"))
 DOLEAF = RegexLeaf("do", re.compile("do"))
+LPARLEAF = RegexLeaf("lpar", re.compile(re.escape("(")))
+RPARLEAF = RegexLeaf("rpar", re.compile(re.escape(")")))
+LBRACELEAF = RegexLeaf("lbrace", re.compile(re.escape("{")))
+RBRACELEAF = RegexLeaf("rbrace", re.compile(re.escape("}")))
 
 LOWVAR = ConstantParser(LOWVARLEAF)
 HIGHVAR = ConstantParser(HIGHVARLEAF)
 INTS = ConstantParser(INTSLEAF)
 PLUS = ConstantParser(PLUSLEAF)
+MINUS = ConstantParser(MINUSLEAF)
+TIMES = ConstantParser(TIMESLEAF)
+DIV = ConstantParser(DIVLEAF)
 LESS = ConstantParser(LESSLEAF)
 LESSEQ = ConstantParser(LESSEQLEAF)
 GREATER = ConstantParser(GREATERLEAF)
@@ -44,6 +54,10 @@ THEN = ConstantParser(THENLEAF)
 ELSE = ConstantParser(ELSELEAF)
 WHILE = ConstantParser(WHILELEAF)
 DO = ConstantParser(DOLEAF)
+LPAR = ConstantParser(LPARLEAF)
+RPAR = ConstantParser(RPARLEAF)
+LBRACE = ConstantParser(LBRACELEAF)
+RBRACE = ConstantParser(RBRACELEAF)
 
 
 def vars() -> Parser:
@@ -55,11 +69,8 @@ def bin_rearrangement(sym: str) -> Rearrangement:
 
 
 @rewrite
-def exps() -> Parser:
+def boolean_exps() -> Parser:
     return Choice.of(
-        vars(),
-        INTS,
-        Concatenation.of((exps(), PLUS, exps()), rearrange=bin_rearrangement("+")),
         Concatenation.of((exps(), LESS, exps()), rearrange=bin_rearrangement("<")),
         Concatenation.of((exps(), LESSEQ, exps()), rearrange=bin_rearrangement("<=")),
         Concatenation.of((exps(), GREATER, exps()), rearrange=bin_rearrangement(">")),
@@ -69,7 +80,27 @@ def exps() -> Parser:
 
 
 @rewrite
-def commands() -> Parser:
+def base_exps() -> Parser:
+    return Choice.of(
+        vars(),
+        INTS,
+        Concatenation.of((LPAR, exps(), RPAR), rearrange=Rearrangement("subexpression", (1,)))
+    )
+
+
+@rewrite
+def exps() -> Parser:
+    return Choice.of(
+        base_exps(),
+        Concatenation.of((base_exps(), PLUS, exps()), rearrange=bin_rearrangement("+")),
+        Concatenation.of((base_exps(), MINUS, exps()), rearrange=bin_rearrangement("-")),
+        Concatenation.of((base_exps(), TIMES, exps()), rearrange=bin_rearrangement("*")),
+        Concatenation.of((base_exps(), DIV, exps()), rearrange=bin_rearrangement("/")),
+    )
+
+
+@rewrite
+def base_commands() -> Parser:
     return Choice.of(
         SKIP,
         Concatenation.of(
@@ -77,16 +108,23 @@ def commands() -> Parser:
             rearrange=bin_rearrangement("assign"),
         ),
         Concatenation.of(
-            (commands(), SEMICOLON, commands()),
+            (IF, LPAR, boolean_exps(), RPAR, THEN, LBRACE, commands(), RBRACE, ELSE, LBRACE, commands(), RBRACE),
+            rearrange=Rearrangement("ite", (2, 6, 10)),
+        ),
+        Concatenation.of(
+            (WHILE, LPAR, boolean_exps(), RPAR, DO, LBRACE, commands(), RBRACE),
+            rearrange=Rearrangement("while", (2, 6)),
+        ),
+    )
+
+
+@rewrite
+def commands() -> Parser:
+    return Choice.of(
+        base_commands(),
+        Concatenation.of(
+            (base_commands(), SEMICOLON, commands()),
             rearrange=bin_rearrangement("seq"),
-        ),
-        Concatenation.of(
-            (IF, exps(), THEN, commands(), ELSE, commands()),
-            rearrange=Rearrangement("ite", (1, 3, 5)),
-        ),
-        Concatenation.of(
-            (WHILE, exps(), DO, commands()),
-            rearrange=Rearrangement("while", (1, 3)),
         ),
     )
 
@@ -123,7 +161,12 @@ def secure_exps(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
             return t if c.sort in {"l", "int"} else EmptySet()
         case Constant(c) if isinstance(c, RegexLeaf) and slevel == SecurityLevel.HIGH:
             return t if c.sort in {"h", "l", "int"} else EmptySet()
-        case Application(op, (left, right)):
+        case Application("subexpression", (contents,)):
+            return Application.of(
+                "subexpression",
+                (secure_exps(contents, slevel),),
+            )
+        case Application(op, (left, right)) if op != "subexpression":
             return Application.of(
                 op,
                 (
@@ -235,6 +278,10 @@ lexer_spec = LexerSpec(
             ELSELEAF,
             WHILELEAF,
             DOLEAF,
+            LPARLEAF,
+            RPARLEAF,
+            LBRACELEAF,
+            RBRACELEAF
         }
     ),
     ignore_regex=re.compile(r"\s+"),
