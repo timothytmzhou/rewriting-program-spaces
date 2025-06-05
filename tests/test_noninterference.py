@@ -10,7 +10,7 @@ def test_noninterference():
     assert noninterference_checker.realizable("skip")
     assert noninterference_checker.realizable("h := l; skip")
     assert not noninterference_checker.realizable("l := h")
-    assert noninterference_checker.realizable("l := l + 634;")
+    assert noninterference_checker.realizable("l := l - 634;")
     assert not noninterference_checker.realizable("l := l + h")
     assert noninterference_checker.realizable("if (l = 10) then {h := 1} else {l := ")
     assert not noninterference_checker.realizable("if (h = 10) then {l")
