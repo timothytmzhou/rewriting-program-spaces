@@ -42,26 +42,6 @@ class Var:  # should not subclass Term here since we want mypy to distinguish
     def __post_init__(self):
         object.__setattr__(self, 'hashval', hash((self.f, self.args)))
 
-    def expand(self) -> Term:
-        if self in rewriter.equations:
-            return rewriter.equations[self]
-        expanded_args = [
-            arg.expand() if isinstance(arg, Var) else arg
-            for arg in self.args
-        ]
-        assert not any(isinstance(arg, Var)
-                       for arg in expanded_args), "rewrite with non-value RHS detected"
-        term = self.f(*expanded_args)
-        assert isinstance(term, Term)
-        rewriter.equations[self] = term
-        rewriter.dependencies.add_node(self)
-        var_descendents = list(term._var_descendents())
-        rewriter.dependencies.add_edges_from(
-            (self, dep) for dep in var_descendents
-        )
-        rewriter.worklist.extend(var_descendents)
-        return term
-
     def __str__(self):
         return f"{self.f.__name__}({', '.join(str(arg) for arg in self.args)})"
 
@@ -79,13 +59,11 @@ class RewriteSystem:
         self.dependencies = DiGraph()
         self.equations = {}
         self.fix_cache = {}
-        self.worklist = deque()
 
     def clear(self):
         self.dependencies.clear()
         self.equations.clear()
         self.fix_cache.clear()
-        self.worklist.clear()
 
     def __str__(self):
         equations = "\n".join(
@@ -125,34 +103,62 @@ def rewrite(f):
     """
     Rewrite a (infinitely recursive) function into a capsule of equations.
     """
+    def update_dependencies(var: Var, full=False):
+        term = rewriter.equations[var]
+        compacted = term.compact(full=full)
+        rewriter.equations[var] = compacted
+        descendents = set(compacted._var_descendents())
+        replace_adjacency_list(rewriter.dependencies, var, descendents)
+
     def simplify(start: Var):
         worklist = deque([start])
         visited = set()
         while worklist:
             var = worklist.popleft()
             term = rewriter.equations[var]
-            assert isinstance(term, Term)
-            compacted = term.compact(full=True)
-            rewriter.equations[var] = compacted
-            descendents = set(compacted._var_descendents())
-            replace_adjacency_list(rewriter.dependencies, var, descendents)
+            update_dependencies(var, full=True)
             visited.add(var)
             worklist.extend(set(term._var_descendents()) - visited)
 
     def start_rewrite(start_var: Var) -> Var:
-        rewriter.worklist.append(start_var)
-        while rewriter.worklist:
-            current = rewriter.worklist.popleft()
-            if current in rewriter.equations:
+        worklist: deque[Var] = deque([start_var])
+        while worklist:
+            current = worklist.popleft()
+            if (
+                current in rewriter.equations or
+                current in rewriter.dependencies and rewriter.dependencies.in_degree(current) == 0
+            ):
                 continue
-            current.expand()
+            unprocessed = [
+                arg for arg in current.args
+                if isinstance(arg, Var) and arg not in rewriter.equations
+            ]
+            if unprocessed:
+                worklist.appendleft(current)
+                worklist.extendleft(unprocessed)
+                continue
+
+            expanded_args = [
+                rewriter.equations[arg] if isinstance(arg, Var) else arg
+                for arg in current.args
+            ]
+            term = current.f(*expanded_args)
+            assert isinstance(term, Term)
+            rewriter.equations[current] = term
+            rewriter.dependencies.add_node(current)
+            var_descendents = list(term._var_descendents())
+            rewriter.dependencies.add_edges_from(
+                (current, dep) for dep in var_descendents
+            )
+            worklist.extend(var_descendents)
+            for parent in rewriter.dependencies.predecessors(current):
+                update_dependencies(parent)
 
         simplify(start_var)
         return start_var
 
     @wraps(f)
     def apply(*args) -> Var:
-        # TODO: could cache less
         var = Var(f, args)
         if doing_rewrite:
             return var
