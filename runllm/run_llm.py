@@ -22,7 +22,7 @@ class Config:
     dtype: torch.dtype = torch.bfloat16
 
     # Generation parameters
-    max_new_tokens: int = 100
+    max_new_tokens: int = 50
     temperature: float = 0.5
     repetition_penalty: float = 1.0
     top_p: float = 1.0
@@ -50,14 +50,17 @@ class LanguageModelRunner:
 
     def _tokenize_prompt(self, prompt: str) -> torch.Tensor:
         """
-        Tokenize the input prompt.
+        Process and tokenize the input prompt.
         """
-        input_ids = self.tokenizer(
-            prompt,
-            add_special_tokens=False,
-            return_tensors="pt",
-            padding=True
-        )["input_ids"]
+        messages = [
+            {"role": "system", "content": "You are a skilled programmer who responds to questions by writing concise code without comments.",},
+            {"role": "user", "content": prompt},
+        ]
+        input_ids = self.tokenizer.apply_chat_template(
+            messages, tokenize=True, 
+            add_generation_prompt=True, add_special_tokens=False,
+            return_tensors="pt", padding=True
+        )
         return input_ids.to(self.model.device)
 
     def _generate_next_token(
@@ -111,7 +114,7 @@ class LanguageModelRunner:
             new_tokens = output.sequences[0][len(input_ids[0]):].tolist()
             is_final = (new_tokens[-1] == self.tokenizer.eos_token_id)
             decoded_output = self.tokenizer.decode(new_tokens, skip_special_tokens=True)
-
+            # print(decoded_output)     # Prints output as it is produced. Use for debugging.
             if realizability_checker.realizable(decoded_output, is_final):
                 generated_tokens = new_tokens
             else:
