@@ -125,24 +125,29 @@ def rewrite(f):
     """
     Rewrite a (infinitely recursive) function into a capsule of equations.
     """
-    def start_rewrite(start_var: Var) -> Var:
-        rewriter.worklist.append(start_var)
-        to_compact = []
-        while rewriter.worklist:
-            current = rewriter.worklist.popleft()
-            if current in rewriter.equations:
-                continue
-            term = current.expand()
-            to_compact.append(current)
-
-        # simplify the equations
-        for var in to_compact:
+    def simplify(start: Var):
+        worklist = deque([start])
+        visited = set()
+        while worklist:
+            var = worklist.popleft()
             term = rewriter.equations[var]
             assert isinstance(term, Term)
             compacted = term.compact(full=True)
             rewriter.equations[var] = compacted
-            replace_adjacency_list(rewriter.dependencies, var,
-                                   compacted._var_descendents())
+            descendents = set(compacted._var_descendents())
+            replace_adjacency_list(rewriter.dependencies, var, descendents)
+            visited.add(var)
+            worklist.extend(set(term._var_descendents()) - visited)
+
+    def start_rewrite(start_var: Var) -> Var:
+        rewriter.worklist.append(start_var)
+        while rewriter.worklist:
+            current = rewriter.worklist.popleft()
+            if current in rewriter.equations:
+                continue
+            current.expand()
+
+        simplify(start_var)
         return start_var
 
     @wraps(f)
