@@ -1,31 +1,39 @@
 import time
 import argparse
+import os
 
 from runllm.run_llm import run_llm
+from tests.utils import reset
 from noninterference.noninterference import noninterference_checker
 
 
-def run_experiment(prompt: str, prompt_num: int, run_num: int, checker, outfile):
+@reset
+def run_experiment(prompt: str, context: str, prompt_num: int, run_num: int, checker, outfile):
+    outfile.write(f"Prompt #: {prompt_num}, Run #: {run_num}\n") # Flush to outfile so results are visible
+    outfile.flush()
+    os.fsync(outfile.fileno())
+
     prompt = prompt.rstrip('\n')
     start_time = time.time()
-    output = run_llm(checker, prompt)
+    output = run_llm(checker, prompt, context)
     elapsed = time.time() - start_time
-    outfile.write(f"Prompt #: {prompt_num}, Run #: {run_num}\n")
-    outfile.write(f"Output: {output}\n")
+    outfile.write(f"Output: \n{output}\n")
     outfile.write(f"Time: {elapsed:.4f} seconds\n")
     outfile.write("=" * 40 + "\n")
 
 
 def run_noninterference(runs: int):
-    input_file = "noninterference/prompts.txt"
-    output_file = "results.txt"
+    prompts_file = "noninterference/prompts.txt"
+    output_file = "noninterference/results.txt"
+    with open("noninterference/context.txt", "r") as context_file:
+        context = context_file.read().rstrip()
 
-    with open(input_file, "r") as infile, open(output_file, "w") as outfile:
-        for prompt_num, prompt in enumerate(infile):
+    with open(prompts_file, "r") as promptfile, open(output_file, "w") as outfile:
+        for prompt_num, prompt in enumerate(promptfile):
             if prompt and prompt.startswith("#"):
                 continue
             for run_num in range(runs):
-                run_experiment(prompt, prompt_num, run_num, noninterference_checker, outfile)
+                run_experiment(prompt, context, prompt_num, run_num, noninterference_checker, outfile)
 
 
 if __name__ == "__main__":

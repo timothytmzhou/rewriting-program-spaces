@@ -15,7 +15,7 @@ Language-Based Information-Flow Security; Andrei Sabelfeld and Andrew C. Myers
     - h := l + 4; l := l - 5
         - "Write a program ... so that the final value of h is 4 plus the initial value of l and the final value of l is 5 less than the initial value of l."
     - if h = 1 then h := h + 4 else skip
-        - "Write a program ... so that the final value of h is 5 if the initial value of h is 1 and leaves h alond otherwise."
+        - "Write a program ... so that the final value of h is 5 if the initial value of h is 1 and leaves h alone otherwise."
     - if l = 5 then h := h + 5 else l := l + 1
         - "Write a program ... so that, if the initial value of l is 5, then the final value of h is 5 plus the initial value of h, and the final value of l is 1 plus the initial value of l if l is not initially 5."
 

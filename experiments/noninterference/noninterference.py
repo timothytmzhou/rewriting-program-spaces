@@ -22,7 +22,7 @@ GREATERLEAF = RegexLeaf(">", re.compile(">"))
 GREATEREQLEAF = RegexLeaf(">=", re.compile(">="))
 EQUALLEAF = RegexLeaf("=", re.compile("="))
 GETSLEAF = RegexLeaf(":=", re.compile(":="))
-SKIPLEAF = RegexLeaf("skip", re.compile("skip"))
+SKIPLEAF = RegexLeaf("skip", re.compile("skip;"))
 SEMICOLONLEAF = RegexLeaf(";", re.compile(";"))
 IFLEAF = RegexLeaf("if", re.compile("if"))
 THENLEAF = RegexLeaf("then", re.compile("then"))
@@ -104,7 +104,7 @@ def base_commands() -> Parser:
     return Choice.of(
         SKIP,
         Concatenation.of(
-            (vars(), GETS, exps()),
+            (vars(), GETS, exps(), SEMICOLON),
             rearrange=bin_rearrangement("assign"),
         ),
         Concatenation.of(
@@ -123,8 +123,8 @@ def commands() -> Parser:
     return Choice.of(
         base_commands(),
         Concatenation.of(
-            (base_commands(), SEMICOLON, commands()),
-            rearrange=bin_rearrangement("seq"),
+            (base_commands(), commands()),
+            rearrange=Rearrangement("seq", (0, 1)),
         ),
     )
 

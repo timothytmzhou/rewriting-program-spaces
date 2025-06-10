@@ -22,13 +22,15 @@ class Config:
     dtype: torch.dtype = torch.bfloat16
 
     # Generation parameters
-    max_new_tokens: int = 50
+    max_new_tokens: int = 30
     temperature: float = 0.5
     repetition_penalty: float = 1.0
     top_p: float = 1.0
     top_k: float = 0
-    num_guesses: int = 10
+    num_guesses: int = 50
 
+DEFAULT_CONTEXT = """You are a skilled programmer who responds 
+to questions by writing concise code without comments.""".replace('\n', '')
 
 class LanguageModelRunner:
     def __init__(self, config: Config):
@@ -48,12 +50,13 @@ class LanguageModelRunner:
         model.resize_token_embeddings(len(tokenizer))
         return model, tokenizer
 
-    def _tokenize_prompt(self, prompt: str) -> torch.Tensor:
+    def _tokenize_prompt(self, prompt: str, context: str) -> torch.Tensor:
         """
         Process and tokenize the input prompt.
         """
         messages = [
-            {"role": "system", "content": "You are a skilled programmer who responds to questions by writing concise code without comments.",},
+            {"role": "system",
+            "content": context},
             {"role": "user", "content": prompt},
         ]
         input_ids = self.tokenizer.apply_chat_template(
@@ -92,29 +95,32 @@ class LanguageModelRunner:
     def run(
         self,
         realizability_checker: RealizabilityChecker,
-        prompt: str
+        prompt: str,
+        context: str
     ) -> Optional[str]:
         """
         Generate a solution that satisfies the realizability checker.
         """
-        input_ids = self._tokenize_prompt(prompt)
+        input_ids = self._tokenize_prompt(prompt, context)
         generated_tokens: List[int] = []
         forbidden_tokens: defaultdict[Any, Set[int]] = defaultdict(set)
 
         if not realizability_checker.realizable(""):
             return None
-
-        while len(generated_tokens) < self.config.max_new_tokens:
+        attempts = 0
+        while (len(generated_tokens) < self.config.max_new_tokens
+                and attempts < self.config.num_guesses):
             output = self._generate_next_token(
                 input_ids,
                 generated_tokens,
                 forbidden_tokens[tuple(generated_tokens)]
             )
-
+            attempts += 1
+            
             new_tokens = output.sequences[0][len(input_ids[0]):].tolist()
             is_final = (new_tokens[-1] == self.tokenizer.eos_token_id)
             decoded_output = self.tokenizer.decode(new_tokens, skip_special_tokens=True)
-            # print(decoded_output)     # Prints output as it is produced. Use for debugging.
+            print(decoded_output)     # Prints output as it is produced. Use for debugging.
             if realizability_checker.realizable(decoded_output, is_final):
                 generated_tokens = new_tokens
             else:
@@ -129,6 +135,7 @@ class LanguageModelRunner:
 def run_llm(
     realizability_checker: RealizabilityChecker,
     prompt: str,
+    context: str = DEFAULT_CONTEXT,
     **kwargs
 ) -> List[str]:
     """
@@ -136,4 +143,4 @@ def run_llm(
     """
     config = Config(**kwargs)
     runner = LanguageModelRunner(config)
-    return runner.run(realizability_checker, prompt)
+    return runner.run(realizability_checker, prompt, context)
