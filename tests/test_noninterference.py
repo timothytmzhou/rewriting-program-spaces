@@ -1,5 +1,4 @@
 import argparse
-from runllm.constrained_decoding import RealizabilityChecker
 from tests.utils import reset
 from experiments.noninterference.noninterference import *
 
@@ -16,6 +15,7 @@ def test_noninterference():
     assert not noninterference_checker.realizable("if (h = 10) then {l")
     assert noninterference_checker.realizable("while (h < 10) do {h := h + 1;}")
     assert not noninterference_checker.realizable("while (h + l < 10) do {l := l + 1;}")
+
 
 @reset
 def test_noninterference_large(n: int = 2):

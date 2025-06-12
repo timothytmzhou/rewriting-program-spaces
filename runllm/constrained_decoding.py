@@ -1,6 +1,7 @@
 from functools import reduce
 from core.grammar import is_nonempty
 from core.parser import D, Choice, Parser, delta, image
+from experiments.utils.totaler import timed
 from lexing.lexing import LexerSpec, partial_lex, lex
 
 
@@ -11,6 +12,7 @@ class RealizabilityChecker:
         self.parser = initial_parser
         self.lexerspec = lexerspec
 
+    @timed
     def realizable(self, pref: str, final: bool = False) -> bool:
         """
         Inputs: pref is a prefix.
@@ -19,10 +21,14 @@ class RealizabilityChecker:
         False otherwise.
         """
         # Call lexer
-        lexes = partial_lex(pref, self.lexerspec) if not final else lex(pref, self.lexerspec)
+        if not final:
+            lexes = partial_lex(pref, self.lexerspec)
+        else:
+            lexes = lex(pref, self.lexerspec)
 
         # Build term representing set of possible parse trees
-        terms = [reduce(lambda parser, leaf: D(leaf, parser), lex, self.parser) for lex in lexes]
+        terms = [reduce(lambda parser, leaf: D(leaf, parser), lex, self.parser)
+                 for lex in lexes]
         derived_parser = Choice.of(terms) if not final else delta(Choice.of(terms))
 
         # Build corresponding set of good ASTs

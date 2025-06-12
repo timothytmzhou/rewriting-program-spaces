@@ -1,5 +1,5 @@
 # Satisfiable Prompts
-Write a simple C-like imperative program over two variables, h and l, so that the final value of h is 4 plus the initial value of l and the final value of l is 5 less than the initial value of l. Do not end commands with a semicolon; only use semicolons beween commands in sequence.
+Write a simple C-like imperative program over two variables, h and l, so that the final value of h is 4 plus the initial value of l and the final value of l is 5 less than the initial value of l.
 Write a simple C-like imperative program over two variables, h and l, so that the final value of h is 5 if the initial value of h is 1 and leaves h alone otherwise.
 Write a simple C-like imperative program over two variables, h and l, so that, if the initial value of l is 5, then the final value of h is 5 plus the initial value of h, and the final value of l is 1 plus the initial value of l if l is not initially 5.
 Write a simple C-like imperative program over two variables, h and l, so that the final value h to 10 and the final value of l is 10 factorial.
