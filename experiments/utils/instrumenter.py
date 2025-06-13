@@ -25,7 +25,9 @@ class Instrumenter:
 
     def instrument(self, prog: str):
         # Check if checker constraints passed (don't time this call!)
-        passes_constraints = self.checker.realizable.__wrapped__(self.checker, prog, final=True)
+        passes_constraints = self.checker.realizable.__wrapped__(
+            self.checker, prog, final=True
+        )
 
         self.pass_constraint.incr(
             True,
