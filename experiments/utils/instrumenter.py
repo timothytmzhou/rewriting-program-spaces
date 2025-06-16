@@ -104,3 +104,46 @@ class Instrumenter:
         self.pass_constraint.clear()
         self.pass_tests.clear()
         self.timer.clear()
+
+
+@dataclass
+class PerformanceInstrumenter():
+    bench_num = 0
+    run_num = 0
+    realizability_timer: Totaler[int] = field(
+        default_factory=lambda: Totaler()
+    )
+
+    def __post_init__(self):
+        RealizabilityChecker.realizable = self.log_time_per_pref_size(
+            RealizabilityChecker.realizable
+        )
+
+    def log_time_per_pref_size(self, f: Callable[..., T]):
+        @wraps(f)
+        def wrapped(*args, **kwargs) -> T:
+            start = time.time()
+            result = f(*args, **kwargs)
+            end = time.time()
+            self.realizability_timer.incr(len(args[1]), (end - start))
+            return result
+        return wrapped
+
+    def set_indices(self, bench_num, run_num):
+        self.bench_num = bench_num
+        self.run_num = run_num
+        self.realizability_timer.set_indices(bench_num, run_num)
+
+    def plot(self):
+        # Build a matplotlib plot of the runtimes.
+        pass
+
+    def table(self):
+        ret = "Bench Number\t\t\t\tRun Number\t\t\t\t"
+        + "Prefix Length\t\t\t\tRealizability Time\n"
+        for key, value in self.realizability_timer.dct.items():
+            ret += f"{key[0]}\t\t\t\t{key[1]}\t\t\t\t{key[2]}\t\t\t\t{value.first}\n"
+        return ret
+
+    def clear(self):
+        RealizabilityChecker.realizable = RealizabilityChecker.realizable.__wrapped__

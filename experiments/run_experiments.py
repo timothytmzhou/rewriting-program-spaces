@@ -3,7 +3,8 @@ import argparse
 import os
 from dataclasses import dataclass
 
-from experiments.utils.instrumenter import Instrumenter
+from experiments.utils.instrumenter import Instrumenter, PerformanceInstrumenter
+from performance import performance_checker
 from runllm.constrained_decoding import RealizabilityChecker
 from runllm.run_llm import Config, LanguageModelRunner
 from tests.utils import reset
@@ -44,6 +45,12 @@ def run_experiment(
     outfile.write("=" * 40 + "\n")
     outfile.flush()
     os.fsync(outfile.fileno())
+
+
+@reset
+def run_performance_experiment(checker: RealizabilityChecker, prog: str):
+    for i in range(len(prog)):
+        checker.realizable(prog[:i])
 
 
 def run_noninterference(runner: LanguageModelRunner, runs: int):
@@ -108,6 +115,28 @@ def run_noCD(runner: LanguageModelRunner, runs: int, foldername: str):
     return inst
 
 
+def run_performance_experiments(runs: int):
+    # Set instrumentation
+    inst = PerformanceInstrumenter()
+    performance_dir = "performance/"
+
+    # For each benchmark, run the appropriate experiment
+    for folder in os.listdir(performance_dir):
+        inst.set_indices(inst.bench_num + 1, 0)
+        folder_path = os.path.join(performance_dir, folder)
+        if not os.path.isdir(folder_path):
+            continue
+        prog_file = os.path.join(folder_path, "prog.txt")
+        with open(prog_file, "r") as progfile:
+            prog = progfile.read()
+        checker: RealizabilityChecker = performance_checker.checker
+        for i in range(runs):
+            inst.set_indices(inst.bench_num, i)
+            run_performance_experiment(checker, prog)
+
+    return inst
+
+
 def run_experiments(
         config: Config,
         outfile,
@@ -135,8 +164,10 @@ def run_experiments(
             out.write("Noninterference[unconstrained]\t\t\t\t" + inst.table_row())
             inst.clear()
         if performance:
-            # TODO
-            pass
+            inst = run_performance_experiments(num_runs)
+            out.write("\n\n\nPerformance Results:\n")
+            out.write(inst.table())
+            inst.clear()
 
 
 if __name__ == "__main__":
