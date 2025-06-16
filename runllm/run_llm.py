@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from collections import defaultdict
 from typing import Any, List, Tuple, Set, Optional
-from experiments.utils.totaler import timed
 import torch
 from transformers import (
     AutoTokenizer,
@@ -25,7 +24,7 @@ class Config:
     dtype: torch.dtype = torch.bfloat16
 
     # Generation parameters
-    max_new_tokens: int = 30
+    max_new_tokens: int = 50
     temperature: float = 0.5
     repetition_penalty: float = 1.0
     top_p: float = 1.0
@@ -101,7 +100,6 @@ class LanguageModelRunner:
             past_key_values=cache
         )
 
-    @timed
     def run(
         self,
         realizability_checker: RealizabilityChecker,

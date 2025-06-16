@@ -1,9 +1,7 @@
 from __future__ import annotations
 from collections import defaultdict
 from dataclasses import dataclass, field
-from functools import wraps
-import time
-from typing import Callable, Optional, TypeVar, Generic
+from typing import Optional, TypeVar, Generic
 
 K = TypeVar('K')
 
@@ -84,37 +82,3 @@ class Totaler(Generic[K]):
 
     def decr(self, k: K, val: float):
         self.dct[(self.curr_prompt_num, self.curr_run_num, k)] += Pair(-val, -1)
-
-
-GLB_Timer: Totaler[Callable] = Totaler()
-
-
-def get_tot_times_this_run() -> str:
-    out = ""
-    keys = list(GLB_Timer.dct.keys())
-    for (pnum, rnum, f) in keys:
-        if pnum == GLB_Timer.curr_prompt_num and rnum == GLB_Timer.curr_run_num:
-            total = GLB_Timer.sum(pnum=GLB_Timer.get_prompt_num(),
-                                  rnum=GLB_Timer.get_run_num(),
-                                  k=f)
-            out += (
-                f"{f.__name__}:\n \t\ttot_time: {total.first:.4f} secs;"
-                + f"\tnum_calls: {total.second};"
-                + f"\tavg_time {total.avg():.4f} secs\n")
-
-    return out
-
-
-T = TypeVar('T')
-
-
-def timed(f: Callable[..., T]):
-    @wraps(f)
-    def wrapped(*args, **kwargs) -> T:
-        global GLB_Timer
-        start = time.time()
-        result = f(*args, **kwargs)
-        end = time.time()
-        GLB_Timer.incr(f, (end - start))
-        return result
-    return wrapped

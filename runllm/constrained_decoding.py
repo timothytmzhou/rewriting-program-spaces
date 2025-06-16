@@ -1,7 +1,6 @@
 from functools import reduce
 from core.grammar import is_nonempty
 from core.parser import D, Choice, Parser, delta, image
-from experiments.utils.totaler import timed
 from lexing.lexing import LexerSpec, partial_lex, lex
 
 
@@ -12,7 +11,6 @@ class RealizabilityChecker:
         self.parser = initial_parser
         self.lexerspec = lexerspec
 
-    @timed
     def realizable(self, pref: str, final: bool = False) -> bool:
         """
         Inputs: pref is a prefix.

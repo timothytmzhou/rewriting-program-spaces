@@ -4,7 +4,6 @@ import os
 from dataclasses import dataclass
 
 from experiments.utils.instrumenter import Instrumenter
-from experiments.utils.totaler import get_tot_times_this_run
 from runllm.constrained_decoding import RealizabilityChecker
 from runllm.run_llm import Config, LanguageModelRunner
 from tests.utils import reset
@@ -41,7 +40,7 @@ def run_experiment(
     outfile.write(f"Prompt #: {prompt_num}, Run #: {run_num}\n")
     outfile.write(f"Output: \n{output}\n")
     outfile.write(f"Total Time: {elapsed:.4f} seconds\n")
-    outfile.write(get_tot_times_this_run())
+    outfile.write(inst.get_tot_times_this_run())
     outfile.write("=" * 40 + "\n")
     outfile.flush()
     os.fsync(outfile.fileno())
@@ -114,6 +113,7 @@ def run_experiments(
         outfile,
         noninterference_CD: bool,
         noninterference_noCD: bool,
+        performance: bool,
         num_runs: int = 1
 ):
     # Instantiate runner to load model
@@ -134,6 +134,9 @@ def run_experiments(
             inst = run_noCD(runner, num_runs, "noninterference/")
             out.write("Noninterference[unconstrained]\t\t\t\t" + inst.table_row())
             inst.clear()
+        if performance:
+            # TODO
+            pass
 
 
 if __name__ == "__main__":
@@ -142,11 +145,15 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         '-n', '--noninterference_CD',
-        action='store_true', help='Run noninterference experiments'
+        action='store_true', help='Run noninterference experiments with our decoding'
     )
     parser.add_argument(
         '-r', '--noninterference_noCD',
-        action='store_true', help='Run noninterference experiments'
+        action='store_true', help='Run noninterference experiments without our decoding'
+    )
+    parser.add_argument(
+        '-p', '--performance',
+        action='store_true', help='Run performance experiments'
     )
     parser.add_argument(
         '--num_runs',
@@ -160,5 +167,6 @@ if __name__ == "__main__":
         "table.txt",
         args.noninterference_CD,
         args.noninterference_noCD,
+        args.performance,
         args.num_runs
     )
