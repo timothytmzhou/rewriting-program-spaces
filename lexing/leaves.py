@@ -42,6 +42,7 @@ class RegexLeaf(Leaf):
     sort: str
     terminal_regex: Pattern
     prefix: str = ""
+    fixed: bool = False
 
     # TODO: If we introduce support for put, we will need to generalize update.
     def update(self, other: RegexLeaf) -> Optional[RegexLeaf]:
@@ -57,6 +58,9 @@ class RegexLeaf(Leaf):
 
     def deriv(self, string: str) -> RegexLeaf:
         return RegexLeaf(self.sort, self.terminal_regex, self.prefix + string)
+
+    def fix(self) -> RegexLeaf:
+        return replace(self, fixed=True)
 
     def __str__(self) -> str:
         return f"({self.sort}, {self.prefix})"

@@ -36,16 +36,16 @@ class LexerState:
     def simplify(self) -> LexerState:
         if (
             self.continuations
-            and all(cont[len(self.prefix)].nullable()for cont in self.continuations)
+            and all(cont[len(self.prefix)].nullable() for cont in self.continuations)
         ):
-            prefix = self.prefix + next(iter(self.continuations))
+            prefix = self.prefix + (next(iter(self.continuations))[0].fix(),)
             continuations = {t[1:] for t in self.continuations}
             return LexerState(prefix, continuations).simplify()
         return self
 
     def finalize(self) -> LexerState:
         if self.continuations:
-            continuations = {c for c in self.continuations if c[-1].nullable()}
+            continuations = {c[:-1] + (c[-1].fix(),) for c in self.continuations if c[-1].nullable()}
             return LexerState(self.prefix, continuations)
         return self
 
@@ -63,7 +63,7 @@ class LexerState:
                         derived = lexeme.deriv(char)
                         if derived.nonempty():
                             new_continuations.add((
-                                state + (derived,)))
+                                state[:-1] + (state[-1].fix(), derived)))
                 if state[-1].deriv(char).nonempty():
                     new_continuations.add(state[:-1] + (state[-1].deriv(char),))
         return LexerState(self.prefix, new_continuations)

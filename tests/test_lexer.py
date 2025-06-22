@@ -10,9 +10,9 @@ def test_partial_lex_abc():
         RegexLeaf("c", re.compile("c"))
     }, re.compile(""))
     assert partial_lex("abc", lspec) == {
-        (RegexLeaf("a", re.compile("a"), "a"),
-         RegexLeaf("b", re.compile("b"), "b"),
-         RegexLeaf("c", re.compile("c"), "c"))}
+        (RegexLeaf("a", re.compile("a"), "a", True),
+         RegexLeaf("b", re.compile("b"), "b", True),
+         RegexLeaf("c", re.compile("c"), "c", False))}
 
     assert partial_lex("", lspec) == {()}
     assert partial_lex("d", lspec) == set()
@@ -25,9 +25,9 @@ def test_partial_lex_ignore():
         RegexLeaf("c", re.compile("c"))
     }, re.compile("\\s+"))
     assert partial_lex("a b   c", lspec) == {
-        (RegexLeaf("a", re.compile("a"), "a"),
-         RegexLeaf("b", re.compile("b"), "b"),
-         RegexLeaf("c", re.compile("c"), "c"))}
+        (RegexLeaf("a", re.compile("a"), "a", True),
+         RegexLeaf("b", re.compile("b"), "b", True),
+         RegexLeaf("c", re.compile("c"), "c", False))}
 
     assert partial_lex("    ", lspec) == {()}
 
@@ -38,13 +38,13 @@ def test_partial_lex_disjoint():
         RegexLeaf("b", re.compile("b+")),
     }, re.compile(""))
     assert partial_lex("aaaa", lspec) == {
-        (RegexLeaf("a", re.compile("a+"), "aaaa"),)}
+        (RegexLeaf("a", re.compile("a+"), "aaaa", False),)}
 
     assert partial_lex("aaabaabb", lspec) == {
-        (RegexLeaf("a", re.compile("a+"), "aaa"),
-         RegexLeaf("b", re.compile("b+"), "b"),
-         RegexLeaf("a", re.compile("a+"), "aa"),
-         RegexLeaf("b", re.compile("b+"), "bb"))}
+        (RegexLeaf("a", re.compile("a+"), "aaa", True),
+         RegexLeaf("b", re.compile("b+"), "b", True),
+         RegexLeaf("a", re.compile("a+"), "aa", True),
+         RegexLeaf("b", re.compile("b+"), "bb", False))}
 
     assert partial_lex("", lspec) == {()}
 
@@ -59,37 +59,37 @@ def test_partial_lex_nonsingleton():
         RegexLeaf("caps", re.compile("tocaps"))
     }, re.compile("\\s+"))
     assert partial_lex("print$( foo.tocap", lspec) == {
-        (RegexLeaf("print", re.compile(r'print\$'), "print$"),
-         RegexLeaf("lpar", re.compile("\\("), "("),
-         RegexLeaf("var", re.compile("[a-z]+"), "foo"),
-         RegexLeaf("dot", re.compile("\\."), "."),
-         RegexLeaf("caps", re.compile("tocaps"), "tocap")),
-        (RegexLeaf("print", re.compile(r'print\$'), "print$"),
-         RegexLeaf("lpar", re.compile("\\("), "("),
-         RegexLeaf("var", re.compile("[a-z]+"), "foo"),
-         RegexLeaf("dot", re.compile("\\."), "."),
-         RegexLeaf("var", re.compile("[a-z]+"), "tocap"))
+        (RegexLeaf("print", re.compile(r'print\$'), "print$", True),
+         RegexLeaf("lpar", re.compile("\\("), "(", True),
+         RegexLeaf("var", re.compile("[a-z]+"), "foo", True),
+         RegexLeaf("dot", re.compile("\\."), ".", True),
+         RegexLeaf("caps", re.compile("tocaps"), "tocap", False)),
+        (RegexLeaf("print", re.compile(r'print\$'), "print$", True),
+         RegexLeaf("lpar", re.compile("\\("), "(", True),
+         RegexLeaf("var", re.compile("[a-z]+"), "foo", True),
+         RegexLeaf("dot", re.compile("\\."), ".", True),
+         RegexLeaf("var", re.compile("[a-z]+"), "tocap", False))
     }
 
     assert partial_lex("  ))( zip prin", lspec) == {
-        (RegexLeaf("rpar", re.compile("\\)"), ")"),
-         RegexLeaf("rpar", re.compile("\\)"), ")"),
-         RegexLeaf("lpar", re.compile("\\("), "("),
-         RegexLeaf("var", re.compile("[a-z]+"), "zip"),
-         RegexLeaf("print", re.compile(r'print\$'), "prin")),
-        (RegexLeaf("rpar", re.compile("\\)"), ")"),
-         RegexLeaf("rpar", re.compile("\\)"), ")"),
-         RegexLeaf("lpar", re.compile("\\("), "("),
-         RegexLeaf("var", re.compile("[a-z]+"), "zip"),
-         RegexLeaf("var", re.compile("[a-z]+"), "prin"))
+        (RegexLeaf("rpar", re.compile("\\)"), ")", True),
+         RegexLeaf("rpar", re.compile("\\)"), ")", True),
+         RegexLeaf("lpar", re.compile("\\("), "(", True),
+         RegexLeaf("var", re.compile("[a-z]+"), "zip", True),
+         RegexLeaf("print", re.compile(r'print\$'), "prin", False)),
+        (RegexLeaf("rpar", re.compile("\\)"), ")", True),
+         RegexLeaf("rpar", re.compile("\\)"), ")", True),
+         RegexLeaf("lpar", re.compile("\\("), "(", True),
+         RegexLeaf("var", re.compile("[a-z]+"), "zip", True),
+         RegexLeaf("var", re.compile("[a-z]+"), "prin", False))
     }
 
     assert partial_lex("  ))( zip prin ", lspec) == {
-        (RegexLeaf("rpar", re.compile("\\)"), ")"),
-         RegexLeaf("rpar", re.compile("\\)"), ")"),
-         RegexLeaf("lpar", re.compile("\\("), "("),
-         RegexLeaf("var", re.compile("[a-z]+"), "zip"),
-         RegexLeaf("var", re.compile("[a-z]+"), "prin"))
+        (RegexLeaf("rpar", re.compile("\\)"), ")", True),
+         RegexLeaf("rpar", re.compile("\\)"), ")", True),
+         RegexLeaf("lpar", re.compile("\\("), "(", True),
+         RegexLeaf("var", re.compile("[a-z]+"), "zip", True),
+         RegexLeaf("var", re.compile("[a-z]+"), "prin", True))
     }
 
 
@@ -99,13 +99,13 @@ def test_partial_lex_finalize():
         RegexLeaf("var", re.compile("[a-z]+"))
     }, re.compile("\\s+"))
     assert partial_lex("a p", lspec) == {
-        (RegexLeaf("var", re.compile("[a-z]+"), "a"),
-         RegexLeaf("var", re.compile("[a-z]+"), "p")),
-        (RegexLeaf("var", re.compile("[a-z]+"), "a"),
-         RegexLeaf("print", re.compile("print$"), "p"))
+        (RegexLeaf("var", re.compile("[a-z]+"), "a", True),
+         RegexLeaf("var", re.compile("[a-z]+"), "p", False)),
+        (RegexLeaf("var", re.compile("[a-z]+"), "a", True),
+         RegexLeaf("print", re.compile("print$"), "p", False))
     }
 
     assert lex("a p", lspec) == {
-        (RegexLeaf("var", re.compile("[a-z]+"), "a"),
-         RegexLeaf("var", re.compile("[a-z]+"), "p"))
+        (RegexLeaf("var", re.compile("[a-z]+"), "a", True),
+         RegexLeaf("var", re.compile("[a-z]+"), "p", True))
     }
