@@ -1,28 +1,25 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 import functools
-import regex as re
+import regex
+from typing import Iterable
 from lexing.leaves import Token
 
 
 IGNORE = "RESERVED_IGNORE_SORT_TITLE"
 
 
-@dataclass
+@dataclass(frozen=True)
 class LexerSpec:
-    tok2regex: frozenset[Token]
-    ignore_regex: re.Pattern = re.compile(r'^(?!)$')
-
-    def __post_init__(self):
-        # TODO: Fix hash function or remove
-        # self.hash = hash(frozenset(self.tok2regex).union([self.ignore_regex]))
-        self.hash = 1
+    tokens: frozenset[Token]
+    ignore_regex: regex.Pattern = regex.compile(r'^(?!)$')
 
     def __hash__(self):
-        return self.hash
+        return hash((self.tokens, self.ignore_regex.pattern))
 
-    def get_lexemes(self) -> list[Token]:
-        return ([Token(IGNORE, self.ignore_regex, "")] + list(self.tok2regex))
+    def get_lexemes(self) -> Iterable[Token]:
+        yield from self.tokens
+        yield Token(IGNORE, self.ignore_regex)
 
 
 @dataclass
@@ -38,14 +35,16 @@ class LexerState:
             self.continuations
             and all(cont[len(self.prefix)].nullable() for cont in self.continuations)
         ):
-            prefix = self.prefix + (next(iter(self.continuations))[0].complete(),)
+            prefix = self.prefix + \
+                (next(iter(self.continuations))[0].complete(),)
             continuations = {t[1:] for t in self.continuations}
             return LexerState(prefix, continuations).simplify()
         return self
 
     def finalize(self) -> LexerState:
         if self.continuations:
-            continuations = {c[:-1] + (c[-1].complete(),) for c in self.continuations if c[-1].nullable()}
+            continuations = {c[:-1] + (c[-1].complete(),)
+                             for c in self.continuations if c[-1].nullable()}
             return LexerState(self.prefix, continuations)
         return self
 
@@ -65,7 +64,8 @@ class LexerState:
                             new_continuations.add((
                                 state[:-1] + (state[-1].complete(), derived)))
                 if state[-1].extend(char).nonempty():
-                    new_continuations.add(state[:-1] + (state[-1].extend(char),))
+                    new_continuations.add(
+                        state[:-1] + (state[-1].extend(char),))
         return LexerState(self.prefix, new_continuations)
 
     def remove_nonmaximal_munch(self):

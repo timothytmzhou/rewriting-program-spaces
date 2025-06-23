@@ -265,7 +265,7 @@ def command_seqs() -> Parser:
 
 
 lexer_spec = LexerSpec(
-    tok2regex=frozenset(
+    tokens=frozenset(
         {
             INTSLEAF,
             STRINGSLEAF,

@@ -259,7 +259,7 @@ def secure_cmds(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
 
 
 lexer_spec = LexerSpec(
-    tok2regex=frozenset(
+    tokens=frozenset(
         {
             LOWVARLEAF,
             HIGHVARLEAF,

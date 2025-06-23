@@ -4,11 +4,11 @@ import regex as re
 
 
 def test_partial_lex_abc():
-    lspec = LexerSpec({
+    lspec = LexerSpec(frozenset({
         Token("a", re.compile("a")),
         Token("b", re.compile("b")),
         Token("c", re.compile("c"))
-    }, re.compile(""))
+    }), re.compile(""))
     assert partial_lex("abc", lspec) == {
         (Token("a", re.compile("a"), "a", True),
          Token("b", re.compile("b"), "b", True),
@@ -19,11 +19,11 @@ def test_partial_lex_abc():
 
 
 def test_partial_lex_ignore():
-    lspec = LexerSpec({
+    lspec = LexerSpec(frozenset({
         Token("a", re.compile("a")),
         Token("b", re.compile("b")),
         Token("c", re.compile("c"))
-    }, re.compile("\\s+"))
+    }), re.compile("\\s+"))
     assert partial_lex("a b   c", lspec) == {
         (Token("a", re.compile("a"), "a", True),
          Token("b", re.compile("b"), "b", True),
@@ -33,10 +33,10 @@ def test_partial_lex_ignore():
 
 
 def test_partial_lex_disjoint():
-    lspec = LexerSpec({
+    lspec = LexerSpec(frozenset({
         Token("a", re.compile("a+")),
         Token("b", re.compile("b+")),
-    }, re.compile(""))
+    }), re.compile(""))
     assert partial_lex("aaaa", lspec) == {
         (Token("a", re.compile("a+"), "aaaa", False),)}
 
@@ -50,14 +50,14 @@ def test_partial_lex_disjoint():
 
 
 def test_partial_lex_nonsingleton():
-    lspec = LexerSpec({
+    lspec = LexerSpec(frozenset({
         Token("print", re.compile(r'print\$')),
         Token("lpar", re.compile("\\(")),
         Token("rpar", re.compile("\\)")),
         Token("var", re.compile("[a-z]+")),
         Token("dot", re.compile("\\.")),
         Token("caps", re.compile("tocaps"))
-    }, re.compile("\\s+"))
+    }), re.compile("\\s+"))
     assert partial_lex("print$( foo.tocap", lspec) == {
         (Token("print", re.compile(r'print\$'), "print$", True),
          Token("lpar", re.compile("\\("), "(", True),
@@ -94,10 +94,10 @@ def test_partial_lex_nonsingleton():
 
 
 def test_partial_lex_finalize():
-    lspec = LexerSpec({
+    lspec = LexerSpec(frozenset({
         Token("print", re.compile("print$")),
         Token("var", re.compile("[a-z]+"))
-    }, re.compile("\\s+"))
+    }), re.compile("\\s+"))
     assert partial_lex("a p", lspec) == {
         (Token("var", re.compile("[a-z]+"), "a", True),
          Token("var", re.compile("[a-z]+"), "p", False)),
