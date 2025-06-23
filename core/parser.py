@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Optional
 from dataclasses import dataclass, replace
 from .rewrite import *
 from .utils import flatten
@@ -25,7 +26,7 @@ class EmptyParser(Parser):
 
 @dataclass(frozen=True)
 class Rearrangement:
-    f: Symbol
+    f: Optional[Symbol]
     reorder: tuple[int, ...]
 
     def __str__(self):
@@ -42,7 +43,8 @@ class Concatenation(Parser):
         return self.parsed + self.remaining
 
     def compact(self, full=False):
-        check_empty = parser_empty if full else lambda p: isinstance(p, EmptyParser)
+        check_empty = parser_empty if full else lambda p: isinstance(
+            p, EmptyParser)
         if any(check_empty(p) for p in self.parsed + self.remaining):
             return EmptyParser()
         return self
@@ -75,8 +77,10 @@ class Choice(Parser):
         return self.children
 
     def compact(self, full=False):
-        check_empty = parser_empty if full else lambda p: isinstance(p, EmptyParser)
-        new_children = frozenset(c for c in self.children if not check_empty(c))
+        check_empty = parser_empty if full else lambda p: isinstance(
+            p, EmptyParser)
+        new_children = frozenset(
+            c for c in self.children if not check_empty(c))
         return Choice(new_children) if new_children else EmptyParser()
 
     @classmethod
@@ -121,7 +125,8 @@ def D(x, p: Parser) -> Parser:
             derived = D(x, remaining[0])
             return Choice.of(
                 replace(p, remaining=(derived,) + remaining[1:]),
-                replace(p, parsed=parsed + (delta(derived),), remaining=remaining[1:]),
+                replace(p, parsed=parsed + (delta(derived),),
+                        remaining=remaining[1:]),
             )
         case _:
             return EmptyParser()
@@ -151,6 +156,9 @@ def image(p: Parser) -> TreeGrammar:
             return Union.of(image(c) for c in children)
         case Concatenation(parsed, remaining, rearrange):
             concat_children = [image(c) for c in parsed + remaining]
+            if rearrange.f is None:
+                assert len(concat_children) == 1
+                return concat_children[0]
             return Application.of(
                 rearrange.f,
                 (concat_children[i] for i in rearrange.reorder)
