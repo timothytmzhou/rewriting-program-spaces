@@ -1,8 +1,7 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, replace
-from typing import Optional
-import regex as re
+from typing import Any, Optional
 from regex import Pattern
 
 
@@ -38,29 +37,26 @@ class StringLeaf[str](Leaf):
 
 
 @dataclass(frozen=True)
-class RegexLeaf(Leaf):
-    sort: str
-    terminal_regex: Pattern
+class Token(Leaf):
+    token_type: Any
+    regex: Pattern
     prefix: str = ""
-    fixed: bool = False
+    is_complete: bool = False
 
-    # TODO: If we introduce support for put, we will need to generalize update.
-    def update(self, other: RegexLeaf) -> Optional[RegexLeaf]:
-        if self.sort == other.sort:
-            return other
-        return None
+    def update(self, other: Token) -> Optional[Token]:
+        return other if self.token_type == other.token_type else None
 
     def nullable(self) -> bool:
-        return re.fullmatch(self.terminal_regex, self.prefix)
+        return self.regex.fullmatch(self.prefix)
 
     def nonempty(self) -> bool:
-        return re.fullmatch(self.terminal_regex, self.prefix, partial=True)
+        return self.regex.fullmatch(self.prefix, partial=True)
 
-    def deriv(self, string: str) -> RegexLeaf:
-        return RegexLeaf(self.sort, self.terminal_regex, self.prefix + string)
+    def extend(self, string: str) -> Token:
+        return Token(self.token_type, self.regex, self.prefix + string)
 
-    def fix(self) -> RegexLeaf:
-        return replace(self, fixed=True)
+    def complete(self) -> Token:
+        return replace(self, is_complete=True)
 
     def __str__(self) -> str:
-        return f"({self.sort}, {self.prefix})"
+        return f"({self.token_type}, {self.prefix})"

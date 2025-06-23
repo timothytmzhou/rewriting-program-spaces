@@ -3,36 +3,36 @@ from enum import Enum
 
 from core.parser import *
 from core.grammar import *
-from lexing.leaves import RegexLeaf
+from lexing.leaves import Token
 from lexing.lexing import LexerSpec
 from runllm.constrained_decoding import RealizabilityChecker
 
 
 # SYNTAX
-LOWVARLEAF = RegexLeaf("l", re.compile("l"))
-HIGHVARLEAF = RegexLeaf("h", re.compile("h"))
-INTSLEAF = RegexLeaf("int", re.compile("0|([1-9][0-9]*)"))
-PLUSLEAF = RegexLeaf("+", re.compile("\\+"))
-MINUSLEAF = RegexLeaf("-", re.compile("\\-"))
-TIMESLEAF = RegexLeaf("*", re.compile("\\*"))
-DIVLEAF = RegexLeaf("/", re.compile("/"))
-LESSLEAF = RegexLeaf("<", re.compile("<"))
-LESSEQLEAF = RegexLeaf("<=", re.compile("<="))
-GREATERLEAF = RegexLeaf(">", re.compile(">"))
-GREATEREQLEAF = RegexLeaf(">=", re.compile(">="))
-EQUALLEAF = RegexLeaf("=", re.compile("=="))
-GETSLEAF = RegexLeaf(":=", re.compile(":="))
-SKIPLEAF = RegexLeaf("skip", re.compile("skip;"))
-SEMICOLONLEAF = RegexLeaf(";", re.compile(";"))
-IFLEAF = RegexLeaf("if", re.compile("if"))
-THENLEAF = RegexLeaf("then", re.compile("then"))
-ELSELEAF = RegexLeaf("else", re.compile("else"))
-WHILELEAF = RegexLeaf("while", re.compile("while"))
-DOLEAF = RegexLeaf("do", re.compile("do"))
-LPARLEAF = RegexLeaf("lpar", re.compile(re.escape("(")))
-RPARLEAF = RegexLeaf("rpar", re.compile(re.escape(")")))
-LBRACELEAF = RegexLeaf("lbrace", re.compile(re.escape("{")))
-RBRACELEAF = RegexLeaf("rbrace", re.compile(re.escape("}")))
+LOWVARLEAF = Token("l", re.compile("l"))
+HIGHVARLEAF = Token("h", re.compile("h"))
+INTSLEAF = Token("int", re.compile("0|([1-9][0-9]*)"))
+PLUSLEAF = Token("+", re.compile("\\+"))
+MINUSLEAF = Token("-", re.compile("\\-"))
+TIMESLEAF = Token("*", re.compile("\\*"))
+DIVLEAF = Token("/", re.compile("/"))
+LESSLEAF = Token("<", re.compile("<"))
+LESSEQLEAF = Token("<=", re.compile("<="))
+GREATERLEAF = Token(">", re.compile(">"))
+GREATEREQLEAF = Token(">=", re.compile(">="))
+EQUALLEAF = Token("=", re.compile("=="))
+GETSLEAF = Token(":=", re.compile(":="))
+SKIPLEAF = Token("skip", re.compile("skip;"))
+SEMICOLONLEAF = Token(";", re.compile(";"))
+IFLEAF = Token("if", re.compile("if"))
+THENLEAF = Token("then", re.compile("then"))
+ELSELEAF = Token("else", re.compile("else"))
+WHILELEAF = Token("while", re.compile("while"))
+DOLEAF = Token("do", re.compile("do"))
+LPARLEAF = Token("lpar", re.compile(re.escape("(")))
+RPARLEAF = Token("rpar", re.compile(re.escape(")")))
+LBRACELEAF = Token("lbrace", re.compile(re.escape("{")))
+RBRACELEAF = Token("rbrace", re.compile(re.escape("}")))
 
 LOWVAR = ConstantParser(LOWVARLEAF)
 HIGHVAR = ConstantParser(HIGHVARLEAF)
@@ -144,9 +144,9 @@ def secure_lefthand_vars(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
                 secure_lefthand_vars(c, slevel)
                 for c in children
             )
-        case Constant(c) if isinstance(c, RegexLeaf) and c.sort == "h":
+        case Constant(c) if isinstance(c, Token) and c.token_type == "h":
             return t if slevel == SecurityLevel.HIGH else EmptySet()
-        case Constant(c) if isinstance(c, RegexLeaf) and c.sort == "l":
+        case Constant(c) if isinstance(c, Token) and c.token_type == "l":
             return t if slevel == SecurityLevel.LOW else EmptySet()
         case _:
             raise ValueError(f"Unexpected type: {type(t)}")
@@ -157,10 +157,10 @@ def secure_exps(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
     match t:
         case EmptySet():
             return EmptySet()
-        case Constant(c) if isinstance(c, RegexLeaf) and slevel == SecurityLevel.LOW:
-            return t if c.sort in {"l", "int"} else EmptySet()
-        case Constant(c) if isinstance(c, RegexLeaf) and slevel == SecurityLevel.HIGH:
-            return t if c.sort in {"h", "l", "int"} else EmptySet()
+        case Constant(c) if isinstance(c, Token) and slevel == SecurityLevel.LOW:
+            return t if c.token_type in {"l", "int"} else EmptySet()
+        case Constant(c) if isinstance(c, Token) and slevel == SecurityLevel.HIGH:
+            return t if c.token_type in {"h", "l", "int"} else EmptySet()
         case Application("subexpression", (contents,)):
             return Application.of(
                 "subexpression",

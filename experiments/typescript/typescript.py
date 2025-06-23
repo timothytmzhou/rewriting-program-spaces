@@ -2,54 +2,54 @@ import regex as re
 
 from core.parser import *
 from core.grammar import *
-from lexing.leaves import RegexLeaf
+from lexing.leaves import Token
 from lexing.lexing import LexerSpec
 # from runllm.constrained_decoding import RealizabilityChecker
 
 
 # SYNTAX
-INTSLEAF = RegexLeaf("int", re.compile("\\d+"))
-STRINGSLEAF = RegexLeaf("str", re.compile("\"\\w*\""))
-TRUELEAF = RegexLeaf("true", re.compile("true"))
-FALSELEAF = RegexLeaf("false", re.compile("false"))
-IDLEAF = RegexLeaf(
+INTSLEAF = Token("int", re.compile("\\d+"))
+STRINGSLEAF = Token("str", re.compile("\"\\w*\""))
+TRUELEAF = Token("true", re.compile("true"))
+FALSELEAF = Token("false", re.compile("false"))
+IDLEAF = Token(
     "id",
     re.compile(
         "(?!(true|false|number|string|boolean|return|function|let|if|else)$)\\w+"
     )
 )
 
-PLUSLEAF = RegexLeaf("+", re.compile("\\+"))
-MINUSLEAF = RegexLeaf("-", re.compile("\\-"))
-TIMESLEAF = RegexLeaf("*", re.compile("\\*"))
-DIVLEAF = RegexLeaf("/", re.compile("/"))
-LESSLEAF = RegexLeaf("<", re.compile("<"))
-LESSEQLEAF = RegexLeaf("<=", re.compile("<="))
-GREATERLEAF = RegexLeaf(">", re.compile(">"))
-GREATEREQLEAF = RegexLeaf(">=", re.compile(">="))
-EQUALLEAF = RegexLeaf("==", re.compile("=="))
+PLUSLEAF = Token("+", re.compile("\\+"))
+MINUSLEAF = Token("-", re.compile("\\-"))
+TIMESLEAF = Token("*", re.compile("\\*"))
+DIVLEAF = Token("/", re.compile("/"))
+LESSLEAF = Token("<", re.compile("<"))
+LESSEQLEAF = Token("<=", re.compile("<="))
+GREATERLEAF = Token(">", re.compile(">"))
+GREATEREQLEAF = Token(">=", re.compile(">="))
+EQUALLEAF = Token("==", re.compile("=="))
 
-FUNCARROWLEAF = RegexLeaf("=>", re.compile("=>"))
-DOTLEAF = RegexLeaf(".", re.compile("\\."))
-COLONLEAF = RegexLeaf(":", re.compile(":"))
+FUNCARROWLEAF = Token("=>", re.compile("=>"))
+DOTLEAF = Token(".", re.compile("\\."))
+COLONLEAF = Token(":", re.compile(":"))
 
-NUMTYPELEAF = RegexLeaf("numbertype", re.compile("number"))
-STRINGTYPELEAF = RegexLeaf("stringtype", re.compile("string"))
-BOOLTYPELEAF = RegexLeaf("booltype", re.compile("boolean"))
+NUMTYPELEAF = Token("numbertype", re.compile("number"))
+STRINGTYPELEAF = Token("stringtype", re.compile("string"))
+BOOLTYPELEAF = Token("booltype", re.compile("boolean"))
 
-RETURNLEAF = RegexLeaf("return", re.compile("return"))
-FUNCTIONLEAF = RegexLeaf("function", re.compile("function"))
+RETURNLEAF = Token("return", re.compile("return"))
+FUNCTIONLEAF = Token("function", re.compile("function"))
 
-GETSLEAF = RegexLeaf("gets", re.compile("="))
-SEMICOLONLEAF = RegexLeaf(";", re.compile(";"))
-COMMALEAF = RegexLeaf(",", re.compile(","))
-LETLEAF = RegexLeaf("let", re.compile("let"))
-IFLEAF = RegexLeaf("if", re.compile("if"))
-ELSELEAF = RegexLeaf("else", re.compile("else"))
-LPARLEAF = RegexLeaf("lpar", re.compile(re.escape("(")))
-RPARLEAF = RegexLeaf("rpar", re.compile(re.escape(")")))
-LBRACELEAF = RegexLeaf("lbrace", re.compile(re.escape("{")))
-RBRACELEAF = RegexLeaf("rbrace", re.compile(re.escape("}")))
+GETSLEAF = Token("gets", re.compile("="))
+SEMICOLONLEAF = Token(";", re.compile(";"))
+COMMALEAF = Token(",", re.compile(","))
+LETLEAF = Token("let", re.compile("let"))
+IFLEAF = Token("if", re.compile("if"))
+ELSELEAF = Token("else", re.compile("else"))
+LPARLEAF = Token("lpar", re.compile(re.escape("(")))
+RPARLEAF = Token("rpar", re.compile(re.escape(")")))
+LBRACELEAF = Token("lbrace", re.compile(re.escape("{")))
+RBRACELEAF = Token("rbrace", re.compile(re.escape("}")))
 
 INTS = ConstantParser(INTSLEAF)
 STRINGS = ConstantParser(STRINGSLEAF)
