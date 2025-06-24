@@ -157,8 +157,8 @@ def image(p: Parser) -> TreeGrammar:
         case Concatenation(parsed, remaining, rearrange):
             concat_children = [image(c) for c in parsed + remaining]
             if rearrange.f is None:
-                assert len(concat_children) == 1
-                return concat_children[0]
+                assert len(rearrange.reorder) == 1
+                return Union.of(concat_children[rearrange.reorder[0]]) # hack to return a Term
             return Application.of(
                 rearrange.f,
                 (concat_children[i] for i in rearrange.reorder)
