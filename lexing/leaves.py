@@ -39,7 +39,7 @@ class StringLeaf[str](Leaf):
 @dataclass(frozen=True)
 class Token(Leaf):
     token_type: Any
-    regex: Pattern
+    token_regex: Pattern
     prefix: str = ""
     is_complete: bool = False
 
@@ -47,13 +47,13 @@ class Token(Leaf):
         return other if self.token_type == other.token_type else None
 
     def nullable(self) -> bool:
-        return self.regex.fullmatch(self.prefix)
+        return bool(self.token_regex.fullmatch(self.prefix))
 
     def nonempty(self) -> bool:
-        return self.regex.fullmatch(self.prefix, partial=True)
+        return bool(self.token_regex.fullmatch(self.prefix, partial=True))
 
     def extend(self, string: str) -> Token:
-        return Token(self.token_type, self.regex, self.prefix + string)
+        return Token(self.token_type, self.token_regex, self.prefix + string)
 
     def complete(self) -> Token:
         return replace(self, is_complete=True)
