@@ -11,12 +11,6 @@ eqsat_basic = """(datatype Math
 (Mul Math Math))
 
 
-;; expr1 = 2 * (x + 3)
-(let expr1 (Mul (Num 2) (Add (Var "x") (Num 3))))
-;; expr2 = 6 + 2 * x
-(let expr2 (Add (Num 6) (Mul (Num 2) (Var "x"))))
-
-
 (rewrite (Add a b)
         (Add b a))
 (rewrite (Mul a (Add b c))
@@ -25,12 +19,7 @@ eqsat_basic = """(datatype Math
         (Num (+ a b)))
 (rewrite (Mul (Num a) (Num b))
         (Num (* a b)))
-
-
-(run 10)
-(check (= expr1 expr2))
 """
-egraph = egraph_from_egglog(eqsat_basic, "expr1", "Math")
 
 egraph_expression_grammar_checker = RealizabilityChecker(
     lambda x: x,
@@ -75,4 +64,28 @@ def test_egraph_expression_grammar():
 
 @reset
 def test_static_egraph():
-    pass
+    source = """
+    (let six (Num 6))
+    (let times (Mul (Num 3) (Num 2)))
+    (let add (Add (Num 3) (Num 3)))
+    (let var (Var "x"))
+    (rewrite (Var "x") (Num 6))
+    (run 100)
+    """
+    source = eqsat_basic + source
+    egraph = egraph_from_egglog(source, "six", "Math")
+    checker = RealizabilityChecker(
+        in_egraph(egraph),
+        E(),
+        lexer_spec,
+    )
+    assert checker.realizable("")
+    assert checker.realizable("6")
+    assert checker.realizable("3 * 2")
+    assert checker.realizable("3 *")
+    assert checker.realizable("3 + ")
+    assert checker.realizable("x")
+    # egraph doesn't have certain constants in it, so these are not realizable
+    assert not checker.realizable("2 +")
+    assert not checker.realizable("6 *")
+    assert not checker.realizable("x +")
