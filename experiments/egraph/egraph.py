@@ -31,6 +31,8 @@ def root_and_eclass_mapping(egraph: EGraph) -> tuple[str, EClassMapping]:
 
     for node_data in nodes.values():
         eclass, op = node_data["eclass"], node_data["op"]
+        if op.startswith('"') and op.endswith('"'):
+            op = op[1:-1]  # TODO: this is a hack to unescape variable names
         children_eclasses = tuple(nodes[enode]["eclass"]
                                   for enode in node_data["children"])
         if op == START_RELATION:
@@ -81,7 +83,7 @@ def in_egraph(egraph: EGraph) -> Callable[[TreeGrammar], TreeGrammar]:
             case _:
                 raise ValueError
 
-    return partial(in_eclass, eclass=root_eclass)
+    return partial(in_eclass, root_eclass)
 
 
 def egraph_from_egglog(egglog_source: str, start: str, start_type: str) -> EGraph:

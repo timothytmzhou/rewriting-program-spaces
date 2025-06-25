@@ -71,7 +71,7 @@ def Mul() -> Parser:
     return Choice.of(
         App(),
         Concatenation.of(Mul(), ConstantParser(TIMES), App(),
-                         rearrange=Rearrangement("Mult", (0, 2)))
+                         rearrange=Rearrangement("Mul", (0, 2)))
     )
 
 
