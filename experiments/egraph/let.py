@@ -13,7 +13,7 @@ def make_token(name, pattern: str) -> Token:
     return Token(TokenTypes[name], regex.compile(pattern))
 
 
-ID = make_token("ID", r"[a-zA-Z_][a-zA-Z0-9_]*")
+ID = make_token("ID", r"(?!(let|in)$)[a-zA-Z_][a-zA-Z0-9_]*")
 INT = make_token("INT", r"\d+")
 LPAR = make_token("LPAR", r"\(")
 RPAR = make_token("RPAR", r"\)")
