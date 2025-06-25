@@ -155,13 +155,18 @@ def image(p: Parser) -> TreeGrammar:
         case Choice(children):
             return Union.of(image(c) for c in children)
         case Concatenation(parsed, remaining, rearrange):
-            concat_children = [image(c) for c in parsed + remaining]
+            concat_children = parsed + remaining
             if rearrange.f is None:
                 assert len(rearrange.reorder) == 1
-                return Union.of(concat_children[rearrange.reorder[0]]) # hack to return a Term
+                # hack to return a Term
+                return Union.of(image(concat_children[rearrange.reorder[0]]))
+            focus = 0
+            # Count how many reordering positions refer to already parsed items
+            focus = sum(x < len(parsed) for x in rearrange.reorder)
             return Application.of(
                 rearrange.f,
-                (concat_children[i] for i in rearrange.reorder)
+                (image(concat_children[x]) for x in rearrange.reorder),
+                focus=focus
             )
         case _:
             raise TypeError(f"Unexpected type: {type(p)}")

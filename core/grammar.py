@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 from lexing.leaves import Leaf
 from .rewrite import *
 from .utils import flatten
@@ -27,6 +28,7 @@ class EmptySet(TreeGrammar):
 class Application(TreeGrammar):
     f: Symbol
     children: tuple[TreeGrammar]
+    focus: Optional[int]  # Index of the focus child, if any
 
     def subterms(self):
         return self.children
@@ -38,9 +40,10 @@ class Application(TreeGrammar):
         return self
 
     @classmethod
-    def of(cls, f: Symbol, *children):
+    def of(cls, f: Symbol, *children, focus=None):
+        # TODO: handle focus properly?
         flattened = flatten(children, tuple)
-        return cls(f, flattened).compact(full=False)
+        return cls(f, flattened, focus).compact(full=False)
 
     def __str__(self):
         return f"{self.f}({', '.join(str(c) for c in self.children)})"
