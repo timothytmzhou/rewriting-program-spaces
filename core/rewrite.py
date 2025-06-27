@@ -107,7 +107,10 @@ def rewrite(f):
     """
     def update_dependencies(var: Var, full=False):
         term = rewriter.equations[var]
-        if isinstance(term, Var): return
+        while isinstance(term, Var):
+            if term not in rewriter.equations:
+                return
+            term = rewriter.equations[term]
         compacted = term.compact(full=full)
         rewriter.equations[var] = compacted
         descendents = set(var_descendents(compacted))
@@ -142,10 +145,12 @@ def rewrite(f):
                 worklist.extendleft(unprocessed)
                 continue
 
-            expanded_args = [
-                rewriter.equations[arg] if isinstance(arg, Var) else arg
-                for arg in current.args
-            ]
+            expanded_args = []
+            for arg in current.args:
+                while isinstance(arg, Var):
+                    arg = rewriter.equations[arg]
+                expanded_args.append(arg)
+
             term = current.f(*expanded_args)
             rewriter.equations[current] = term
             rewriter.dependencies.add_node(current)
@@ -154,7 +159,8 @@ def rewrite(f):
                 (current, dep) for dep in descendents
             )
             worklist.extend(descendents)
-            for parent in rewriter.dependencies.predecessors(current):
+            parents = set(rewriter.dependencies.predecessors(current))
+            for parent in parents:
                 update_dependencies(parent)
 
         simplify(start_var)

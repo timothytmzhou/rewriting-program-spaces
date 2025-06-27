@@ -59,6 +59,8 @@ class Union(TreeGrammar):
     def compact(self, full=False):
         check_empty = is_empty if full else lambda p: isinstance(p, EmptySet)
         new_children = frozenset(c for c in self.children if not check_empty(c))
+        if len(new_children) == 1:
+            return next(iter(new_children))
         return Union(new_children) if new_children else EmptySet()
 
     @classmethod
