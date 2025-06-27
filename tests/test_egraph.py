@@ -66,12 +66,12 @@ source = """
 (let six (Num 6))
 (let times (Mul (Num 3) (Num 2)))
 (let add (Add (Num 3) (Num 3)))
-(let var (Var "x"))
-(rewrite (Var "x") (Num 6))
+(rewrite (Num 6) (Var "x"))
 (run 100)
 """
 source = eqsat_basic + source
 egraph = egraph_from_egglog(source, "six", "Math")
+
 
 @reset
 def test_static_egraph():
@@ -90,6 +90,7 @@ def test_static_egraph():
     assert not checker.realizable("2 +")
     assert not checker.realizable("6 *")
     assert not checker.realizable("x +")
+
 
 @reset
 def test_dynamic_egraph():

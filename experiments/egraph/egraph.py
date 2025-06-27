@@ -66,7 +66,8 @@ def in_egraph(egraph: EGraph) -> Callable[[TreeGrammar], TreeGrammar]:
                 matches_constant = any(enode.op == prefix and not enode.children
                                        for enode in eclasses[eclass])
                 return t if matches_constant else EmptySet()
-            case Constant(Token(prefix=prefix, token_regex=token_regex, is_complete=False)):
+            case Constant(Token(prefix=prefix, token_regex=token_regex,
+                                is_complete=False)):
                 matches_constant = any(
                     not enode.children and
                     enode.op.startswith(prefix) and
@@ -92,6 +93,7 @@ def in_egraph(egraph: EGraph) -> Callable[[TreeGrammar], TreeGrammar]:
 
 
 def egraph_from_egglog(egglog_source: str, start: str, start_type: str) -> EGraph:
+    assert "(run" in egglog_source
     egglog_source += f"\n(relation {START_RELATION} ({start_type}))"
     egglog_source += f"\n({START_RELATION} {start})"
     egraph = EGraph(record=True)

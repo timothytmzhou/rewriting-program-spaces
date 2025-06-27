@@ -136,7 +136,7 @@ def update_egraph(
     # build egglog rewrite
     binding_egglog = expr_to_egglog(binding)
     expr_egglog = expr_to_egglog(expr)
-    rewrite_str = f"(rewrite {binding_egglog} {expr_egglog})"
+    rewrite_str = f"(rewrite {expr_egglog} {binding_egglog})"
 
     # run the commands and saturate the egraph
     saturate_str = f"(run {saturation_depth})"
