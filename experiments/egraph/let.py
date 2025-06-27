@@ -113,7 +113,6 @@ def expr_to_egglog(expr: TreeGrammar) -> str:
             raise ValueError(f"Unable to process expression: {expr}")
 
 
-# TODO: EGraph is mutable, so this is NOT sound.
 @lru_cache(maxsize=None)
 def update_egraph(
     egraph: EGraph,
@@ -121,6 +120,15 @@ def update_egraph(
     expr: TreeGrammar,
     saturation_depth=100
 ) -> EGraph:
+    new_egraph = EGraph(record=True)
+    ran_commands = egraph.commands()
+    assert ran_commands is not None, "got EGraph with record=False"
+    lines = [
+        line for line in ran_commands.splitlines()
+        if not line.startswith("(run-schedule")
+    ]
+    new_egraph.run_program(*new_egraph.parse_program("\n".join(lines)))
+
     # This fully unrolls the tree grammars so we can use them like normal data.
     binding = expand_tree_grammar(binding)
     expr = expand_tree_grammar(expr)
@@ -132,9 +140,9 @@ def update_egraph(
 
     # run the commands and saturate the egraph
     saturate_str = f"(run {saturation_depth})"
-    commands = egraph.parse_program(rewrite_str + "\n" + saturate_str)
-    egraph.run_program(*commands)
-    return egraph
+    new_commands = new_egraph.parse_program(rewrite_str + "\n" + saturate_str)
+    new_egraph.run_program(*new_commands)
+    return new_egraph
 
 
 @rewrite

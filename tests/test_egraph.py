@@ -99,7 +99,9 @@ def test_dynamic_egraph():
         lexer_spec,
     )
     assert checker.realizable("let y = 3 in 3")
-    assert checker.realizable("let y = 3 in 3 + y")
+    assert checker.realizable("let y = 6 in y")
+    assert checker.realizable("let z = 3 * 2 in z")
+    assert checker.realizable("let u = 3 in let v = 2 in u * v")
     assert checker.realizable("let")
     assert checker.realizable("")
     assert checker.realizable("6")
@@ -108,6 +110,7 @@ def test_dynamic_egraph():
     assert checker.realizable("3 + ")
     assert checker.realizable("x")
     # egraph doesn't have certain constants in it, so these are not realizable
+    assert not checker.realizable("let z = 3 * 2 in z +")
     assert not checker.realizable("2 +")
     assert not checker.realizable("6 *")
     assert not checker.realizable("x +")

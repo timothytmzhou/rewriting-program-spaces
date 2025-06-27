@@ -94,7 +94,7 @@ def in_egraph(egraph: EGraph) -> Callable[[TreeGrammar], TreeGrammar]:
 def egraph_from_egglog(egglog_source: str, start: str, start_type: str) -> EGraph:
     egglog_source += f"\n(relation {START_RELATION} ({start_type}))"
     egglog_source += f"\n({START_RELATION} {start})"
-    egraph = EGraph()
+    egraph = EGraph(record=True)
     commands = egraph.parse_program(egglog_source)
     egraph.run_program(*commands)
     return egraph
