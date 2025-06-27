@@ -17,13 +17,6 @@ class Term:
     def subterms(self) -> Iterable[Term]:
         return set()
 
-    def _var_descendents(self) -> Iterable[Var]:
-        for subterm in self.subterms():
-            if isinstance(subterm, Term):
-                yield from subterm._var_descendents()
-            elif isinstance(subterm, Var):
-                yield subterm
-
     def compact(self, full=False):
         """
         Defines simplfication rules for terms.
@@ -47,6 +40,15 @@ class Var:  # should not subclass Term here since we want mypy to distinguish
 
     def __hash__(self):
         return self.hashval
+
+
+def var_descendents(term: Term | Var) -> Iterable[Var]:
+    match term:
+        case Var():
+            yield term
+        case Term():
+            for subterm in term.subterms():
+                yield from var_descendents(subterm)
 
 
 class RewriteSystem:
@@ -105,9 +107,10 @@ def rewrite(f):
     """
     def update_dependencies(var: Var, full=False):
         term = rewriter.equations[var]
+        if isinstance(term, Var): return
         compacted = term.compact(full=full)
         rewriter.equations[var] = compacted
-        descendents = set(compacted._var_descendents())
+        descendents = set(var_descendents(compacted))
         replace_adjacency_list(rewriter.dependencies, var, descendents)
 
     def simplify(start: Var):
@@ -118,7 +121,7 @@ def rewrite(f):
             term = rewriter.equations[var]
             update_dependencies(var, full=True)
             visited.add(var)
-            worklist.extend(set(term._var_descendents()) - visited)
+            worklist.extend(set(var_descendents(term)) - visited)
 
     def start_rewrite(start_var: Var) -> Var:
         worklist: deque[Var] = deque([start_var])
@@ -126,7 +129,8 @@ def rewrite(f):
             current = worklist.popleft()
             if (
                 current in rewriter.equations or
-                current in rewriter.dependencies and rewriter.dependencies.in_degree(current) == 0
+                current in rewriter.dependencies and rewriter.dependencies.in_degree(
+                    current) == 0
             ):
                 continue
             unprocessed = [
@@ -143,14 +147,13 @@ def rewrite(f):
                 for arg in current.args
             ]
             term = current.f(*expanded_args)
-            assert isinstance(term, Term)
             rewriter.equations[current] = term
             rewriter.dependencies.add_node(current)
-            var_descendents = list(term._var_descendents())
+            descendents = list(var_descendents(term))
             rewriter.dependencies.add_edges_from(
-                (current, dep) for dep in var_descendents
+                (current, dep) for dep in descendents
             )
-            worklist.extend(var_descendents)
+            worklist.extend(descendents)
             for parent in rewriter.dependencies.predecessors(current):
                 update_dependencies(parent)
 
@@ -182,6 +185,8 @@ def _fixpoint(f: Callable[[Term], T], bot: Callable[..., T]) -> Callable[[Term],
         while worklist:
             current = worklist.popleft()
             current_term = rewriter.equations[current]
+            while isinstance(current_term, Var):
+                current_term = rewriter.equations[current_term]
             assert isinstance(current_term, Term)
             new = f(current_term)
             if new != rewriter.fix_cache[(f, current)]:
@@ -204,4 +209,4 @@ def _fixpoint(f: Callable[[Term], T], bot: Callable[..., T]) -> Callable[[Term],
     return apply
 
 
-fixpoint = lambda bot: lambda f: _fixpoint(f, bot)
+def fixpoint(bot): return lambda f: _fixpoint(f, bot)
