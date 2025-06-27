@@ -2,8 +2,11 @@ import regex
 from enum import Enum
 from core.rewrite import rewrite
 from core.parser import *
+from core.grammar import expand_tree_grammar
 from lexing.leaves import Token
 from lexing.lexing import LexerSpec
+from .egraph import EGraph, in_egraph
+from functools import lru_cache
 
 
 TokenTypes = Enum("TokenTypes", "ID INT LPAR RPAR LET EQUALS IN PLUS TIMES")
@@ -94,3 +97,57 @@ def E() -> Parser:
             rearrange=Rearrangement("Let", (1, 3, 5))
         )
     )
+
+
+def expr_to_egglog(expr: TreeGrammar) -> str:
+    match expr:
+        case Application("Var", (Constant(Token(prefix=name)),)):
+            return f'(Var "{name}")'
+        case Application("Num", (Constant(Token(prefix=name)),)):
+            return f"(Num {name})"
+        case Application(f, children):
+            egglog_children = " ".join(expr_to_egglog(child)
+                                       for child in children)
+            return f"({f} {egglog_children})"
+        case _:
+            raise ValueError(f"Unable to process expression: {expr}")
+
+
+# TODO: EGraph is mutable, so this is NOT sound.
+@lru_cache(maxsize=None)
+def update_egraph(
+    egraph: EGraph,
+    binding: TreeGrammar,
+    expr: TreeGrammar,
+    saturation_depth=100
+) -> EGraph:
+    # This fully unrolls the tree grammars so we can use them like normal data.
+    binding = expand_tree_grammar(binding)
+    expr = expand_tree_grammar(expr)
+
+    # build egglog rewrite
+    binding_egglog = expr_to_egglog(binding)
+    expr_egglog = expr_to_egglog(expr)
+    rewrite_str = f"(rewrite {binding_egglog} {expr_egglog})"
+
+    # run the commands and saturate the egraph
+    saturate_str = f"(run {saturation_depth})"
+    commands = egraph.parse_program(rewrite_str + "\n" + saturate_str)
+    egraph.run_program(*commands)
+    return egraph
+
+
+@rewrite
+def equiv(egraph: EGraph, t: TreeGrammar) -> TreeGrammar:
+    match t:
+        case EmptySet():
+            return EmptySet()
+        case Union(children):
+            return Union.of(equiv(egraph, child) for child in children)
+        case Application("Let", (binding, expr1, expr2), focus):
+            if focus == 2:
+                updated = update_egraph(egraph, binding, expr1)
+                return equiv(updated, expr2)
+            return t
+        case _:
+            return in_egraph(egraph)(t)

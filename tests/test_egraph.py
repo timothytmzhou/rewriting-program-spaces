@@ -62,23 +62,45 @@ def test_egraph_expression_grammar():
     assert not egraph_expression_grammar_checker.realizable("()")
 
 
+source = """
+(let six (Num 6))
+(let times (Mul (Num 3) (Num 2)))
+(let add (Add (Num 3) (Num 3)))
+(let var (Var "x"))
+(rewrite (Var "x") (Num 6))
+(run 100)
+"""
+source = eqsat_basic + source
+egraph = egraph_from_egglog(source, "six", "Math")
+
 @reset
 def test_static_egraph():
-    source = """
-    (let six (Num 6))
-    (let times (Mul (Num 3) (Num 2)))
-    (let add (Add (Num 3) (Num 3)))
-    (let var (Var "x"))
-    (rewrite (Var "x") (Num 6))
-    (run 100)
-    """
-    source = eqsat_basic + source
-    egraph = egraph_from_egglog(source, "six", "Math")
     checker = RealizabilityChecker(
         in_egraph(egraph),
         E(),
         lexer_spec,
     )
+    assert checker.realizable("")
+    assert checker.realizable("6")
+    assert checker.realizable("3 * 2")
+    assert checker.realizable("3 *")
+    assert checker.realizable("3 + ")
+    assert checker.realizable("x")
+    # egraph doesn't have certain constants in it, so these are not realizable
+    assert not checker.realizable("2 +")
+    assert not checker.realizable("6 *")
+    assert not checker.realizable("x +")
+
+@reset
+def test_dynamic_egraph():
+    checker = RealizabilityChecker(
+        lambda t: equiv(egraph, t),
+        E(),
+        lexer_spec,
+    )
+    assert checker.realizable("let y = 3 in 3")
+    assert checker.realizable("let y = 3 in 3 + y")
+    assert checker.realizable("let")
     assert checker.realizable("")
     assert checker.realizable("6")
     assert checker.realizable("3 * 2")

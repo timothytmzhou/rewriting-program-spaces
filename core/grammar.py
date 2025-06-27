@@ -58,7 +58,8 @@ class Union(TreeGrammar):
 
     def compact(self, full=False):
         check_empty = is_empty if full else lambda p: isinstance(p, EmptySet)
-        new_children = frozenset(c for c in self.children if not check_empty(c))
+        new_children = frozenset(
+            c for c in self.children if not check_empty(c))
         if len(new_children) == 1:
             return next(iter(new_children))
         return Union(new_children) if new_children else EmptySet()
@@ -89,3 +90,19 @@ def is_nonempty(t: TreeGrammar) -> bool:
 
 def is_empty(t: TreeGrammar) -> bool:
     return not is_nonempty(t)
+
+
+# TODO: there may be a less hacky way to do this
+@fixpoint(EmptySet)
+def expand_tree_grammar(t: TreeGrammar) -> TreeGrammar:
+    """
+    Removes Var subterms from the TreeGrammar term due to the @fixpoint.
+    """
+    assert isinstance(t, TreeGrammar)
+    match t:
+        case Union(children):
+            return Union.of(expand_tree_grammar(child) for child in children)
+        case Application(op, children):
+            return Application.of(op, tuple(expand_tree_grammar(child) for child in children))
+        case _:
+            return t
