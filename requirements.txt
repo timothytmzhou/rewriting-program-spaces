@@ -4,3 +4,4 @@ greenery
 torch
 accelerate
 matplotlib
+egglog

@@ -22,28 +22,30 @@ def load_and_prepare_benchmark(benchmark_name: str) -> Tuple[str, RealizabilityC
     source = load_file(LET_EGGLOG_PATH)
 
     assert benchmark_content.startswith(";; ")
-    program_header = benchmark_content.splitlines()[0][3:]
+    original_program = benchmark_content.splitlines()[0][3:]
     source += benchmark_content
+    source += "\n(run 100)"
     egraph = egraph_from_egglog(source, "start", "Math")
     checker = RealizabilityChecker(
         lambda term: let_equivalence(egraph, term),
         Let(),
         let_lexer_spec,
     )
-    return program_header, checker
+    return original_program, checker
 
 
 def main():
     context = load_file(f"{BENCHMARKS_DIR}/context.md")
 
     benchmark = "distance.egglog"
-    program_header, checker = load_and_prepare_benchmark(benchmark)
+    original_program, checker = load_and_prepare_benchmark(benchmark)
 
     config = Config()
     runner = LanguageModelRunner(config)
-    prompt = f"The original program is:\n{program_header}"
-
-    runner.run(checker, prompt, context)
+    prompt = f"The original program is:\n{original_program}"
+    assert checker.realizable(original_program)
+    print(prompt)
+    print(runner.run(checker, prompt, context))
 
 
 if __name__ == "__main__":
