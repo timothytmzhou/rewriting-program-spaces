@@ -9,8 +9,8 @@ with open("experiments/egraph/let.egglog", "r") as f:
 
 egraph_expression_grammar_checker = RealizabilityChecker(
     lambda x: x,
-    E(),
-    lexer_spec,
+    Let(),
+    let_lexer_spec,
 )
 
 
@@ -63,8 +63,8 @@ six_egraph = egraph_from_egglog(six_source, "six", "Math")
 def test_static_egraph():
     checker = RealizabilityChecker(
         in_egraph(six_egraph),
-        E(),
-        lexer_spec,
+        Let(),
+        let_lexer_spec,
     )
     assert checker.realizable("")
     assert checker.realizable("6")
@@ -80,9 +80,9 @@ def test_static_egraph():
 @reset
 def test_dynamic_egraph():
     checker = RealizabilityChecker(
-        lambda t: equiv(six_egraph, t),
-        E(),
-        lexer_spec,
+        lambda t: let_equivalence(six_egraph, t),
+        Let(),
+        let_lexer_spec,
     )
     assert checker.realizable("let y = 3 in 3")
     assert checker.realizable("let y = 6 in y")
@@ -111,9 +111,9 @@ def test_div():
     source = eqsat_basic + source
     egraph = egraph_from_egglog(source, "div", "Math")
     checker = RealizabilityChecker(
-        lambda t: equiv(egraph, t),
-        E(),
-        lexer_spec,
+        lambda t: let_equivalence(egraph, t),
+        Let(),
+        let_lexer_spec,
     )
     assert checker.realizable("(a * b) / (c * d)")
     assert checker.realizable("(a * b) * (1 / (c * d))")

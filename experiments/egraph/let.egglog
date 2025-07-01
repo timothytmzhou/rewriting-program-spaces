@@ -33,3 +33,6 @@
 (rewrite (Mul a (Div (Num 1) b)) (Div a b))
 (rewrite (Div (Num 1) (Mul b c)) (Mul (Div (Num 1) b) (Div (Num 1) c)))
 (rewrite (Mul (Div (Num 1) b) (Div (Num 1) c)) (Div (Num 1) (Mul b c)))
+
+(let pow (Var "pow"))
+(let sqrt (Var "sqrt"))

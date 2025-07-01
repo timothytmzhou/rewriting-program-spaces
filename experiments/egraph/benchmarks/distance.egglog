@@ -1,0 +1,12 @@
+;; (6.67 * m1 * m2) / (pow r 2 * pow 10 11)
+
+(let x1 (Var "x1"))
+(let x2 (Var "x2"))
+(let y1 (Var "y1"))
+(let y2 (Var "y2"))
+
+(let start (sqrt (
+    Add
+    (pow (Sub x1 x2) 2)
+    (pow (Sub y1 y2) 2)
+)))

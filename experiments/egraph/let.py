@@ -28,7 +28,7 @@ TIMES = make_token("TIMES", r"\*")
 SUB = make_token("SUB", r"-")
 DIV = make_token("DIV", r"/")
 
-lexer_spec = LexerSpec(
+let_lexer_spec = LexerSpec(
     tokens=frozenset({ID, INT, LPAR, RPAR, LET, EQUALS, IN, PLUS, TIMES, SUB, DIV}),
     ignore_regex=regex.compile(r"\s+")
 )
@@ -56,7 +56,7 @@ def Atom() -> Parser:
         Id(),
         Num(),
         Concatenation.of(
-            ConstantParser(LPAR), E(), ConstantParser(RPAR),
+            ConstantParser(LPAR), Let(), ConstantParser(RPAR),
             rearrange=Rearrangement(None, (1,))
         )
     )
@@ -94,12 +94,12 @@ def Add() -> Parser:
 
 
 @rewrite
-def E() -> Parser:
+def Let() -> Parser:
     return Choice.of(
         Add(),
         Concatenation.of(
-            ConstantParser(LET), Id(), ConstantParser(EQUALS), E(),
-            ConstantParser(IN), E(),
+            ConstantParser(LET), Id(), ConstantParser(EQUALS), Let(),
+            ConstantParser(IN), Let(),
             rearrange=Rearrangement("Let", (1, 3, 5))
         )
     )
@@ -152,16 +152,16 @@ def update_egraph(
 
 
 @rewrite
-def equiv(egraph: EGraph, t: TreeGrammar) -> TreeGrammar:
+def let_equivalence(egraph: EGraph, t: TreeGrammar) -> TreeGrammar:
     match t:
         case EmptySet():
             return EmptySet()
         case Union(children):
-            return Union.of(equiv(egraph, child) for child in children)
+            return Union.of(let_equivalence(egraph, child) for child in children)
         case Application("Let", (binding, expr1, expr2), focus):
             if focus == 2:
                 updated = update_egraph(egraph, binding, expr1)
-                return equiv(updated, expr2)
+                return let_equivalence(updated, expr2)
             return t
         case _:
             return in_egraph(egraph)(t)
