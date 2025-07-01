@@ -9,7 +9,7 @@ from .egraph import EGraph, in_egraph
 from functools import lru_cache
 
 
-TokenTypes = Enum("TokenTypes", "ID INT LPAR RPAR LET EQUALS IN PLUS TIMES")
+TokenTypes = Enum("TokenTypes", "ID INT LPAR RPAR LET EQUALS IN PLUS TIMES SUB DIV")
 
 
 def make_token(name, pattern: str) -> Token:
@@ -25,9 +25,11 @@ EQUALS = make_token("EQUALS", r"=")
 IN = make_token("IN", r"in")
 PLUS = make_token("PLUS", r"\+")
 TIMES = make_token("TIMES", r"\*")
+SUB = make_token("SUB", r"-")
+DIV = make_token("DIV", r"/")
 
 lexer_spec = LexerSpec(
-    tokens=frozenset({ID, INT, LPAR, RPAR, LET, EQUALS, IN, PLUS, TIMES}),
+    tokens=frozenset({ID, INT, LPAR, RPAR, LET, EQUALS, IN, PLUS, TIMES, SUB, DIV}),
     ignore_regex=regex.compile(r"\s+")
 )
 
@@ -74,7 +76,9 @@ def Mul() -> Parser:
     return Choice.of(
         App(),
         Concatenation.of(Mul(), ConstantParser(TIMES), App(),
-                         rearrange=Rearrangement("Mul", (0, 2)))
+                         rearrange=Rearrangement("Mul", (0, 2))),
+        Concatenation.of(Mul(), ConstantParser(DIV), App(),
+                         rearrange=Rearrangement("Div", (0, 2)))
     )
 
 
@@ -83,7 +87,9 @@ def Add() -> Parser:
     return Choice.of(
         Mul(),
         Concatenation.of(Add(), ConstantParser(PLUS), Mul(),
-                         rearrange=Rearrangement("Add", (0, 2)))
+                         rearrange=Rearrangement("Add", (0, 2))),
+        Concatenation.of(Add(), ConstantParser(SUB), Mul(),
+                         rearrange=Rearrangement("Sub", (0, 2)))
     )
 
 

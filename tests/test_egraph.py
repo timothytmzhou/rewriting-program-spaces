@@ -4,22 +4,8 @@ from experiments.egraph.let import *
 from experiments.egraph.egraph import *
 
 
-eqsat_basic = """(datatype Math
-(Num i64)
-(Var String)
-(Add Math Math)
-(Mul Math Math))
-
-
-(rewrite (Add a b)
-        (Add b a))
-(rewrite (Mul a (Add b c))
-        (Add (Mul a b) (Mul a c)))
-(rewrite (Add (Num a) (Num b))
-        (Num (+ a b)))
-(rewrite (Mul (Num a) (Num b))
-        (Num (* a b)))
-"""
+with open("experiments/egraph/let.egglog", "r") as f:
+    eqsat_basic = f.read()
 
 egraph_expression_grammar_checker = RealizabilityChecker(
     lambda x: x,
@@ -55,28 +41,28 @@ def test_egraph_expression_grammar():
     assert egraph_expression_grammar_checker.realizable("let x = 1 in")
     assert egraph_expression_grammar_checker.realizable("(x + y")
 
-    assert not egraph_expression_grammar_checker.realizable("x -")
     assert not egraph_expression_grammar_checker.realizable("+ x")
     assert not egraph_expression_grammar_checker.realizable("let =")
     assert not egraph_expression_grammar_checker.realizable(")")
     assert not egraph_expression_grammar_checker.realizable("()")
 
 
-source = """
+six_source = """
 (let six (Num 6))
 (let times (Mul (Num 3) (Num 2)))
 (let add (Add (Num 3) (Num 3)))
+(let div (Div (Num 6) (Num 1)))
 (rewrite (Num 6) (Var "x"))
 (run 100)
 """
-source = eqsat_basic + source
-egraph = egraph_from_egglog(source, "six", "Math")
+six_source = eqsat_basic + six_source
+six_egraph = egraph_from_egglog(six_source, "six", "Math")
 
 
 @reset
 def test_static_egraph():
     checker = RealizabilityChecker(
-        in_egraph(egraph),
+        in_egraph(six_egraph),
         E(),
         lexer_spec,
     )
@@ -88,14 +74,13 @@ def test_static_egraph():
     assert checker.realizable("x")
     # egraph doesn't have certain constants in it, so these are not realizable
     assert not checker.realizable("2 +")
-    assert not checker.realizable("6 *")
     assert not checker.realizable("x +")
 
 
 @reset
 def test_dynamic_egraph():
     checker = RealizabilityChecker(
-        lambda t: equiv(egraph, t),
+        lambda t: equiv(six_egraph, t),
         E(),
         lexer_spec,
     )
@@ -110,8 +95,28 @@ def test_dynamic_egraph():
     assert checker.realizable("3 *")
     assert checker.realizable("3 + ")
     assert checker.realizable("x")
+    assert checker.realizable("6 / 1")
     # egraph doesn't have certain constants in it, so these are not realizable
     assert not checker.realizable("let z = 3 * 2 in z +")
     assert not checker.realizable("2 +")
-    assert not checker.realizable("6 *")
     assert not checker.realizable("x +")
+
+
+@reset
+def test_div():
+    source = """
+    (let div (Div (Mul (Var "a") (Var "b")) (Mul (Var "c") (Var "d"))))
+    (run 100)
+    """
+    source = eqsat_basic + source
+    egraph = egraph_from_egglog(source, "div", "Math")
+    checker = RealizabilityChecker(
+        lambda t: equiv(egraph, t),
+        E(),
+        lexer_spec,
+    )
+    assert checker.realizable("(a * b) / (c * d)")
+    assert checker.realizable("(a * b) * (1 / (c * d))")
+    assert checker.realizable("a * (b / (c * d))")
+    assert checker.realizable("(a / c) * (b / d)")
+    assert not checker.realizable("c")
