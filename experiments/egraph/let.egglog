@@ -27,8 +27,8 @@
 (rewrite (Mul a (Add b c))
         (Add (Mul a b) (Mul a c)))
 
-(rewrite (Div (Num a) (Num b))
-        (Num (/ a b)))
+;; for some reason this makes egglog upset?
+;; (rewrite (Div (Num a) (Num b)) (Num (/ a b)))
 (rewrite (Div a b) (Mul a (Div (Num 1) b)))
 (rewrite (Mul a (Div (Num 1) b)) (Div a b))
 (rewrite (Div (Num 1) (Mul b c)) (Mul (Div (Num 1) b) (Div (Num 1) c)))

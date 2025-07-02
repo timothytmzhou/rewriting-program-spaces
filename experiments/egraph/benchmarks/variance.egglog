@@ -10,15 +10,15 @@
       (Add
         (Add
           (App (App pow
-                  (Sub a
-                    (Div (Add (Add a b) c) (Num 3))))
-               (Num 2))
+            (Sub a
+              (Div (Add (Add a b) c) (Num 3))))
+            (Num 2))
           (App (App pow
-                  (Sub b
-                    (Div (Add (Add a b) c) (Num 3))))
-               (Num 2)))
+            (Sub b
+              (Div (Add (Add a b) c) (Num 3))))
+            (Num 2)))
         (App (App pow
-                (Sub c
-                  (Div (Add (Add a b) c) (Num 3))))
-             (Num 2)))))
-    (Num 3))
+          (Sub c
+            (Div (Add (Add a b) c) (Num 3))))
+          (Num 2))))
+    (Num 3)))

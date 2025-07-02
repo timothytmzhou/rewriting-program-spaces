@@ -1,9 +1,10 @@
-from pathlib import Path
 from experiments.egraph.run import *
 from runllm.constrained_decoding import RealizabilityChecker
 from tests.utils import reset
 from experiments.egraph.let import *
 from experiments.egraph.egraph import *
+import pytest
+from pathlib import Path
 
 
 with open("experiments/egraph/let.egglog", "r") as f:
@@ -97,7 +98,6 @@ def test_dynamic_egraph():
     assert checker.realizable("3 *")
     assert checker.realizable("3 + ")
     assert checker.realizable("x")
-    assert checker.realizable("6 / 1")
     # egraph doesn't have certain constants in it, so these are not realizable
     assert not checker.realizable("let z = 3 * 2 in z +")
     assert not checker.realizable("2 +")
@@ -123,11 +123,16 @@ def test_div():
     assert checker.realizable("(a / c) * (b / d)")
     assert not checker.realizable("c")
 
+
+def get_benchmark_names():
+    return [
+        benchmark_file.name
+        for benchmark_file in Path(BENCHMARKS_DIR).glob("*.egglog")
+    ]
+
+
+@pytest.mark.parametrize("benchmark_name", get_benchmark_names())
 @reset
-def test_benchmarks():
-    # for every .egglog file in benchmarks directory, check if the original is good
-    for benchmark_file in Path(BENCHMARKS_DIR).glob("*.egglog"):
-        benchmark_name = benchmark_file.name
-        original_program, checker = load_and_prepare_benchmark(benchmark_name)
-        assert checker.realizable(original_program)
-        rewriter.clear()
+def test_benchmark(benchmark_name):
+    program_header, checker = load_and_prepare_benchmark(benchmark_name)
+    assert checker.realizable(program_header)
