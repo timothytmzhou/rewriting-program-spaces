@@ -170,7 +170,7 @@ def let_equivalence(egraph: EGraph, t: TreeGrammar) -> TreeGrammar:
         case Union(children):
             return Union.of(let_equivalence(egraph, child) for child in children)
         case Application("Let", (binding, expr1, expr2), focus):
-            if focus == 2:
+            if focus >= 2:
                 updated = update_egraph(egraph, binding, expr1)
                 return let_equivalence(updated, expr2)
             return t

@@ -110,38 +110,30 @@ class LanguageModelRunner:
         Generate a solution that satisfies the realizability checker.
         """
         input_ids = self._tokenize_prompt(prompt, context)
-        generated_tokens: List[int] = []
-        forbidden_tokens: defaultdict[Any, Set[int]] = defaultdict(set)
+        generated_tokens = []
+        forbidden_tokens = defaultdict(set)
 
-        if not realizability_checker.realizable(""):
-            return None
-        attempts = 0
         cache = DynamicCache()
-        while (len(generated_tokens) < self.config.max_new_tokens
-               and attempts < self.config.num_guesses):
+        for _ in range(self.config.num_guesses):
+            if len(generated_tokens) >= self.config.max_new_tokens:
+                break
             output = self._generate_next_token(
                 input_ids,
                 generated_tokens,
                 forbidden_tokens[tuple(generated_tokens)],
                 cache
             )
-            attempts += 1
-
             new_token: int = output.sequences[0][-1].tolist()
             is_final = (new_token == self.tokenizer.eos_token_id)
             decoded_output = self.tokenizer.decode(generated_tokens + [new_token],
                                                    skip_special_tokens=True)
-            # TODO: Delete debug stmt below in final code version.
-            # print(decoded_output)   # Prints output as it is produced (for debugging).
             if realizability_checker.realizable(decoded_output, is_final):
                 generated_tokens.append(new_token)
+                if is_final:
+                    return decoded_output
             else:
                 forbidden_tokens[tuple(generated_tokens)].add(new_token)
-                # Pop the last entry off the cache.
-                # Necessary because the cache indexes by *length* of the token sequence.
                 cache.crop(-1)
 
-            if generated_tokens and generated_tokens[-1] == self.tokenizer.eos_token_id:
-                break
-
-        return self.tokenizer.decode(generated_tokens, skip_special_tokens=True)
+        return None
+        
