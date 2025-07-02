@@ -1,0 +1,15 @@
+;; (-b + sqrt (pow b 2 - 4 * a * c)) / (2 * a)
+
+(let a   (Var "a"))
+(let b   (Var "b"))
+(let c   (Var "c"))
+
+(let start
+  (Div
+    (Add
+      (Sub (Num 0) b)
+      (App sqrt
+        (Sub
+          (App (App pow b (Num 2)))
+          (Mul (Mul (Num 4) a) c))))
+    (Mul (Num 2) a)))

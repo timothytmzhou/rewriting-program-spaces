@@ -1,0 +1,13 @@
+;; map toUpper (filter isAlpha s)
+
+(let s        (Var "s"))
+(let toUpper  (Var "toUpper"))
+(let isAlpha  (Var "isAlpha"))
+(let map      (Var "map"))
+(let filter   (Var "filter"))
+
+(let filtered
+  (App (App filter isAlpha) s))
+
+(let start
+  (App (App map toUpper) filtered))

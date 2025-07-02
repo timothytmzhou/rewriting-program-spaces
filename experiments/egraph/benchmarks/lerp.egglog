@@ -1,0 +1,10 @@
+;; start + (end - start) * scale
+
+(let orig_start (Var "start"))
+(let orig_end   (Var "end"))
+(let scale      (Var "scale"))
+
+(let start
+  (Add orig_start
+       (Mul (Sub orig_end orig_start)
+            scale)))

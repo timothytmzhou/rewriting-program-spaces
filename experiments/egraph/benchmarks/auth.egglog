@@ -1,0 +1,11 @@
+;; fetch_document (authorize_user_for_document (authenticate_user current_user web_request) document_id)
+
+(let current_user (Var "current_user"))
+(let web_request  (Var "web_request"))
+(let document_id  (Var "document_id"))
+
+(let start
+  (App fetch_document
+    (App (App authorize_user_for_document
+          (App (App authenticate_user current_user) web_request))
+         document_id)))

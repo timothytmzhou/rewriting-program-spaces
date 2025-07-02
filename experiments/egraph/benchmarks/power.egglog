@@ -1,0 +1,10 @@
+;; power * .001 * hours * price_per_kwh
+
+(let power         (Var "power"))
+(let hours         (Var "hours"))
+(let price_per_kwh (Var "price_per_kwh"))
+
+(let start
+  (Mul
+    (Mul (Mul power (Num 0.001)) hours)
+    price_per_kwh))

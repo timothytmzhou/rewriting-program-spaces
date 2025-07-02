@@ -1,0 +1,15 @@
+;; (sum (filter positive xs)) / (length (filter positive xs))
+
+(let xs       (Var "xs"))
+(let positive (Var "positive"))
+(let filter   (Var "filter"))
+(let sum      (Var "sum"))
+(let length   (Var "length"))
+
+(let filtered
+  (App (App filter positive) xs))
+
+(let start
+  (Div
+    (App sum    filtered)
+    (App length filtered)))

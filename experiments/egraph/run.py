@@ -40,7 +40,7 @@ def main():
     benchmark = "distance.egglog"
     original_program, checker = load_and_prepare_benchmark(benchmark)
 
-    config = Config()
+    config = Config(temperature=1.0, num_guesses=1000, max_new_tokens=100)
     runner = LanguageModelRunner(config)
     prompt = f"The original program is:\n{original_program}"
     assert checker.realizable(original_program)

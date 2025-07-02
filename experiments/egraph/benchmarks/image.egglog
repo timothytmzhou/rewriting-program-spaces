@@ -1,0 +1,13 @@
+;; add_watermark (apply_filter (crop_image original_image selection) filter_type) watermark_image
+
+(let original_image  (Var "original_image"))
+(let selection       (Var "selection"))
+(let filter_type     (Var "filter_type"))
+(let watermark_image (Var "watermark_image"))
+
+(let start
+  (App (App add_watermark
+        (App (App apply_filter
+              (App (App crop_image original_image) selection))
+             filter_type))
+       watermark_image))

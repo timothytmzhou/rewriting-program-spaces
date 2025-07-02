@@ -1,3 +1,5 @@
+from pathlib import Path
+from experiments.egraph.run import *
 from runllm.constrained_decoding import RealizabilityChecker
 from tests.utils import reset
 from experiments.egraph.let import *
@@ -120,3 +122,12 @@ def test_div():
     assert checker.realizable("a * (b / (c * d))")
     assert checker.realizable("(a / c) * (b / d)")
     assert not checker.realizable("c")
+
+@reset
+def test_benchmarks():
+    # for every .egglog file in benchmarks directory, check if the original is good
+    for benchmark_file in Path(BENCHMARKS_DIR).glob("*.egglog"):
+        benchmark_name = benchmark_file.name
+        original_program, checker = load_and_prepare_benchmark(benchmark_name)
+        assert checker.realizable(original_program)
+        rewriter.clear()
