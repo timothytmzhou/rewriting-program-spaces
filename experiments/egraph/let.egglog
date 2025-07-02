@@ -4,6 +4,7 @@
 (Var String)
 (Add Math Math)
 (Sub Math Math)
+(Neg Math)
 (Mul Math Math)
 (Div Math Math)
 (App Math Math))
@@ -15,6 +16,8 @@
 (Num (+ a b)))
 (rewrite (Add (Add a b) c) (Add a (Add b c)))
 
+(rewrite (Neg a) (Sub (Num 0) a))
+(rewrite (Sub (Num 0) a) (Neg a))
 (rewrite (Sub a b) (Add a (Mul (Num -1) b)))
 (rewrite (Sub (Num a) (Num b))
         (Num (- a b)))

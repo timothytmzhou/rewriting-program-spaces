@@ -51,7 +51,7 @@ def Num() -> Parser:
 
 
 @rewrite
-def Atom() -> Parser:
+def NonNegAtom() -> Parser:
     return Choice.of(
         Id(),
         Num(),
@@ -63,10 +63,21 @@ def Atom() -> Parser:
 
 
 @rewrite
+def Atom() -> Parser:
+    return Choice.of(
+        NonNegAtom(),
+        Concatenation.of(
+            ConstantParser(SUB), Atom(),
+            rearrange=Rearrangement("Neg", (1,))
+        )
+    )
+
+
+@rewrite
 def App() -> Parser:
     return Choice.of(
         Atom(),
-        Concatenation.of(App(), Atom(),
+        Concatenation.of(App(), NonNegAtom(),
                          rearrange=Rearrangement("App", (0, 1)))
     )
 
