@@ -83,11 +83,15 @@ class LanguageModelRunner:
         bad_words = [[id] for id in forbidden_tokens] if forbidden_tokens else None
         inp = torch.tensor([list(input_ids[0]) + generated_tokens])
         inp = inp.to(self.config.device)
+        if self.tokenizer.eos_token_id in forbidden_tokens:
+            eos_token_id = None
+        else:
+            eos_token_id = self.tokenizer.eos_token_id
         return self.model.generate(
             inp,
             do_sample=True,
             pad_token_id=self.tokenizer.eos_token_id,
-            eos_token_id=self.tokenizer.eos_token_id,
+            eos_token_id=eos_token_id,
             max_new_tokens=1,
             temperature=self.config.temperature,
             top_p=self.config.top_p,
@@ -136,4 +140,3 @@ class LanguageModelRunner:
                 cache.crop(-1)
 
         return None
-        
