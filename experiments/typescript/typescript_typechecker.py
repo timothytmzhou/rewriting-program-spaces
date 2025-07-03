@@ -3,6 +3,7 @@ from __future__ import annotations
 from core.parser import *
 from core.grammar import *
 from lexing.leaves import Token
+from runllm.constrained_decoding import RealizabilityChecker
 from .types import *
 from .environment import *
 from .typescript_grammar import *
@@ -412,3 +413,10 @@ def type_of_params(params: TreeGrammar) -> ProdType | EmptyType:
             # TODO: Fixpoint shouldn't evaluate the function on unneeded children.
             # I'd prefer to throw an error in this case, but I can't.
             return EmptyType()
+
+
+typescript_checker = RealizabilityChecker(
+    lambda asts: typecheck_return_seqs(Environment(), asts, VOIDTYPE),
+    commands(),
+    lexer_spec,
+)

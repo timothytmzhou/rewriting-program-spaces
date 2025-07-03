@@ -219,7 +219,7 @@ def test_simple_n_ary_func_decls():
                               }
                               foo(1);""")
     assert type_commands_test("""function foo (x: number, b: boolean) : number {
-                                    return x;
+                                    return x + 100;
                               }
                               foo(1, true);""")
     assert type_commands_test("""function foo (x: number, s: string) : number {
@@ -230,6 +230,12 @@ def test_simple_n_ary_func_decls():
                                     return x;
                               }
                               foo(foo(10, "lima"), "cow");""")
+    assert type_commands_test("""function foo (x: number, b: boolean) : number {
+                                    return x + 100;
+                              }
+                              function bar (x: number, b: boolean) : number {
+                                    return foo(x, b);
+                              }""")
 
     assert not type_commands_test("function foo (x: number) : number {x;}")
     assert not type_commands_test("function foo (x) : number {x;}")
