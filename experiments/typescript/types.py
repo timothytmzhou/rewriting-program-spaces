@@ -1,0 +1,156 @@
+from __future__ import annotations
+from dataclasses import dataclass
+from abc import ABC
+
+from core.utils import flatten
+
+# TYPES
+
+MAX_DEPTH = 3
+
+
+class Type(ABC):
+    """
+    An ADT for simple sets of types.
+    """
+    pass
+
+    def condense(self, depth: int = MAX_DEPTH) -> Type:
+        """
+        Returns EmptyType if self is empty.
+        Else, returns a version of self cut off at depth `depth`.
+        """
+        return self if depth > 0 else TopType()
+
+    def __contains__(self, contents) -> bool:
+        return contains(self, contents)
+
+
+@dataclass(frozen=True)
+class NumberType(Type):
+    pass
+
+
+@dataclass(frozen=True)
+class StringType(Type):
+    pass
+
+
+@dataclass(frozen=True)
+class BooleanType(Type):
+    pass
+
+
+@dataclass(frozen=True)
+class ProdType(Type):
+    """
+    ProdType with no types=() represents the void type.
+    This is distinct from EmptySet()
+    """
+    types: tuple[Type, ...]
+    # If extensible == True, then the product type may match
+    # any possibly longer prodtype as long as the type containment
+    # holds up to the length of types.
+    extensible: bool = False
+
+    @classmethod
+    def of(cls, *typesets, extensible: bool = False
+           ) -> ProdType | EmptyType:
+        out = cls(flatten(typesets, tuple), extensible=extensible).condense()
+        assert not isinstance(out, TopType)
+        return out
+
+    def condense(self, depth: int = 3) -> ProdType | TopType | EmptyType:
+        # Condense children
+        condensed = tuple(typ.condense(depth - 1) for typ in self.types)
+        # Check if empty
+        if any(isinstance(child, EmptyType) for child in condensed):
+            return EmptyType()
+        # Return accordingly
+        return (TopType() if depth == 0 else ProdType(condensed))
+
+
+@dataclass(frozen=True)
+class FuncType(Type):
+    params: ProdType
+    return_type: Type
+
+    @classmethod
+    def of(cls, params: ProdType | EmptyType, return_type: Type
+           ) -> FuncType | EmptyType:
+        if isinstance(params, EmptyType):
+            return EmptyType()
+        out = FuncType(params, return_type).condense()
+        assert not isinstance(out, TopType)
+        return out
+
+    def condense(self, depth: int = MAX_DEPTH) -> FuncType | EmptyType | TopType:
+        condensed_params = self.params.condense(depth)
+        condensed_return = self.return_type.condense(depth - 1)
+        if (
+            isinstance(condensed_params, EmptyType)
+            or isinstance(condensed_return, EmptyType)
+        ):
+            return EmptyType()
+        if depth == 0:
+            return TopType()
+        assert not isinstance(condensed_params, TopType)
+        return FuncType(condensed_params, condensed_return)
+
+
+@dataclass(frozen=True)
+class TopType(Type):
+    """Either Top or Top - void"""
+    contains_void: bool = True
+
+    def condense(self, depth: int = MAX_DEPTH) -> TopType:
+        return self
+
+
+@dataclass(frozen=True)
+class EmptyType(Type):
+    """A type with no inhabitants -- the empty type"""
+    def condense(self, depth: int = MAX_DEPTH) -> EmptyType:
+        return self
+
+
+# Singleton instances for primitive types
+NUMBERTYPE = NumberType()
+STRINGTYPE = StringType()
+BOOLEANTYPE = BooleanType()
+VOIDTYPE = ProdType.of()
+
+
+def contains(big: Type, little: Type) -> bool:
+    match big, little:
+        case TopType(contains_void), _:
+            return True if contains_void or little != VOIDTYPE else False
+        case _, EmptyType():
+            return True
+        case ((NumberType(), NumberType())
+              | (StringType(), StringType())
+              | (BooleanType(), BooleanType())):
+            return True
+        case ProdType(children1), ProdType(children2):
+            if len(children1) != len(children2):
+                return False
+            return all(contains(child1, child2)
+                       for child1, child2 in zip(children1, children2))
+        case FuncType(params1, ret1), FuncType(params2, ret2):
+            return contains(params1, params2) and contains(ret1, ret2)
+        case _:
+            return False
+
+
+def get_non_void(typ: Type) -> Type:
+    match typ:
+        case TopType(_):
+            return TopType(contains_void=False)
+        case ProdType(types, extensible=extensible):
+            if len(types) == 0:
+                if extensible:
+                    return ProdType.of(TopType(), extensible=extensible)
+                return EmptyType()
+            return typ
+        case _:
+            return typ

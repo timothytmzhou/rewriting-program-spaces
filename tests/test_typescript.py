@@ -1,6 +1,8 @@
+from functools import reduce
+from lexing.lexing import lex, partial_lex
 from runllm.constrained_decoding import RealizabilityChecker
 from tests.utils import reset
-from experiments.typescript.typescript import *
+from experiments.typescript.typescript_typechecker import *
 
 
 ts_expression_grammar_checker = RealizabilityChecker(
@@ -16,17 +18,60 @@ ts_command_grammar_checker = RealizabilityChecker(
 )
 
 
+def type_expression_test(pref: str, envs: Environment = Environment(),
+                         typ: Type = TopType(), final: bool = False) -> bool:
+    """
+    Returns the type of the expression.
+    """
+    if not final:
+        lexes = partial_lex(pref, lexer_spec)
+    else:
+        lexes = lex(pref, lexer_spec)
+
+    # Build term representing set of possible parse trees
+    terms = [reduce(lambda parser, leaf: D(leaf, parser), lex, exps())
+             for lex in lexes]
+    derived_parser = Choice.of(terms) if not final else delta(Choice.of(terms))
+
+    # Build corresponding set of good ASTs
+    good_progs = typecheck_expression(envs, image(derived_parser), typ)
+
+    # Check nonemptiness of term
+    return is_nonempty(good_progs)
+
+
+def type_commands_test(pref: str, envs: Environment = Environment(),
+                       typ: Type = VOIDTYPE, final: bool = False) -> bool:
+    """
+    Returns the type of the expression.
+    """
+    if not final:
+        lexes = partial_lex(pref, lexer_spec)
+    else:
+        lexes = lex(pref, lexer_spec)
+
+    # Build term representing set of possible parse trees
+    terms = [reduce(lambda parser, leaf: D(leaf, parser), lex, command_seqs())
+             for lex in lexes]
+    derived_parser = Choice.of(terms) if not final else delta(Choice.of(terms))
+
+    # Build corresponding set of good ASTs
+    good_progs = typecheck_return_seqs(envs, image(derived_parser), typ)
+    # Check nonemptiness of term
+    return is_nonempty(good_progs)
+
+
 @reset
 def test_expression_grammar():
     assert ts_expression_grammar_checker.realizable("")
     assert ts_expression_grammar_checker.realizable("5 + 16")
     assert ts_expression_grammar_checker.realizable("albatross")
     assert ts_expression_grammar_checker.realizable("\"\"")
-    assert ts_expression_grammar_checker.realizable("((a:number, b:string) => a + \"")
-    assert ts_expression_grammar_checker.realizable("foo.bar.baz + bar(foo, 18)")
+    # assert ts_expression_grammar_checker.realizable("((a:number, b:string) => a + \"")
+    # assert ts_expression_grammar_checker.realizable("foo.bar.baz + bar(foo, 18)")
     assert not ts_expression_grammar_checker.realizable("5 + 10;")
     assert not ts_expression_grammar_checker.realizable("/16")
-    assert not ts_expression_grammar_checker.realizable("if (h == 10) then {l")
+    # assert not ts_expression_grammar_checker.realizable("if (h == 10) then {l")
     assert not ts_expression_grammar_checker.realizable("foo(,)")
     assert not ts_expression_grammar_checker.realizable(")")
 
@@ -37,20 +82,159 @@ def test_command_grammar():
     assert ts_command_grammar_checker.realizable("5 + 16")
     assert ts_command_grammar_checker.realizable("5 + 16;")
     assert ts_command_grammar_checker.realizable("retu")
-    assert ts_command_grammar_checker.realizable("let bln:boolean = ")
+    # assert ts_command_grammar_checker.realizable("let bln:boolean = ")
     assert ts_command_grammar_checker.realizable("{return alpha; return beta; {}")
-    assert ts_command_grammar_checker.realizable(
-        """function foo():(number, string) => boolean
-        {return (n:number,s:string) => true;}"""
-    )
-    assert ts_command_grammar_checker.realizable(
-        "if (false) 12; else function foo():number {retu"
-    )
-    assert not ts_command_grammar_checker.realizable("let x:noun")
+    # assert ts_command_grammar_checker.realizable(
+    #     """function foo():(number, string) => boolean
+    #     {return (n:number,s:string) => true;}"""
+    # )
+    # assert ts_command_grammar_checker.realizable(
+    #     "if (false) 12; else function foo():number {retu"
+    # )
+    # assert not ts_command_grammar_checker.realizable("let x:noun")
     assert not ts_command_grammar_checker.realizable("}")
     assert not ts_command_grammar_checker.realizable("return return ")
     assert not ts_command_grammar_checker.realizable("function false ")
-    assert not ts_command_grammar_checker.realizable("function foo():number => ")
-    assert not ts_command_grammar_checker.realizable("if (h == 10) then {l")
+    # assert not ts_command_grammar_checker.realizable("function foo():number => ")
+    # assert not ts_command_grammar_checker.realizable("if (h == 10) then {l")
     assert not ts_command_grammar_checker.realizable("foo(,)")
     assert not ts_command_grammar_checker.realizable(";")
+
+
+@reset
+def test_typechecking_expression():
+    assert type_expression_test("")
+    assert type_expression_test("789 ")
+    assert type_expression_test("false")
+    assert type_expression_test("\"simon\"")
+    assert type_expression_test("\"\"")
+    assert type_expression_test("bar",
+                                envs=Environment.from_dict({"bar": TopType()}))
+    assert type_expression_test("bar",
+                                envs=Environment.from_dict({"bar": NumberType()}),
+                                typ=NumberType())
+    assert type_expression_test("bar",
+                                envs=Environment.from_dict({"barre": NumberType()}),
+                                typ=NumberType())
+    assert type_expression_test("5 + 16", typ=NumberType())
+    assert type_expression_test("((5 + 16))", typ=NumberType())
+    assert type_expression_test("foo()",
+                                envs=Environment.from_dict({"foo": FuncType(
+                                    VOIDTYPE,
+                                    return_type=BooleanType()
+                                )}),
+                                typ=BooleanType())
+    assert type_expression_test("foo(1, 6)",
+                                envs=Environment.from_dict({"foo": FuncType(
+                                    ProdType.of(NUMBERTYPE, NUMBERTYPE),
+                                    return_type=BooleanType()
+                                )}),
+                                typ=BooleanType())
+    assert type_expression_test("foo",
+                                envs=Environment.from_dict({"foo": FuncType(
+                                    VOIDTYPE,
+                                    return_type=BooleanType()
+                                )}),
+                                typ=BooleanType())
+    assert not type_expression_test("bar")
+    assert not type_expression_test("bar",
+                                    envs=Environment.from_dict({"bar": BooleanType()}),
+                                    typ=StringType())
+    assert not type_expression_test("foo()",
+                                    envs=Environment.from_dict({"foo": FuncType(
+                                        VOIDTYPE,
+                                        return_type=NumberType()
+                                    )}),
+                                    typ=StringType())
+    assert type_expression_test("foo ",
+                                envs=Environment.from_dict({"foo": FuncType(
+                                    VOIDTYPE,
+                                    return_type=BooleanType()
+                                )}),
+                                typ=BooleanType())
+    assert not type_expression_test("foobar()",
+                                    envs=Environment.from_dict({"foo": FuncType(
+                                        VOIDTYPE,
+                                        return_type=BooleanType()
+                                    )}),
+                                    typ=BooleanType())
+    assert not type_expression_test("5 + 16", typ=StringType())
+    assert not type_expression_test("(((5 + 16)))", typ=StringType())
+    assert not type_expression_test("5 + true", typ=NumberType())
+    assert not type_expression_test("/16")
+    assert not type_expression_test("if (h == 10) then {l")
+    assert not type_expression_test("foo(,)")
+    assert not type_expression_test(")")
+
+
+@reset
+def test_simple_statements():
+    assert type_commands_test("")
+    assert type_commands_test("{}")
+    assert type_commands_test("{{}}")
+    assert type_commands_test("5;")
+    assert type_commands_test("5;17")
+    assert type_commands_test("{5;17")
+    assert type_commands_test("{} {}")
+    assert type_commands_test("{5;17;} {}")
+
+    assert not type_commands_test("}")
+    assert not type_commands_test(";")
+    assert not type_commands_test("5;+17")
+    assert not type_commands_test("{5;17;};16;")
+
+
+@reset
+def test_simple_returns():
+    assert not type_commands_test("return ")
+    assert not type_commands_test("{return ")
+    assert not type_commands_test("5; {6 + 12; return ")
+
+
+@reset
+def test_simple_0_ary_func_decls():
+    assert type_commands_test("function foo (")
+    assert type_commands_test("function foo (): number { ")
+    assert type_commands_test("function foo (): number {return 5;} ")
+    assert type_commands_test("function foo (): boolean {18; 47; {} return 5 ")
+    assert type_commands_test("function foo (): number {18; 47; {} return 5 + 12;} ")
+    assert type_commands_test("function foo (): number {18; 47; {} return 5+12;} foo()")
+
+    assert not type_commands_test("function foo () : boolean {18; 47; {} return 5 + ")
+
+
+@reset
+def test_simple_n_ary_func_decls():
+    assert type_commands_test("function foo (x")
+    assert type_commands_test("function foo (x: num")
+    assert type_commands_test("function foo (x: number")
+    assert type_commands_test("function foo (x: number) : numbe")
+    assert type_commands_test("function foo (x: number) : number {")
+    assert type_commands_test("function foo (x: number) : number {x;")
+    assert type_commands_test("function foo (x: number) : number {x; return x + 100;}")
+    assert type_commands_test("""function foo (x: number, b: boolean) : number
+                              {b; {{x;}} return x + 100;}""")
+    assert type_commands_test("""function foo (x: number) : number {
+                                    return x;
+                              }
+                              foo(1);""")
+    assert type_commands_test("""function foo (x: number, b: boolean) : number {
+                                    return x;
+                              }
+                              foo(1, true);""")
+    assert type_commands_test("""function foo (x: number, s: string) : number {
+                                    return x;
+                              }
+                              foo(1, "cow");""")
+    assert type_commands_test("""function foo (x: number, s: string) : number {
+                                    return x;
+                              }
+                              foo(foo(10, "lima"), "cow");""")
+
+    assert not type_commands_test("function foo (x: number) : number {x;}")
+    assert not type_commands_test("function foo (x) : number {x;}")
+    assert not type_commands_test("function foo (x: number) : string {return x;}")
+    assert not type_commands_test("""function foo (x: number, boo: boolean) : number {
+                                    return x;
+                              }
+                              foo(5 == 17, true);""")

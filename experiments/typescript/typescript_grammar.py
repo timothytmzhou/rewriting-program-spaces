@@ -1,13 +1,13 @@
 import regex as re
 
+
 from core.parser import *
 from core.grammar import *
 from lexing.leaves import Token
 from lexing.lexing import LexerSpec
-# from runllm.constrained_decoding import RealizabilityChecker
 
+# LEXEMES
 
-# SYNTAX
 INTSLEAF = Token("int", re.compile("\\d+"))
 STRINGSLEAF = Token("str", re.compile("\"\\w*\""))
 TRUELEAF = Token("true", re.compile("true"))
@@ -15,7 +15,7 @@ FALSELEAF = Token("false", re.compile("false"))
 IDLEAF = Token(
     "id",
     re.compile(
-        "(?!(true|false|number|string|boolean|return|function|let|if|else)$)\\w+"
+        "(?!(true|false|number|string|boolean|return|function|let|if|else)$)[a-zA-Z]+"
     )
 )
 
@@ -33,9 +33,9 @@ FUNCARROWLEAF = Token("=>", re.compile("=>"))
 DOTLEAF = Token(".", re.compile("\\."))
 COLONLEAF = Token(":", re.compile(":"))
 
-NUMTYPELEAF = Token("numbertype", re.compile("number"))
+NUMBERTYPELEAF = Token("numbertype", re.compile("number"))
 STRINGTYPELEAF = Token("stringtype", re.compile("string"))
-BOOLTYPELEAF = Token("booltype", re.compile("boolean"))
+BOOLEANTYPELEAF = Token("booltype", re.compile("boolean"))
 
 RETURNLEAF = Token("return", re.compile("return"))
 FUNCTIONLEAF = Token("function", re.compile("function"))
@@ -71,9 +71,9 @@ FUNCARROW = ConstantParser(FUNCARROWLEAF)
 DOT = ConstantParser(DOTLEAF)
 COLON = ConstantParser(COLONLEAF)
 
-NUMTYPE = ConstantParser(NUMTYPELEAF)
-STRINGTYPE = ConstantParser(STRINGTYPELEAF)
-BOOLTYPE = ConstantParser(BOOLTYPELEAF)
+NUMBERTYPEPARSER = ConstantParser(NUMBERTYPELEAF)
+STRINGTYPEPARSER = ConstantParser(STRINGTYPELEAF)
+BOOLEANTYPEPARSER = ConstantParser(BOOLEANTYPELEAF)
 
 RETURN = ConstantParser(RETURNLEAF)
 FUNCTION = ConstantParser(FUNCTIONLEAF)
@@ -88,6 +88,50 @@ LPAR = ConstantParser(LPARLEAF)
 RPAR = ConstantParser(RPARLEAF)
 LBRACE = ConstantParser(LBRACELEAF)
 RBRACE = ConstantParser(RBRACELEAF)
+
+
+lexer_spec = LexerSpec(
+    tokens=frozenset(
+        {
+            INTSLEAF,
+            STRINGSLEAF,
+            TRUELEAF,
+            FALSELEAF,
+            IDLEAF,
+            PLUSLEAF,
+            MINUSLEAF,
+            TIMESLEAF,
+            DIVLEAF,
+            LESSLEAF,
+            LESSEQLEAF,
+            GREATERLEAF,
+            GREATEREQLEAF,
+            EQUALLEAF,
+            FUNCARROWLEAF,
+            DOTLEAF,
+            COLONLEAF,
+            NUMBERTYPELEAF,
+            STRINGTYPELEAF,
+            BOOLEANTYPELEAF,
+            RETURNLEAF,
+            FUNCTIONLEAF,
+            GETSLEAF,
+            SEMICOLONLEAF,
+            COMMALEAF,
+            LETLEAF,
+            IFLEAF,
+            ELSELEAF,
+            LPARLEAF,
+            RPARLEAF,
+            LBRACELEAF,
+            RBRACELEAF
+        }
+    ),
+    ignore_regex=re.compile(r"\s+"),
+)
+
+
+# GRAMMAR
 
 
 def bin_rearrangement(sym: str) -> Rearrangement:
@@ -117,9 +161,9 @@ def type_seqs() -> Parser:
 @rewrite
 def types() -> Parser:
     return Choice.of(
-        NUMTYPE,
-        STRINGTYPE,
-        BOOLTYPE,
+        NUMBERTYPEPARSER,
+        STRINGTYPEPARSER,
+        BOOLEANTYPEPARSER,
         Concatenation.of((LPAR, RPAR, FUNCARROW, types()),
                          rearrange=Rearrangement("0-ary functype", (3,))),
         Concatenation.of((LPAR, type_seqs(), RPAR, FUNCARROW, types()),
@@ -150,18 +194,18 @@ def base_exps() -> Parser:
     return Choice.of(
         literals(),
         ID,
-        Concatenation.of((LPAR, RPAR, FUNCARROW, exps()),
-                         rearrange=Rearrangement("0-ary lambda", (3,))),
-        Concatenation.of((LPAR, params(), RPAR, FUNCARROW, exps()),
-                         rearrange=Rearrangement("n-ary lambda", (1, 4))),
+        # Concatenation.of((LPAR, RPAR, FUNCARROW, exps()),
+        #                  rearrange=Rearrangement("0-ary lambda", (3,))),
+        # Concatenation.of((LPAR, params(), RPAR, FUNCARROW, exps()),
+        #                  rearrange=Rearrangement("n-ary lambda", (1, 4))),
         Concatenation.of((LPAR, exps(), RPAR),
                          rearrange=Rearrangement("grp", (1,))),
         Concatenation.of(exps(), LPAR, RPAR,
                          rearrange=Rearrangement("0-ary app", (0,))),
         Concatenation.of(exps(), LPAR, args(), RPAR,
                          rearrange=Rearrangement("n-ary app", (0, 2))),
-        Concatenation.of(exps(), DOT, ID,
-                         rearrange=Rearrangement("dot access", (0, 2)))
+        # Concatenation.of(exps(), DOT, ID,
+        #                  rearrange=Rearrangement("dot access", (0, 2)))
     )
 
 
@@ -225,10 +269,10 @@ def blocks() -> Parser:
 @rewrite
 def commands() -> Parser:
     return Choice.of(
-        Concatenation.of(
-            (LET, ID, COLON, types(), GETS, exps(), SEMICOLON),
-            rearrange=Rearrangement("variable declaration", (1, 3, 5)),
-        ),
+        # Concatenation.of(
+        #     (LET, ID, COLON, types(), GETS, exps(), SEMICOLON),
+        #     rearrange=Rearrangement("variable declaration", (1, 3, 5)),
+        # ),
         Concatenation.of(
             (exps(), SEMICOLON),
             rearrange=Rearrangement("expression statement", (0,)),
@@ -246,10 +290,10 @@ def commands() -> Parser:
             (FUNCTION, ID, LPAR, params(), RPAR, COLON, types(), blocks()),
             rearrange=Rearrangement("n-ary func decl", (1, 3, 6, 7))
         ),
-        Concatenation.of(
-            (IF, LPAR, exps(), RPAR, commands(), ELSE, commands()),
-            rearrange=Rearrangement("n-ary func decl", (2, 4, 6))
-        )
+        # Concatenation.of(
+        #     (IF, LPAR, exps(), RPAR, commands(), ELSE, commands()),
+        #     rearrange=Rearrangement("if-then-else", (2, 4, 6))
+        # )
     )
 
 
@@ -259,47 +303,6 @@ def command_seqs() -> Parser:
         commands(),
         Concatenation.of(
             (commands(), command_seqs()),
-            rearrange=Rearrangement("seq", (0, 1)),
+            rearrange=Rearrangement("command seq", (0, 1)),
         ),
     )
-
-
-lexer_spec = LexerSpec(
-    tokens=frozenset(
-        {
-            INTSLEAF,
-            STRINGSLEAF,
-            TRUELEAF,
-            FALSELEAF,
-            IDLEAF,
-            PLUSLEAF,
-            MINUSLEAF,
-            TIMESLEAF,
-            DIVLEAF,
-            LESSLEAF,
-            LESSEQLEAF,
-            GREATERLEAF,
-            GREATEREQLEAF,
-            EQUALLEAF,
-            FUNCARROWLEAF,
-            DOTLEAF,
-            COLONLEAF,
-            NUMTYPELEAF,
-            STRINGTYPELEAF,
-            BOOLTYPELEAF,
-            RETURNLEAF,
-            FUNCTIONLEAF,
-            GETSLEAF,
-            SEMICOLONLEAF,
-            COMMALEAF,
-            LETLEAF,
-            IFLEAF,
-            ELSELEAF,
-            LPARLEAF,
-            RPARLEAF,
-            LBRACELEAF,
-            RBRACELEAF
-        }
-    ),
-    ignore_regex=re.compile(r"\s+"),
-)
