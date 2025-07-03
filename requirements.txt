@@ -5,3 +5,4 @@ torch
 accelerate
 matplotlib
 egglog
+pandas

@@ -106,9 +106,9 @@ class LanguageModelRunner:
 
     def run(
         self,
-        realizability_checker: RealizabilityChecker,
         prompt: str,
-        context: str = DEFAULT_CONTEXT
+        context: str = DEFAULT_CONTEXT,
+        realizability_checker=None,
     ) -> Optional[str]:
         """
         Generate a solution that satisfies the realizability checker.
@@ -131,7 +131,10 @@ class LanguageModelRunner:
             is_final = (new_token == self.tokenizer.eos_token_id)
             decoded_output = self.tokenizer.decode(generated_tokens + [new_token],
                                                    skip_special_tokens=True)
-            if realizability_checker.realizable(decoded_output, is_final):
+            if (
+                realizability_checker is None or
+                realizability_checker.realizable(decoded_output, is_final)
+            ):
                 generated_tokens.append(new_token)
                 if is_final:
                     return decoded_output

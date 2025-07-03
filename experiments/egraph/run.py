@@ -1,5 +1,7 @@
 from typing import Tuple
 from pathlib import Path
+import time
+import pandas as pd
 from runllm.constrained_decoding import RealizabilityChecker
 from runllm.run_llm import Config, LanguageModelRunner
 from .let import let_equivalence, Let, let_lexer_spec
@@ -42,17 +44,66 @@ def get_benchmark_names():
     ]
 
 
-def main():
+def run_experiment():
+    TEMPERATURES = [0.01, 0.3, 0.5, 0.7, 1.0]
     context = load_file(f"{BENCHMARKS_DIR}/context.md")
-    config = Config(temperature=0.00001,
-                    num_guesses=1000, max_new_tokens=100)
-    runner = LanguageModelRunner(config)
+    constrained_results = []
+    unconstrained_results = []
 
-    for benchmark in get_benchmark_names():
-        original_program, checker = load_and_prepare_benchmark(benchmark)
-        prompt = f"The original program is:\n{original_program}"
-        print(prompt)
-        print(runner.run(checker, prompt, context))
+    for temp in TEMPERATURES:
+        config = Config(
+            temperature=temp,
+            num_guesses=1000,
+            max_new_tokens=100,
+            repetition_penalty=1.0
+        )
+        runner = LanguageModelRunner(config)
+
+        for benchmark in get_benchmark_names():
+            original_program, checker = load_and_prepare_benchmark(benchmark)
+            prompt = f"The original program is:\n{original_program}"
+
+            # Run with checker (constrained)
+            start_time = time.time()
+            try:
+                result_with_checker = runner.run(prompt, context, checker)
+            except Exception as e:
+                print(e)
+                result_with_checker = None
+            constrained_execution_time = time.time() - start_time
+
+            constrained_results.append({
+                'benchmark': benchmark,
+                'temperature': temp,
+                'success': result_with_checker is not None,
+                'execution_time': constrained_execution_time,
+                'result': result_with_checker
+            })
+
+            # Run without checker (unconstrained baseline)
+            start_time = time.time()
+            result_without_checker = runner.run(prompt, context, None)
+            unconstrained_execution_time = time.time() - start_time
+
+            unconstrained_results.append({
+                'benchmark': benchmark,
+                'temperature': temp,
+                'execution_time': unconstrained_execution_time,
+                'result': result_without_checker
+            })
+
+    # Save results
+    constrained_df = pd.DataFrame(constrained_results)
+    constrained_df.to_csv('egraph_constrained_results.csv', index=False)
+
+    unconstrained_df = pd.DataFrame(unconstrained_results)
+    unconstrained_df.to_csv('egraph_unconstrained_results.csv', index=False)
+
+    return constrained_df, unconstrained_df
+
+
+def main():
+    run_experiment()
 
 
 if __name__ == "__main__":
