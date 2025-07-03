@@ -67,7 +67,7 @@ def run_experiment():
             start_time = time.time()
             try:
                 result_with_checker = runner.run(prompt, context, checker)
-            except Exception as e:
+            except BaseException as e:
                 print(e)
                 result_with_checker = None
             constrained_execution_time = time.time() - start_time

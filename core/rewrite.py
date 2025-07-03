@@ -1,9 +1,9 @@
 from __future__ import annotations
 from matplotlib import pyplot as plt
 import networkx as nx
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from functools import wraps
-from typing import Any, Callable, Iterable, TypeVar
+from typing import Any, Callable, Iterable, TypeVar, Optional
 from networkx import DiGraph
 from contextlib import contextmanager
 from collections import deque
@@ -30,16 +30,18 @@ class Term:
 class Var:  # should not subclass Term here since we want mypy to distinguish
     f: Callable
     args: tuple
-    hashval: int = -1
+    kwargs: dict
+    _hash: int = field(init=False, repr=False)
 
     def __post_init__(self):
-        object.__setattr__(self, 'hashval', hash((self.f, self.args)))
+        hash_value = hash((self.f, self.args, tuple(self.kwargs.values())))
+        object.__setattr__(self, '_hash', hash_value)
 
     def __str__(self):
         return f"{self.f.__name__}({', '.join(str(arg) for arg in self.args)})"
 
     def __hash__(self):
-        return self.hashval
+        return self._hash
 
 
 def var_descendents(term: Term | Var) -> Iterable[Var]:
@@ -77,14 +79,6 @@ class RewriteSystem:
             for (f, var), result in self.fix_cache.items()
         )
         return f"Equations:\n{equations}\n\nFixpoint Cache:\n{fix_cache}"
-
-    def plot(self):
-        """Plots the dependency graph of the rewrite system."""
-        pos = nx.spring_layout(self.dependencies)
-        nx.draw(self.dependencies, pos, with_labels=True, arrows=True)
-        labels = {var: str(var) for var, term in self.equations.items()}
-        nx.draw_networkx_labels(self.dependencies, pos, labels=labels)
-        plt.show()
 
 
 rewriter = RewriteSystem()  # not super thread safe
@@ -145,7 +139,7 @@ def rewrite(f):
                     arg = rewriter.equations[arg]
                 expanded_args.append(arg)
 
-            term = current.f(*expanded_args)
+            term = current.f(*expanded_args, **current.kwargs)
             rewriter.equations[current] = term
             rewriter.dependencies.add_node(current)
             descendents = list(var_descendents(term))
@@ -158,8 +152,8 @@ def rewrite(f):
         return start_var
 
     @wraps(f)
-    def apply(*args) -> Var:
-        var = Var(f, args)
+    def apply(*args, **kwargs) -> Var:
+        var = Var(f, args, kwargs)
         if doing_rewrite:
             return var
         with rewriting():
