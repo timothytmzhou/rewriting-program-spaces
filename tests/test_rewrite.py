@@ -38,7 +38,7 @@ class TestEquationGeneration:
     def test_A(self):
         A()
         assert len(rewriter.equations) == 2
-        assert dependencies_isomorphic_to(DiGraph({"A": [], "B": []}))
+        assert dependencies_isomorphic_to(DiGraph([("A", "B")]))
 
 
 class TestFixpoint:

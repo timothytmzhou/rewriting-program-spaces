@@ -105,26 +105,20 @@ def rewrite(f):
     """
     Rewrite a (infinitely recursive) function into a capsule of equations.
     """
-    def update_dependencies(var: Var, full=False):
-        term = rewriter.equations[var]
-        while isinstance(term, Var):
-            if term not in rewriter.equations:
-                return
-            term = rewriter.equations[term]
-        compacted = term.compact(full=full)
-        rewriter.equations[var] = compacted
-        descendents = set(var_descendents(compacted))
-        replace_adjacency_list(rewriter.dependencies, var, descendents)
-
     def simplify(start: Var):
         worklist = deque([start])
         visited = set()
         while worklist:
             var = worklist.popleft()
             term = rewriter.equations[var]
-            update_dependencies(var, full=True)
+            while isinstance(term, Var):
+                term = rewriter.equations[term]
+            compacted = term.compact(full=True)
+            rewriter.equations[var] = compacted
+            descendents = set(var_descendents(compacted))
+            replace_adjacency_list(rewriter.dependencies, var, descendents)
             visited.add(var)
-            worklist.extend(set(var_descendents(term)) - visited)
+            worklist.extend(set(descendents) - visited)
 
     def start_rewrite(start_var: Var) -> Var:
         worklist: deque[Var] = deque([start_var])
@@ -159,9 +153,6 @@ def rewrite(f):
                 (current, dep) for dep in descendents
             )
             worklist.extend(descendents)
-            parents = set(rewriter.dependencies.predecessors(current))
-            for parent in parents:
-                update_dependencies(parent)
 
         simplify(start_var)
         return start_var
@@ -181,6 +172,8 @@ def _fixpoint(f: Callable[[Term], T], bot: Callable[..., T]) -> Callable[[Term],
     Kildall's algorithm for computing LFPs of functions on cyclic terms.
     """
     def kildall(start: Var) -> T:
+        if (f, start) in rewriter.fix_cache:
+            return rewriter.fix_cache[(f, start)]
         worklist: deque[Var] = deque()
         nodes: set[Var] = set()
         for var in nx.dfs_postorder_nodes(rewriter.dependencies, start):
