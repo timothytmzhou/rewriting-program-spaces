@@ -23,11 +23,13 @@ PLUSLEAF = Token("+", re.compile("\\+"))
 MINUSLEAF = Token("-", re.compile("\\-"))
 TIMESLEAF = Token("*", re.compile("\\*"))
 DIVLEAF = Token("/", re.compile("/"))
+MODLEAF = Token("+", re.compile("%"))
 LESSLEAF = Token("<", re.compile("<"))
 LESSEQLEAF = Token("<=", re.compile("<="))
 GREATERLEAF = Token(">", re.compile(">"))
 GREATEREQLEAF = Token(">=", re.compile(">="))
 EQUALLEAF = Token("==", re.compile("=="))
+NOTEQUALLEAF = Token("!==", re.compile("((!==)|(!=))"))
 
 FUNCARROWLEAF = Token("=>", re.compile("=>"))
 DOTLEAF = Token(".", re.compile("\\."))
@@ -61,11 +63,13 @@ PLUS = ConstantParser(PLUSLEAF)
 MINUS = ConstantParser(MINUSLEAF)
 TIMES = ConstantParser(TIMESLEAF)
 DIV = ConstantParser(DIVLEAF)
+MOD = ConstantParser(MODLEAF)
 LESS = ConstantParser(LESSLEAF)
 LESSEQ = ConstantParser(LESSEQLEAF)
 GREATER = ConstantParser(GREATERLEAF)
 GREATEREQ = ConstantParser(GREATEREQLEAF)
 EQUAL = ConstantParser(EQUALLEAF)
+NOTEQUAL = ConstantParser(NOTEQUALLEAF)
 
 FUNCARROW = ConstantParser(FUNCARROWLEAF)
 DOT = ConstantParser(DOTLEAF)
@@ -102,11 +106,13 @@ lexer_spec = LexerSpec(
             MINUSLEAF,
             TIMESLEAF,
             DIVLEAF,
+            MODLEAF,
             LESSLEAF,
             LESSEQLEAF,
             GREATERLEAF,
             GREATEREQLEAF,
             EQUALLEAF,
+            NOTEQUALLEAF,
             FUNCARROWLEAF,
             DOTLEAF,
             COLONLEAF,
@@ -127,7 +133,7 @@ lexer_spec = LexerSpec(
             RBRACELEAF
         }
     ),
-    ignore_regex=re.compile(r"\s+"),
+    ignore_regex=re.compile(r"(\s+)|//.*"),
 )
 
 
@@ -221,33 +227,52 @@ def args() -> Parser:
 
 
 @rewrite
-def bin_exps() -> Parser:
+def numeric_bin_exps() -> Parser:
     return Choice.of(
-        Concatenation.of((base_exps(), PLUS, exps()),
+        Concatenation.of((base_exps(), PLUS, non_comparators()),
                          rearrange=bin_rearrangement("+")),
-        Concatenation.of((base_exps(), MINUS, exps()),
+        Concatenation.of((base_exps(), MINUS, non_comparators()),
                          rearrange=bin_rearrangement("-")),
-        Concatenation.of((base_exps(), TIMES, exps()),
+        Concatenation.of((base_exps(), TIMES, non_comparators()),
                          rearrange=bin_rearrangement("*")),
-        Concatenation.of((base_exps(), DIV, exps()),
+        Concatenation.of((base_exps(), DIV, non_comparators()),
                          rearrange=bin_rearrangement("/")),
-        Concatenation.of((base_exps(), LESS, exps()),
+        Concatenation.of((base_exps(), MOD, non_comparators()),
+                         rearrange=bin_rearrangement("%"))
+    )
+
+
+@rewrite
+def non_comparators() -> Parser:
+    return Choice.of(
+        numeric_bin_exps(),
+        base_exps()
+    )
+
+
+@rewrite
+def boolean_bin_exps() -> Parser:
+    return Choice.of(
+        Concatenation.of((non_comparators(), LESS, non_comparators()),
                          rearrange=bin_rearrangement("<")),
-        Concatenation.of((base_exps(), LESSEQ, exps()),
+        Concatenation.of((non_comparators(), LESSEQ, non_comparators()),
                          rearrange=bin_rearrangement("<=")),
-        Concatenation.of((base_exps(), GREATER, exps()),
+        Concatenation.of((non_comparators(), GREATER, non_comparators()),
                          rearrange=bin_rearrangement(">")),
-        Concatenation.of((base_exps(), GREATEREQ, exps()),
+        Concatenation.of((non_comparators(), GREATEREQ, non_comparators()),
                          rearrange=bin_rearrangement(">=")),
-        Concatenation.of((base_exps(), EQUAL, exps()),
-                         rearrange=bin_rearrangement("=="))
+        Concatenation.of((non_comparators(), EQUAL, non_comparators()),
+                         rearrange=bin_rearrangement("==")),
+        Concatenation.of((non_comparators(), NOTEQUAL, non_comparators()),
+                         rearrange=bin_rearrangement("!=="))
     )
 
 
 @rewrite
 def exps() -> Parser:
     return Choice.of(
-        bin_exps(),
+        boolean_bin_exps(),
+        numeric_bin_exps(),
         base_exps(),
     )
 

@@ -115,12 +115,12 @@ def typecheck_expression(env: Environment, exps: TreeGrammar, types: Type
         case EmptySet():
             return EmptySet()
         case Application(op, (lhs, rhs), focus=focus) if (
-                op in {"+", "-", "*", "/", "<", "<=", ">", ">=", "=="}):
-            if op in {"+", "-", "*", "/"} and NUMBERTYPE in types:
+                op in {"+", "-", "*", "/", "%", "<", "<=", ">", ">=", "==", "!=="}):
+            if op in {"+", "-", "*", "/", "%"} and NUMBERTYPE in types:
                 good_lhs = typecheck_expression(env, lhs, NUMBERTYPE)
                 good_rhs = typecheck_expression(env, rhs, NUMBERTYPE)
                 return Application.of(op, (good_lhs, good_rhs), focus=focus)
-            if op in {"<", "<=", ">", ">=", "=="} and BOOLEANTYPE in types:
+            if op in {"<", "<=", ">", ">=", "==", "!=="} and BOOLEANTYPE in types:
                 good_lhs = typecheck_expression(env, lhs, NUMBERTYPE)
                 good_rhs = typecheck_expression(env, rhs, NUMBERTYPE)
                 return Application.of(op, (good_lhs, good_rhs), focus=focus)
@@ -304,16 +304,16 @@ def infer_type_expression(env: Environment, exp: TreeGrammar) -> Type:
             case Application("grp", (exp_inner,)):
                 return infer_type_expression_fixedenv(exp_inner)
             case Application(op, (_, _)) if (
-                    op in {"+", "-", "*", "/", "<", "<=", ">", ">=", "=="}):
-                if op in {"+", "-", "*", "/"}:
+                    op in {"+", "-", "*", "/", "%", "<", "<=", ">", ">=", "==", "!=="}):
+                if op in {"+", "-", "*", "/", "%"}:
                     return NUMBERTYPE
-                if op in {"<", "<=", ">", ">=", "=="}:
+                if op in {"<", "<=", ">", ">=", "==", "!=="}:
                     return BOOLEANTYPE
             case Union(children):
                 types = {infer_type_expression_fixedenv(child) for child in children
                          }.difference({EmptyType()})
                 if len(types) != 1:
-                    raise ValueError("Unexpected type(s) {types} for expression {exp}")
+                    raise ValueError(f"Unexpected type(s) {types} for expression {exp}")
                 return types.pop()
             case _:
                 # TODO: Fixpoint shouldn't evaluate the function on unneeded children.

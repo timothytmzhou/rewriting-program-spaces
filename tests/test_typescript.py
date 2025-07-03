@@ -74,6 +74,8 @@ def test_expression_grammar():
     # assert not ts_expression_grammar_checker.realizable("if (h == 10) then {l")
     assert not ts_expression_grammar_checker.realizable("foo(,)")
     assert not ts_expression_grammar_checker.realizable(")")
+    assert ts_expression_grammar_checker.realizable("""//hello joe
+    5""")
 
 
 @reset
@@ -105,6 +107,8 @@ def test_command_grammar():
 def test_typechecking_expression():
     assert type_expression_test("")
     assert type_expression_test("789 ")
+    assert type_expression_test("5 + 9 == 4 ")
+    assert type_expression_test("5 != 4 % 4")
     assert type_expression_test("false")
     assert type_expression_test("\"simon\"")
     assert type_expression_test("\"\"")
@@ -199,8 +203,8 @@ def test_simple_0_ary_func_decls():
     assert type_commands_test("function foo (): boolean {18; 47; {} return 5 ")
     assert type_commands_test("function foo (): number {18; 47; {} return 5 + 12;} ")
     assert type_commands_test("function foo (): number {18; 47; {} return 5+12;} foo()")
-
-    assert not type_commands_test("function foo () : boolean {18; 47; {} return 5 + ")
+    assert type_commands_test("function foo () : boolean {18; 47; {} return 5 + ")
+    assert not type_commands_test("function foo () : number {18; 47; {} return 5 > ")
 
 
 @reset
