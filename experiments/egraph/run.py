@@ -44,7 +44,7 @@ def get_benchmark_names():
 
 def main():
     context = load_file(f"{BENCHMARKS_DIR}/context.md")
-    config = Config(temperature=0.00001, repetition_penalty=1.2,
+    config = Config(temperature=0.00001,
                     num_guesses=1000, max_new_tokens=100)
     runner = LanguageModelRunner(config)
 
