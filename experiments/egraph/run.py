@@ -45,7 +45,7 @@ def get_benchmark_names():
 
 
 def run_experiment():
-    TEMPERATURES = [0.00001, 0.01, 0.1, 0.5]
+    TEMPERATURES = [0.01, 0.3, 0.5, 0.7, 1.0]
     context = load_file(f"{BENCHMARKS_DIR}/context.md")
     constrained_results = []
     unconstrained_results = []
@@ -54,7 +54,8 @@ def run_experiment():
         config = Config(
             temperature=temp,
             num_guesses=1000,
-            max_new_tokens=100
+            max_new_tokens=100,
+            repetition_penalty=1.0
         )
         runner = LanguageModelRunner(config)
 
