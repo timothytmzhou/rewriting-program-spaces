@@ -1,12 +1,15 @@
-;; (66743 * m1 * m2) / (pow r 2 * pow 10 15)
+;; pow 10 (-15) * (66743 * m1 * m2) / (pow r 2)
 
 (let m1 (Var "m1"))
 (let m2 (Var "m2"))
 (let r  (Var "r"))
 
 (let start
-  (Div
-    (Mul (Mul (Num 66743) m1) m2)
-    (Mul
-      (App (App pow r)        (Num 2))
-      (App (App pow (Num 10)) (Num 15)))))
+  (Mul 
+    (Pow (Num 10) (Neg (Num 15)))
+    (Div
+      (Mul (Mul (Num 66743) m1) m2)
+      (Pow r (Num 2))
+    )
+  )
+)

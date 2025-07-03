@@ -4,7 +4,6 @@ from tests.utils import reset
 from experiments.egraph.let import *
 from experiments.egraph.egraph import *
 import pytest
-from pathlib import Path
 
 
 with open("experiments/egraph/let.egglog", "r") as f:
@@ -122,13 +121,6 @@ def test_div():
     assert checker.realizable("a * (b / (c * d))")
     assert checker.realizable("(a / c) * (b / d)")
     assert not checker.realizable("c")
-
-
-def get_benchmark_names():
-    return [
-        benchmark_file.name
-        for benchmark_file in Path(BENCHMARKS_DIR).glob("*.egglog")
-    ]
 
 
 @pytest.mark.parametrize("benchmark_name", get_benchmark_names())

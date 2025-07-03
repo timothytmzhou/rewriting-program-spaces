@@ -5,6 +5,8 @@
 (Add Math Math)
 (Sub Math Math)
 (Neg Math)
+(Pow Math Math)
+(Sqrt Math)
 (Mul Math Math)
 (Div Math Math)
 (App Math Math))
@@ -39,3 +41,8 @@
 
 (let pow (Var "pow"))
 (let sqrt (Var "sqrt"))
+
+(rewrite (Pow a b) (App (App pow a) b))
+(rewrite (App (App pow a) b) (Pow a b))
+(rewrite (Sqrt a) (App sqrt a))
+(rewrite (App sqrt a) (Sqrt a))
