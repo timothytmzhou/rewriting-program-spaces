@@ -8,7 +8,7 @@ from core.rewrite import rewriter
 from runllm.constrained_decoding import RealizabilityChecker
 from runllm.run_llm import Config, LanguageModelRunner
 from .egraph import egraph_from_egglog
-from .let import let_equivalence, Let, let_lexer_spec
+from .let import let_equivalence, CodeBlock, let_lexer_spec
 
 
 BENCHMARKS_DIR = "experiments/egraph/benchmarks"
@@ -39,7 +39,7 @@ def build_checker(source: str) -> RealizabilityChecker:
     vars = re.findall(r'Var\s*"([^"]+)"', source)
     return RealizabilityChecker(
         lambda term: let_equivalence(egraph, term, frozenset(vars)),
-        Let(),
+        CodeBlock(),
         let_lexer_spec,
     )
 
@@ -58,11 +58,11 @@ def run_benchmark(
     if checker_type == "constrained":
         checker = egraph_checker
     elif checker_type == "gcd":
-        checker = RealizabilityChecker(lambda t: t, Let(), let_lexer_spec)
+        checker = RealizabilityChecker(lambda t: t, CodeBlock(), let_lexer_spec)
     else:
         checker = None
 
-    prompt = f"The original program is:\n{original}"
+    prompt = f"Refactor this program:\n{original}."
 
     start = time.time()
     result = runner.run(config, prompt, context, checker)
@@ -97,7 +97,7 @@ def run_experiment_type(runner, config, context, temps, checker_type: str) -> li
 
 def main():
     runner = LanguageModelRunner()
-    temps = [1.0]
+    temps = [.01, .3, .5, .7, 1.0]
     config = Config(num_guesses=1000, max_new_tokens=100, repetition_penalty=1.2)
     context = load_file(f"{BENCHMARKS_DIR}/context.md")
 

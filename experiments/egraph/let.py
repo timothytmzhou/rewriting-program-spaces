@@ -9,7 +9,7 @@ from .egraph import EGraph, in_egraph
 from functools import lru_cache
 
 
-TokenTypes = Enum("TokenTypes", "ID INT LPAR RPAR LET EQUALS IN PLUS TIMES SUB DIV")
+TokenTypes = Enum("TokenTypes", "ID INT LPAR RPAR LET EQUALS IN PLUS TIMES SUB DIV CODEBLOCK")
 
 
 def make_token(name, pattern: str) -> Token:
@@ -27,9 +27,10 @@ PLUS = make_token("PLUS", r"\+")
 TIMES = make_token("TIMES", r"\*")
 SUB = make_token("SUB", r"-")
 DIV = make_token("DIV", r"/")
+CODEBLOCK = make_token("CODEBLOCK", r"```")
 
 let_lexer_spec = LexerSpec(
-    tokens=frozenset({ID, INT, LPAR, RPAR, LET, EQUALS, IN, PLUS, TIMES, SUB, DIV}),
+    tokens=frozenset({ID, INT, LPAR, RPAR, LET, EQUALS, IN, PLUS, TIMES, SUB, DIV, CODEBLOCK}),
     ignore_regex=regex.compile(r"\s+")
 )
 
@@ -116,6 +117,14 @@ def Let() -> Parser:
     )
 
 
+@rewrite
+def CodeBlock() -> Parser:
+    return Concatenation.of(
+        ConstantParser(CODEBLOCK), Let(), ConstantParser(CODEBLOCK),
+        rearrange=Rearrangement(None, (1,))
+    )
+
+
 def expr_to_egglog(expr: TreeGrammar) -> str:
     match expr:
         case Application("Var", (Constant(Token(prefix=name)),)):
@@ -174,7 +183,8 @@ def let_equivalence(
         case EmptySet():
             return EmptySet()
         case Union(children):
-            return Union.of(let_equivalence(egraph, child, used_names) for child in children)
+            return Union.of(let_equivalence(egraph, child, used_names)
+                            for child in children)
         case Application("Let", (binding, expr1, expr2), focus):
             match expand_tree_grammar(binding):
                 case Application("Var", (Constant(Token(prefix=name, is_complete=True)),)):
