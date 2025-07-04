@@ -8,7 +8,7 @@ from lexing.lexing import LexerSpec
 
 # LEXEMES
 
-INTSLEAF = Token("int", re.compile("\\d+"))
+INTSLEAF = Token("int", re.compile("\\d+(\\.\\d+)?"))
 STRINGSLEAF = Token("str", re.compile("\"\\w*\""))
 TRUELEAF = Token("true", re.compile("true"))
 FALSELEAF = Token("false", re.compile("false"))
@@ -29,12 +29,16 @@ LESSLEAF = Token("<", re.compile("<"))
 LESSEQLEAF = Token("<=", re.compile("<="))
 GREATERLEAF = Token(">", re.compile(">"))
 GREATEREQLEAF = Token(">=", re.compile(">="))
-EQUALLEAF = Token("==", re.compile("=="))
+# TODO: When there is time, split these two
+EQUALLEAF = Token("==", re.compile("((==)|(===))"))
 NOTEQUALLEAF = Token("!==", re.compile("((!==)|(!=))"))
+ANDLEAF = Token("&&", re.compile("&&"))
+ORLEAF = Token("||", re.compile("\\|\\|"))
 
 FUNCARROWLEAF = Token("=>", re.compile("=>"))
 DOTLEAF = Token(".", re.compile("\\."))
 COLONLEAF = Token(":", re.compile(":"))
+QUESTIONMARKLEAF = Token("?", re.compile("\\?"))
 
 NUMBERTYPELEAF = Token("numbertype", re.compile("number"))
 STRINGTYPELEAF = Token("stringtype", re.compile("string"))
@@ -75,10 +79,13 @@ GREATER = ConstantParser(GREATERLEAF)
 GREATEREQ = ConstantParser(GREATEREQLEAF)
 EQUAL = ConstantParser(EQUALLEAF)
 NOTEQUAL = ConstantParser(NOTEQUALLEAF)
+AND = ConstantParser(ANDLEAF)
+OR = ConstantParser(ORLEAF)
 
 FUNCARROW = ConstantParser(FUNCARROWLEAF)
 DOT = ConstantParser(DOTLEAF)
 COLON = ConstantParser(COLONLEAF)
+QUESTIONMARK = ConstantParser(QUESTIONMARKLEAF)
 
 NUMBERTYPEPARSER = ConstantParser(NUMBERTYPELEAF)
 STRINGTYPEPARSER = ConstantParser(STRINGTYPELEAF)
@@ -121,9 +128,12 @@ lexer_spec = LexerSpec(
             GREATEREQLEAF,
             EQUALLEAF,
             NOTEQUALLEAF,
+            ANDLEAF,
+            ORLEAF,
             FUNCARROWLEAF,
             DOTLEAF,
             COLONLEAF,
+            QUESTIONMARKLEAF,
             NUMBERTYPELEAF,
             STRINGTYPELEAF,
             BOOLEANTYPELEAF,
@@ -147,6 +157,10 @@ lexer_spec = LexerSpec(
     ignore_regex=re.compile(r"(\s+)|//.*"),
 )
 
+BINOP_INT_INT_TO_INT = {"+", "-", "*", "/", "%"}
+BINOP_INT_INT_TO_BOOL = {"<", "<=", ">", ">=", "==", "!=="}
+BINOP_BOOL_BOOL_TO_BOOL = {"&&", "||"}
+BINOP = {*BINOP_INT_INT_TO_INT, *BINOP_INT_INT_TO_BOOL, *BINOP_BOOL_BOOL_TO_BOOL}
 
 # GRAMMAR
 
@@ -207,6 +221,17 @@ def params() -> Parser:
 
 
 @rewrite
+def args() -> Parser:
+    return Choice.of(
+        exps(),
+        Concatenation.of(
+            (exps(), COMMA, args()),
+            rearrange=Rearrangement("arg sequence", (0, 2))
+        )
+    )
+
+
+@rewrite
 def base_exps() -> Parser:
     return Choice.of(
         literals(),
@@ -227,56 +252,58 @@ def base_exps() -> Parser:
 
 
 @rewrite
-def args() -> Parser:
-    return Choice.of(
-        exps(),
-        Concatenation.of(
-            (exps(), COMMA, args()),
-            rearrange=Rearrangement("arg sequence", (0, 2))
-        )
-    )
-
-
-@rewrite
-def numeric_bin_exps() -> Parser:
+def precedence1_exps() -> Parser:
     return Choice.of(
         base_exps(),
-        Concatenation.of((base_exps(), PLUS, numeric_bin_exps()),
+        Concatenation.of((base_exps(), PLUS, precedence1_exps()),
                          rearrange=bin_rearrangement("+")),
-        Concatenation.of((base_exps(), MINUS, numeric_bin_exps()),
+        Concatenation.of((base_exps(), MINUS, precedence1_exps()),
                          rearrange=bin_rearrangement("-")),
-        Concatenation.of((base_exps(), TIMES, numeric_bin_exps()),
+        Concatenation.of((base_exps(), TIMES, precedence1_exps()),
                          rearrange=bin_rearrangement("*")),
-        Concatenation.of((base_exps(), DIV, numeric_bin_exps()),
+        Concatenation.of((base_exps(), DIV, precedence1_exps()),
                          rearrange=bin_rearrangement("/")),
-        Concatenation.of((base_exps(), MOD, numeric_bin_exps()),
+        Concatenation.of((base_exps(), MOD, precedence1_exps()),
                          rearrange=bin_rearrangement("%"))
     )
 
 
 @rewrite
-def boolean_bin_exps() -> Parser:
+def precedence2_exps() -> Parser:
     return Choice.of(
-        Concatenation.of((numeric_bin_exps(), LESS, numeric_bin_exps()),
+        precedence1_exps(),
+        Concatenation.of((precedence1_exps(), LESS, precedence1_exps()),
                          rearrange=bin_rearrangement("<")),
-        Concatenation.of((numeric_bin_exps(), LESSEQ, numeric_bin_exps()),
+        Concatenation.of((precedence1_exps(), LESSEQ, precedence1_exps()),
                          rearrange=bin_rearrangement("<=")),
-        Concatenation.of((numeric_bin_exps(), GREATER, numeric_bin_exps()),
+        Concatenation.of((precedence1_exps(), GREATER, precedence1_exps()),
                          rearrange=bin_rearrangement(">")),
-        Concatenation.of((numeric_bin_exps(), GREATEREQ, numeric_bin_exps()),
+        Concatenation.of((precedence1_exps(), GREATEREQ, precedence1_exps()),
                          rearrange=bin_rearrangement(">=")),
-        Concatenation.of((numeric_bin_exps(), EQUAL, numeric_bin_exps()),
+        Concatenation.of((precedence1_exps(), EQUAL, precedence1_exps()),
                          rearrange=bin_rearrangement("==")),
-        Concatenation.of((numeric_bin_exps(), NOTEQUAL, numeric_bin_exps()),
+        Concatenation.of((precedence1_exps(), NOTEQUAL, precedence1_exps()),
                          rearrange=bin_rearrangement("!=="))
+    )
+
+
+@rewrite
+def precedence3_exps() -> Parser:
+    return Choice.of(
+        precedence2_exps(),
+        Concatenation.of((precedence2_exps(), AND, precedence3_exps()),
+                         rearrange=bin_rearrangement("&&")),
+        Concatenation.of((precedence2_exps(), OR, precedence3_exps()),
+                         rearrange=bin_rearrangement("||")),
     )
 
 
 @rewrite
 def exps() -> Parser:
     return Choice.of(
-        boolean_bin_exps(),
-        numeric_bin_exps()
+        precedence3_exps(),
+        Concatenation.of((exps(), QUESTIONMARK, exps(), COLON, exps()),
+                         rearrange=Rearrangement("ternary expression", (0, 2, 4)))
     )
 
 

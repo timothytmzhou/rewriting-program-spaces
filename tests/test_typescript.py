@@ -108,7 +108,15 @@ def test_typechecking_expression():
     assert type_expression_test("")
     assert type_expression_test("789 ")
     assert type_expression_test("5 + 9 == 4 ")
+    assert type_expression_test("5 + 9 === 4 / 7 ")
     assert type_expression_test("5 != 4 % 4")
+    assert type_expression_test("5 != 4.8 % 7.3 + 6")
+    assert type_expression_test("true || false && 6 === 8 + ")
+    assert type_expression_test("5 ? true || false && 6 === 8 + 9 : 3")
+    assert type_expression_test("(4.8 > 7.0 + 0.3)")
+    assert type_expression_test("5 ? 4.8 > 7.0 + 0.3 : 6")
+    assert type_expression_test("(5 ? 4.8 > 7.0 : 6) ? 4.8 < 7.0 : 6")
+    assert type_expression_test("5 ? 4.8 + 7", typ=NUMBERTYPE)
     assert type_expression_test("false")
     assert type_expression_test("\"simon\"")
     assert type_expression_test("\"\"")
@@ -140,6 +148,13 @@ def test_typechecking_expression():
                                     return_type=BooleanType()
                                 )}),
                                 typ=BooleanType())
+    assert not type_expression_test(".5")
+    assert not type_expression_test("6 || ")
+    assert not type_expression_test("0.6 && ")
+    assert not type_expression_test("5 ? 4.8 + 7.0 : 6")
+    assert not type_expression_test("5 ? 4.8 + 7.0 : true")
+    assert not type_expression_test("5 ? 4.8 + 7 : 6", typ=STRINGTYPE)
+    assert not type_expression_test("5 ? 4.8 + 7", typ=BOOLEANTYPE)
     assert not type_expression_test("bar")
     assert not type_expression_test("bar",
                                     envs=Environment.from_dict({"bar": BooleanType()}),
@@ -358,7 +373,7 @@ def test_conditionals():
                                     }
                               }""")
     assert type_commands_test("""function foo (x: number) : boolean {
-                                    if (x > 10){
+                                    if (x > 10 && x <= 1.7){
                                         {13; {return false;}}
                                     } else {
                                         return true;

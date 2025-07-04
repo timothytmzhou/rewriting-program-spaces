@@ -114,17 +114,36 @@ def typecheck_expression(env: Environment, exps: TreeGrammar, types: Type
                             for child in children)
         case EmptySet():
             return EmptySet()
-        case Application(op, (lhs, rhs), focus=focus) if (
-                op in {"+", "-", "*", "/", "%", "<", "<=", ">", ">=", "==", "!=="}):
-            if op in {"+", "-", "*", "/", "%"} and NUMBERTYPE in types:
+        case Application(op, (lhs, rhs), focus=focus) if op in BINOP:
+            if op in BINOP_INT_INT_TO_INT and NUMBERTYPE in types:
                 good_lhs = typecheck_expression(env, lhs, NUMBERTYPE)
                 good_rhs = typecheck_expression(env, rhs, NUMBERTYPE)
                 return Application.of(op, (good_lhs, good_rhs), focus=focus)
-            if op in {"<", "<=", ">", ">=", "==", "!=="} and BOOLEANTYPE in types:
+            if op in BINOP_INT_INT_TO_BOOL and BOOLEANTYPE in types:
                 good_lhs = typecheck_expression(env, lhs, NUMBERTYPE)
                 good_rhs = typecheck_expression(env, rhs, NUMBERTYPE)
+                return Application.of(op, (good_lhs, good_rhs), focus=focus)
+            if op in BINOP_BOOL_BOOL_TO_BOOL and BOOLEANTYPE in types:
+                good_lhs = typecheck_expression(env, lhs, BOOLEANTYPE)
+                good_rhs = typecheck_expression(env, rhs, BOOLEANTYPE)
                 return Application.of(op, (good_lhs, good_rhs), focus=focus)
             return EmptySet()
+        case Application("ternary expression", (then_vals, guards, else_vals),
+                         focus=focus):
+            if focus < 1:
+                return Application.of("ternary expression",
+                                      (typecheck_expression(env, then_vals, types),
+                                       typecheck_expression(env, guards, BOOLEANTYPE),
+                                       typecheck_expression(env, else_vals, types)),
+                                      focus=focus)
+            exp_type = infer_type_expression(env, then_vals)
+            return (Application.of("ternary expression",
+                                   (typecheck_expression(env, then_vals, types),
+                                    typecheck_expression(env, guards, BOOLEANTYPE),
+                                    typecheck_expression(env, else_vals, types)),
+                                   focus=focus)
+                    if exp_type in types
+                    else EmptySet())
         case _:
             raise ValueError(f"Unknown expression type: {exps}")
 
@@ -333,7 +352,7 @@ infer_type_expression_helper_functions: dict[Environment, Callable] = dict()
 
 def infer_type_expression(env: Environment, exp: TreeGrammar) -> Type:
     @fixpoint(lambda: ProdType.of())
-    def infer_type_expression_fixedenv(exp: TreeGrammar) -> Type:
+    def infer_type_expression_helper(exp: TreeGrammar) -> Type:
         match exp:
             case Constant(c) if isinstance(c, Token) and c.token_type == "int":
                 return NUMBERTYPE
@@ -345,28 +364,31 @@ def infer_type_expression(env: Environment, exp: TreeGrammar) -> Type:
             case Constant(c) if isinstance(c, Token) and c.token_type == "id":
                 return env._get_typed(c.prefix, TopType())[1]
             case Application("0-ary app", (func,)):
-                functype = infer_type_expression_fixedenv(func)
+                functype = infer_type_expression_helper(func)
                 if isinstance(functype, FuncType):
                     return functype.return_type
                 elif isinstance(functype, EmptyType):
                     return EmptyType()
                 raise ValueError(f"Unexpected type {functype} for function {func}")
             case Application("n-ary app", (func, args)):
-                functype = infer_type_expression_fixedenv(func)
+                functype = infer_type_expression_helper(func)
                 args_type = infer_type_args(env, args)
                 if isinstance(functype, FuncType) and args_type in functype.params:
                     return functype.return_type
                 return EmptyType()
             case Application("grp", (exp_inner,)):
-                return infer_type_expression_fixedenv(exp_inner)
-            case Application(op, (_, _)) if (
-                    op in {"+", "-", "*", "/", "%", "<", "<=", ">", ">=", "==", "!=="}):
-                if op in {"+", "-", "*", "/", "%"}:
+                return infer_type_expression_helper(exp_inner)
+            case Application(op, (_, _)) if op in BINOP:
+                if op in BINOP_INT_INT_TO_INT:
                     return NUMBERTYPE
-                if op in {"<", "<=", ">", ">=", "==", "!=="}:
+                if op in BINOP_INT_INT_TO_BOOL or op in BINOP_BOOL_BOOL_TO_BOOL:
                     return BOOLEANTYPE
+            case Application("ternary expression", (then_val, _, else_val)):
+                then_type = infer_type_expression_helper(then_val)
+                else_type = infer_type_expression_helper(else_val)
+                return (then_type if then_type == else_type else EmptyType())
             case Union(children):
-                types = {infer_type_expression_fixedenv(child) for child in children
+                types = {infer_type_expression_helper(child) for child in children
                          }.difference({EmptyType()})
                 if len(types) != 1:
                     raise ValueError(f"Unexpected type(s) {types} for expression {exp}")
@@ -376,7 +398,7 @@ def infer_type_expression(env: Environment, exp: TreeGrammar) -> Type:
                 # I'd prefer to throw an error in this case, but I can't.
                 return EmptyType()
     if env not in infer_type_expression_helper_functions:
-        infer_type_expression_helper_functions[env] = infer_type_expression_fixedenv
+        infer_type_expression_helper_functions[env] = infer_type_expression_helper
     return infer_type_expression_helper_functions[env](exp)
 
 
@@ -542,6 +564,8 @@ default_env = Environment.from_dict({
     "Math.PI": NUMBERTYPE,
     "Math.pow": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
     "Math.sqrt": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
+    "Math.floor": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
+    "Math.clz32": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
     # Min and max types are slightly imprecise, but whatever
     "Math.min": FuncType.of(ProdType.of(NUMBERTYPE, extensible=True), NUMBERTYPE),
     "Math.max": FuncType.of(ProdType.of(NUMBERTYPE, extensible=True), NUMBERTYPE),

@@ -10,8 +10,6 @@ from transformers import (
 )
 from transformers.cache_utils import DynamicCache
 
-from .constrained_decoding import RealizabilityChecker
-
 
 @dataclass
 class ModelConfig:
@@ -26,7 +24,7 @@ class Config:
     Configuration for language model generation.
     """
     # Generation parameters
-    max_new_tokens: int = 50
+    max_new_tokens: int = 100
     temperature: float = 0.5
     repetition_penalty: float = 1.0
     top_p: float = 1.0
@@ -39,7 +37,7 @@ to questions by writing concise code without comments.""".replace('\n', '')
 
 
 class LanguageModelRunner:
-    def __init__(self, model_config: ModelConfig=ModelConfig()):
+    def __init__(self, model_config: ModelConfig = ModelConfig()):
         self.model_config = model_config
         self.device = torch.device(model_config.device)
         self.model, self.tokenizer = self._load_model_and_tokenizer()
@@ -113,6 +111,7 @@ class LanguageModelRunner:
         prompt: str,
         context: str = DEFAULT_CONTEXT,
         realizability_checker=None,
+        return_unsat_output=False
     ) -> Optional[str]:
         """
         Generate a solution that satisfies the realizability checker.
@@ -147,4 +146,4 @@ class LanguageModelRunner:
                 forbidden_tokens[tuple(generated_tokens)].add(new_token)
                 cache.crop(-1)
 
-        return None
+        return decoded_output if return_unsat_output else None

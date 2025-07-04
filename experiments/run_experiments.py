@@ -25,16 +25,19 @@ def run_experiment(
     prompt_num: int,
     run_num: int,
     runner: LanguageModelRunner,
+    config: Config,
     checker: RealizabilityChecker,
     inst: Instrumenter,
     outfile
 ):
     prompt = prompt.rstrip('\n')
     start = time.time()
-    output = runner.run(prompt, context=context, realizability_checker=checker)
+    output = runner.run(config, prompt, context=context,
+                        realizability_checker=checker, return_unsat_output=True)
     elapsed = time.time() - start
 
     # Perform instrumentation (check output, record times, etc.)
+    assert isinstance(output, str)
     inst.instrument(output)
 
     # Write Raw Output
@@ -48,7 +51,7 @@ def run_experiment(
     os.fsync(outfile.fileno())
 
 
-def run_typescript(runner: LanguageModelRunner, runs: int):
+def run_typescript(runner: LanguageModelRunner, config: Config, runs: int):
     # Set instrumentation
     inst: Instrumenter = Instrumenter(typescript_checker)
     benchmark_dir = "typescript/benchmarks/mbpp_benchmarks_safe"
@@ -74,6 +77,7 @@ def run_typescript(runner: LanguageModelRunner, runs: int):
                     prompt_num,
                     run_num,
                     runner,
+                    config,
                     typescript_checker,
                     inst,
                     outfile
@@ -81,7 +85,7 @@ def run_typescript(runner: LanguageModelRunner, runs: int):
     return inst
 
 
-def run_noninterference(runner: LanguageModelRunner, runs: int):
+def run_noninterference(runner: LanguageModelRunner, config: Config, runs: int):
     # Set instrumentation
     inst: Instrumenter = Instrumenter(noninterference_checker)
 
@@ -104,6 +108,7 @@ def run_noninterference(runner: LanguageModelRunner, runs: int):
                     prompt_num,
                     run_num,
                     runner,
+                    config,
                     noninterference_checker,
                     inst,
                     outfile
@@ -111,7 +116,7 @@ def run_noninterference(runner: LanguageModelRunner, runs: int):
     return inst
 
 
-def run_typescript_noCD(runner: LanguageModelRunner, runs: int):
+def run_typescript_noCD(runner: LanguageModelRunner, config: Config, runs: int):
     # Set instrumentation
     checker = TrivialChecker()
     inst: Instrumenter = Instrumenter(typescript_checker)
@@ -137,6 +142,7 @@ def run_typescript_noCD(runner: LanguageModelRunner, runs: int):
                     prompt_num,
                     run_num,
                     runner,
+                    config,
                     checker,
                     inst,
                     outfile
@@ -144,7 +150,8 @@ def run_typescript_noCD(runner: LanguageModelRunner, runs: int):
     return inst
 
 
-def run_noninterference_noCD(runner: LanguageModelRunner, runs: int, foldername: str):
+def run_noninterference_noCD(runner: LanguageModelRunner, config: Config,
+                             runs: int, foldername: str):
     # Set instrumentation
     checker = TrivialChecker()
     inst: Instrumenter = Instrumenter(noninterference_checker)
@@ -168,6 +175,7 @@ def run_noninterference_noCD(runner: LanguageModelRunner, runs: int, foldername:
                     prompt_num,
                     run_num,
                     runner,
+                    config,
                     checker,
                     inst,
                     outfile
@@ -187,7 +195,7 @@ def run_experiments(
         num_runs: int = 1
 ):
     # Instantiate runner to load model
-    runner = LanguageModelRunner(config)
+    runner = LanguageModelRunner()
 
     # Run experiments and write table
     # Implemented this way so table populates incrementally
@@ -197,19 +205,20 @@ def run_experiments(
                   + "Avg Total Time (secs)\t\t\t\t"
                   + "Avg Time/Tok(secs)\n")
         if noninterference_CD:
-            inst = run_noninterference(runner, num_runs)
+            inst = run_noninterference(runner, config, num_runs)
             out.write("Noninterference[with our tool]\t\t\t\t" + inst.table_row())
             inst.clear()
         if noninterference_noCD:
-            inst = run_noninterference_noCD(runner, num_runs, "noninterference/")
+            inst = run_noninterference_noCD(runner, config, num_runs,
+                                            "noninterference/")
             out.write("Noninterference[unconstrained]\t\t\t\t" + inst.table_row())
             inst.clear()
         if typescript_CD:
-            inst = run_typescript(runner, num_runs)
+            inst = run_typescript(runner, config, num_runs)
             out.write("Typescript[with our tool]\t\t\t\t" + inst.table_row())
             inst.clear()
         if typescript_noCD:
-            inst = run_typescript_noCD(runner, num_runs)
+            inst = run_typescript_noCD(runner, config, num_runs)
             out.write("Typescript[unconstrained]\t\t\t\t" + inst.table_row())
             inst.clear()
 
