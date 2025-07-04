@@ -1,0 +1,2 @@
+//Write a typescript function to find the last digit in factorial of a given number.
+function last_Digit_Factorial(n: number): number 

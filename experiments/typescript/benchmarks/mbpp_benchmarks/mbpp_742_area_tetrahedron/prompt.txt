@@ -1,0 +1,2 @@
+//Write a typescript function to caluclate the area of a tetrahedron.
+function area_tetrahedron(side: number): number 

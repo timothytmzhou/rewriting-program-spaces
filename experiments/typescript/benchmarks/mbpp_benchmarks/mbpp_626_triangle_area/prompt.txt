@@ -1,0 +1,2 @@
+//Write a typescript function to find the area of the largest triangle that can be inscribed in a semicircle with a given radius.
+function triangle_area(r: number): number | undefined 

@@ -1,0 +1,2 @@
+//Write a typescript function to find the perimeter of a regular pentagon from the length of its sides.
+function perimeter_pentagon(a: number): number 

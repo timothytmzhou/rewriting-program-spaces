@@ -1,0 +1,2 @@
+//Write a typescript function to check for the number of jumps required of given length to reach a point of form (d, 0) from origin in a 2d plane.
+function min_Jumps(steps: [number, number], d: number): number 

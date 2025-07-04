@@ -1,0 +1,2 @@
+//Write a typescript function to find the sum of the product of consecutive binomial co-efficients.
+function sum_Of_product(n: number): number 

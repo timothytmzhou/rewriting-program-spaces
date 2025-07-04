@@ -1,0 +1,2 @@
+//Write a typescript function to calculate the geometric sum of n-1. https://www.w3resource.com/typescript-exercises/data-structures-and-algorithms/typescript-recursion-exercise-9.php
+function geometric_sum(n: number): number 

@@ -1,0 +1,2 @@
+//Write a typescript function to find the nth decagonal number.
+function is_num_decagonal(n: number): number 

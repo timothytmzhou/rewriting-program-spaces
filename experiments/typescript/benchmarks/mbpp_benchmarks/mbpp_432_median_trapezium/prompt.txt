@@ -1,0 +1,2 @@
+//Write a typescript function to find the median length of a trapezium.
+function median_trapezium(base1: number, base2: number, height: number): number 

@@ -1,0 +1,2 @@
+//Write a typescript function to find minimum of three numbers.
+function min_of_three(a: number, b: number, c: number): number 

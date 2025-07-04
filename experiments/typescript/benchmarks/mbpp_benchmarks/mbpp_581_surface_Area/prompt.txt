@@ -1,0 +1,2 @@
+//Write a typescript function to find the surface area of a square tsramid with a given base edge and height.
+function surface_Area(b: number, s: number): number 

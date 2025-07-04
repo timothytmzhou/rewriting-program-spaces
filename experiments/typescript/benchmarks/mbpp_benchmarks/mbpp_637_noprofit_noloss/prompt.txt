@@ -1,0 +1,2 @@
+//Write a typescript function to check whether the given amount has no profit and no loss
+function noprofit_noloss(actual_cost: number, sale_amount: number): boolean 

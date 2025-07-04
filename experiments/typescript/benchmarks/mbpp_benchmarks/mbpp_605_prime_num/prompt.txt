@@ -1,0 +1,2 @@
+//Write a typescript function to check if the given integer is a prime number.
+function prime_num(num: number): boolean 

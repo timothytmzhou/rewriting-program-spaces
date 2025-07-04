@@ -1,0 +1,2 @@
+//Write a typescript function to find the lateral surface area of a cone given radius r and the height h.
+function lateralsurface_cone(r: number, h: number): number 

@@ -1,0 +1,2 @@
+//Write a typescript function to create the next bigger number by rearranging the digits of a given number.
+function rearrange_bigger(n: number): any 

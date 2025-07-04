@@ -1,0 +1,2 @@
+//Write a typescript function to find the smallest power of 2 greater than or equal to n.
+function next_power_of_2(n: number): number 

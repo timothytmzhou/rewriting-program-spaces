@@ -1,0 +1,2 @@
+//Write a typescript function to find whether a number is divisible by 11.
+function is_Diff(n: number): boolean 

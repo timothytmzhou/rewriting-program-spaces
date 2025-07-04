@@ -1,0 +1,2 @@
+//Write a typescript function to find the number of divisors of a given integer.
+function divisor(n: number): number 

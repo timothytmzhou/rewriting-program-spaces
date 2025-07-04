@@ -1,0 +1,2 @@
+//Write a typescript function to find the next perfect square greater than a given number.
+function next_Perfect_Square(N: number): number 

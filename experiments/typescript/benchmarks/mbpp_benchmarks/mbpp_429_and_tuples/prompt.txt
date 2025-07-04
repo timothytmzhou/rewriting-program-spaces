@@ -1,0 +1,2 @@
+//Write a typescript function to extract the elementwise and arrays from the given two arrays.
+function and_tuples(test_tup1: [number, number, number, number], test_tup2: [number, number, number, number]): [number, number, number, number] 

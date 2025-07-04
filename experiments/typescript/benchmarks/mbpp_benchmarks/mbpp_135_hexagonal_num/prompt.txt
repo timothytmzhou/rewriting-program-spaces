@@ -1,0 +1,2 @@
+//Write a typescript function to find the nth hexagonal number.
+function hexagonal_num(n: number): number 

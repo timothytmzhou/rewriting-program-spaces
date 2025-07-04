@@ -1,0 +1,2 @@
+//Write a typescript function to calculate a dog's age in dog's years.
+function dog_age(h_age: number): number 

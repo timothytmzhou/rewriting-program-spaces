@@ -1,0 +1,2 @@
+//Write a typescript function to find the closest smaller number than n.
+function closest_num(N: number): number 

@@ -1,0 +1,2 @@
+//Write a typescript function to find the sum of even factors of a number.
+function sumofFactors(n: number): number 

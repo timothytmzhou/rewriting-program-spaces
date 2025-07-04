@@ -1,0 +1,2 @@
+//Write a typescript function to multiply two integers.
+function multiply_int(x: number, y: number): number 

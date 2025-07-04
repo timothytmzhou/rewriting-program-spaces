@@ -1,0 +1,2 @@
+//Write a typescript function to find the area of a rectangle.
+function rectangle_area(l: number, b: number): number 

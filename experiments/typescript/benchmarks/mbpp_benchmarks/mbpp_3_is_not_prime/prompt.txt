@@ -1,0 +1,2 @@
+//Write a typescript function to identify non-prime numbers.
+function is_not_prime(n: number): boolean 

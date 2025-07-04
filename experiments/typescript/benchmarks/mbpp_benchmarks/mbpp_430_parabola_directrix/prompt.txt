@@ -1,0 +1,2 @@
+//Write a typescript function to find the directrix of a parabola.
+function parabola_directrix(a: number, b: number, c: number): number 

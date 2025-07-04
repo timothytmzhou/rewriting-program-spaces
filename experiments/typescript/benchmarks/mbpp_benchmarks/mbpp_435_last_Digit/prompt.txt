@@ -1,0 +1,2 @@
+//Write a typescript function to find the last digit of a given number.
+function last_Digit(n: number): number 

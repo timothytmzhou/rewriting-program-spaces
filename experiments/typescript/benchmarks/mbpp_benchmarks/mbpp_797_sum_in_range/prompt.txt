@@ -1,0 +1,2 @@
+//Write a typescript function to find the sum of all odd natural numbers within the range l and r.
+function sum_in_range(l: number, r: number): number 

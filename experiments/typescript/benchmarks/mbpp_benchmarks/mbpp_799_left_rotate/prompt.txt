@@ -1,0 +1,2 @@
+//Write a typescript function to that rotate left bits by d bits a given number. We assume that the number is 32 bit.
+function left_rotate(n: number, d: number): number 

@@ -1,0 +1,2 @@
+//Write a typescript function to find the maximum of two numbers.
+function maximum(a: number, b: number): number 

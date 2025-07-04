@@ -1,0 +1,2 @@
+//Write a typescript function to check if each element of second array is smaller than its corresponding element in the first array.
+function check_smaller(test_tup1: [number, number, number], test_tup2: [number, number, number]): boolean 

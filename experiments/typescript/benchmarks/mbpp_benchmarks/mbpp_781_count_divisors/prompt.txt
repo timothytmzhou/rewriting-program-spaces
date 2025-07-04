@@ -1,0 +1,2 @@
+//Write a typescript function to check whether the count of divisors is even. https://www.w3resource.com/typescript-exercises/basic/typescript-basic-1-exercise-24.php
+function count_divisors(n: number): boolean 

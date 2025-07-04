@@ -1,0 +1,2 @@
+//Write a typescript function to find the volume of a triangular prism.
+function find_Volume(l: number, b: number, h: number): number 

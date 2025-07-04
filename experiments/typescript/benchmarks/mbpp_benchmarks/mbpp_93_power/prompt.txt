@@ -1,0 +1,2 @@
+//Write a typescript function to calculate the value of 'a' to the power 'b'.
+function power(a: number, b: number): number 

@@ -1,0 +1,2 @@
+//Write a typescript function to find the surface area of a cylinder.
+function surfacearea_cylinder(r: number, h: number): number 

@@ -1,0 +1,2 @@
+//Write a typescript function to find the sum of common divisors of two given numbers.
+function sum(a: number, b: number): number 

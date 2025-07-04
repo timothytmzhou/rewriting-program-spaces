@@ -1,0 +1,2 @@
+//Write a typescript function that gives loss amount on a sale if the given amount has loss else return 0.
+function loss_amount(actual_cost: number, sale_amount: number): number 

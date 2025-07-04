@@ -1,0 +1,2 @@
+//Write a typescript function that takes in two arrays and performs mathematical division operation element-wise across the given arrays.
+function division_elements(test_tup1: [number, number, number, number], test_tup2: [number, number, number, number]): [number, number, number, number] 

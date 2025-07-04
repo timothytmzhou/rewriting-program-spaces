@@ -1,0 +1,2 @@
+//Write a typescript function to convert degrees to radians.
+function radian_degree(degree: number): number 

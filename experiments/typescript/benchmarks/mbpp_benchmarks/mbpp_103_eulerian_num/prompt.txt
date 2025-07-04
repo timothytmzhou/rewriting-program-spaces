@@ -1,0 +1,2 @@
+//Write a typescript function to find the Eulerian number a(n, m).
+function eulerian_num(n: number, m: number): number 

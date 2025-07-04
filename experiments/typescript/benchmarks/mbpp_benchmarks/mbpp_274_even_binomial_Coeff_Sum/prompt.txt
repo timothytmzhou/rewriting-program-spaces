@@ -1,0 +1,2 @@
+//Write a typescript function that takes in a positive integer n and finds the sum of even index binomial coefficients.
+function even_binomial_Coeff_Sum(n: number): number 

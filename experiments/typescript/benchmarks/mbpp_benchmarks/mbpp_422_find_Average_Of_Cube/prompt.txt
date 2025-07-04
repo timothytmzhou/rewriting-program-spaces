@@ -1,0 +1,2 @@
+//Write a typescript function to find the average of cubes of first n natural numbers.
+function find_Average_Of_Cube(n: number): number 

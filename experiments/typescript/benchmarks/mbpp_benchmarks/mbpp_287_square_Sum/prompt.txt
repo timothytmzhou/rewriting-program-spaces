@@ -1,0 +1,2 @@
+//Write a typescript function takes in an integer n and returns the sum of squares of first n even natural numbers.
+function square_Sum(n: number): number 

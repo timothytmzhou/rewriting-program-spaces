@@ -1,0 +1,2 @@
+//Write a typescript function that returns the perimeter of a square given its side length as input.
+function square_perimeter(a: number): number 

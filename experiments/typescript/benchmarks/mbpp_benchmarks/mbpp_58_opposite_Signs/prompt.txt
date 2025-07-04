@@ -1,0 +1,2 @@
+//Write a typescript function to check whether the given two integers have opposite sign or not.
+function opposite_Signs(x: number, y: number): boolean 

@@ -1,0 +1,2 @@
+//Write a typescript function to find the sum of fourth power of first n odd natural numbers.
+function odd_num_sum(n: number): number 

@@ -1,0 +1,2 @@
+//Write a typescript function to check whether the two numbers differ at one bit position only or not.
+function differ_At_One_Bit_Pos(a: number, b: number): boolean 

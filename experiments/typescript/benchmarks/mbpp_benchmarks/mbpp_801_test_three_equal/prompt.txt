@@ -1,0 +1,2 @@
+//Write a typescript function to count the number of equal numbers from three given integers.
+function test_three_equal(x: number, y: number, z: number): number 

@@ -1,0 +1,2 @@
+//Write a typescript function to check if a given number is one less than twice its reverse.
+function checks(n: number): boolean 

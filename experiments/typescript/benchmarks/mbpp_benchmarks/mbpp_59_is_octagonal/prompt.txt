@@ -1,0 +1,2 @@
+//Write a typescript function to find the nth octagonal number.
+function is_octagonal(n: number): number 

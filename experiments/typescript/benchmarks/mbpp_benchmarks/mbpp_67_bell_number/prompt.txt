@@ -1,0 +1,2 @@
+//Write a typescript function to find the number of ways to partition a set of Bell numbers.
+function bell_number(n: number): number 

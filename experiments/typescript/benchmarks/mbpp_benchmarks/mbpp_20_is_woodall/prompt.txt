@@ -1,0 +1,2 @@
+//Write a typescript function to check if the given number is woodball or not.
+function is_woodall(x: number): boolean 

@@ -1,0 +1,2 @@
+//Write a typescript function to find the volume of a cube given its side length.
+function volume_cube(l: number): number 

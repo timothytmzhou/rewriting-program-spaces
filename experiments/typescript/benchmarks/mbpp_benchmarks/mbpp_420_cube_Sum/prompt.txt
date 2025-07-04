@@ -1,0 +1,2 @@
+//Write a typescript function to find the cube sum of first n even natural numbers.
+function cube_Sum(n: number): number 

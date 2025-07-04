@@ -51,7 +51,7 @@ def run_experiment(
 def run_typescript(runner: LanguageModelRunner, runs: int):    
     # Set instrumentation
     inst: Instrumenter = Instrumenter(typescript_checker)
-    benchmark_dir = "typescript/benchmarks/mbpp_benchmarks2"
+    benchmark_dir = "typescript/benchmarks/mbpp_benchmarks_safe"
 
     # Get llm context
     with open("typescript/benchmarks/context.txt", "r") as context_file:
