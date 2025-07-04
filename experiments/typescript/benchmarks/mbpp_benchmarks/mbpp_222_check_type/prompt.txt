@@ -1,2 +1,0 @@
-//Write a typescript function to check if all the elements in array have same data type or not.
-function check_type(test_tuple: any): boolean 

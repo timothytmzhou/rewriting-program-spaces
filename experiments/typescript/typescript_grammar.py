@@ -397,6 +397,10 @@ def commands() -> Parser:
         Concatenation.of(
             (IF, LPAR, exps(), RPAR, commands(), ELSE, commands()),
             rearrange=Rearrangement("if-then-else", (2, 4, 6))
+        ),
+        Concatenation.of(
+            (IF, LPAR, exps(), RPAR, commands()),
+            rearrange=Rearrangement("if-then", (2, 4))
         )
     )
 

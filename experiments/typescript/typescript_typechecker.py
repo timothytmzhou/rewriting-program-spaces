@@ -295,6 +295,15 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
                                    legal_then_bodies,
                                    legal_else_bodies),
                                   focus=focus)
+        case Application("if-then",
+                         (guards, then_bodies),
+                         focus=focus):
+            return (Application.of("if-then",
+                                   (typecheck_expression(env, guards, BOOLEANTYPE),
+                                    typecheck_return(env, then_bodies, typ)),
+                                   focus=focus)
+                    if VOIDTYPE in typ
+                    else EmptySet())
     return EmptySet()
 
 

@@ -1,2 +1,0 @@
-//Write a typescript function to convert complex numbers to polar coordinates.
-function convert(numbers: number): [number, number] 

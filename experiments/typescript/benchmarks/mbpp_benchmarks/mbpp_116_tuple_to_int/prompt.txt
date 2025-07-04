@@ -1,2 +1,0 @@
-//Write a typescript function to convert a given array of positive integers into a single integer.
-function tuple_to_int(nums: [number, number, number]): number 

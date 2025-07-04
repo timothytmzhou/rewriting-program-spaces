@@ -1,2 +1,0 @@
-//Write a typescript function to find sum and average of first n natural numbers.
-function sum_average(number: number): [number, number] 

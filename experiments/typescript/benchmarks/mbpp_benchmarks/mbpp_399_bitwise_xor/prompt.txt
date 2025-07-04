@@ -1,2 +1,0 @@
-//Write a typescript function to perform the mathematical bitwise xor operation across the given arrays.
-function bitwise_xor(test_tup1: [number, number, number, number], test_tup2: [number, number, number, number]): [number, number, number, number] 
