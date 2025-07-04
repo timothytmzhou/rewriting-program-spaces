@@ -15,7 +15,7 @@ FALSELEAF = Token("false", re.compile("false"))
 IDLEAF = Token(
     "id",
     re.compile(
-        "(?!(true|false|number|string|boolean|return|function|let|if|else)$)[a-zA-Z]+"
+        "(?!(true|false|number|string|boolean|return|function|let|if|else)$)[a-zA-Z\\.]+"
     )
 )
 
@@ -43,9 +43,13 @@ RETURNLEAF = Token("return", re.compile("return"))
 FUNCTIONLEAF = Token("function", re.compile("function"))
 
 GETSLEAF = Token("gets", re.compile("="))
+GETSPLUSLEAF = Token("+=", re.compile("\\+="))
+PLUSPLUSLEAF = Token("+=", re.compile("\\+\\+"))
 SEMICOLONLEAF = Token(";", re.compile(";"))
 COMMALEAF = Token(",", re.compile(","))
-LETLEAF = Token("let", re.compile("let"))
+# TODO: When there is time, split this and enforce const immutable
+LETLEAF = Token("let", re.compile("((let)|(const))"))
+FORLEAF = Token("for", re.compile("for"))
 IFLEAF = Token("if", re.compile("if"))
 ELSELEAF = Token("else", re.compile("else"))
 LPARLEAF = Token("lpar", re.compile(re.escape("(")))
@@ -83,9 +87,12 @@ RETURN = ConstantParser(RETURNLEAF)
 FUNCTION = ConstantParser(FUNCTIONLEAF)
 
 GETS = ConstantParser(GETSLEAF)
+GETSPLUS = ConstantParser(GETSPLUSLEAF)
+PLUSPLUS = ConstantParser(PLUSPLUSLEAF)
 SEMICOLON = ConstantParser(SEMICOLONLEAF)
 COMMA = ConstantParser(COMMALEAF)
 LET = ConstantParser(LETLEAF)
+FOR = ConstantParser(FORLEAF)
 IF = ConstantParser(IFLEAF)
 ELSE = ConstantParser(ELSELEAF)
 LPAR = ConstantParser(LPARLEAF)
@@ -122,9 +129,12 @@ lexer_spec = LexerSpec(
             RETURNLEAF,
             FUNCTIONLEAF,
             GETSLEAF,
+            GETSPLUSLEAF,
+            PLUSPLUSLEAF,
             SEMICOLONLEAF,
             COMMALEAF,
             LETLEAF,
+            FORLEAF,
             IFLEAF,
             ELSELEAF,
             LPARLEAF,
@@ -292,16 +302,58 @@ def blocks() -> Parser:
 
 
 @rewrite
+def assignment() -> Parser:
+    return Choice.of(
+        Concatenation.of(
+            (LET, ID, COLON, types(), GETS, exps(), SEMICOLON),
+            rearrange=Rearrangement("variable declaration", (1, 3, 5)),
+        ),
+        Concatenation.of(
+            (ID, GETS, exps(), SEMICOLON),
+            rearrange=Rearrangement("variable assignment", (0, 2)),
+        ),
+        Concatenation.of(
+            (ID, PLUSPLUS, SEMICOLON),
+            rearrange=Rearrangement("increment", (0,)),
+        ),
+        Concatenation.of(
+            (ID, GETSPLUS, exps(), SEMICOLON),
+            rearrange=Rearrangement("+= assignment", (0, 2)),
+        )
+    )
+
+
+@rewrite
+def assignment_end_for_loop() -> Parser:
+    return Choice.of(
+        Concatenation.of(
+            (ID, GETS, exps()),
+            rearrange=Rearrangement("variable assignment", (0, 2)),
+        ),
+        Concatenation.of(
+            (ID, PLUSPLUS),
+            rearrange=Rearrangement("increment", (0, )),
+        ),
+        Concatenation.of(
+            (ID, GETSPLUS, exps()),
+            rearrange=Rearrangement("+= assignment", (0, 2)),
+        )
+    )
+
+
+@rewrite
+def expression_statment() -> Parser:
+    return Concatenation.of(
+        (exps(), SEMICOLON),
+        rearrange=Rearrangement("expression statement", (0,)),
+    )
+
+
+@rewrite
 def commands() -> Parser:
     return Choice.of(
-        # Concatenation.of(
-        #     (LET, ID, COLON, types(), GETS, exps(), SEMICOLON),
-        #     rearrange=Rearrangement("variable declaration", (1, 3, 5)),
-        # ),
-        Concatenation.of(
-            (exps(), SEMICOLON),
-            rearrange=Rearrangement("expression statement", (0,)),
-        ),
+        assignment(),
+        expression_statment(),
         Concatenation.of(
             (RETURN, exps(), SEMICOLON),
             rearrange=Rearrangement("return statement", (1,)),
@@ -314,6 +366,12 @@ def commands() -> Parser:
         Concatenation.of(
             (FUNCTION, ID, LPAR, params(), RPAR, COLON, types(), blocks()),
             rearrange=Rearrangement("n-ary func decl", (1, 3, 6, 7))
+        ),
+        Concatenation.of(
+            (FOR, LPAR,
+             assignment(), exps(), SEMICOLON, assignment_end_for_loop(),
+             RPAR, blocks()),
+            rearrange=Rearrangement("for loop", (2, 3, 5, 7))
         ),
         # Concatenation.of(
         #     (IF, LPAR, exps(), RPAR, commands(), ELSE, commands()),

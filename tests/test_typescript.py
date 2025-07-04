@@ -156,6 +156,7 @@ def test_typechecking_expression():
                                     return_type=BooleanType()
                                 )}),
                                 typ=BooleanType())
+    assert type_expression_test("(17 + 12 * 8 == 16)", typ=BooleanType())
     assert not type_expression_test("foobar()",
                                     envs=Environment.from_dict({"foo": FuncType(
                                         VOIDTYPE,
@@ -248,3 +249,90 @@ def test_simple_n_ary_func_decls():
                                     return x;
                               }
                               foo(5 == 17, true);""")
+
+
+@reset
+def test_lets():
+    assert type_commands_test("let x: number = 5;")
+    assert type_commands_test("let x: number = 5; x = 7")
+    assert type_commands_test("let x: number = 5; x += ")
+    assert type_commands_test("let x: number = 5; x ++ ")
+    assert type_commands_test("const x: number = 5; let y: boolean = true;")
+    assert type_commands_test("const x: number = 5; let y: boolean = true; x + 17;")
+    assert type_commands_test("let x: number = 5; let y: boolean = tr")
+    assert type_commands_test("let x: number = 5; let y: boolean = 6")
+    assert type_commands_test("function foo (x: number) : number {let y:number = x; return y;}")
+    assert not type_commands_test("let x: number = 5; x = (7 ==")
+    assert not type_commands_test("let x: number = z; let y: boolean = true")
+    assert not type_commands_test("x = 7; x += ")
+    assert not type_commands_test("let x: number = true; let y: boolean = true")
+    assert not type_commands_test("let x: number = 5; let y: boolean = 6;")
+    assert not type_commands_test("function foo (x: number) : number {"
+                                  + "let y:bool = 5; return y;}")
+    assert not type_commands_test("function foo (x: number) : number {"
+                                  + "let y:bool = true; return y;}")
+
+
+@reset
+def test_recursion():
+    assert type_commands_test("""function foo () : number {
+                                    return foo();
+                              }
+                              foo();""")
+    assert type_commands_test("""function foo (x: number) : number {
+                                    return foo(x + 1);
+                              }
+                              foo(5);""")
+    assert type_commands_test("""function foo (x: number) : number {
+                                    return foo """)
+    assert type_commands_test("""function foo (x: number) : number {
+                                    return foo(x + 1);
+                              }
+                              function bar (x: number) : number {
+                                    return foo(x + bar(1));
+                              }""")
+    assert not type_commands_test("""function foo (x: number) : number {
+                                        return bar(x + 1);
+                                  }
+                                  function bar (x: number) : string {
+                                        return foo(x + 1);
+                                  }""")
+
+
+@reset
+def test_dot_access():
+    assert type_expression_test("Math.pow",
+                                envs=Environment.from_dict(
+                                    {"Math.pow":
+                                     FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE)}
+                                ),
+                                typ=TopType())
+    assert type_expression_test("Math.pow(7",
+                                envs=Environment.from_dict(
+                                    {"Math.pow":
+                                     FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE)}
+                                ),
+                                typ=NUMBERTYPE)
+
+
+@reset
+def test_for_loops():
+    assert type_commands_test("for (let i: nu")
+    assert type_commands_test("for (let i: number = 0; i")
+    assert type_commands_test("for (let i: number = 0; true; i++) { }")
+    assert type_commands_test("for (let i: number = 0; i < 10; i=9) { i + 1; }")
+    assert type_commands_test("for (let i: number = 0; (17 + 12 * 8 == 16); i+=9) "
+                              + "{ i + 1; }")
+    assert type_commands_test("for (let i: boolean = true; i; i = false) "
+                              + "{ let j: number = 1; }")
+    assert type_commands_test("for (let i: number = 0; i < 10; i++)"
+                              + " { let j: number = i + 1; }")
+    assert type_commands_test("for (let i: number = 0; i < 10; i++) "
+                              + "{ let j: number = i + 1; }")
+    assert not type_commands_test("for let i: number = 0; i < 10; i++) { }")
+    assert not type_commands_test("for (let i: number = 0; i + 10; i++) { }")
+    assert not type_commands_test("for (let i: boolean = true; i < 10; i = false) "
+                                  + "{ let j: number = 1; }")
+    assert not type_commands_test("for (let i: boolean = true; i ; i += 4) "
+                                  + "{ let j: number = 1; }")
+    assert not type_commands_test("for (i = 0; true ; i++) { }")

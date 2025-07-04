@@ -150,6 +150,43 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
                                        focus=focus)
                         if ProdType.of() in typ
                         else EmptySet())
+        case Application("variable assignment",
+                         (var_id, rhs), focus=focus):
+            if ProdType.of() not in typ:
+                return EmptySet()
+            if focus < 1:
+                return stmts
+            else:
+                var_typ = infer_type_expression(env, var_id)
+                return (Application.of("variable assignment",
+                                       (var_id,
+                                        typecheck_expression(env, rhs, var_typ)),
+                                       focus=focus)
+                        if ProdType.of() in typ and not isinstance(var_typ, EmptyType)
+                        else EmptySet())
+        case Application("+= assignment", (var_id, rhs), focus=focus):
+            if ProdType.of() not in typ:
+                return EmptySet()
+            if focus < 1:
+                return stmts
+            else:
+                var_typ = infer_type_expression(env, var_id)
+                return (Application.of("+= assignment",
+                                       (var_id,
+                                        typecheck_expression(env, rhs, NUMBERTYPE)),
+                                       focus=focus)
+                        if ProdType.of() in typ and NUMBERTYPE in var_typ
+                        else EmptySet())
+        case Application("increment", (var_id, ), focus=focus):
+            if ProdType.of() not in typ:
+                return EmptySet()
+            if focus < 1:
+                return stmts
+            else:
+                var_typ = infer_type_expression(env, var_id)
+                return (stmts
+                        if ProdType.of() in typ and NUMBERTYPE in var_typ
+                        else EmptySet())
         case Application("expression statement", (expressions, ), focus=focus):
             return (Application.of("expression statement",
                                    typecheck_expression(env, expressions, TopType()),
@@ -174,10 +211,11 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
                         else EmptySet())
             else:
                 return_type = parse_type(return_types)
+                new_env = env.add(get_new_bindings(stmts)) # Enable recursion
                 return (Application.of("0-ary func decl",
                                        (func_id,
                                         return_types,
-                                        typecheck_return(env, bodies, return_type)))
+                                        typecheck_return(new_env, bodies, return_type)))
                         if ProdType.of() in typ
                         else EmptySet())
         case Application("n-ary func decl",
@@ -189,16 +227,34 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
             else:
                 # Get return type
                 return_type = parse_type(return_types)
-                # Update env by declared paramaters
-                updated_env = env.add(get_new_bindings(param_decls))
+                # Update env by declared paramaters and this function (for recursion)
+                new_env = env.add(get_new_bindings(stmts))
+                new_env = new_env.add(get_new_bindings(param_decls))
                 return (Application.of("n-ary func decl",
                                        (func_id,
                                         param_decls,
                                         return_types,
-                                        typecheck_return(updated_env, bodies,
+                                        typecheck_return(new_env, bodies,
                                                          return_type)))
                         if VOIDTYPE in typ
                         else EmptySet())
+        case Application("for loop", (init, condition, update, body), focus=focus):
+            if focus < 1:
+                return Application.of("for loop",
+                                      (typecheck_return(env, init, VOIDTYPE),
+                                       condition,
+                                       update,
+                                       body),
+                                      focus=focus)
+            else:
+                new_env = env.add(get_new_bindings(init))
+                return Application.of("for loop",
+                                      (typecheck_return(env, init, VOIDTYPE),
+                                       typecheck_expression(new_env, condition,
+                                                            BOOLEANTYPE),
+                                       typecheck_return(new_env, update, VOIDTYPE),
+                                       typecheck_return(new_env, body, typ)),
+                                      focus=focus)
         # case Application("if-then-else", (guards, then_bodies, else_bodies)):
         #     legal_guards = typecheck_expression(env, guards, BOOLEANTYPE)
         #     legal_then_bodies = typecheck_return(env, then_bodies, typ)
@@ -415,8 +471,17 @@ def type_of_params(params: TreeGrammar) -> ProdType | EmptyType:
             return EmptyType()
 
 
+default_env = Environment.from_dict({
+    "Math.PI": NUMBERTYPE,
+    "Math.pow": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
+    "Math.sqrt": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
+    # Min and max types are slightly imprecise, but whatever
+    "Math.min": FuncType.of(ProdType.of(NUMBERTYPE, extensible=True), NUMBERTYPE),
+    "Math.max": FuncType.of(ProdType.of(NUMBERTYPE, extensible=True), NUMBERTYPE),
+})
+
 typescript_checker = RealizabilityChecker(
-    lambda asts: typecheck_return_seqs(Environment(), asts, VOIDTYPE),
+    lambda asts: typecheck_return_seqs(default_env, asts, VOIDTYPE),
     commands(),
     lexer_spec,
 )

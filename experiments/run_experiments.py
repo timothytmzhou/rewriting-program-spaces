@@ -8,6 +8,7 @@ from runllm.constrained_decoding import RealizabilityChecker
 from runllm.run_llm import Config, LanguageModelRunner
 from tests.utils import reset
 from noninterference.noninterference import noninterference_checker
+from typescript.typescript_typechecker import typescript_checker
 
 
 @dataclass
@@ -30,7 +31,7 @@ def run_experiment(
 ):
     prompt = prompt.rstrip('\n')
     start = time.time()
-    output = runner.run(checker, prompt, context)
+    output = runner.run(prompt, context=context, realizability_checker=checker)
     elapsed = time.time() - start
 
     # Perform instrumentation (check output, record times, etc.)
@@ -43,7 +44,41 @@ def run_experiment(
     outfile.write(inst.get_tot_times_this_run())
     outfile.write("=" * 40 + "\n")
     outfile.flush()
+    print(f"{output}\n")
     os.fsync(outfile.fileno())
+
+
+def run_typescript(runner: LanguageModelRunner, runs: int):    
+    # Set instrumentation
+    inst: Instrumenter = Instrumenter(typescript_checker)
+    benchmark_dir = "typescript/benchmarks/mbpp_benchmarks2"
+
+    # Get llm context
+    with open("typescript/benchmarks/context.txt", "r") as context_file:
+        context = context_file.read().rstrip()
+
+    for prompt_num, subdir in enumerate(os.listdir(benchmark_dir)):
+        if prompt_num > 10:
+            break
+        if not os.path.isdir(os.path.join(benchmark_dir, subdir)):
+            continue
+        prompts_file = os.path.join(benchmark_dir, subdir, "prompt.txt")
+        output_file = os.path.join(benchmark_dir, subdir, "CD_results.txt")
+
+        with open(prompts_file, "r") as promptfile, open(output_file, "w") as outfile:
+            for run_num in range(runs):
+                inst.set_indices(prompt_num, run_num)
+                run_experiment(
+                    promptfile.read().rstrip(),
+                    context,
+                    prompt_num,
+                    run_num,
+                    runner,
+                    typescript_checker,
+                    inst,
+                    outfile
+                )
+    return inst
 
 
 def run_noninterference(runner: LanguageModelRunner, runs: int):
@@ -76,7 +111,40 @@ def run_noninterference(runner: LanguageModelRunner, runs: int):
     return inst
 
 
-def run_noCD(runner: LanguageModelRunner, runs: int, foldername: str):
+def run_typescript_noCD(runner: LanguageModelRunner, runs: int):
+    # Set instrumentation
+    checker = TrivialChecker()
+    inst: Instrumenter = Instrumenter(typescript_checker)
+    benchmark_dir = "typescript/benchmarks/mbpp_benchmarks"
+
+    # Get llm context
+    with open("typescript/benchmarks/context.txt", "r") as context_file:
+        context = context_file.read().rstrip()
+
+    for prompt_num, subdir in enumerate(os.listdir(benchmark_dir)):
+        print(prompt_num, subdir)
+        if not os.path.isdir(os.path.join(benchmark_dir, subdir)):
+            continue
+        prompts_file = os.path.join(benchmark_dir, subdir, "prompt.txt")
+        output_file = os.path.join(benchmark_dir, subdir, "noCD_results.txt")
+
+        with open(prompts_file, "r") as promptfile, open(output_file, "w") as outfile:
+            for run_num in range(runs):
+                inst.set_indices(prompt_num, run_num)
+                run_experiment(
+                    promptfile.read().rstrip(),
+                    context,
+                    prompt_num,
+                    run_num,
+                    runner,
+                    checker,
+                    inst,
+                    outfile
+                )
+    return inst
+
+
+def run_noninterference_noCD(runner: LanguageModelRunner, runs: int, foldername: str):
     # Set instrumentation
     checker = TrivialChecker()
     inst: Instrumenter = Instrumenter(noninterference_checker)
@@ -113,6 +181,8 @@ def run_experiments(
         outfile,
         noninterference_CD: bool,
         noninterference_noCD: bool,
+        typescript_CD: bool,
+        typescript_noCD: bool,
         performance: bool,
         num_runs: int = 1
 ):
@@ -131,12 +201,17 @@ def run_experiments(
             out.write("Noninterference[with our tool]\t\t\t\t" + inst.table_row())
             inst.clear()
         if noninterference_noCD:
-            inst = run_noCD(runner, num_runs, "noninterference/")
+            inst = run_noninterference_noCD(runner, num_runs, "noninterference/")
             out.write("Noninterference[unconstrained]\t\t\t\t" + inst.table_row())
             inst.clear()
-        if performance:
-            # TODO
-            pass
+        if typescript_CD:
+            inst = run_typescript(runner, num_runs)
+            out.write("Typescript[with our tool]\t\t\t\t" + inst.table_row())
+            inst.clear()
+        if typescript_noCD:
+            inst = run_typescript_noCD(runner, num_runs)
+            out.write("Typescript[unconstrained]\t\t\t\t" + inst.table_row())
+            inst.clear()
 
 
 if __name__ == "__main__":
@@ -150,6 +225,14 @@ if __name__ == "__main__":
     parser.add_argument(
         '-r', '--noninterference_noCD',
         action='store_true', help='Run noninterference experiments without our decoding'
+    )
+    parser.add_argument(
+        '-t', '--typescript_CD',
+        action='store_true', help='Run typescript experiments with our decoding'
+    )
+    parser.add_argument(
+        '-o', '--typescript_noCD',
+        action='store_true', help='Run typescript experiments without our decoding'
     )
     parser.add_argument(
         '-p', '--performance',
@@ -167,6 +250,8 @@ if __name__ == "__main__":
         "table.txt",
         args.noninterference_CD,
         args.noninterference_noCD,
+        args.typescript_CD,
+        args.typescript_noCD,
         args.performance,
         args.num_runs
     )
