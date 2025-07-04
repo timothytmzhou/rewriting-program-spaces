@@ -62,12 +62,14 @@ def run_benchmark(
     else:
         checker = None
 
-    prompt = f"Refactor this program:\n{original}."
+    prompt = f"The original program is:\n{original}"
 
     start = time.time()
-    result = runner.run(config, prompt, context, checker)
+    llm_finished, result = runner.run(config, prompt, context, checker)
+    print("SUCCESS" if llm_finished else "FAILURE")
+    print(result)
 
-    success = egraph_checker.realizable(result, True) if result is not None else False
+    success = egraph_checker.realizable(result, True) if llm_finished else False
 
     return {
         'benchmark': name,
@@ -102,8 +104,8 @@ def main():
     context = load_file(f"{BENCHMARKS_DIR}/context.md")
 
     run_experiment_type(runner, config, context, temps, "constrained")
-    run_experiment_type(runner, config, context, temps, "gcd")
     run_experiment_type(runner, config, context, temps, "unconstrained")
+    run_experiment_type(runner, config, context, temps, "gcd")
 
 
 if __name__ == "__main__":

@@ -102,7 +102,7 @@ class LanguageModelRunner:
             num_return_sequences=1,
             output_scores=True,
             return_dict_in_generate=True,
-            past_key_values=cache
+            past_key_values=cache,
         )
 
     def run(
@@ -110,11 +110,11 @@ class LanguageModelRunner:
         config: Config,
         prompt: str,
         context: str = DEFAULT_CONTEXT,
-        realizability_checker=None,
-        return_unsat_output=False
-    ) -> Optional[str]:
+        realizability_checker=None
+    ) -> Tuple[bool, str]:
         """
         Generate a solution that satisfies the realizability checker.
+        Returns whether a solution was found and the generated output.
         """
         input_ids = self._tokenize_prompt(prompt, context)
         generated_tokens = []
@@ -141,9 +141,9 @@ class LanguageModelRunner:
             ):
                 generated_tokens.append(new_token)
                 if is_final:
-                    return decoded_output
+                    return True, decoded_output
             else:
                 forbidden_tokens[tuple(generated_tokens)].add(new_token)
                 cache.crop(-1)
 
-        return decoded_output if return_unsat_output else None
+        return False, decoded_output

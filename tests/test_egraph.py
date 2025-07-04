@@ -139,4 +139,4 @@ def test_duplicate_names():
 def test_benchmark(benchmark_name):
     program_header, source = load_benchmark(benchmark_name)
     checker = build_checker(source)
-    assert checker.realizable(program_header)
+    assert checker.realizable(f"```{program_header}```")
