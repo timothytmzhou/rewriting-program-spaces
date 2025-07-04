@@ -562,7 +562,7 @@ def type_of_params(params: TreeGrammar) -> ProdType | EmptyType:
 
 default_env = Environment.from_dict({
     "Math.PI": NUMBERTYPE,
-    "Math.pow": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
+    "Math.pow": FuncType.of(ProdType.of(NUMBERTYPE, NUMBERTYPE), NUMBERTYPE),
     "Math.sqrt": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
     "Math.floor": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
     "Math.clz32": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),

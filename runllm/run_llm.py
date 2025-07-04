@@ -24,12 +24,12 @@ class Config:
     Configuration for language model generation.
     """
     # Generation parameters
-    max_new_tokens: int = 100
+    max_new_tokens: int = 300
     temperature: float = 0.5
     repetition_penalty: float = 1.0
     top_p: float = 1.0
     top_k: float = 0
-    num_guesses: int = 50
+    num_guesses: int = 300
 
 
 DEFAULT_CONTEXT = """You are a skilled programmer who responds

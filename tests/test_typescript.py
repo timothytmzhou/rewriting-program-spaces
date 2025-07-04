@@ -426,3 +426,23 @@ def test_conditionals():
                                     }
                               }
                               pow(8);""")
+
+
+@reset
+def test_final():
+    assert type_commands_test("""
+                              function power(a: number, b: number): number {
+                                return Math.pow(a, b);
+                              }""",
+                              envs=Environment(
+                                  (
+                                      ("Math.pow",
+                                       FuncType.of(ProdType.of(NUMBERTYPE, NUMBERTYPE),
+                                                   NUMBERTYPE)),
+                                  )
+                              ),
+                              final=True)
+
+    assert not type_commands_test("""function foo (x: number) : boolean {
+                                    if (x > 10){
+                                        retu""", final=True)

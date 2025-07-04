@@ -8,6 +8,7 @@ from runllm.constrained_decoding import RealizabilityChecker
 from runllm.run_llm import Config, LanguageModelRunner
 from tests.utils import reset
 from noninterference.noninterference import noninterference_checker
+from typescript.typescript_instrumeter import TypescriptInstrumeter
 from typescript.typescript_typechecker import typescript_checker
 
 
@@ -36,8 +37,14 @@ def run_experiment(
                         realizability_checker=checker, return_unsat_output=True)
     elapsed = time.time() - start
 
-    # Perform instrumentation (check output, record times, etc.)
+    # Extract program and perform instrumentation (check output, record times, etc.)
     assert isinstance(output, str)
+    start_prog_index = output.find('```')
+    if start_prog_index != -1:
+        output = output[start_prog_index + 3:]
+        end_prog_index = output.find('```')
+        if end_prog_index != -1:
+            output = output[:end_prog_index]
     inst.instrument(output)
 
     # Write Raw Output
@@ -53,7 +60,7 @@ def run_experiment(
 
 def run_typescript(runner: LanguageModelRunner, config: Config, runs: int):
     # Set instrumentation
-    inst: Instrumenter = Instrumenter(typescript_checker)
+    inst: Instrumenter = TypescriptInstrumeter(typescript_checker)
     benchmark_dir = "typescript/benchmarks/mbpp_benchmarks_safe"
 
     # Get llm context
@@ -119,7 +126,7 @@ def run_noninterference(runner: LanguageModelRunner, config: Config, runs: int):
 def run_typescript_noCD(runner: LanguageModelRunner, config: Config, runs: int):
     # Set instrumentation
     checker = TrivialChecker()
-    inst: Instrumenter = Instrumenter(typescript_checker)
+    inst: Instrumenter = TypescriptInstrumeter(typescript_checker)
     benchmark_dir = "typescript/benchmarks/mbpp_benchmarks"
 
     # Get llm context
