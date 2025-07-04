@@ -66,8 +66,6 @@ def run_benchmark(
 
     start = time.time()
     llm_finished, result = runner.run(config, prompt, context, checker)
-    print("SUCCESS" if llm_finished else "FAILURE")
-    print(result)
 
     success = egraph_checker.realizable(result, True) if llm_finished else False
 
@@ -100,7 +98,7 @@ def run_experiment_type(runner, config, context, temps, checker_type: str) -> li
 def main():
     runner = LanguageModelRunner()
     temps = [.01, .3, .5, .7, 1.0]
-    config = Config(num_guesses=1000, max_new_tokens=100, repetition_penalty=1.2)
+    config = Config(num_guesses=300, max_new_tokens=100, repetition_penalty=1.2)
     context = load_file(f"{BENCHMARKS_DIR}/context.md")
 
     run_experiment_type(runner, config, context, temps, "constrained")
