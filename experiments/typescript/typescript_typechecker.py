@@ -211,7 +211,7 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
                         else EmptySet())
             else:
                 return_type = parse_type(return_types)
-                new_env = env.add(get_new_bindings(stmts)) # Enable recursion
+                new_env = env.add(get_new_bindings(stmts))  # Binding enables recursion
                 return (Application.of("0-ary func decl",
                                        (func_id,
                                         return_types,
@@ -255,21 +255,21 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
                                        typecheck_return(new_env, update, VOIDTYPE),
                                        typecheck_return(new_env, body, typ)),
                                       focus=focus)
-        # case Application("if-then-else", (guards, then_bodies, else_bodies)):
-        #     legal_guards = typecheck_expression(env, guards, BOOLEANTYPE)
-        #     legal_then_bodies = typecheck_return(env, then_bodies, typ)
-        #     if focus < 2:
-        #         return_type = typ
-        #     else:
-        #         # TODO: Implement type inference for return types
-        #         return_type = typ
-        #         # return_type = infer_return_type(legal_then_bodies)
-        #     legal_else_bodies = typecheck_return(env, else_bodies, return_type)
-        #     return Application.of("if-then-else",
-        #                             legal_guards,
-        #                             legal_then_bodies,
-        #                             legal_else_bodies,
-        #                             focus=focus)
+        case Application("if-then-else",
+                         (guards, then_bodies, else_bodies),
+                         focus=focus):
+            legal_guards = typecheck_expression(env, guards, BOOLEANTYPE)
+            legal_then_bodies = typecheck_return(env, then_bodies, typ)
+            if focus < 2:
+                return_type = typ
+            else:
+                return_type = infer_return_type(env, then_bodies)
+            legal_else_bodies = typecheck_return(env, else_bodies, return_type)
+            return Application.of("if-then-else",
+                                  (legal_guards,
+                                   legal_then_bodies,
+                                   legal_else_bodies),
+                                  focus=focus)
     return EmptySet()
 
 
@@ -405,6 +405,73 @@ def infer_type_args(env: Environment, args: TreeGrammar) -> Type:
     if env not in infer_type_agrs_helper_functions:
         infer_type_agrs_helper_functions[env] = infer_type_args_helper
     return infer_type_agrs_helper_functions[env](args)
+
+
+infer_return_type_helper_functions: dict[Environment, Callable] = dict()
+
+
+def infer_return_type(env: Environment, stmts: TreeGrammar) -> Type:
+    """WARNING: DO NOT CALL ON INCOMPLETE TREEGRAMMAR."""
+    @fixpoint(lambda: VOIDTYPE)
+    def infer_return_type_helper(stmt: TreeGrammar) -> Type:
+        match stmt:
+            case EmptySet():
+                return EmptyType()
+            case Union(children):
+                updates = {infer_return_type(env, child) for child in children
+                           }.difference({EmptyType()})
+                if len(updates) == 1:
+                    return updates.pop()
+                if len(updates) > 1:
+                    raise ValueError(f"infer_return_type got ambiguous stmts {stmt}")
+                return EmptyType()
+            case Application("return statement", (ret_val,)):
+                return infer_type_expression(env, ret_val)
+            case Application("nonempty block", (body,)):
+                return infer_return_type_seq(env, body)
+            case Application("for loop", (init, _, _, body)):
+                updated_env = env.add(get_new_bindings(init))
+                return infer_return_type(updated_env, body)
+            case Application("if-then-else", (_, then_branch, else_branch)):
+                then_type = infer_return_type_helper(then_branch)
+                else_type = infer_return_type_helper(else_branch)
+                return (then_type if then_type == else_type else EmptyType())
+            case _:
+                return VOIDTYPE
+    if env not in infer_return_type_helper_functions:
+        infer_return_type_helper_functions[env] = infer_return_type_helper
+    return infer_return_type_helper_functions[env](stmts)
+
+
+infer_return_type_seq_helper_functions: dict[Environment, Callable] = dict()
+
+
+def infer_return_type_seq(env: Environment, stmts: TreeGrammar) -> Type:
+    """WARNING: DO NOT CALL ON INCOMPLETE TREEGRAMMAR."""
+    @fixpoint(lambda: EmptyType())
+    def infer_return_type_seq_helper(stmt_seq: TreeGrammar) -> Type:
+        match stmt_seq:
+            case EmptySet():
+                return EmptyType()
+            case Union(children):
+                updates = {infer_return_type_seq(env, child) for child in children
+                           }.difference({EmptyType()})
+                if len(updates) == 1:
+                    return updates.pop()
+                if len(updates) > 1:
+                    raise ValueError(f"infer_return_type_seq -- weird stmts {stmt_seq}")
+                return EmptyType()
+            case Application("command seq", (head, tail)):
+                head_typ = infer_return_type(env, head)
+                if head_typ != VOIDTYPE:
+                    return head_typ
+                updated_env = env.add(get_new_bindings(head))
+                return infer_return_type_seq(updated_env, tail)
+            case _:
+                return infer_return_type(env, stmt_seq)
+    if env not in infer_return_type_seq_helper_functions:
+        infer_return_type_seq_helper_functions[env] = infer_return_type_seq_helper
+    return infer_return_type_seq_helper_functions[env](stmts)
 
 
 @fixpoint(lambda: tuple())

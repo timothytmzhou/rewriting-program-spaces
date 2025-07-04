@@ -261,7 +261,8 @@ def test_lets():
     assert type_commands_test("const x: number = 5; let y: boolean = true; x + 17;")
     assert type_commands_test("let x: number = 5; let y: boolean = tr")
     assert type_commands_test("let x: number = 5; let y: boolean = 6")
-    assert type_commands_test("function foo (x: number) : number {let y:number = x; return y;}")
+    assert type_commands_test("function foo (x: number) : number "
+                              + "{let y:number = x; return y;}")
     assert not type_commands_test("let x: number = 5; x = (7 ==")
     assert not type_commands_test("let x: number = z; let y: boolean = true")
     assert not type_commands_test("x = 7; x += ")
@@ -336,3 +337,77 @@ def test_for_loops():
     assert not type_commands_test("for (let i: boolean = true; i ; i += 4) "
                                   + "{ let j: number = 1; }")
     assert not type_commands_test("for (i = 0; true ; i++) { }")
+
+
+@reset
+def test_conditionals():
+    assert type_commands_test("if (true) {} else {}")
+    assert type_commands_test("let x: number = 0; "
+                              + "if (true) {x++;} else {x=7;}")
+    assert type_commands_test("""function foo (x: number) : number {
+                                    if (x > 10){
+                                        x = 0;
+                                    } else {}
+                                    return x;
+                              }""")
+    assert type_commands_test("""function foo (x: number) : boolean {
+                                    if (x > 10){
+                                        return false;
+                                    } else {
+                                        return true;
+                                    }
+                              }""")
+    assert type_commands_test("""function foo (x: number) : boolean {
+                                    if (x > 10){
+                                        {13; {return false;}}
+                                    } else {
+                                        return true;
+                                    }
+                              }
+                              foo(5);""")
+    assert type_commands_test("""function log_2 (x: number) : number {
+                                    if (x > 2){
+                                        let y : number = log_2(x/2);
+                                        return y + 1;
+                                    } else {
+                                        if (x > 2) {
+                                            let y : number = log_2(x/2);
+                                            return y + 1;
+                                        } else {
+                                            return 0;
+                                        }
+                                    }
+                              }
+                              log_2(8);""")
+    assert type_commands_test("""function foo (x: number) : boolean {
+                                    if (x > 10){
+                                        retu""")
+    assert type_commands_test("""function foo (x: number) : boolean {
+                                    if (x > 10){
+                                        return false;
+                                    } els""")
+    assert type_commands_test("""function foo (x: number) : boolean {
+                                    if (x > 10){
+                                        return false;
+                                    } else {
+                                        return 8""")
+    assert not type_commands_test("if (18 + 6) {} else {}")
+    assert not type_commands_test("if (true) {} else {return ")
+    assert not type_commands_test("""function foo (x: number) : boolean {
+                                    if (x > 10){
+                                        return 6;""")
+    assert not type_commands_test("if (true) {} else {return ")
+    assert not type_commands_test("""function pow (x: number) : number {
+                                    if (x > 2){
+                                        let y : number = pow(x/2);
+                                        return y + 1;
+                                    } else {
+                                        if (x > 2) {
+                                            let y : number = pow(x/2);
+                                            return y + 1;
+                                        } else {
+                                            return 0 !== 9;
+                                        }
+                                    }
+                              }
+                              pow(8);""")

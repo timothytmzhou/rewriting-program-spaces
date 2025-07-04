@@ -48,7 +48,7 @@ def run_experiment(
     os.fsync(outfile.fileno())
 
 
-def run_typescript(runner: LanguageModelRunner, runs: int):    
+def run_typescript(runner: LanguageModelRunner, runs: int):
     # Set instrumentation
     inst: Instrumenter = Instrumenter(typescript_checker)
     benchmark_dir = "typescript/benchmarks/mbpp_benchmarks_safe"

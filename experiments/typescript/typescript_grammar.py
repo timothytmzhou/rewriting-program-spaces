@@ -15,7 +15,8 @@ FALSELEAF = Token("false", re.compile("false"))
 IDLEAF = Token(
     "id",
     re.compile(
-        "(?!(true|false|number|string|boolean|return|function|let|if|else)$)[a-zA-Z\\.]+"
+        "(?!(true|false|number|string|boolean|return|function|let|if|else)$)"
+        + "([a-zA-Z][a-zA-Z0-9_\\.]*)"
     )
 )
 
@@ -239,41 +240,34 @@ def args() -> Parser:
 @rewrite
 def numeric_bin_exps() -> Parser:
     return Choice.of(
-        Concatenation.of((base_exps(), PLUS, non_comparators()),
+        base_exps(),
+        Concatenation.of((base_exps(), PLUS, numeric_bin_exps()),
                          rearrange=bin_rearrangement("+")),
-        Concatenation.of((base_exps(), MINUS, non_comparators()),
+        Concatenation.of((base_exps(), MINUS, numeric_bin_exps()),
                          rearrange=bin_rearrangement("-")),
-        Concatenation.of((base_exps(), TIMES, non_comparators()),
+        Concatenation.of((base_exps(), TIMES, numeric_bin_exps()),
                          rearrange=bin_rearrangement("*")),
-        Concatenation.of((base_exps(), DIV, non_comparators()),
+        Concatenation.of((base_exps(), DIV, numeric_bin_exps()),
                          rearrange=bin_rearrangement("/")),
-        Concatenation.of((base_exps(), MOD, non_comparators()),
+        Concatenation.of((base_exps(), MOD, numeric_bin_exps()),
                          rearrange=bin_rearrangement("%"))
-    )
-
-
-@rewrite
-def non_comparators() -> Parser:
-    return Choice.of(
-        numeric_bin_exps(),
-        base_exps()
     )
 
 
 @rewrite
 def boolean_bin_exps() -> Parser:
     return Choice.of(
-        Concatenation.of((non_comparators(), LESS, non_comparators()),
+        Concatenation.of((numeric_bin_exps(), LESS, numeric_bin_exps()),
                          rearrange=bin_rearrangement("<")),
-        Concatenation.of((non_comparators(), LESSEQ, non_comparators()),
+        Concatenation.of((numeric_bin_exps(), LESSEQ, numeric_bin_exps()),
                          rearrange=bin_rearrangement("<=")),
-        Concatenation.of((non_comparators(), GREATER, non_comparators()),
+        Concatenation.of((numeric_bin_exps(), GREATER, numeric_bin_exps()),
                          rearrange=bin_rearrangement(">")),
-        Concatenation.of((non_comparators(), GREATEREQ, non_comparators()),
+        Concatenation.of((numeric_bin_exps(), GREATEREQ, numeric_bin_exps()),
                          rearrange=bin_rearrangement(">=")),
-        Concatenation.of((non_comparators(), EQUAL, non_comparators()),
+        Concatenation.of((numeric_bin_exps(), EQUAL, numeric_bin_exps()),
                          rearrange=bin_rearrangement("==")),
-        Concatenation.of((non_comparators(), NOTEQUAL, non_comparators()),
+        Concatenation.of((numeric_bin_exps(), NOTEQUAL, numeric_bin_exps()),
                          rearrange=bin_rearrangement("!=="))
     )
 
@@ -282,8 +276,7 @@ def boolean_bin_exps() -> Parser:
 def exps() -> Parser:
     return Choice.of(
         boolean_bin_exps(),
-        numeric_bin_exps(),
-        base_exps(),
+        numeric_bin_exps()
     )
 
 
@@ -373,10 +366,10 @@ def commands() -> Parser:
              RPAR, blocks()),
             rearrange=Rearrangement("for loop", (2, 3, 5, 7))
         ),
-        # Concatenation.of(
-        #     (IF, LPAR, exps(), RPAR, commands(), ELSE, commands()),
-        #     rearrange=Rearrangement("if-then-else", (2, 4, 6))
-        # )
+        Concatenation.of(
+            (IF, LPAR, exps(), RPAR, commands(), ELSE, commands()),
+            rearrange=Rearrangement("if-then-else", (2, 4, 6))
+        )
     )
 
 
