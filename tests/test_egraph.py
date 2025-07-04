@@ -123,6 +123,17 @@ def test_div():
     assert not checker.realizable("c")
 
 
+@reset
+def test_duplicate_names():
+    checker = RealizabilityChecker(
+        lambda t: let_equivalence(six_egraph, t),
+        Let(),
+        let_lexer_spec,
+    )
+    assert checker.realizable("let y = 6 in y")
+    assert not checker.realizable("let y = 6 in let y = 6 in y")
+
+
 @pytest.mark.parametrize("benchmark_name", get_benchmark_names())
 @reset
 def test_benchmark(benchmark_name):

@@ -1,6 +1,7 @@
 from typing import Tuple
 from pathlib import Path
 import time
+import re
 import pandas as pd
 from runllm.constrained_decoding import RealizabilityChecker
 from runllm.run_llm import Config, LanguageModelRunner
@@ -29,8 +30,9 @@ def load_and_prepare_benchmark(benchmark_name: str) -> Tuple[str, RealizabilityC
     source += benchmark_content
     source += "\n(run 100)"
     egraph = egraph_from_egglog(source, "start", "Math")
+    defined_variables = re.findall(r'Var\s*"([^"]+)"', source)
     checker = RealizabilityChecker(
-        lambda term: let_equivalence(egraph, term),
+        lambda term: let_equivalence(egraph, term, frozenset(defined_variables)),
         Let(),
         let_lexer_spec,
     )
@@ -55,19 +57,20 @@ def run_experiment():
             temperature=temp,
             num_guesses=1000,
             max_new_tokens=100,
-            repetition_penalty=1.0
+            repetition_penalty=1.2
         )
         runner = LanguageModelRunner(config)
 
         for benchmark in get_benchmark_names():
             original_program, checker = load_and_prepare_benchmark(benchmark)
             prompt = f"The original program is:\n{original_program}"
-
+            print(prompt)
             # Run with checker (constrained)
             start_time = time.time()
             try:
                 result_with_checker = runner.run(prompt, context, checker)
-            except Exception as e:
+                print(result_with_checker)
+            except BaseException as e:
                 print(e)
                 result_with_checker = None
             constrained_execution_time = time.time() - start_time

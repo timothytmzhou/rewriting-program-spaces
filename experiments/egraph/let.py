@@ -163,16 +163,27 @@ def update_egraph(
 
 
 @rewrite
-def let_equivalence(egraph: EGraph, t: TreeGrammar) -> TreeGrammar:
+def let_equivalence(
+    egraph: EGraph,
+    t: TreeGrammar,
+    used_names: Optional[frozenset[str]] = None
+) -> TreeGrammar:
+    if used_names is None:
+        used_names = frozenset()
     match t:
         case EmptySet():
             return EmptySet()
         case Union(children):
-            return Union.of(let_equivalence(egraph, child) for child in children)
+            return Union.of(let_equivalence(egraph, child, used_names) for child in children)
         case Application("Let", (binding, expr1, expr2), focus):
+            match expand_tree_grammar(binding):
+                case Application("Var", (Constant(Token(prefix=name, is_complete=True)),)):
+                    if name in used_names:
+                        return EmptySet()
+                    used_names = used_names.union({name})
             if focus >= 2:
                 updated = update_egraph(egraph, binding, expr1)
-                return let_equivalence(updated, expr2)
+                return let_equivalence(updated, expr2, used_names)
             return t
         case _:
             return in_egraph(egraph)(t)
