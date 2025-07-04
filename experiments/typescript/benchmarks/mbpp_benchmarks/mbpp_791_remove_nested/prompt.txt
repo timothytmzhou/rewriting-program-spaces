@@ -1,2 +1,0 @@
-//Write a typescript function to remove arrays from the given array.
-function remove_nested(test_tup: any): [number, number, number, number] 

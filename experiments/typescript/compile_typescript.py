@@ -14,7 +14,8 @@ def compile_typescript(ts_code: str) -> bool:
 
     try:
         # Run the TypeScript compiler (tsc) on the temp file
-        result = subprocess.run(['tsc', temp_file_path], capture_output=True, text=True)
+        result = subprocess.run(['tsc', '--target', 'es2016', temp_file_path],
+                                capture_output=True, text=True)
 
         # Check if there were compilation errors
         return result.returncode == 0

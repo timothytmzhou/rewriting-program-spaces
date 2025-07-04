@@ -1,2 +1,0 @@
-//Write a typescript function to find the pairwise addition of the neighboring elements of the given array.
-function add_pairwise(test_tup: [number, number, number, number, number]): [number, number, number, number] 

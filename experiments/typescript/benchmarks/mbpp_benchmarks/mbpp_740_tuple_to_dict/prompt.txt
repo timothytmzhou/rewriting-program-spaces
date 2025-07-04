@@ -1,2 +1,0 @@
-//Write a typescript function to convert the given array to a key-value object using adjacent elements. https://www.geeksforgeeks.org/typescript-convert-array-to-adjacent-pair-object/
-function tuple_to_dict(test_tup: [number, number, number, number, number, number]): [key: number]: number} 

@@ -1,2 +1,0 @@
-//Write a typescript function that returns integers x and y that satisfy ax + by = n as an array, or return undefined if no solution exists.
-function find_solution(a: number, b: number, n: number): [number, number] | undefined 

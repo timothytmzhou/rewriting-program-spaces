@@ -1,2 +1,0 @@
-//Write a typescript function to find area of a sector. The function takes the radius and angle as inputs. Function should return undefined if the angle is larger than 360 degrees.
-function sector_area(r: number, a: number): number | undefined 

@@ -485,3 +485,39 @@ def test_possibly_void_return_types():
                                     a *= 2;
                                 }
                               }""")
+
+
+@reset
+def test_if_then():
+    assert type_commands_test("if (true) {5;} 6")
+    assert type_commands_test("""function foo (x: number) : boolean {
+                                    if (x > 10){
+                                        return false;
+                                    }
+                                    ret
+                              """)
+    assert type_commands_test("""function foo (x: number) : number {
+                                    for (const i: number = 0; i < 10; i = i) {
+                                        if (x > 10){
+                                                return 6;
+                                            }
+                                    }""")
+    assert not type_commands_test("if (true) {return 7;} 6;")
+    assert not type_commands_test("""function foo (x: number) : boolean {
+                                    if (x > 10){
+                                        return 6;
+                                    }
+                                    ret
+                              """)
+    assert not type_commands_test("""function foo (x: number) : number {
+                                    if (x > 10){
+                                        return 6;
+                                    }
+                                }""")
+    assert not type_commands_test("""function foo (x: number) : number {
+                                    for (const i: number = 0; i < 10; i = i) {
+                                        if (x > 10){
+                                                return 6;
+                                            }
+                                    }
+                                }""")

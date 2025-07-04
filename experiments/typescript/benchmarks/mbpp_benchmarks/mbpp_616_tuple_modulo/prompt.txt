@@ -1,2 +1,0 @@
-//Write a typescript function which takes two arrays of the same length and performs the element wise modulo.
-function tuple_modulo(test_tup1: [number, number, number, number], test_tup2: [number, number, number, number]): [number, number, number, number] 

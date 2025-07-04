@@ -1,2 +1,0 @@
-//Write a typescript function to find the median of three numbers.
-function median_numbers(a: number, b: number, c: number): number 
