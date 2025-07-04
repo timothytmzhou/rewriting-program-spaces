@@ -1,14 +1,14 @@
-from typing import Tuple
-from pathlib import Path
-import time
 import re
+import time
 import pandas as pd
+from dataclasses import replace
+from pathlib import Path
+from typing import Tuple
+from core.rewrite import rewriter
 from runllm.constrained_decoding import RealizabilityChecker
 from runllm.run_llm import Config, LanguageModelRunner
-from dataclasses import replace
-from .let import let_equivalence, Let, let_lexer_spec
 from .egraph import egraph_from_egglog
-from core.rewrite import rewriter
+from .let import let_equivalence, Let, let_lexer_spec
 
 
 BENCHMARKS_DIR = "experiments/egraph/benchmarks"
@@ -58,20 +58,14 @@ def run_benchmark(
     if checker_type == "constrained":
         checker = egraph_checker
     elif checker_type == "gcd":
-        checker = lambda t: t
+        checker = RealizabilityChecker(lambda t: t, Let(), let_lexer_spec)
     else:
         checker = None
 
     prompt = f"The original program is:\n{original}"
-    print(prompt)
 
     start = time.time()
-    try:
-        result = runner.run(config, prompt, context, checker)
-        print(result)
-    except BaseException as e:
-        print(e)
-        result = None
+    result = runner.run(config, prompt, context, checker)
 
     success = egraph_checker.realizable(result, True) if result is not None else False
 
@@ -88,19 +82,22 @@ def run_experiment_type(runner, config, context, temps, checker_type: str) -> li
     print(f"Running {checker_type} benchmarks")
     print("-------------------------")
     results = []
+    benchmark_names = get_benchmark_names()
+
     for temp in temps:
         temp_config = replace(config, temperature=temp)
-        for name in get_benchmark_names():
+        for name in benchmark_names:
             results.append(run_benchmark(temp_config, name,
                            temp, runner, context, checker_type))
             rewriter.clear()
-    pd.DataFrame(results).to_csv('{checker_type}.csv', index=False)
+
+    pd.DataFrame(results).to_csv(f'{checker_type}.csv', index=False)
     return results
 
 
 def main():
     runner = LanguageModelRunner()
-    temps = [0.01, 0.3, 0.5, 0.7, 1.0]
+    temps = [1.0]
     config = Config(num_guesses=1000, max_new_tokens=100, repetition_penalty=1.2)
     context = load_file(f"{BENCHMARKS_DIR}/context.md")
 

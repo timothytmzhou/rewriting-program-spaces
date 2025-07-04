@@ -109,7 +109,7 @@ def Let() -> Parser:
     return Choice.of(
         Add(),
         Concatenation.of(
-            ConstantParser(LET), Id(), ConstantParser(EQUALS), Let(),
+            ConstantParser(LET), Id(), ConstantParser(EQUALS), Add(),
             ConstantParser(IN), Let(),
             rearrange=Rearrangement("Let", (1, 3, 5))
         )
