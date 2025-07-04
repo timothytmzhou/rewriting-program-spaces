@@ -137,5 +137,6 @@ def test_duplicate_names():
 @pytest.mark.parametrize("benchmark_name", get_benchmark_names())
 @reset
 def test_benchmark(benchmark_name):
-    program_header, checker = load_and_prepare_benchmark(benchmark_name)
+    program_header, source = load_benchmark(benchmark_name)
+    checker = build_checker(source)
     assert checker.realizable(program_header)

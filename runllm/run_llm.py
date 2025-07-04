@@ -14,15 +14,17 @@ from .constrained_decoding import RealizabilityChecker
 
 
 @dataclass
-class Config:
-    """
-    Configuration for language model generation.
-    """
-    # Model configuration
+class ModelConfig:
     model_id: str = "codellama/CodeLlama-13b-Instruct-hf"
     device: str = "cuda"
     dtype: torch.dtype = torch.bfloat16
 
+
+@dataclass
+class Config:
+    """
+    Configuration for language model generation.
+    """
     # Generation parameters
     max_new_tokens: int = 50
     temperature: float = 0.5
@@ -37,21 +39,21 @@ to questions by writing concise code without comments.""".replace('\n', '')
 
 
 class LanguageModelRunner:
-    def __init__(self, config: Config):
-        self.config = config
-        self.device = torch.device(config.device)
+    def __init__(self, model_config: ModelConfig=ModelConfig()):
+        self.model_config = model_config
+        self.device = torch.device(model_config.device)
         self.model, self.tokenizer = self._load_model_and_tokenizer()
 
     def _load_model_and_tokenizer(self) -> Tuple[PreTrainedModel, PreTrainedTokenizer]:
         """
         Load and configure the model and tokenizer.
         """
-        tokenizer = AutoTokenizer.from_pretrained(self.config.model_id)
+        tokenizer = AutoTokenizer.from_pretrained(self.model_config.model_id)
         tokenizer.pad_token = tokenizer.eos_token
 
-        model = AutoModelForCausalLM.from_pretrained(self.config.model_id,
+        model = AutoModelForCausalLM.from_pretrained(self.model_config.model_id,
                                                      device_map="auto")
-        model.to(dtype=self.config.dtype)
+        model.to(dtype=self.model_config.dtype)
         model.resize_token_embeddings(len(tokenizer))
         return model, tokenizer
 
@@ -73,6 +75,7 @@ class LanguageModelRunner:
     def _generate_next_token(
         self,
         input_ids: torch.Tensor,
+        config: Config,
         generated_tokens: List[int],
         forbidden_tokens: Set[int],
         cache: DynamicCache
@@ -82,7 +85,7 @@ class LanguageModelRunner:
         """
         bad_words = [[id] for id in forbidden_tokens] if forbidden_tokens else None
         inp = torch.tensor([list(input_ids[0]) + generated_tokens])
-        inp = inp.to(self.config.device)
+        inp = inp.to(self.model_config.device)
         if self.tokenizer.eos_token_id in forbidden_tokens:
             eos_token_id = None
         else:
@@ -93,11 +96,11 @@ class LanguageModelRunner:
             pad_token_id=self.tokenizer.eos_token_id,
             eos_token_id=eos_token_id,
             max_new_tokens=1,
-            temperature=self.config.temperature,
-            top_p=self.config.top_p,
-            top_k=self.config.top_k,
+            temperature=config.temperature,
+            top_p=config.top_p,
+            top_k=config.top_k,
             bad_words_ids=bad_words,
-            repetition_penalty=self.config.repetition_penalty,
+            repetition_penalty=config.repetition_penalty,
             num_return_sequences=1,
             output_scores=True,
             return_dict_in_generate=True,
@@ -106,6 +109,7 @@ class LanguageModelRunner:
 
     def run(
         self,
+        config: Config,
         prompt: str,
         context: str = DEFAULT_CONTEXT,
         realizability_checker=None,
@@ -118,11 +122,12 @@ class LanguageModelRunner:
         forbidden_tokens = defaultdict(set)
 
         cache = DynamicCache()
-        for _ in range(self.config.num_guesses):
-            if len(generated_tokens) >= self.config.max_new_tokens:
+        for _ in range(config.num_guesses):
+            if len(generated_tokens) >= config.max_new_tokens:
                 break
             output = self._generate_next_token(
                 input_ids,
+                config,
                 generated_tokens,
                 forbidden_tokens[tuple(generated_tokens)],
                 cache

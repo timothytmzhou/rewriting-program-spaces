@@ -5,8 +5,10 @@ import re
 import pandas as pd
 from runllm.constrained_decoding import RealizabilityChecker
 from runllm.run_llm import Config, LanguageModelRunner
+from dataclasses import replace
 from .let import let_equivalence, Let, let_lexer_spec
 from .egraph import egraph_from_egglog
+from core.rewrite import rewriter
 
 
 BENCHMARKS_DIR = "experiments/egraph/benchmarks"
@@ -18,95 +20,93 @@ def load_file(filepath: str) -> str:
         return f.read()
 
 
-def load_and_prepare_benchmark(benchmark_name: str) -> Tuple[str, RealizabilityChecker]:
-    # Load benchmark egglog
-    benchmark_path = f"{BENCHMARKS_DIR}/{benchmark_name}"
-    benchmark_content = load_file(benchmark_path)
-    # Load let.egglog
+def get_benchmark_names():
+    return [f.name for f in Path(BENCHMARKS_DIR).glob("*.egglog")]
+
+
+def load_benchmark(name: str) -> Tuple[str, str]:
+    content = load_file(f"{BENCHMARKS_DIR}/{name}")
     source = load_file(LET_EGGLOG_PATH)
 
-    assert benchmark_content.startswith(";; ")
-    original_program = benchmark_content.splitlines()[0][3:]
-    source += benchmark_content
-    source += "\n(run 100)"
+    assert content.startswith(";; ")
+    original = content.splitlines()[0][3:]
+    source += content + "\n(run 100)"
+    return original, source
+
+
+def build_checker(source: str) -> RealizabilityChecker:
     egraph = egraph_from_egglog(source, "start", "Math")
-    defined_variables = re.findall(r'Var\s*"([^"]+)"', source)
-    checker = RealizabilityChecker(
-        lambda term: let_equivalence(egraph, term, frozenset(defined_variables)),
+    vars = re.findall(r'Var\s*"([^"]+)"', source)
+    return RealizabilityChecker(
+        lambda term: let_equivalence(egraph, term, frozenset(vars)),
         Let(),
         let_lexer_spec,
     )
-    return original_program, checker
 
 
-def get_benchmark_names():
-    return [
-        benchmark_file.name
-        for benchmark_file in Path(BENCHMARKS_DIR).glob("*.egglog")
-    ]
+def run_benchmark(
+    config: Config,
+    name: str,
+    temp: float,
+    runner,
+    context: str,
+    checker_type: str
+) -> dict:
+    original, source = load_benchmark(name)
+    egraph_checker = build_checker(source)
+
+    if checker_type == "constrained":
+        checker = egraph_checker
+    elif checker_type == "gcd":
+        checker = lambda t: t
+    else:
+        checker = None
+
+    prompt = f"The original program is:\n{original}"
+    print(prompt)
+
+    start = time.time()
+    try:
+        result = runner.run(config, prompt, context, checker)
+        print(result)
+    except BaseException as e:
+        print(e)
+        result = None
+
+    success = egraph_checker.realizable(result, True) if result is not None else False
+
+    return {
+        'benchmark': name,
+        'temperature': temp,
+        'success': success,
+        'execution_time': time.time() - start,
+        'result': result
+    }
 
 
-def run_experiment():
-    TEMPERATURES = [0.01, 0.3, 0.5, 0.7, 1.0]
-    context = load_file(f"{BENCHMARKS_DIR}/context.md")
-    constrained_results = []
-    unconstrained_results = []
-
-    for temp in TEMPERATURES:
-        config = Config(
-            temperature=temp,
-            num_guesses=1000,
-            max_new_tokens=100,
-            repetition_penalty=1.2
-        )
-        runner = LanguageModelRunner(config)
-
-        for benchmark in get_benchmark_names():
-            original_program, checker = load_and_prepare_benchmark(benchmark)
-            prompt = f"The original program is:\n{original_program}"
-            print(prompt)
-            # Run with checker (constrained)
-            start_time = time.time()
-            try:
-                result_with_checker = runner.run(prompt, context, checker)
-                print(result_with_checker)
-            except BaseException as e:
-                print(e)
-                result_with_checker = None
-            constrained_execution_time = time.time() - start_time
-
-            constrained_results.append({
-                'benchmark': benchmark,
-                'temperature': temp,
-                'success': result_with_checker is not None,
-                'execution_time': constrained_execution_time,
-                'result': result_with_checker
-            })
-
-            # Run without checker (unconstrained baseline)
-            start_time = time.time()
-            result_without_checker = runner.run(prompt, context, None)
-            unconstrained_execution_time = time.time() - start_time
-
-            unconstrained_results.append({
-                'benchmark': benchmark,
-                'temperature': temp,
-                'execution_time': unconstrained_execution_time,
-                'result': result_without_checker
-            })
-
-    # Save results
-    constrained_df = pd.DataFrame(constrained_results)
-    constrained_df.to_csv('egraph_constrained_results.csv', index=False)
-
-    unconstrained_df = pd.DataFrame(unconstrained_results)
-    unconstrained_df.to_csv('egraph_unconstrained_results.csv', index=False)
-
-    return constrained_df, unconstrained_df
+def run_experiment_type(runner, config, context, temps, checker_type: str) -> list:
+    print(f"Running {checker_type} benchmarks")
+    print("-------------------------")
+    results = []
+    for temp in temps:
+        temp_config = replace(config, temperature=temp)
+        for name in get_benchmark_names():
+            results.append(run_benchmark(temp_config, name,
+                           temp, runner, context, checker_type))
+            rewriter.clear()
+    pd.DataFrame(results).to_csv('{checker_type}.csv', index=False)
+    return results
 
 
 def main():
-    run_experiment()
+    runner = LanguageModelRunner()
+    temps = [0.01, 0.3, 0.5, 0.7, 1.0]
+    config = Config(num_guesses=1000, max_new_tokens=100, repetition_penalty=1.2)
+    context = load_file(f"{BENCHMARKS_DIR}/context.md")
+
+    run_experiment_type(runner, config, context, temps, "constrained")
+    run_experiment_type(runner, config, context, temps, "gcd")
+    run_experiment_type(runner, config, context, temps, "unconstrained")
 
 
 if __name__ == "__main__":
