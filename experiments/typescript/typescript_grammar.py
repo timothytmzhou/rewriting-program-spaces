@@ -48,7 +48,8 @@ RETURNLEAF = Token("return", re.compile("return"))
 FUNCTIONLEAF = Token("function", re.compile("function"))
 
 GETSLEAF = Token("gets", re.compile("="))
-GETSPLUSLEAF = Token("+=", re.compile("\\+="))
+# TODO: When there is time, consider splitting this
+GETSPLUSLEAF = Token("+=", re.compile("(\\+=)|(\\*=)"))
 PLUSPLUSLEAF = Token("+=", re.compile("\\+\\+"))
 SEMICOLONLEAF = Token(";", re.compile(";"))
 COMMALEAF = Token(",", re.compile(","))

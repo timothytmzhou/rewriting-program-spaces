@@ -42,6 +42,31 @@ class BooleanType(Type):
 
 
 @dataclass(frozen=True)
+class UnionType(Type):
+    first: Type
+    second: Type
+
+    @classmethod
+    def of(cls, first, second) -> Type:
+        out = cls(first, second).condense()
+        return out
+
+    def condense(self, depth: int = 3) -> Type:
+        # Condense children
+        condensed_first = self.first.condense(depth)
+        condensed_second = self.second.condense(depth)
+        # Check if empty
+        if (isinstance(condensed_first, EmptyType)):
+            return condensed_second
+        if (isinstance(condensed_second, EmptyType)):
+            return condensed_first
+        if condensed_first == condensed_second:
+            return condensed_first
+        # Return accordingly
+        return (UnionType(condensed_first, condensed_second))
+
+
+@dataclass(frozen=True)
 class ProdType(Type):
     """
     ProdType with no types=() represents the void type.
@@ -123,6 +148,8 @@ VOIDTYPE = ProdType.of()
 
 def contains(big: Type, little: Type) -> bool:
     match big, little:
+        case UnionType(first, second), _:
+            return contains(first, little) or contains(second, little)
         case TopType(contains_void), _:
             return True if contains_void or little != VOIDTYPE else False
         case _, EmptyType():

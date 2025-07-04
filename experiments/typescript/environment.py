@@ -45,7 +45,7 @@ class Environment:
         """
         Get the type of a variable, or empty if it doesn't exist.
         """
-        if (var in self and contains(typ, self[var][1])):
+        if (var in self and self[var][1] in typ):
             return (Constant(replace(IDLEAF, prefix=var, is_complete=True)),
                     self[var][1])
         else:

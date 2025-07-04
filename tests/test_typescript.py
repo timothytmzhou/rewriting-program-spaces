@@ -446,3 +446,42 @@ def test_final():
     assert not type_commands_test("""function foo (x: number) : boolean {
                                     if (x > 10){
                                         retu""", final=True)
+
+
+@reset
+def test_possibly_void_return_types():
+    assert type_commands_test("""function foo(a: number, b: number): number {
+                                for (let x: number = 0; x < 10; x++) {
+                                    return a % b;
+                                }
+                                return 0;
+                              }""")
+    assert type_commands_test("""function foo(a: number, b: number): number {
+                                if (a < 10) {
+                                    return a - b;
+                                } else{
+                                    a *= 2;
+                                }
+                                return a;
+                              }""")
+    assert type_commands_test("""function foo(a: number, b: number): number {
+                                if (a < 10) {
+                                    return a - b;
+                                } else{
+                                    a *= 2;
+                                }
+                               """)
+
+    assert not type_commands_test("""function foo(a: number, b: number): number {
+                                for (let x: number = 0; x < 10; x++) {
+                                    return a + b;
+                                }
+                              }""")
+
+    assert not type_commands_test("""function foo(a: number, b: number): number {
+                                if (a < 10) {
+                                    return a + b;
+                                } else {
+                                    a *= 2;
+                                }
+                              }""")
