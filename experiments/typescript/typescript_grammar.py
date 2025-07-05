@@ -56,6 +56,7 @@ COMMALEAF = Token(",", re.compile(","))
 # TODO: When there is time, split this and enforce const immutable
 LETLEAF = Token("let", re.compile("((let)|(const))"))
 FORLEAF = Token("for", re.compile("for"))
+WHILELEAF = Token("while", re.compile("while"))
 IFLEAF = Token("if", re.compile("if"))
 ELSELEAF = Token("else", re.compile("else"))
 LPARLEAF = Token("lpar", re.compile(re.escape("(")))
@@ -104,6 +105,7 @@ SEMICOLON = ConstantParser(SEMICOLONLEAF)
 COMMA = ConstantParser(COMMALEAF)
 LET = ConstantParser(LETLEAF)
 FOR = ConstantParser(FORLEAF)
+WHILE = ConstantParser(WHILELEAF)
 IF = ConstantParser(IFLEAF)
 ELSE = ConstantParser(ELSELEAF)
 LPAR = ConstantParser(LPARLEAF)
@@ -151,6 +153,7 @@ lexer_spec = LexerSpec(
             COMMALEAF,
             LETLEAF,
             FORLEAF,
+            WHILELEAF,
             IFLEAF,
             ELSELEAF,
             LPARLEAF,
@@ -398,6 +401,10 @@ def commands() -> Parser:
              assignment(), exps(), SEMICOLON, assignment_end_for_loop(),
              RPAR, blocks()),
             rearrange=Rearrangement("for loop", (2, 3, 5, 7))
+        ),
+        Concatenation.of(
+            (WHILE, LPAR, exps(), RPAR, blocks()),
+            rearrange=Rearrangement("while loop", (2, 4))
         ),
         Concatenation.of(
             (IF, LPAR, exps(), RPAR, commands(), ELSE, commands()),

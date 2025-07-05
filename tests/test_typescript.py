@@ -537,6 +537,47 @@ def test_if_then():
 
 
 @reset
+def test_while():
+    assert type_commands_test("""
+                                while 
+                                """)
+    assert type_commands_test("""
+                                while (true) {
+                                """)
+    assert type_commands_test("""
+                                while (9 < 10) {}
+                                """)
+    assert type_commands_test("""
+                                let b: number = 0;
+                                while (b < 10) {8;16;{}}
+                                """)
+    assert type_commands_test("""
+                                let b: number = 0;
+                                while (b < 10) {8;16;{}}
+                                """)
+    assert type_commands_test("""function foo (x: number) : number {
+                                    while (x > 10){
+                                        return 6;
+                                    }
+                                """)
+    assert type_commands_test("""function foo (x: number) : number {
+                                    while (x > 10){
+                                        return 6;
+                                    }
+                                    return 0;
+                              }""")
+    assert not type_commands_test("""function foo (x: number) : number {
+                                    while (x > 10){
+                                        return 6;
+                                    }
+                                }""")
+    assert not type_commands_test("""function foo (x: number) : number {
+                                    while (x > 10){
+                                        return f
+                                """)
+
+
+@reset
 def test_codeblock():
     assert type_commands_test("""
                                 function 

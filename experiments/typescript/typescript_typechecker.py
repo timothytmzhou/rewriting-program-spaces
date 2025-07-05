@@ -297,7 +297,7 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
                         if VOIDTYPE in typ
                         else EmptySet())
         case Application("for loop", (init, condition, update, body), focus=focus):
-            # FOR LOOPS IMPLICITLY RETURN VOID BC THEY MAY NOT RUN THE BODY
+            # LOOPS IMPLICITLY RETURN VOID BC THEY MAY NOT RUN THE BODY
             if VOIDTYPE not in typ:
                 return EmptySet()
             if focus < 1:
@@ -316,6 +316,13 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
                                        typecheck_return(new_env, update, VOIDTYPE),
                                        typecheck_return(new_env, body, typ)),
                                       focus=focus)
+        case Application("while loop", (guard, body), focus=focus):
+            if VOIDTYPE not in typ:
+                return EmptySet()
+            return Application.of("while loop",
+                                  (typecheck_expression(env, guard, BOOLEANTYPE),
+                                   typecheck_return(env, body, typ)),
+                                  focus=focus)
         case Application("if-then-else",
                          (guards, then_bodies, else_bodies),
                          focus=focus):
