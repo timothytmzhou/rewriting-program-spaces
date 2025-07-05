@@ -1,2 +1,0 @@
-//Write a typescript function to find the sum of the per-digit difference between two integers.
-function digit_distance_nums(n1: number, n2: number): number 

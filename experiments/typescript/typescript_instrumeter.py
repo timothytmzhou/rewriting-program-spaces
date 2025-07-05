@@ -12,8 +12,8 @@ class TypescriptInstrumeter(Instrumenter):
         default_factory=lambda: Totaler()
     )
 
-    def instrument(self, prog: str):
-        super().instrument(prog)
+    def instrument(self, prog: str, sat: bool):
+        super().instrument(prog, sat)
         self.pass_compiler.incr(
             True,
             1.0 if self.compile(prog) else 0.0

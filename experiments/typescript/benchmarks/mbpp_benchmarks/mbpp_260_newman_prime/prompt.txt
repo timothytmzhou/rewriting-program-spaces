@@ -1,2 +1,0 @@
-//Write a typescript function to find the nth newman–shanks–williams prime number.
-function newman_prime(n: number): number 

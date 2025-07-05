@@ -2,6 +2,8 @@ import time
 import argparse
 import os
 from dataclasses import dataclass
+from typing import Optional
+from transformers import set_seed
 
 from experiments.utils.instrumenter import Instrumenter
 from runllm.constrained_decoding import RealizabilityChecker
@@ -33,8 +35,8 @@ def run_experiment(
 ):
     prompt = prompt.rstrip('\n')
     start = time.time()
-    output = runner.run(config, prompt, context=context,
-                        realizability_checker=checker, return_unsat_output=True)
+    passed, output = runner.run(config, prompt, context=context,
+                                realizability_checker=checker)
     elapsed = time.time() - start
 
     # Extract program and perform instrumentation (check output, record times, etc.)
@@ -45,7 +47,7 @@ def run_experiment(
         end_prog_index = output.find('```')
         if end_prog_index != -1:
             output = output[:end_prog_index]
-    inst.instrument(output)
+    inst.instrument(output, passed)
 
     # Write Raw Output
     outfile.write(f"Prompt #: {prompt_num}, Run #: {run_num}\n")
@@ -61,15 +63,14 @@ def run_experiment(
 def run_typescript(runner: LanguageModelRunner, config: Config, runs: int):
     # Set instrumentation
     inst: Instrumenter = TypescriptInstrumeter(typescript_checker)
-    benchmark_dir = "typescript/benchmarks/mbpp_benchmarks_safe"
+    benchmark_dir = "typescript/benchmarks/mbpp_benchmarks"
 
     # Get llm context
     with open("typescript/benchmarks/context.txt", "r") as context_file:
         context = context_file.read().rstrip()
 
     for prompt_num, subdir in enumerate(os.listdir(benchmark_dir)):
-        if prompt_num > 10:
-            break
+        print(prompt_num, subdir)
         if not os.path.isdir(os.path.join(benchmark_dir, subdir)):
             continue
         prompts_file = os.path.join(benchmark_dir, subdir, "prompt.txt")
@@ -199,9 +200,12 @@ def run_experiments(
         typescript_CD: bool,
         typescript_noCD: bool,
         performance: bool,
-        num_runs: int = 1
+        num_runs: int = 1,
+        seed: Optional[int] = None
 ):
     # Instantiate runner to load model
+    if seed is not None:
+        set_seed(seed)
     runner = LanguageModelRunner()
 
     # Run experiments and write table
@@ -269,5 +273,6 @@ if __name__ == "__main__":
         args.typescript_CD,
         args.typescript_noCD,
         args.performance,
-        args.num_runs
+        args.num_runs,
+        seed=3587551093
     )

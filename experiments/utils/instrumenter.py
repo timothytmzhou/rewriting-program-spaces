@@ -52,12 +52,7 @@ class Instrumenter:
         self.pass_constraint.set_indices(prompt_num, run_num)
         self.pass_tests.set_indices(prompt_num, run_num)
 
-    def instrument(self, prog: str):
-        # Check if checker constraints passed (don't time this call!)
-        passes_constraints = self.checker.realizable.__wrapped__(
-            self.checker, prog, final=True
-        )
-
+    def instrument(self, prog: str, passes_constraints: bool):
         self.pass_constraint.incr(
             True,
             1.0 if passes_constraints else 0.0

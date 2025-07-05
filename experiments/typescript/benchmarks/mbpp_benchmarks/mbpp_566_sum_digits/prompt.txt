@@ -1,2 +1,0 @@
-//Write a typescript function to get the sum of the digits of a non-negative integer.
-function sum_digits(n: number): number 

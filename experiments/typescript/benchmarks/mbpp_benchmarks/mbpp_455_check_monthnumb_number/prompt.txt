@@ -1,2 +1,0 @@
-//Write a typescript function to check whether the given month number contains 31 days or not.
-function check_monthnumb_number(monthnum2: number): boolean 

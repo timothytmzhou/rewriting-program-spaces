@@ -509,8 +509,7 @@ def test_if_then():
                                     if (x > 10){
                                         return false;
                                     }
-                                    ret
-                              """)
+                                    ret""")
     assert type_commands_test("""function foo (x: number) : number {
                                     for (const i: number = 0; i < 10; i = i) {
                                         if (x > 10){
@@ -522,8 +521,7 @@ def test_if_then():
                                     if (x > 10){
                                         return 6;
                                     }
-                                    ret
-                              """)
+                                    ret""")
     assert not type_commands_test("""function foo (x: number) : number {
                                     if (x > 10){
                                         return 6;

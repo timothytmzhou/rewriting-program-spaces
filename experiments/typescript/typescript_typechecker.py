@@ -53,6 +53,19 @@ def typecheck_args(env: Environment, exps: TreeGrammar, types: Type
     raise ValueError(f"Argument sequence got unexpected type {types} or term {exps}")
 
 
+# @rewrite
+# def typecheck_dot_access(env: Environment, exps: TreeGrammar, types: Type,
+#                          lhs_type: Type) -> TreeGrammar:
+#     match exps:
+#         case Union(children):
+#             return Union.of(typecheck_dot_access(env, child, types, lhs_type)
+#                             for child in children)
+#         case Constant(c) if isinstance(c, Token) and c.token_type == "id":
+#             return env.get_terms_of_type(c, types, lhs_type=lhs_type)
+#         case _:
+#             raise ValueError(f"Unknown dot access rhs: {exps}")
+
+
 @rewrite
 def typecheck_expression(env: Environment, exps: TreeGrammar, types: Type
                          ) -> TreeGrammar:
@@ -86,7 +99,8 @@ def typecheck_expression(env: Environment, exps: TreeGrammar, types: Type
         #                                   focus=focus)
         #         case FuncType(VOIDTYPE, return_type):
         #             return Application.of("0-ary lambda",
-        #                                   (typecheck_return(env, bodies, return_type),),
+        #                                   (typecheck_return(env, bodies,
+        #                                                     return_type),),
         #                                   focus=focus)
         #     return EmptySet()
         case Application("0-ary app", (func,), focus=focus):
@@ -115,6 +129,22 @@ def typecheck_expression(env: Environment, exps: TreeGrammar, types: Type
         case Application("grp", (exps_inner,), focus=focus):
             good_inners = typecheck_expression(env, exps_inner, types)
             return Application.of("grp", good_inners, focus=focus)
+        # case Application("dot access", (lhs, rhs), focus=focus):
+        #     if focus < 1:
+        #         return Application("dot access", (lhs, rhs), focus=focus)
+        #     lhs_type = infer_type_expression(env, lhs)
+        #     return Union.of(
+        #         (Application("dot access",
+        #                      (lhs, typecheck_dot_access(env, rhs, types, NUMBERTYPE)),
+        #                      focus=focus)
+        #          if NUMBERTYPE in lhs_type
+        #          else EmptySet()),
+        #         (Application("dot access",
+        #                      (lhs, typecheck_dot_access(env, rhs, types, STRINGTYPE)),
+        #                      focus=focus)
+        #          if STRINGTYPE in lhs_type
+        #          else EmptySet())
+        #     )
         case Union(children):
             return Union.of(typecheck_expression(env, child, types)
                             for child in children)
@@ -180,7 +210,10 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
             if VOIDTYPE not in typ:
                 return EmptySet()
             if focus < 1:
-                return stmts
+                return Application.of("variable assignment",
+                                      (typecheck_expression(env, var_id, TopType()),
+                                       rhs),
+                                      focus=focus)
             else:
                 var_typ = infer_type_expression(env, var_id)
                 return (Application.of("variable assignment",
@@ -193,7 +226,10 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
             if VOIDTYPE not in typ:
                 return EmptySet()
             if focus < 1:
-                return stmts
+                return Application.of("+= assignment",
+                                      (typecheck_expression(env, var_id, NUMBERTYPE),
+                                       rhs),
+                                      focus=focus)
             else:
                 var_typ = infer_type_expression(env, var_id)
                 return (Application.of("+= assignment",
@@ -205,13 +241,9 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
         case Application("increment", (var_id, ), focus=focus):
             if VOIDTYPE not in typ:
                 return EmptySet()
-            if focus < 1:
-                return stmts
-            else:
-                var_typ = infer_type_expression(env, var_id)
-                return (stmts
-                        if VOIDTYPE in typ and NUMBERTYPE in var_typ
-                        else EmptySet())
+            return Application.of("increment",
+                                  (typecheck_expression(env, var_id, NUMBERTYPE), ),
+                                  focus=focus)
         case Application("expression statement", (expressions, ), focus=focus):
             return (Application.of("expression statement",
                                    typecheck_expression(env, expressions, TopType()),
@@ -497,7 +529,8 @@ infer_return_type_helper_functions: dict[Environment, Callable] = dict()
 #                 if len(updates) == 1:
 #                     return updates.pop()
 #                 if len(updates) > 1:
-#                     raise ValueError(f"infer_return_type_seq -- weird stmts {stmt_seq}")
+#                     raise ValueError(f"infer_return_type_seq "
+#                                       + "got weird stmts {stmt_seq}")
 #                 return EmptyType()
 #             case Application("command seq", (head, tail)):
 #                 head_typ = infer_return_type(env, head)
@@ -591,6 +624,6 @@ default_env = Environment.from_dict({
 
 typescript_checker = RealizabilityChecker(
     lambda asts: typecheck_return_seqs(default_env, asts, VOIDTYPE),
-    commands(),
+    codeblocks(),
     lexer_spec,
 )

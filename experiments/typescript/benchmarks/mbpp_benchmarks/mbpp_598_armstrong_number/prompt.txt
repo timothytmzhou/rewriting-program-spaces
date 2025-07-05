@@ -1,2 +1,0 @@
-//Write a typescript function to check whether the given number is armstrong or not.
-function armstrong_number(number: number): boolean 

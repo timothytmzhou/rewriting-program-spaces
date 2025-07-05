@@ -1,2 +1,0 @@
-//Write a typescript function to sum all amicable numbers from 1 to a specified number.
-function amicable_numbers_sum(limit: number): number 
