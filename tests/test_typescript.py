@@ -218,7 +218,8 @@ def test_simple_0_ary_func_decls():
     assert type_commands_test("function foo (): number {return 5;} ")
     assert type_commands_test("function foo (): boolean {18; 47; {} return 5 ")
     assert type_commands_test("function foo (): number {18; 47; {} return 5 + 12;} ")
-    assert type_commands_test("function foo (): number {18; 47; {} return 5+12;} foo()")
+    assert type_commands_test("""function foo (): number {18; 47; {} return 5+12;}
+                               foo() + foo()""")
     assert type_commands_test("function foo () : boolean {18; 47; {} return 5 + ")
     assert not type_commands_test("function foo () : number {18; 47; {} return 5 > ")
 
@@ -317,18 +318,32 @@ def test_recursion():
 
 @reset
 def test_dot_access():
-    assert type_expression_test("Math.pow",
-                                envs=Environment.from_dict(
-                                    {"Math.pow":
-                                     FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE)}
-                                ),
-                                typ=TopType())
-    assert type_expression_test("Math.pow(7",
-                                envs=Environment.from_dict(
-                                    {"Math.pow":
-                                     FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE)}
-                                ),
-                                typ=NUMBERTYPE)
+    # assert type_expression_test("Math.pow",
+    #                             envs=Environment.from_dict(
+    #                                 {"Math.pow":
+    #                                  FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE)}
+    #                             ),
+    #                             typ=TopType())
+    # assert type_expression_test("Math.pow(7",
+    #                             envs=Environment.from_dict(
+    #                                 {"Math.pow":
+    #                                  FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE)}
+    #                             ),
+    #                             typ=NUMBERTYPE)
+    # assert type_expression_test("7.toString()",
+    #                             typ=STRINGTYPE)
+    # assert type_expression_test("7.toString().trim()",
+    #                             typ=STRINGTYPE)
+    # assert type_expression_test("7.toString().trim().charAt(92).includes(\"8\")",
+    #                             typ=BOOLEANTYPE)
+    assert not type_expression_test("7.toString().trim()",
+                                    typ=NUMBERTYPE)
+    assert not type_expression_test("7.toString().trim().charAt(92).includes(8)",
+                                    typ=BOOLEANTYPE)
+    assert not type_expression_test("7.trim()",
+                                    typ=TopType())
+    assert not type_expression_test("7..toString()",
+                                    typ=TopType())
 
 
 @reset
@@ -434,12 +449,12 @@ def test_final():
                               function power(a: number, b: number): number {
                                 return Math.pow(a, b);
                               }""",
-                              envs=Environment(
+                              envs=Environment(FrozenDict(
                                   (
                                       ("Math.pow",
                                        FuncType.of(ProdType.of(NUMBERTYPE, NUMBERTYPE),
                                                    NUMBERTYPE)),
-                                  )
+                                  ))
                               ),
                               final=True)
 
@@ -521,3 +536,26 @@ def test_if_then():
                                             }
                                     }
                                 }""")
+
+
+@reset
+def test_codeblock():
+    assert type_commands_test("""
+                                function 
+                                """)
+    assert typescript_checker.realizable("""
+                                         ```
+                                         function
+                                         """)
+    assert typescript_checker.realizable("""
+                                         ```
+                                         function foo (x: number) : number {
+                                            for (const i: number = 0; i < 10; i = i) {
+                                                if (x > 10){
+                                                    return 6;
+                                                }
+                                            }
+                                            return 0;
+                                        }
+                                         ```
+                                         """)

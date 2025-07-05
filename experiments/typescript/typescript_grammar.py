@@ -16,7 +16,7 @@ IDLEAF = Token(
     "id",
     re.compile(
         "(?!(true|false|number|string|boolean|return|function|let|if|else)$)"
-        + "([a-zA-Z][a-zA-Z0-9_\\.]*)"
+        + "([a-zA-Z][a-zA-Z0-9_]*)|(Math\\.[a-zA-Z0-9_]+)"  # Math library hack
     )
 )
 
@@ -62,6 +62,8 @@ LPARLEAF = Token("lpar", re.compile(re.escape("(")))
 RPARLEAF = Token("rpar", re.compile(re.escape(")")))
 LBRACELEAF = Token("lbrace", re.compile(re.escape("{")))
 RBRACELEAF = Token("rbrace", re.compile(re.escape("}")))
+
+CODEBLOCKLEAF = Token("```", re.compile(r"```"))
 
 INTS = ConstantParser(INTSLEAF)
 STRINGS = ConstantParser(STRINGSLEAF)
@@ -109,6 +111,8 @@ RPAR = ConstantParser(RPARLEAF)
 LBRACE = ConstantParser(LBRACELEAF)
 RBRACE = ConstantParser(RBRACELEAF)
 
+CODEBLOCK = ConstantParser(CODEBLOCKLEAF)
+
 
 lexer_spec = LexerSpec(
     tokens=frozenset(
@@ -152,7 +156,8 @@ lexer_spec = LexerSpec(
             LPARLEAF,
             RPARLEAF,
             LBRACELEAF,
-            RBRACELEAF
+            RBRACELEAF,
+            CODEBLOCKLEAF
         }
     ),
     ignore_regex=re.compile(r"(\s+)|//.*"),
@@ -243,11 +248,11 @@ def base_exps() -> Parser:
         #                  rearrange=Rearrangement("n-ary lambda", (1, 4))),
         Concatenation.of((LPAR, exps(), RPAR),
                          rearrange=Rearrangement("grp", (1,))),
-        Concatenation.of(exps(), LPAR, RPAR,
+        Concatenation.of(base_exps(), LPAR, RPAR,
                          rearrange=Rearrangement("0-ary app", (0,))),
-        Concatenation.of(exps(), LPAR, args(), RPAR,
+        Concatenation.of(base_exps(), LPAR, args(), RPAR,
                          rearrange=Rearrangement("n-ary app", (0, 2))),
-        # Concatenation.of(exps(), DOT, ID,
+        # Concatenation.of(base_exps(), DOT, ID,
         #                  rearrange=Rearrangement("dot access", (0, 2)))
     )
 
@@ -413,4 +418,12 @@ def command_seqs() -> Parser:
             (commands(), command_seqs()),
             rearrange=Rearrangement("command seq", (0, 1)),
         ),
+    )
+
+
+@rewrite
+def codeblocks() -> Parser:
+    return Concatenation.of(
+        CODEBLOCK, command_seqs(), CODEBLOCK,
+        rearrange=Rearrangement(None, (1,))
     )
