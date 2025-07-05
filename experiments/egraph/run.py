@@ -113,7 +113,6 @@ def run_experiment_type(runner, config, temps, checker_type, log_name, code_bloc
 
 def main():
     temps = [.01, .3, .5, .7, 1.0]
-    temps = [0.1]
     config = Config(
         num_guesses=300,
         max_new_tokens=100,
@@ -121,7 +120,10 @@ def main():
     )
 
     models = [
-        ("llama13b", ModelConfig(model_id="codellama/CodeLlama-13b-Instruct-hf"))
+        ("llama13b", ModelConfig(model_id="codellama/CodeLlama-13b-Instruct-hf")),
+        ("llama7b", ModelConfig(model_id="codellama/CodeLlama-7b-Instruct-hf")),
+        ("starcoder", ModelConfig(model_id="bigcode/starcoder2-15b-instruct-v0.1")),
+        ("deepseek-coder", ModelConfig(model_id="deepseek-ai/deepseek-coder-6.7b-instruct")),
     ]
 
     for (model_name, model_config) in models:

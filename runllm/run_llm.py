@@ -146,4 +146,4 @@ class LanguageModelRunner:
                 forbidden_tokens[tuple(generated_tokens)].add(new_token)
                 cache.crop(-1)
 
-        return realizability_checker.realizable(decoded_output, True), decoded_output
+        return False, decoded_output
