@@ -1,3 +1,4 @@
+import gc
 from dataclasses import dataclass
 from collections import defaultdict
 from typing import Any, List, Tuple, Set, Optional
@@ -81,7 +82,8 @@ class LanguageModelRunner:
         """
         Generate the next token using the model.
         """
-        bad_words = [[id] for id in forbidden_tokens] if forbidden_tokens else None
+        bad_words = [[id]
+                     for id in forbidden_tokens] if forbidden_tokens else None
         inp = torch.tensor([list(input_ids[0]) + generated_tokens])
         inp = inp.to(self.model_config.device)
         if self.tokenizer.eos_token_id in forbidden_tokens:
@@ -147,3 +149,9 @@ class LanguageModelRunner:
                 cache.crop(-1)
 
         return False, decoded_output
+
+    def __del__(self):
+        del self.model
+        del self.tokenizer
+        gc.collect()
+        torch.cuda.empty_cache()

@@ -122,7 +122,6 @@ def main():
     models = [
         ("llama13b", ModelConfig(model_id="codellama/CodeLlama-13b-Instruct-hf")),
         ("llama7b", ModelConfig(model_id="codellama/CodeLlama-7b-Instruct-hf")),
-        ("starcoder", ModelConfig(model_id="bigcode/starcoder2-15b-instruct-v0.1")),
         ("deepseek-coder", ModelConfig(model_id="deepseek-ai/deepseek-coder-6.7b-instruct")),
     ]
 
@@ -141,6 +140,7 @@ def main():
                     name,
                     code_block
                 )
+        del runner  # Free up memory
 
 
 if __name__ == "__main__":
