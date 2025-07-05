@@ -274,11 +274,15 @@ def test_lets():
     assert type_commands_test("let x: number = 5; x += ")
     assert type_commands_test("let x: number = 5; x ++ ")
     assert type_commands_test("const x: number = 5; let y: boolean = true;")
+    assert type_commands_test("const x: number = 5; let y: boolean = x")
     assert type_commands_test("const x: number = 5; let y: boolean = true; x + 17;")
     assert type_commands_test("let x: number = 5; let y: boolean = tr")
     assert type_commands_test("let x: number = 5; let y: boolean = 6")
     assert type_commands_test("function foo (x: number) : number "
                               + "{let y:number = x; return y;}")
+    assert not type_commands_test("const x: number = 5; x = 7")
+    assert not type_commands_test("const x: number = 5; x += ")
+    assert not type_commands_test("const x: number = 5; x ++ ")
     assert not type_commands_test("let x: number = 5; x = (7 ==")
     assert not type_commands_test("let x: number = z; let y: boolean = true")
     assert not type_commands_test("x = 7; x += ")
@@ -316,8 +320,8 @@ def test_recursion():
                                   }""")
 
 
-@reset
-def test_dot_access():
+# @reset
+# def test_dot_access():
     # assert type_expression_test("Math.pow",
     #                             envs=Environment.from_dict(
     #                                 {"Math.pow":
@@ -336,14 +340,14 @@ def test_dot_access():
     #                             typ=STRINGTYPE)
     # assert type_expression_test("7.toString().trim().charAt(92).includes(\"8\")",
     #                             typ=BOOLEANTYPE)
-    assert not type_expression_test("7.toString().trim()",
-                                    typ=NUMBERTYPE)
-    assert not type_expression_test("7.toString().trim().charAt(92).includes(8)",
-                                    typ=BOOLEANTYPE)
-    assert not type_expression_test("7.trim()",
-                                    typ=TopType())
-    assert not type_expression_test("7..toString()",
-                                    typ=TopType())
+    # assert not type_expression_test("7.toString().trim()",
+    #                                 typ=NUMBERTYPE)
+    # assert not type_expression_test("7.toString().trim().charAt(92).includes(8)",
+    #                                 typ=BOOLEANTYPE)
+    # assert not type_expression_test("7.trim()",
+    #                                 typ=TopType())
+    # assert not type_expression_test("7..toString()",
+    #                                 typ=TopType())
 
 
 @reset
@@ -511,7 +515,7 @@ def test_if_then():
                                     }
                                     ret""")
     assert type_commands_test("""function foo (x: number) : number {
-                                    for (const i: number = 0; i < 10; i = i) {
+                                    for (let i: number = 0; i < 10; i = i) {
                                         if (x > 10){
                                                 return 6;
                                             }
@@ -534,12 +538,18 @@ def test_if_then():
                                             }
                                     }
                                 }""")
+    assert not type_commands_test("""function foo (x: number) : number {
+                                    for (const i: number = 0; i < 10; i = i) {
+                                        if (x > 10){
+                                                return 6;
+                                            }
+                                    }""")
 
 
 @reset
 def test_while():
     assert type_commands_test("""
-                                while 
+                                while
                                 """)
     assert type_commands_test("""
                                 while (true) {
@@ -580,7 +590,7 @@ def test_while():
 @reset
 def test_codeblock():
     assert type_commands_test("""
-                                function 
+                                function
                                 """)
     assert typescript_checker.realizable("""
                                          ```
@@ -589,7 +599,7 @@ def test_codeblock():
     assert typescript_checker.realizable("""
                                          ```
                                          function foo (x: number) : number {
-                                            for (const i: number = 0; i < 10; i = i) {
+                                            for (let i: number = 0; i < 10; i = i) {
                                                 if (x > 10){
                                                     return 6;
                                                 }

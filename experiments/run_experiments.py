@@ -1,7 +1,7 @@
 import time
 import argparse
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Optional
 from transformers import set_seed
 
@@ -63,7 +63,7 @@ def run_experiment(
 def run_typescript(runner: LanguageModelRunner, config: Config, runs: int):
     # Set instrumentation
     inst: Instrumenter = TypescriptInstrumeter(typescript_checker)
-    benchmark_dir = "typescript/benchmarks/mbpp_benchmarks"
+    benchmark_dir = "typescript/benchmarks/mbpp_benchmarks_safe"
 
     # Get llm context
     with open("typescript/benchmarks/context.txt", "r") as context_file:
@@ -74,7 +74,7 @@ def run_typescript(runner: LanguageModelRunner, config: Config, runs: int):
         if not os.path.isdir(os.path.join(benchmark_dir, subdir)):
             continue
         prompts_file = os.path.join(benchmark_dir, subdir, "prompt.txt")
-        output_file = os.path.join(benchmark_dir, subdir, "CD_results.txt")
+        output_file = os.path.join(benchmark_dir, subdir, f"CD_results_temp_{TEMP}.txt")
 
         with open(prompts_file, "r") as promptfile, open(output_file, "w") as outfile:
             for run_num in range(runs):
@@ -128,7 +128,7 @@ def run_typescript_noCD(runner: LanguageModelRunner, config: Config, runs: int):
     # Set instrumentation
     checker = TrivialChecker()
     inst: Instrumenter = TypescriptInstrumeter(typescript_checker)
-    benchmark_dir = "typescript/benchmarks/mbpp_benchmarks"
+    benchmark_dir = "typescript/benchmarks/mbpp_benchmarks_safe"
 
     # Get llm context
     with open("typescript/benchmarks/context.txt", "r") as context_file:
@@ -139,7 +139,8 @@ def run_typescript_noCD(runner: LanguageModelRunner, config: Config, runs: int):
         if not os.path.isdir(os.path.join(benchmark_dir, subdir)):
             continue
         prompts_file = os.path.join(benchmark_dir, subdir, "prompt.txt")
-        output_file = os.path.join(benchmark_dir, subdir, "noCD_results.txt")
+        output_file = os.path.join(benchmark_dir, subdir,
+                                   f"noCD_results_temp_{TEMP}.txt")
 
         with open(prompts_file, "r") as promptfile, open(output_file, "w") as outfile:
             for run_num in range(runs):
@@ -264,10 +265,17 @@ if __name__ == "__main__":
         default=1,
         help='Number of runs for each prompt (default: 1)'
     )
+    parser.add_argument(
+        '--temp',
+        type=float,
+        default=1,
+        help='LLM Temperature (default: 1)'
+    )
     args = parser.parse_args()
+    TEMP: float = args.temp
     run_experiments(
-        Config(),
-        "table.txt",
+        replace(Config(), temperature=TEMP),
+        f"table_temp_{TEMP}.txt",
         args.noninterference_CD,
         args.noninterference_noCD,
         args.typescript_CD,

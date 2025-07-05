@@ -54,7 +54,8 @@ PLUSPLUSLEAF = Token("+=", re.compile("\\+\\+"))
 SEMICOLONLEAF = Token(";", re.compile(";"))
 COMMALEAF = Token(",", re.compile(","))
 # TODO: When there is time, split this and enforce const immutable
-LETLEAF = Token("let", re.compile("((let)|(const))"))
+LETLEAF = Token("let", re.compile("let"))
+CONSTLEAF = Token("const", re.compile("const"))
 FORLEAF = Token("for", re.compile("for"))
 WHILELEAF = Token("while", re.compile("while"))
 IFLEAF = Token("if", re.compile("if"))
@@ -104,6 +105,7 @@ PLUSPLUS = ConstantParser(PLUSPLUSLEAF)
 SEMICOLON = ConstantParser(SEMICOLONLEAF)
 COMMA = ConstantParser(COMMALEAF)
 LET = ConstantParser(LETLEAF)
+CONST = ConstantParser(CONSTLEAF)
 FOR = ConstantParser(FORLEAF)
 WHILE = ConstantParser(WHILELEAF)
 IF = ConstantParser(IFLEAF)
@@ -152,6 +154,7 @@ lexer_spec = LexerSpec(
             SEMICOLONLEAF,
             COMMALEAF,
             LETLEAF,
+            CONSTLEAF,
             FORLEAF,
             WHILELEAF,
             IFLEAF,
@@ -336,6 +339,10 @@ def assignment() -> Parser:
         Concatenation.of(
             (LET, ID, COLON, types(), GETS, exps(), SEMICOLON),
             rearrange=Rearrangement("variable declaration", (1, 3, 5)),
+        ),
+        Concatenation.of(
+            (CONST, ID, COLON, types(), GETS, exps(), SEMICOLON),
+            rearrange=Rearrangement("const declaration", (1, 3, 5)),
         ),
         Concatenation.of(
             (ID, GETS, exps(), SEMICOLON),

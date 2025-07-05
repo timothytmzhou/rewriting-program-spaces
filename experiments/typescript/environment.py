@@ -10,11 +10,11 @@ from .types import *
 @dataclass(frozen=True)
 class FrozenDict:
     # TODO: Is there no better implementation?
-    env: tuple[tuple[str, Type], ...] = ()
+    env: tuple[tuple[str, Type, bool], ...] = ()  # (name, type, is_mutable)
 
     @classmethod
     def from_dict(cls, dct: dict[str, Type]):
-        return cls(tuple(dct.items()))
+        return cls(tuple((a, b, True) for a, b in dct.items()))
 
     def __contains__(self, obj):
         if isinstance(obj, str):
@@ -23,14 +23,14 @@ class FrozenDict:
 
     def __getitem__(self, obj):
         if isinstance(obj, str):
-            for pair in self.env:
-                if pair[0] == obj:
-                    return pair
+            for triple in self.env:
+                if triple[0] == obj:
+                    return triple
             raise ValueError(f"No variable {obj} in env {self.env}")
         return self.env[obj]
 
-    def add(self, bindings: tuple[tuple[str, Type], ...]) -> FrozenDict:
-        return FrozenDict(self.env + bindings)
+    def add(self, bindings: tuple[tuple[str, Type, bool], ...]) -> FrozenDict:
+        return FrozenDict(bindings + self.env)
 
 
 DEFAULT_NUMBER_METHODS = FrozenDict.from_dict({
@@ -81,64 +81,42 @@ class Environment:
     Note that the type EnvironmentSet defines a lattice.
     """
     env: FrozenDict = FrozenDict()
-    number_methods: FrozenDict = DEFAULT_NUMBER_METHODS  # e.g., 5.toString()
-    string_methods: FrozenDict = DEFAULT_STRING_METHODS
+    # number_methods: FrozenDict = DEFAULT_NUMBER_METHODS  # e.g., 5.toString()
+    # string_methods: FrozenDict = DEFAULT_STRING_METHODS
 
     @classmethod
     def from_dict(cls, dct: dict[str, Type]):
-        return cls(FrozenDict(tuple(dct.items())))
+        return cls(FrozenDict.from_dict(dct))
 
     def __contains__(self, obj):
-        if isinstance(obj, str):
-            return any(entry[0] == obj for entry in self.env)
         return obj in self.env
 
-    def add(self, bindings: tuple[tuple[str, Type], ...]) -> Environment:
+    def add(self, bindings: tuple[tuple[str, Type, bool], ...]) -> Environment:
         return Environment(self.env.add(bindings))
 
-    def _get_typed(self, var: str, typ: Type, lhs_type: Optional[Type] = None
+    def _get_typed(self, var: str, typ: Type, is_mutable: Optional[bool] = None
                    ) -> tuple[TreeGrammar, Type]:
         """
         Get the type of a variable, or empty if it doesn't exist.
         """
-        match lhs_type:
-            case None:
-                if (var in self.env and self.env[var][1] in typ):
-                    return (Constant(replace(IDLEAF, prefix=var, is_complete=True)),
-                            self.env[var][1])
-            case _ if lhs_type is not None and NUMBERTYPE in lhs_type:
-                if (var in self.number_methods and self.number_methods[var][1] in typ):
-                    return (Constant(replace(IDLEAF, prefix=var, is_complete=True)),
-                            self.number_methods[var][1])
-            case _ if lhs_type is not None and STRINGTYPE in lhs_type:
-                if (var in self.string_methods and self.string_methods[var][1] in typ):
-                    return (Constant(replace(IDLEAF, prefix=var, is_complete=True)),
-                            self.string_methods[var][1])
+        if (
+            var in self.env
+            and self.env[var][1] in typ
+            and (is_mutable is None or self.env[var][2] == is_mutable)
+        ):
+            return (Constant(replace(IDLEAF, prefix=var, is_complete=True)),
+                    self.env[var][1])
         return (EmptySet(), EmptyType())
 
     def get_terms_of_type(self, identifiers: Token, typ: Type,
-                          lhs_type: Optional[Type] = None) -> TreeGrammar:
+                          is_mutable: Optional[bool] = None) -> TreeGrammar:
         if identifiers.token_type == "id":
             if identifiers.is_complete:
-                return self._get_typed(identifiers.prefix, typ, lhs_type)[0]
-            match lhs_type:
-                case None:
-                    return Union.of(
-                        {self._get_typed(var, typ, lhs_type)[0]
-                         for (var, _) in self.env.env
-                         if var.startswith(identifiers.prefix)}
-                    )
-                case _ if lhs_type is not None and NUMBERTYPE in lhs_type:
-                    return Union.of(
-                        {self._get_typed(var, typ, lhs_type)[0]
-                         for (var, _) in self.number_methods.env
-                         if var.startswith(identifiers.prefix)}
-                    )
-                case _ if lhs_type is not None and STRINGTYPE in lhs_type:
-                    return Union.of(
-                        {self._get_typed(var, typ, lhs_type)[0]
-                         for (var, _) in self.string_methods.env
-                         if var.startswith(identifiers.prefix)}
-                    )
+                return self._get_typed(identifiers.prefix, typ, is_mutable)[0]
+            return Union.of(
+                {self._get_typed(var, typ, is_mutable)[0]
+                    for (var, _, _) in self.env.env
+                    if var.startswith(identifiers.prefix)}
+            )
 
         raise ValueError(f"Unknown identifiers type: {identifiers}")

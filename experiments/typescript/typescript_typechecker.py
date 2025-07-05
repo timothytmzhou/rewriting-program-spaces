@@ -67,6 +67,15 @@ def typecheck_args(env: Environment, exps: TreeGrammar, types: Type
 
 
 @rewrite
+def typecheck_lhs(env: Environment, exps: TreeGrammar, types: Type,
+                  is_mutable: bool) -> TreeGrammar:
+    match exps:
+        case Constant(c) if isinstance(c, Token) and c.token_type == "id":
+            return env.get_terms_of_type(c, types, is_mutable=is_mutable)
+    raise ValueError(f"Unexpected lhs in reassignment {exps}")
+
+
+@rewrite
 def typecheck_expression(env: Environment, exps: TreeGrammar, types: Type
                          ) -> TreeGrammar:
     match exps:
@@ -191,15 +200,16 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
             return EmptySet()
         case Union(children):
             return Union.of(typecheck_return(env, child, typ) for child in children)
-        case Application("variable declaration",
-                         (var_id, type_annotation, rhs), focus=focus):
+        case Application(decl, (var_id, type_annotation, rhs),
+                         focus=focus) if decl in {"variable declaration",
+                                                  "const declaration"}:
             if VOIDTYPE not in typ:
                 return EmptySet()
             if focus < 2:
                 return stmts
             else:
                 rhs_type = parse_type(type_annotation)
-                return (Application.of("variable declaration",
+                return (Application.of(decl,
                                        (var_id, type_annotation,
                                         typecheck_expression(env, rhs, rhs_type)),
                                        focus=focus)
@@ -211,13 +221,13 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
                 return EmptySet()
             if focus < 1:
                 return Application.of("variable assignment",
-                                      (typecheck_expression(env, var_id, TopType()),
+                                      (typecheck_lhs(env, var_id, TopType(), True),
                                        rhs),
                                       focus=focus)
             else:
                 var_typ = infer_type_expression(env, var_id)
                 return (Application.of("variable assignment",
-                                       (var_id,
+                                       (typecheck_lhs(env, var_id, var_typ, True),
                                         typecheck_expression(env, rhs, var_typ)),
                                        focus=focus)
                         if VOIDTYPE in typ and not isinstance(var_typ, EmptyType)
@@ -227,13 +237,13 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
                 return EmptySet()
             if focus < 1:
                 return Application.of("+= assignment",
-                                      (typecheck_expression(env, var_id, NUMBERTYPE),
+                                      (typecheck_lhs(env, var_id, NUMBERTYPE, True),
                                        rhs),
                                       focus=focus)
             else:
                 var_typ = infer_type_expression(env, var_id)
                 return (Application.of("+= assignment",
-                                       (var_id,
+                                       (typecheck_lhs(env, var_id, var_typ, True),
                                         typecheck_expression(env, rhs, NUMBERTYPE)),
                                        focus=focus)
                         if VOIDTYPE in typ and NUMBERTYPE in var_typ
@@ -242,7 +252,7 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
             if VOIDTYPE not in typ:
                 return EmptySet()
             return Application.of("increment",
-                                  (typecheck_expression(env, var_id, NUMBERTYPE), ),
+                                  (typecheck_lhs(env, var_id, NUMBERTYPE, True), ),
                                   focus=focus)
         case Application("expression statement", (expressions, ), focus=focus):
             return (Application.of("expression statement",
@@ -553,7 +563,7 @@ infer_return_type_helper_functions: dict[Environment, Callable] = dict()
 
 
 @fixpoint(lambda: tuple())
-def get_new_bindings(stmt: TreeGrammar) -> tuple[tuple[str, Type], ...]:
+def get_new_bindings(stmt: TreeGrammar) -> tuple[tuple[str, Type, bool], ...]:
     """WARNING: DO NOT CALL ON INCOMPLETE TREEGRAMMAR."""
     match stmt:
         case EmptySet():
@@ -567,17 +577,21 @@ def get_new_bindings(stmt: TreeGrammar) -> tuple[tuple[str, Type], ...]:
                 raise ValueError(f"gather_env_update called on ambiguous stmt {stmt}")
             return tuple()
         case Application("variable declaration", (var, type, _)):
-            return ((get_identifier_name(var), parse_type(type)), )
+            return ((get_identifier_name(var), parse_type(type), True),)
+        case Application("const declaration", (var, type, _)):
+            return ((get_identifier_name(var), parse_type(type), False),)
         case Application("0-ary func decl", (func, return_type, _)):
-            return ((get_identifier_name(func), FuncType.of(VOIDTYPE,
-                                                            parse_type(return_type))), )
+            return ((get_identifier_name(func),
+                     FuncType.of(VOIDTYPE, parse_type(return_type)),
+                     False),)
         case Application("n-ary func decl", (func, params, return_type, _)):
-            return ((get_identifier_name(func), FuncType.of(type_of_params(params),
-                                                            parse_type(return_type))), )
+            return ((get_identifier_name(func),
+                     FuncType.of(type_of_params(params), parse_type(return_type)),
+                     False),)
         case Application("param sequence", (head, tail)):
             return get_new_bindings(head) + get_new_bindings(tail)
         case Application("typed_id", (var, type_signature)):
-            return ((get_identifier_name(var), parse_type(type_signature)),)
+            return ((get_identifier_name(var), parse_type(type_signature), True),)
         case _:
             return tuple()
 
