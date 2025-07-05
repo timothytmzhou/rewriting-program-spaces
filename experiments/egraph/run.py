@@ -9,6 +9,7 @@ from runllm.constrained_decoding import RealizabilityChecker
 from runllm.run_llm import Config, LanguageModelRunner
 from .egraph import egraph_from_egglog
 from .let import let_equivalence, CodeBlock, let_lexer_spec
+from tqdm import tqdm
 
 
 BENCHMARKS_DIR = "experiments/egraph/benchmarks"
@@ -66,14 +67,14 @@ def run_benchmark(
 
     start = time.time()
     llm_finished, result = runner.run(config, prompt, context, checker)
-
+    execution_time = time.time() - start
     success = egraph_checker.realizable(result, True) if llm_finished else False
 
     return {
         'benchmark': name,
         'temperature': temp,
         'success': success,
-        'execution_time': time.time() - start,
+        'execution_time': execution_time,
         'result': result
     }
 
@@ -84,12 +85,15 @@ def run_experiment_type(runner, config, context, temps, checker_type: str) -> li
     results = []
     benchmark_names = get_benchmark_names()
 
+    total_iterations = len(temps) * len(benchmark_names)
+    pbar = tqdm(total=total_iterations, desc=f"Running benchmarks: {checker_type}")
     for temp in temps:
         temp_config = replace(config, temperature=temp)
         for name in benchmark_names:
-            results.append(run_benchmark(temp_config, name,
-                           temp, runner, context, checker_type))
+            results.append(run_benchmark(temp_config, name, temp, runner, context, checker_type))
             rewriter.clear()
+            pbar.update(1)
+    pbar.close()
 
     pd.DataFrame(results).to_csv(f'{checker_type}.csv', index=False)
     return results
