@@ -6,9 +6,9 @@ from pathlib import Path
 from typing import Tuple
 from core.rewrite import rewriter
 from runllm.constrained_decoding import RealizabilityChecker
-from runllm.run_llm import Config, LanguageModelRunner
+from runllm.run_llm import Config, LanguageModelRunner, ModelConfig
 from .egraph import egraph_from_egglog
-from .let import let_equivalence, CodeBlock, let_lexer_spec
+from .let import let_equivalence, Let, CodeBlock, let_lexer_spec
 from tqdm import tqdm
 
 
@@ -35,12 +35,13 @@ def load_benchmark(name: str) -> Tuple[str, str]:
     return original, source
 
 
-def build_checker(source: str) -> RealizabilityChecker:
+def build_checker(source: str, code_block=False) -> RealizabilityChecker:
     egraph = egraph_from_egglog(source, "start", "Math")
     vars = re.findall(r'Var\s*"([^"]+)"', source)
+    grammar = CodeBlock() if code_block else Let()
     return RealizabilityChecker(
         lambda term: let_equivalence(egraph, term, frozenset(vars)),
-        CodeBlock(),
+        grammar,
         let_lexer_spec,
     )
 
@@ -51,24 +52,29 @@ def run_benchmark(
     temp: float,
     runner,
     context: str,
-    checker_type: str
+    checker_type: str,
+    code_block: bool
 ) -> dict:
     original, source = load_benchmark(name)
-    egraph_checker = build_checker(source)
+    egraph_checker = build_checker(source, code_block=code_block)
 
     if checker_type == "constrained":
         checker = egraph_checker
     elif checker_type == "gcd":
-        checker = RealizabilityChecker(lambda t: t, CodeBlock(), let_lexer_spec)
-    else:
+        grammar = CodeBlock() if code_block else Let()
+        checker = RealizabilityChecker(lambda t: t, grammar, let_lexer_spec)
+    elif checker_type == "unconstrained":
         checker = None
+    else:
+        raise ValueError(f"Unknown checker type: {checker_type}")
 
     prompt = f"The original program is:\n{original}"
 
     start = time.time()
     llm_finished, result = runner.run(config, prompt, context, checker)
     execution_time = time.time() - start
-    success = egraph_checker.realizable(result, True) if llm_finished else False
+    success = egraph_checker.realizable(
+        result, True) if llm_finished else False
 
     return {
         'benchmark': name,
@@ -79,35 +85,60 @@ def run_benchmark(
     }
 
 
-def run_experiment_type(runner, config, context, temps, checker_type: str) -> list:
+def run_experiment_type(runner, config, temps, checker_type, log_name, code_block=False) -> list:
     print(f"Running {checker_type} benchmarks")
     print("-------------------------")
+    context = load_file(f"{BENCHMARKS_DIR}/context.md")
+    if code_block:
+        context += "Start and end your solution with a codeblock using ```.\n"
+
     results = []
     benchmark_names = get_benchmark_names()
 
     total_iterations = len(temps) * len(benchmark_names)
-    pbar = tqdm(total=total_iterations, desc=f"Running benchmarks: {checker_type}")
+    pbar = tqdm(total=total_iterations,
+                desc=f"Running benchmarks: {checker_type}")
     for temp in temps:
         temp_config = replace(config, temperature=temp)
         for name in benchmark_names:
-            results.append(run_benchmark(temp_config, name, temp, runner, context, checker_type))
+            results.append(run_benchmark(temp_config, name, temp,
+                           runner, context, checker_type, code_block))
             rewriter.clear()
             pbar.update(1)
     pbar.close()
 
-    pd.DataFrame(results).to_csv(f'{checker_type}.csv', index=False)
+    pd.DataFrame(results).to_csv(f'{log_name}-{checker_type}.csv', index=False)
     return results
 
 
 def main():
-    runner = LanguageModelRunner()
     temps = [.01, .3, .5, .7, 1.0]
-    config = Config(num_guesses=300, max_new_tokens=100, repetition_penalty=1.2)
-    context = load_file(f"{BENCHMARKS_DIR}/context.md")
+    temps = [0.1]
+    config = Config(
+        num_guesses=300,
+        max_new_tokens=100,
+        repetition_penalty=1.2
+    )
 
-    run_experiment_type(runner, config, context, temps, "constrained")
-    run_experiment_type(runner, config, context, temps, "unconstrained")
-    run_experiment_type(runner, config, context, temps, "gcd")
+    models = [
+        ("llama13b", ModelConfig(model_id="codellama/CodeLlama-13b-Instruct-hf"))
+    ]
+
+    for (model_name, model_config) in models:
+        runner = LanguageModelRunner(model_config)
+        for code_block in [False, True]:
+            for checker_type in ["constrained", "unconstrained", "gcd"]:
+                name = f"{model_name}"
+                if code_block:
+                    name += "-codeblock"
+                run_experiment_type(
+                    runner,
+                    config,
+                    temps,
+                    checker_type,
+                    name,
+                    code_block
+                )
 
 
 if __name__ == "__main__":

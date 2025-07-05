@@ -14,4 +14,4 @@ and
 f x + g y
 ```
 
-Your job is to refactor programs into *equivalent* ones which also have clear, readable style using let bindings when helpful. Never introduce new features not in the language. Never include comments or explanations: ONLY output the code snippet for the new program, then IMMEDIATELY stop. Never redefine variables in the original program or that have already been defined. Start and end your solution with a codeblock using ```.
+Your job is to refactor programs into *equivalent* ones which also have clear, readable style using let bindings when helpful. Never introduce new features not in the language. Never include comments or explanations. ONLY output code, then IMMEDIATELY stop. Never redefine variables in the original program or that have already been defined.
