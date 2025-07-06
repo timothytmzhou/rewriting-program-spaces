@@ -5,7 +5,7 @@ from collections import defaultdict
 
 def analyze_results():
     # Get all CSV files in the current directory
-    csv_files = glob.glob("*.csv")
+    csv_files = glob.glob("results/*.csv")
     
     # Initialize data structure to store results for each checker type
     results = defaultdict(lambda: defaultdict(lambda: defaultdict(dict)))
@@ -21,7 +21,7 @@ def analyze_results():
             continue
             
         # Extract model name and codeblock status from filename
-        basename = file.replace('.csv', '')
+        basename = os.path.basename(file).replace('.csv', '')
         
         # Determine if it's a codeblock experiment
         is_codeblock = 'codeblock' in basename
@@ -60,45 +60,55 @@ def analyze_results():
         except Exception as e:
             print(f"Error reading {file}: {e}")
     
-    # Generate tables for each checker type
+    # Generate LaTeX tables for each checker type
     for checker_type in checker_types:
-        print(f"\n{checker_type.upper()} Performance Analysis")
-        print("=" * 120)
-        
-        # Create header
-        header = "Model".ljust(20)
-        header += "| Without Codeblock".ljust(70) + "| With Codeblock".ljust(70)
-        print(header)
-        
-        subheader = " " * 20
-        subheader += "| T=0.01 | T=0.3  | T=0.5  | T=0.7  | T=1.0  | Total  "
-        subheader += "| T=0.01 | T=0.3  | T=0.5  | T=0.7  | T=1.0  | Total  "
-        print(subheader)
-        print("=" * 120)
+        print(f"\n%=====================================")
+        print("\\begin{table}[h]")
+        print("\\centering")
+        print(f"\\caption{{{checker_type.upper()} Performance Analysis}}")
+        print("\\begin{tabular}{@{} l")
+        print("                 *{6}{c}")
+        print("                 *{6}{c} @{}}")
+        print("\\toprule")
+        print("  & \\multicolumn{6}{c}{Without Codeblock}")
+        print("  & \\multicolumn{6}{c}{With Codeblock} \\\\")
+        print("\\cmidrule(lr){2-7} \\cmidrule(lr){8-13}")
+        print("  & \\multicolumn{6}{c}{Temperature}")
+        print("  & \\multicolumn{6}{c}{Temperature} \\\\")
+        print("\\cmidrule(lr){2-7} \\cmidrule(lr){8-13}")
+        print("Model")
+        print("  & 0.01 & 0.3  & 0.5  & 0.7  & 1.0  & Total")
+        print("  & 0.01 & 0.3  & 0.5  & 0.7  & 1.0  & Total \\\\")
+        print("\\midrule")
         
         # Generate rows for each model
         for model_name in sorted(results[checker_type].keys()):
-            row = model_name.ljust(20)
+            # Escape underscores in model names for LaTeX
+            latex_model_name = model_name.replace('_', '\\_')
+            print(latex_model_name)
             
-            # Without codeblock columns
+            # Without codeblock row
             without_total = 0
+            without_parts = []
             for temp in temperatures:
                 successes = results[checker_type][model_name]['without_codeblock'].get(temp, 0)
                 without_total += successes
-                row += f"| {successes}/10 ".ljust(8)
-            row += f"| {without_total}/50 ".ljust(8)
+                without_parts.append(f"{successes}/10")
+            print("  & " + " & ".join(f"{v:>5}" for v in without_parts) + f" & {without_total}/50")
             
-            # With codeblock columns
+            # With codeblock row
             with_total = 0
+            with_parts = []
             for temp in temperatures:
                 successes = results[checker_type][model_name]['with_codeblock'].get(temp, 0)
                 with_total += successes
-                row += f"| {successes}/10 ".ljust(8)
-            row += f"| {with_total}/50 ".ljust(8)
+                with_parts.append(f"{successes}/10")
+            print("  & " + " & ".join(f"{v:>5}" for v in with_parts) + f" & {with_total}/50 \\\\")
             
-            print(row)
-        
-        print("=" * 120)
+        print("\\bottomrule")
+        print("\\end{tabular}")
+        print("\\end{table}")
+        print()
         
         # Also save as CSV for further analysis
         output_data = []
@@ -127,7 +137,6 @@ def analyze_results():
         if output_data:
             summary_df = pd.DataFrame(output_data)
             summary_df.to_csv(f'model_performance_summary_{checker_type}.csv', index=False)
-            print(f"Summary saved to 'model_performance_summary_{checker_type}.csv'")
         else:
             print(f"No data found for {checker_type}")
         print()
