@@ -18,7 +18,6 @@ import numpy as np
 torch.manual_seed(0)
 random.seed(0)
 np.random.seed(0)
-torch.use_deterministic_algorithms(True)
 
 BENCHMARKS_DIR = "experiments/egraph/benchmarks"
 LET_EGGLOG_PATH = "experiments/egraph/let.egglog"
