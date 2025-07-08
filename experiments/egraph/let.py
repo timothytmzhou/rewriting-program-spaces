@@ -57,7 +57,7 @@ def NonNegAtom() -> Parser:
         Id(),
         Num(),
         Concatenation.of(
-            ConstantParser(LPAR), Let(), ConstantParser(RPAR),
+            ConstantParser(LPAR), Add(), ConstantParser(RPAR),
             rearrange=Rearrangement(None, (1,))
         )
     )
