@@ -118,11 +118,7 @@ def rewrite(f):
         worklist: deque[Var] = deque([start_var])
         while worklist:
             current = worklist.popleft()
-            if (
-                current in rewriter.equations or
-                current in rewriter.dependencies and rewriter.dependencies.in_degree(
-                    current) == 0
-            ):
+            if current in rewriter.equations:
                 continue
             unprocessed = [
                 arg for arg in current.args
@@ -166,8 +162,6 @@ def _fixpoint(f: Callable[[Term], T], bot: Callable[..., T]) -> Callable[[Term],
     Kildall's algorithm for computing LFPs of functions on cyclic terms.
     """
     def kildall(start: Var) -> T:
-        if (f, start) in rewriter.fix_cache:
-            return rewriter.fix_cache[(f, start)]
         worklist: deque[Var] = deque()
         nodes: set[Var] = set()
         for var in nx.dfs_postorder_nodes(rewriter.dependencies, start):
