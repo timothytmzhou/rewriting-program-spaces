@@ -10,7 +10,15 @@ from runllm.run_llm import Config, LanguageModelRunner, ModelConfig
 from .egraph import egraph_from_egglog
 from .let import let_equivalence, Let, CodeBlock, let_lexer_spec
 from tqdm import tqdm
+import torch
+import random
+import numpy as np
 
+# make everything deterministic
+torch.manual_seed(0)
+random.seed(0)
+np.random.seed(0)
+torch.use_deterministic_algorithms(True)
 
 BENCHMARKS_DIR = "experiments/egraph/benchmarks"
 LET_EGGLOG_PATH = "experiments/egraph/let.egglog"
@@ -73,7 +81,8 @@ def run_benchmark(
     start = time.time()
     run_info = runner.run(config, prompt, context, checker)
     execution_time = time.time() - start
-    success = egraph_checker.realizable(run_info.output, True) if run_info.llm_finished else False
+    success = egraph_checker.realizable(
+        run_info.output, True) if run_info.llm_finished else False
 
     return {
         'success': success,
