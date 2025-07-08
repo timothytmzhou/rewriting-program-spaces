@@ -1,6 +1,6 @@
 import gc
 from dataclasses import dataclass
-from collections import defaultdict
+from collections import Counter, defaultdict
 from typing import Any, List, Tuple, Set, Optional
 import torch
 from transformers import (
@@ -44,6 +44,7 @@ class RunInfo:
     total_realizability_time: float
     num_tokens_guessed: int
     num_tokens_generated: int
+    tries_per_token: Counter
 
 
 class LanguageModelRunner:
@@ -130,11 +131,14 @@ class LanguageModelRunner:
         cache = DynamicCache()
         decoded_output = ""
         total_realizability_time = 0.0
+        tries = 0
+        try_counts = Counter()
 
         for _ in range(config.num_guesses):
             if len(generated_tokens) >= config.max_new_tokens:
                 break
             num_tokens_guessed += 1
+            tries += 1
             output = self._generate_next_token(
                 input_ids,
                 config,
@@ -153,6 +157,8 @@ class LanguageModelRunner:
                 is_realizable = realizability_checker.realizable(decoded_output, is_final)
                 total_realizability_time += time.time() - check_start
             if is_realizable:
+                try_counts[tries] += 1
+                tries = 0 
                 generated_tokens.append(new_token)
                 if is_final:
                     return RunInfo(
@@ -160,7 +166,8 @@ class LanguageModelRunner:
                         output=decoded_output,
                         total_realizability_time=total_realizability_time,
                         num_tokens_guessed=num_tokens_guessed,
-                        num_tokens_generated=len(generated_tokens)
+                        num_tokens_generated=len(generated_tokens),
+                        tries_per_token=try_counts
                     )
             else:
                 forbidden_tokens[tuple(generated_tokens)].add(new_token)
@@ -171,7 +178,8 @@ class LanguageModelRunner:
             output=decoded_output,
             total_realizability_time=total_realizability_time,
             num_tokens_guessed=num_tokens_guessed,
-            num_tokens_generated=len(generated_tokens)
+            num_tokens_generated=len(generated_tokens),
+            tries_per_token=try_counts
         )
 
     def __del__(self):
