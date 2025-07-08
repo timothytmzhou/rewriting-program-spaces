@@ -10,6 +10,7 @@ from transformers import (
     PreTrainedModel
 )
 from transformers.cache_utils import DynamicCache
+import time
 
 
 @dataclass
@@ -35,6 +36,14 @@ class Config:
 
 DEFAULT_CONTEXT = """You are a skilled programmer who responds
 to questions by writing concise code without comments.""".replace('\n', '')
+
+@dataclass
+class RunInfo:
+    llm_finished: bool
+    output: str
+    total_realizability_time: float
+    num_tokens_guessed: int
+    num_tokens_generated: int
 
 
 class LanguageModelRunner:
@@ -113,19 +122,19 @@ class LanguageModelRunner:
         prompt: str,
         context: str = DEFAULT_CONTEXT,
         realizability_checker=None
-    ) -> Tuple[bool, str]:
-        """
-        Generate a solution that satisfies the realizability checker.
-        Returns whether a solution was found and the generated output.
-        """
+    ) -> RunInfo:
         input_ids = self._tokenize_prompt(prompt, context)
         generated_tokens = []
         forbidden_tokens = defaultdict(set)
-
+        num_tokens_guessed = 0
         cache = DynamicCache()
+        decoded_output = ""
+        total_realizability_time = 0.0
+
         for _ in range(config.num_guesses):
             if len(generated_tokens) >= config.max_new_tokens:
                 break
+            num_tokens_guessed += 1
             output = self._generate_next_token(
                 input_ids,
                 config,
@@ -137,18 +146,33 @@ class LanguageModelRunner:
             is_final = (new_token == self.tokenizer.eos_token_id)
             decoded_output = self.tokenizer.decode(generated_tokens + [new_token],
                                                    skip_special_tokens=True)
-            if (
-                realizability_checker is None or
-                realizability_checker.realizable(decoded_output, is_final)
-            ):
+            if realizability_checker is None:
+                is_realizable = True
+            else:
+                check_start = time.time()
+                is_realizable = realizability_checker.realizable(decoded_output, is_final)
+                total_realizability_time += time.time() - check_start
+            if is_realizable:
                 generated_tokens.append(new_token)
                 if is_final:
-                    return True, decoded_output
+                    return RunInfo(
+                        llm_finished=True,
+                        output=decoded_output,
+                        total_realizability_time=total_realizability_time,
+                        num_tokens_guessed=num_tokens_guessed,
+                        num_tokens_generated=len(generated_tokens)
+                    )
             else:
                 forbidden_tokens[tuple(generated_tokens)].add(new_token)
                 cache.crop(-1)
 
-        return False, decoded_output
+        return RunInfo(
+            llm_finished=False,
+            output=decoded_output,
+            total_realizability_time=total_realizability_time,
+            num_tokens_guessed=num_tokens_guessed,
+            num_tokens_generated=len(generated_tokens)
+        )
 
     def __del__(self):
         del self.model

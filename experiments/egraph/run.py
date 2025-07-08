@@ -1,7 +1,7 @@
 import re
 import time
 import pandas as pd
-from dataclasses import replace
+from dataclasses import replace, asdict
 from pathlib import Path
 from typing import Tuple
 from core.rewrite import rewriter
@@ -71,17 +71,16 @@ def run_benchmark(
     prompt = f"The original program is:\n{original}"
 
     start = time.time()
-    llm_finished, result = runner.run(config, prompt, context, checker)
+    run_info = runner.run(config, prompt, context, checker)
     execution_time = time.time() - start
-    success = egraph_checker.realizable(
-        result, True) if llm_finished else False
+    success = egraph_checker.realizable(run_info.output, True) if run_info.llm_finished else False
 
     return {
+        'success': success,
         'benchmark': name,
         'temperature': temp,
-        'success': success,
         'execution_time': execution_time,
-        'result': result
+        **asdict(run_info)
     }
 
 
