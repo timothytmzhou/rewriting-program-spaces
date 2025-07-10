@@ -8,7 +8,7 @@ def main(results_dir: Path = Path('.')):
     # Set global font size for the plots.
     plt.rcParams.update({'font.size': 16})
     
-    # Find all CSV files without codeblock
+    # Find all CSV files without 'codeblock' in their stem and with at least one hyphen
     csv_files = [f for f in results_dir.glob('*.csv') 
                  if 'codeblock' not in f.stem and f.stem.count('-') >= 1]
     
@@ -16,92 +16,83 @@ def main(results_dir: Path = Path('.')):
         print(f'No CSV files found in {results_dir.resolve()}')
         return
 
+    # Collect data from all CSVs into a list of dicts
     all_data = []
-    
     for csv_file in csv_files:
-        # Parse filename: model-checker
-        name = csv_file.stem
-        parts = name.split('-')
-        model = parts[0]
-        checker = parts[-1]
-        
+        # Filename format: model-checker.csv
+        model, checker = csv_file.stem.split('-')[0], csv_file.stem.split('-')[-1]
         df_csv = pd.read_csv(csv_file)
-        
         for _, row in df_csv.iterrows():
             temp = float(row['temperature'])
-            
-            # Parse tries_per_token: Counter({(tries, freq): ...})
+            # Parse the Counter-like string into a dict of (tries, freq)
             tries_str = row['tries_per_token']
             tries_dict = ast.literal_eval(tries_str.replace('Counter(', '').rstrip(')'))
-            
-            # Extract (tries, freq) pairs
             for (tries, freq), _ in tries_dict.items():
                 all_data.append({
                     'model': model,
-                    'checker': checker, 
+                    'checker': checker,
                     'temperature': temp,
                     'tries': tries,
                     'frequency': freq
                 })
-    
+
+    # Build DataFrame and remove unconstrained checker
     df = pd.DataFrame(all_data)
-    
-    # Remove data for unconstrained checker
     df = df[df['checker'] != 'unconstrained']
-    
-    # Get unique models and checkers for aggregation.
+
+    # Create buckets of size 5: 0-4 -> 0, 5-9 -> 5, etc.
+    df['bucket'] = (df['tries'] // 5) * 5
+
+    # Unique models and checkers
     models = sorted(df['model'].unique())
     checkers = sorted(df['checker'].unique())
 
-    # Mapping for legend labels.
+    # Legend names and colors
     legend_mapping = {
         'constrained': 'Semantics',
-        'gcd': 'Syntax'
+        'gcd': 'Grammar'
     }
-    colors = ['#1f77b4','#ff7f0e']  # blue and orange
-    
-    # Create one figure per model.
+    colors = ['#ff7f0e', '#1f77b4']
+
     for model in models:
-        subset_model = df[df['model'] == model]
-        # Pivot the data so that each checker becomes a column, indexed by tries.
-        pivot = subset_model.pivot_table(index='tries',
-                                         columns='checker', 
-                                         values='frequency', 
-                                         aggfunc='sum',
-                                         fill_value=0)
-        # Ensure the tries are sorted.
-        pivot = pivot.sort_index()
-        x_ticks = pivot.index.values
+        subset = df[df['model'] == model]
+        # Sum frequencies per bucket and checker
+        grouped = subset.groupby(['bucket', 'checker'], as_index=False)['frequency'].sum()
+        # Pivot so each checker is a column
+        pivot = grouped.pivot_table(
+            index='bucket',
+            columns='checker',
+            values='frequency',
+            fill_value=0
+        ).sort_index()
+
+        buckets = pivot.index.values
+        num_checkers = len(checkers)
+        bar_width = 5 * 0.9 / num_checkers
 
         plt.figure(figsize=(6, 4))
-        bottom = np.zeros(len(x_ticks))
-        
-        # Iterate over checkers in the sorted order.
+        # Draw bars
         for i, checker in enumerate(checkers):
             if checker in pivot.columns:
                 freqs = pivot[checker].values
+                offsets = buckets - 0.45 + i * bar_width + bar_width / 2
                 label = legend_mapping.get(checker, checker)
-                plt.bar(x_ticks, freqs, bottom=bottom, width=.9, 
-                        alpha=.8, label=label, color=colors[i % len(colors)])
-                bottom += freqs  # update bottom for stacking
+                plt.bar(offsets, freqs,
+                        width=bar_width,
+                        alpha=0.8,
+                        label=label,
+                        color=colors[i % len(colors)])
 
-        plt.xlabel('Number of Tokens Guessed', fontsize=16)
-        plt.ylabel('Frequency', fontsize=16)
-        if model == "deepseek":
-            plt.title('DeepSeek-6.7B', fontsize=18)
-        elif model == "llama7b":
-            plt.title('CodeLlama-7B', fontsize=18)
-        elif model == "llama13b":
-            plt.title('CodeLlama-13B', fontsize=18)
-        else:
-            # For other models, use the model name directly.
-            plt.title(f'{model}', fontsize=18)
-        plt.legend()
+        # Labels and ticks
+        plt.title(f'Number of Tokens Tried Per Success', fontsize=16)
+        plt.ylabel('Frequency', fontsize=14)
+        plt.xlim(-0.5, 125)  # adjust to include the first and last groups
+
+
         plt.yscale('log')
-        plt.xlim(0, 125)  # Set x-axis to max out at 125.
+        plt.legend()
         plt.tight_layout()
-        # Save figure with model name in file name.
-        plt.savefig(f'tries_per_token_viz_{model}.png', dpi=300, bbox_inches='tight')
+        plt.savefig(f'tries_per_token_buckets_{model}.png', dpi=300, bbox_inches='tight')
         plt.show()
 
 if __name__ == '__main__':
