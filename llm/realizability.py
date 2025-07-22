@@ -1,7 +1,7 @@
 from functools import reduce
 from core.grammar import is_nonempty, TreeGrammar
 from core.parser import D, Choice, Parser, delta, image
-from lexing.lexing import LexerSpec, lex
+from core.lexing.lexing import LexerSpec, lex
 from typing import Callable
 
 

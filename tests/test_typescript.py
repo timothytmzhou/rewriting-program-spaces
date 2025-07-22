@@ -1,5 +1,5 @@
 from functools import reduce
-from lexing.lexing import lex, partial_lex
+from core.lexing.lexing import lex, partial_lex
 from llm.realizability import RealizabilityChecker
 from tests.utils import reset
 from experiments.typescript.typescript_typechecker import *

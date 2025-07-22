@@ -5,7 +5,7 @@ from collections import defaultdict
 from egglog.bindings import EGraph
 from core.grammar import *
 from core.rewrite import rewrite
-from lexing.token import Token
+from core.lexing.token import Token
 from functools import lru_cache
 
 START_RELATION = "__start__"  # dummy relation for the start symbol

@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 import functools
 import regex
 from typing import Iterable
-from lexing.token import Token
+from .token import Token
 
 
 IGNORE = "RESERVED_IGNORE_SORT_TITLE"

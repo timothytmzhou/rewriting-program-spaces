@@ -8,9 +8,9 @@ from regex import Pattern as Regex
 from dataclasses import dataclass
 from lark import Lark
 from core.rewrite import rewrite
-from .parser import Rearrangement, Parser, ConstantParser, Concatenation, Choice
-from lexing.token import Token
-from lexing.lexing import LexerSpec
+from ..parser import Rearrangement, Parser, ConstantParser, Concatenation, Choice
+from ..lexing.token import Token
+from ..lexing.lexing import LexerSpec
 
 
 @dataclass

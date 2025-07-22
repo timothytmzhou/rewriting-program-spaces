@@ -2,7 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass, replace
 
 from core.grammar import *
-from lexing.token import Token
+from core.lexing.token import Token
 from .typescript_grammar import IDLEAF
 from .types import *
 

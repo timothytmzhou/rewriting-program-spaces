@@ -1,7 +1,7 @@
 from .utils import *
 from core.rewrite import *
 from core.grammar import *
-from lexing.token import Token
+from core.lexing.token import Token
 import regex
 
 

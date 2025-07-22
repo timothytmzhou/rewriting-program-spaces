@@ -1,6 +1,6 @@
 from core.parser import *
 from .utils import *
-from lexing.token import Token
+from core.lexing.token import Token
 import regex
 
 

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from core.parser import *
 from core.grammar import *
-from lexing.token import Token
+from core.lexing.token import Token
 from llm.realizability import RealizabilityChecker
 from .types import *
 from .environment import *

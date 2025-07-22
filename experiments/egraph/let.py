@@ -6,9 +6,9 @@ from core.grammar import (
     Union,
     expand_tree_grammar,
 )
-from core.from_lark import parse_attribute_grammar
+from core.lark.from_lark import parse_attribute_grammar
 from typing import Optional
-from lexing.token import Token
+from core.lexing.token import Token
 from .egraph import EGraph, in_egraph
 from functools import lru_cache
 from importlib.resources import files

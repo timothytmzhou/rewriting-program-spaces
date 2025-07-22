@@ -9,7 +9,7 @@ class TreeGrammar(Term):
 
 
 # This is here to avoid circular imports. TODO: cleanup.
-from lexing.token import Token  # noqa: E402
+from .lexing.token import Token  # noqa: E402
 
 Symbol = str
 

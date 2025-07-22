@@ -3,8 +3,8 @@ import regex as re
 
 from core.parser import *
 from core.grammar import *
-from lexing.token import Token
-from lexing.lexing import LexerSpec
+from core.lexing.token import Token
+from core.lexing.lexing import LexerSpec
 
 # LEXEMES
 
