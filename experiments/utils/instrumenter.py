@@ -4,8 +4,8 @@ from functools import wraps
 import time
 
 from experiments.utils.totaler import Totaler
-from runllm.constrained_decoding import RealizabilityChecker
-from runllm.run_llm import LanguageModelRunner
+from llm.realizability import RealizabilityChecker
+from llm.run_llm import LanguageModelRunner
 
 
 T = TypeVar('T')

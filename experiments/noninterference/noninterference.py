@@ -5,7 +5,7 @@ from core.parser import *
 from core.grammar import *
 from lexing.leaves import Token
 from lexing.lexing import LexerSpec
-from runllm.constrained_decoding import RealizabilityChecker
+from llm.realizability import RealizabilityChecker
 
 
 # SYNTAX

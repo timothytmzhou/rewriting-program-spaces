@@ -5,8 +5,8 @@ from dataclasses import replace, asdict
 from pathlib import Path
 from typing import Tuple
 from core.rewrite import rewriter
-from runllm.constrained_decoding import RealizabilityChecker
-from runllm.run_llm import Config, LanguageModelRunner, ModelConfig
+from llm.realizability import RealizabilityChecker
+from llm.run_llm import Config, LanguageModelRunner, ModelConfig
 from ..egraph import egraph_from_egglog
 from ..let import code_block_grammar, let_equivalence, let_grammar, let_lexer_spec
 from tqdm import tqdm

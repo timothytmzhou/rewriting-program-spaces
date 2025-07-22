@@ -3,7 +3,7 @@ from __future__ import annotations
 from core.parser import *
 from core.grammar import *
 from lexing.leaves import Token
-from runllm.constrained_decoding import RealizabilityChecker
+from llm.realizability import RealizabilityChecker
 from .types import *
 from .environment import *
 from .typescript_grammar import *

@@ -6,8 +6,8 @@ from typing import Optional
 from transformers import set_seed
 
 from experiments.utils.instrumenter import Instrumenter
-from runllm.constrained_decoding import RealizabilityChecker
-from runllm.run_llm import Config, LanguageModelRunner
+from llm.realizability import RealizabilityChecker
+from llm.run_llm import Config, LanguageModelRunner
 from tests.utils import reset
 from noninterference.noninterference import noninterference_checker
 from typescript.typescript_instrumeter import TypescriptInstrumeter

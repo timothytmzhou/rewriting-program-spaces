@@ -12,7 +12,7 @@ IGNORE = "RESERVED_IGNORE_SORT_TITLE"
 @dataclass(frozen=True)
 class LexerSpec:
     tokens: frozenset[Token]
-    ignore_regex: regex.Pattern = regex.compile(r'^(?!)$')
+    ignore_regex: regex.Pattern = regex.compile(r"^(?!)$")
 
     def __hash__(self):
         return hash((self.tokens, self.ignore_regex.pattern))
@@ -31,20 +31,21 @@ class LexerState:
         return {tuple(self.prefix) + cont for cont in self.continuations}
 
     def simplify(self) -> LexerState:
-        if (
-            self.continuations
-            and all(cont[len(self.prefix)].nullable() for cont in self.continuations)
+        if self.continuations and all(
+            cont[len(self.prefix)].nullable() for cont in self.continuations
         ):
-            prefix = self.prefix + \
-                (next(iter(self.continuations))[0].complete(),)
+            prefix = self.prefix + (next(iter(self.continuations))[0].complete(),)
             continuations = {t[1:] for t in self.continuations}
             return LexerState(prefix, continuations).simplify()
         return self
 
     def finalize(self) -> LexerState:
         if self.continuations:
-            continuations = {c[:-1] + (c[-1].complete(),)
-                             for c in self.continuations if c[-1].nullable()}
+            continuations = {
+                c[:-1] + (c[-1].complete(),)
+                for c in self.continuations
+                if c[-1].nullable()
+            }
             return LexerState(self.prefix, continuations)
         return self
 
@@ -61,11 +62,11 @@ class LexerState:
                     for lexeme in lexerspec.get_lexemes():
                         derived = lexeme.extend(char)
                         if derived.nonempty():
-                            new_continuations.add((
-                                state[:-1] + (state[-1].complete(), derived)))
+                            new_continuations.add(
+                                (state[:-1] + (state[-1].complete(), derived))
+                            )
                 if state[-1].extend(char).nonempty():
-                    new_continuations.add(
-                        state[:-1] + (state[-1].extend(char),))
+                    new_continuations.add(state[:-1] + (state[-1].extend(char),))
         return LexerState(self.prefix, new_continuations)
 
     def remove_nonmaximal_munch(self):
@@ -74,7 +75,10 @@ class LexerState:
             for state2 in result:
                 for i in range(min(len(state), len(state2))):
                     if state[i] != state2[i]:
-                        if len(state[i].prefix) < len(state2[i].prefix) and state2[i].nullable():
+                        if (
+                            len(state[i].prefix) < len(state2[i].prefix)
+                            and state2[i].nullable()
+                        ):
                             result.remove(state)
                         break
                 if state not in result:
@@ -83,19 +87,20 @@ class LexerState:
 
     def remove_ignorable_tokens(self) -> LexerState:
         continuations = {
-            tuple(filter(lambda x: x.token_type != IGNORE, state)) for state in self.continuations}
+            tuple(filter(lambda x: x.token_type != IGNORE, state))
+            for state in self.continuations
+        }
         return LexerState(self.prefix, continuations)
 
 
 def partial_lex(inp: str, lexerspec: LexerSpec):
-    lstate = compute_lexer_state(inp, lexerspec)
-    lstate = lstate.remove_ignorable_tokens()
-    return lstate.get_partial_lexes()
+    return lex(inp, lexerspec, final=False)
 
 
-def lex(inp: str, lexerspec: LexerSpec):
+def lex(inp: str, lexerspec: LexerSpec, final=True):
     lstate = compute_lexer_state(inp, lexerspec)
-    lstate = lstate.finalize()
+    if final:
+        lstate = lstate.finalize()
     lstate = lstate.remove_ignorable_tokens()
     return lstate.get_partial_lexes()
 

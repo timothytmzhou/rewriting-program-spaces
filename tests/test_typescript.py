@@ -1,6 +1,6 @@
 from functools import reduce
 from lexing.lexing import lex, partial_lex
-from runllm.constrained_decoding import RealizabilityChecker
+from llm.realizability import RealizabilityChecker
 from tests.utils import reset
 from experiments.typescript.typescript_typechecker import *
 
