@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from lark import Lark
 from core.rewrite import rewrite
 from .parser import Rearrangement, Parser, ConstantParser, Concatenation, Choice
-from lexing.leaves import Token
+from lexing.token import Token
 from lexing.lexing import LexerSpec
 
 

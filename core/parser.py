@@ -12,11 +12,11 @@ class Parser(Term):
 
 @dataclass(frozen=True)
 class ConstantParser(Parser):
-    c: Leaf
+    t: Token
     parsed: bool = False
 
     def __str__(self):
-        return f"ConstantParser({self.c}, {self.parsed})"
+        return f"ConstantParser({self.t}, {self.parsed})"
 
 
 @dataclass(frozen=True)
@@ -112,17 +112,15 @@ def parser_empty(p: Parser) -> bool:
 
 
 @rewrite
-def D(x, p: Parser) -> Parser:
+def D(t: Token, p: Parser) -> Parser:
     match p:
-        case ConstantParser(c, False):
-            inter = c.update(x)
-            if inter:
-                return ConstantParser(inter, True)
-            return EmptyParser()
+        case ConstantParser(parser_token, False):
+            unified = parser_token.update(t)
+            return ConstantParser(unified, True) if unified else EmptyParser()
         case Choice(children):
-            return Choice.of(D(x, c) for c in children)
+            return Choice.of(D(t, c) for c in children)
         case Concatenation(parsed, remaining, _) if remaining:
-            derived = D(x, remaining[0])
+            derived = D(t, remaining[0])
             return Choice.of(
                 replace(p, remaining=(derived,) + remaining[1:]),
                 replace(p, parsed=parsed + (delta(derived),),
@@ -148,8 +146,8 @@ def delta(p: Parser) -> Parser:
 @rewrite
 def image(p: Parser) -> TreeGrammar:
     match p:
-        case ConstantParser(c):
-            return Constant(c)
+        case ConstantParser(t):
+            return t
         case EmptyParser():
             return EmptySet()
         case Choice(children):

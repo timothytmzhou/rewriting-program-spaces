@@ -1,20 +1,17 @@
-from lexing.leaves import IntLeaf, StringLeaf
 from .utils import *
 from core.rewrite import *
 from core.grammar import *
+from lexing.token import Token
+import regex
 
 
-ONE = IntLeaf(1)
-TWO = IntLeaf(2)
-PLUS = StringLeaf("+")
+ZERO = Token("ZERO", regex.compile(r"0"), prefix="0", is_complete=True)
+ONE = Token("ONE", regex.compile(r"1"), prefix="1", is_complete=True)
 
 
 @rewrite
 def E():
-    return Union.of(
-        Constant(ONE),
-        Application.of(PLUS, (Constant(ONE), E()))
-    )
+    return Union.of(ONE, Application.of("Add", (ONE, E())))
 
 
 @rewrite
@@ -46,11 +43,11 @@ class TestFixpoint:
     def test_nonempty_basic(self):
         assert is_empty(EmptySet())
         assert is_empty(Union.of(EmptySet(), EmptySet()))
-        assert is_nonempty(Constant(ONE))
-        assert is_nonempty(Application.of(PLUS, (Constant(ONE), Constant(2))))
-        assert is_nonempty(Union.of(Constant(ONE), EmptySet()))
-        assert is_nonempty(Union.of(EmptySet(), Constant(ONE)))
-        assert is_nonempty(Union.of(Constant(ONE), Constant(2)))
+        assert is_nonempty(ONE)
+        assert is_nonempty(Application.of("Add", (ONE, ZERO)))
+        assert is_nonempty(Union.of(ONE, EmptySet()))
+        assert is_nonempty(Union.of(EmptySet(), ONE))
+        assert is_nonempty(Union.of(ONE, ZERO))
 
     @reset
     def test_nonempty(self):

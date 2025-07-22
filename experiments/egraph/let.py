@@ -2,14 +2,13 @@ from core.rewrite import rewrite
 from core.grammar import (
     TreeGrammar,
     EmptySet,
-    Constant,
     Application,
     Union,
     expand_tree_grammar,
 )
 from core.from_lark import parse_attribute_grammar
 from typing import Optional
-from lexing.leaves import Token
+from lexing.token import Token
 from .egraph import EGraph, in_egraph
 from functools import lru_cache
 from importlib.resources import files
@@ -22,9 +21,9 @@ _, code_block_grammar = parse_attribute_grammar(let_source, "codeblock").build_p
 
 def expr_to_egglog(expr: TreeGrammar) -> str:
     match expr:
-        case Application("Var", (Constant(Token(prefix=name)),)):
+        case Application("Var", (Token(prefix=name),)):
             return f'(Var "{name}")'
-        case Application("Num", (Constant(Token(prefix=name)),)):
+        case Application("Num", (Token(prefix=name),)):
             return f"(Num {name})"
         case Application(f, children):
             egglog_children = " ".join(expr_to_egglog(child) for child in children)
@@ -78,9 +77,7 @@ def let_equivalence(
             )
         case Application("Let", (binding, expr1, expr2), focus):
             match expand_tree_grammar(binding):
-                case Application(
-                    "Var", (Constant(Token(prefix=name, is_complete=True)),)
-                ):
+                case Application("Var", (Token(prefix=name, is_complete=True),)):
                     if name in used_names:
                         return EmptySet()
                     used_names = used_names.union({name})

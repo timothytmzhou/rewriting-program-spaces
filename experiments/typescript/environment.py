@@ -2,7 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass, replace
 
 from core.grammar import *
-from lexing.leaves import Token
+from lexing.token import Token
 from .typescript_grammar import IDLEAF
 from .types import *
 
@@ -104,7 +104,7 @@ class Environment:
             and self.env[var][1] in typ
             and (is_mutable is None or self.env[var][2] == is_mutable)
         ):
-            return (Constant(replace(IDLEAF, prefix=var, is_complete=True)),
+            return (replace(IDLEAF, prefix=var, is_complete=True),
                     self.env[var][1])
         return (EmptySet(), EmptyType())
 

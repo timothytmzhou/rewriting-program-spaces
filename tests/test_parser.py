@@ -1,24 +1,26 @@
 from core.parser import *
-from lexing.leaves import IntLeaf, StringLeaf
 from .utils import *
+from lexing.token import Token
+import regex
+
+
+ZERO = Token("ZERO", regex.compile(r"0"), prefix="0", is_complete=True)
+ONE = Token("ONE", regex.compile(r"1"), prefix="1", is_complete=True)
+PLUS = Token("Plus", regex.compile(r"\+"), prefix="+", is_complete=True)
+MINUS = Token("Minus", regex.compile(r"\-"), prefix="-", is_complete=True)
 
 
 @rewrite
 def parse_E():
     return Choice.of(
-        ConstantParser(IntLeaf(1)),
+        ConstantParser(ONE),
         Concatenation.of(
-            ConstantParser(IntLeaf(1)),
-            ConstantParser(StringLeaf("+")),
+            ConstantParser(ONE),
+            ConstantParser(PLUS),
             parse_E(),
-            rearrange=Rearrangement("+", (0, 2))
-        )
+            rearrange=Rearrangement("+", (0, 2)),
+        ),
     )
-
-
-@rewrite
-def parse_C():
-    return parse_C()
 
 
 @rewrite
@@ -34,12 +36,7 @@ def test_parser():
 
 @reset
 def test_derivative():
-    assert parser_nonempty(D(1, parse_E()))
-    assert parser_empty(D(0, parse_E()))
-    assert parser_nonempty(D("+", D(1, parse_E())))
-    assert parser_empty(D("-", D(1, parse_E())))
-
-
-# @reset
-# def test_self_loop_app():
-#     assert parser_nonempty(D(1, parse_C()))
+    assert parser_nonempty(D(ONE, parse_E()))
+    assert parser_empty(D(ZERO, parse_E()))
+    assert parser_nonempty(D(PLUS, D(ONE, parse_E())))
+    assert parser_empty(D(MINUS, D(ONE, parse_E())))

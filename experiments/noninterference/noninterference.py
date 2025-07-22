@@ -3,7 +3,7 @@ from enum import Enum
 
 from core.parser import *
 from core.grammar import *
-from lexing.leaves import Token
+from lexing.token import Token
 from lexing.lexing import LexerSpec
 from llm.realizability import RealizabilityChecker
 
@@ -74,8 +74,10 @@ def boolean_exps() -> Parser:
         Concatenation.of((exps(), LESS, exps()), rearrange=bin_rearrangement("<")),
         Concatenation.of((exps(), LESSEQ, exps()), rearrange=bin_rearrangement("<=")),
         Concatenation.of((exps(), GREATER, exps()), rearrange=bin_rearrangement(">")),
-        Concatenation.of((exps(), GREATEREQ, exps()), rearrange=bin_rearrangement(">=")),
-        Concatenation.of((exps(), EQUAL, exps()), rearrange=bin_rearrangement("="))
+        Concatenation.of(
+            (exps(), GREATEREQ, exps()), rearrange=bin_rearrangement(">=")
+        ),
+        Concatenation.of((exps(), EQUAL, exps()), rearrange=bin_rearrangement("=")),
     )
 
 
@@ -84,7 +86,9 @@ def base_exps() -> Parser:
     return Choice.of(
         vars(),
         INTS,
-        Concatenation.of((LPAR, exps(), RPAR), rearrange=Rearrangement("subexpression", (1,)))
+        Concatenation.of(
+            (LPAR, exps(), RPAR), rearrange=Rearrangement("subexpression", (1,))
+        ),
     )
 
 
@@ -93,8 +97,12 @@ def exps() -> Parser:
     return Choice.of(
         base_exps(),
         Concatenation.of((base_exps(), PLUS, exps()), rearrange=bin_rearrangement("+")),
-        Concatenation.of((base_exps(), MINUS, exps()), rearrange=bin_rearrangement("-")),
-        Concatenation.of((base_exps(), TIMES, exps()), rearrange=bin_rearrangement("*")),
+        Concatenation.of(
+            (base_exps(), MINUS, exps()), rearrange=bin_rearrangement("-")
+        ),
+        Concatenation.of(
+            (base_exps(), TIMES, exps()), rearrange=bin_rearrangement("*")
+        ),
         Concatenation.of((base_exps(), DIV, exps()), rearrange=bin_rearrangement("/")),
     )
 
@@ -108,7 +116,20 @@ def base_commands() -> Parser:
             rearrange=bin_rearrangement("assign"),
         ),
         Concatenation.of(
-            (IF, LPAR, boolean_exps(), RPAR, THEN, LBRACE, commands(), RBRACE, ELSE, LBRACE, commands(), RBRACE),
+            (
+                IF,
+                LPAR,
+                boolean_exps(),
+                RPAR,
+                THEN,
+                LBRACE,
+                commands(),
+                RBRACE,
+                ELSE,
+                LBRACE,
+                commands(),
+                RBRACE,
+            ),
             rearrange=Rearrangement("ite", (2, 6, 10)),
         ),
         Concatenation.of(
@@ -140,13 +161,10 @@ def secure_lefthand_vars(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
         case EmptySet():
             return EmptySet()
         case Union(children):
-            return Union.of(
-                secure_lefthand_vars(c, slevel)
-                for c in children
-            )
-        case Constant(c) if isinstance(c, Token) and c.token_type == "h":
+            return Union.of(secure_lefthand_vars(c, slevel) for c in children)
+        case Token(token_type="h"):
             return t if slevel == SecurityLevel.HIGH else EmptySet()
-        case Constant(c) if isinstance(c, Token) and c.token_type == "l":
+        case Token(token_type="l"):
             return t if slevel == SecurityLevel.LOW else EmptySet()
         case _:
             raise ValueError(f"Unexpected type: {type(t)}")
@@ -157,10 +175,10 @@ def secure_exps(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
     match t:
         case EmptySet():
             return EmptySet()
-        case Constant(c) if isinstance(c, Token) and slevel == SecurityLevel.LOW:
-            return t if c.token_type in {"l", "int"} else EmptySet()
-        case Constant(c) if isinstance(c, Token) and slevel == SecurityLevel.HIGH:
-            return t if c.token_type in {"h", "l", "int"} else EmptySet()
+        case Token() if slevel == SecurityLevel.LOW:
+            return t if t.token_type in {"l", "int"} else EmptySet()
+        case Token() if slevel == SecurityLevel.HIGH:
+            return t if t.token_type in {"h", "l", "int"} else EmptySet()
         case Application("subexpression", (contents,)):
             return Application.of(
                 "subexpression",
@@ -175,10 +193,7 @@ def secure_exps(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
                 ),
             )
         case Union(children):
-            return Union.of(
-                secure_exps(c, slevel)
-                for c in children
-            )
+            return Union.of(secure_exps(c, slevel) for c in children)
         case _:
             raise ValueError
 
@@ -188,7 +203,7 @@ def secure_cmds(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
     match t:
         case EmptySet():
             secure_asts: list[TreeGrammar] = []
-        case Constant(_):
+        case Token():
             secure_asts = [t]
         case Application("assign", (left, right)):
             secure_asts = [
@@ -242,10 +257,7 @@ def secure_cmds(t: TreeGrammar, slevel: SecurityLevel) -> TreeGrammar:
                 )
             ]
         case Union(children):
-            secure_asts = [
-                secure_cmds(c, slevel)
-                for c in children
-            ]
+            secure_asts = [secure_cmds(c, slevel) for c in children]
         case _:
             raise ValueError
 
@@ -284,7 +296,7 @@ lexer_spec = LexerSpec(
             LPARLEAF,
             RPARLEAF,
             LBRACELEAF,
-            RBRACELEAF
+            RBRACELEAF,
         }
     ),
     ignore_regex=re.compile(r"\s+"),

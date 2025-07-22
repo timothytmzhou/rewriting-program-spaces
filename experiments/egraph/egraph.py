@@ -5,7 +5,7 @@ from collections import defaultdict
 from egglog.bindings import EGraph
 from core.grammar import *
 from core.rewrite import rewrite
-from lexing.leaves import Token
+from lexing.token import Token
 from functools import lru_cache
 
 START_RELATION = "__start__"  # dummy relation for the start symbol
@@ -37,8 +37,9 @@ def root_and_eclass_mapping(egraph: EGraph) -> tuple[str, EClassMapping]:
             # TODO: this is a hack to unescape variable names
             # should take formating function describing conversion
             # from egglog asts to our asts
-        children_eclasses = tuple(nodes[enode]["eclass"]
-                                  for enode in node_data["children"])
+        children_eclasses = tuple(
+            nodes[enode]["eclass"] for enode in node_data["children"]
+        )
         if op == START_RELATION:
             root_eclass = children_eclasses[0]
         else:
@@ -62,16 +63,17 @@ def in_egraph(egraph: EGraph) -> Callable[[TreeGrammar], TreeGrammar]:
                 return EmptySet()
             case Union(children):
                 return Union.of(in_eclass(eclass, child) for child in children)
-            case Constant(Token(prefix=prefix, is_complete=True)):
-                matches_constant = any(enode.op == prefix and not enode.children
-                                       for enode in eclasses[eclass])
-                return t if matches_constant else EmptySet()
-            case Constant(Token(prefix=prefix, token_regex=token_regex,
-                                is_complete=False)):
+            case Token(prefix=prefix, is_complete=True):
                 matches_constant = any(
-                    not enode.children and
-                    enode.op.startswith(prefix) and
-                    token_regex.fullmatch(enode.op, partial=True)
+                    enode.op == prefix and not enode.children
+                    for enode in eclasses[eclass]
+                )
+                return t if matches_constant else EmptySet()
+            case Token(prefix=prefix, token_regex=token_regex, is_complete=False):
+                matches_constant = any(
+                    not enode.children
+                    and enode.op.startswith(prefix)
+                    and token_regex.fullmatch(enode.op, partial=True)
                     for enode in eclasses[eclass]
                 )
                 return t if matches_constant else EmptySet()
@@ -80,11 +82,17 @@ def in_egraph(egraph: EGraph) -> Callable[[TreeGrammar], TreeGrammar]:
                 for enode in eclasses[eclass]:
                     if f == enode.op:
                         assert len(enode.children) == len(children)
-                        matches.append(Application.of(
-                            enode.op,
-                            [in_eclass(child_eclass, child)
-                             for child_eclass, child in zip(enode.children, children)]
-                        ))
+                        matches.append(
+                            Application.of(
+                                enode.op,
+                                [
+                                    in_eclass(child_eclass, child)
+                                    for child_eclass, child in zip(
+                                        enode.children, children
+                                    )
+                                ],
+                            )
+                        )
                 return Union.of(matches)
             case _:
                 raise ValueError

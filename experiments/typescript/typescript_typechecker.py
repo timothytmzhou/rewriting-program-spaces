@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from core.parser import *
 from core.grammar import *
-from lexing.leaves import Token
+from lexing.token import Token
 from llm.realizability import RealizabilityChecker
 from .types import *
 from .environment import *
@@ -70,8 +70,8 @@ def typecheck_args(env: Environment, exps: TreeGrammar, types: Type
 def typecheck_lhs(env: Environment, exps: TreeGrammar, types: Type,
                   is_mutable: bool) -> TreeGrammar:
     match exps:
-        case Constant(c) if isinstance(c, Token) and c.token_type == "id":
-            return env.get_terms_of_type(c, types, is_mutable=is_mutable)
+        case Token(token_type="id") as t:
+            return env.get_terms_of_type(t, types, is_mutable=is_mutable)
     raise ValueError(f"Unexpected lhs in reassignment {exps}")
 
 
@@ -79,24 +79,28 @@ def typecheck_lhs(env: Environment, exps: TreeGrammar, types: Type,
 def typecheck_expression(env: Environment, exps: TreeGrammar, types: Type
                          ) -> TreeGrammar:
     match exps:
-        case Constant(c) if isinstance(c, Token) and c.token_type == "int":
+        case Token(token_type="int"):
             if NUMBERTYPE in types:
                 return exps
             else:
                 return EmptySet()
-        case Constant(c) if isinstance(c, Token) and c.token_type == "str":
+        case Token(token_type="str"):
             if STRINGTYPE in types:
                 return exps
             else:
                 return EmptySet()
-        case Constant(c) if (isinstance(c, Token)
-                             and (c.token_type in {"true", "false"})):
+        case Token(token_type="true"):
             if BOOLEANTYPE in types:
                 return exps
             else:
                 return EmptySet()
-        case Constant(c) if isinstance(c, Token) and c.token_type == "id":
-            return env.get_terms_of_type(c, types)
+        case Token(token_type="false"):
+            if BOOLEANTYPE in types:
+                return exps
+            else:
+                return EmptySet()
+        case Token(token_type="id") as t:
+            return env.get_terms_of_type(t, types)
         # case Application("0-ary lambda", (bodies,), focus=focus):
         #     match types:
         #         case UnionType(first, second):
@@ -387,11 +391,11 @@ def typecheck_return_seqs(env: Environment, stmts: TreeGrammar, typ: Type
 def parse_type(type_expression: TreeGrammar) -> Type:
     """"WARNING: ONLY INVOKE THIS FUNCTION ON COMPLETELY PARSED TREEGRAMMARS"""
     match type_expression:
-        case Constant(c) if isinstance(c, Token) and c.token_type == "numbertype":
+        case Token(token_type="numbertype"):
             return NUMBERTYPE
-        case Constant(c) if isinstance(c, Token) and c.token_type == "stringtype":
+        case Token(token_type="stringtype"):
             return STRINGTYPE
-        case Constant(c) if (isinstance(c, Token) and (c.token_type == "booltype")):
+        case Token(token_type="booltype"):
             return BOOLEANTYPE
         case Application("0-ary functype", (return_type,)):
             return FuncType.of(VOIDTYPE, parse_type(return_type))
@@ -419,15 +423,16 @@ def infer_type_expression(env: Environment, exp: TreeGrammar) -> Type:
     @fixpoint(lambda: VOIDTYPE)
     def infer_type_expression_helper(exp: TreeGrammar) -> Type:
         match exp:
-            case Constant(c) if isinstance(c, Token) and c.token_type == "int":
+            case Token(token_type="int"):
                 return NUMBERTYPE
-            case Constant(c) if isinstance(c, Token) and c.token_type == "str":
+            case Token(token_type="str"):
                 return STRINGTYPE
-            case Constant(c) if (isinstance(c, Token)
-                                 and (c.token_type in {"true", "false"})):
+            case Token(token_type="true"):
                 return BOOLEANTYPE
-            case Constant(c) if isinstance(c, Token) and c.token_type == "id":
-                return env._get_typed(c.prefix, TopType())[1]
+            case Token(token_type="false"):
+                return BOOLEANTYPE
+            case Token(token_type="id", prefix=prefix):
+                return env._get_typed(prefix, TopType())[1]
             case Application("0-ary app", (func,)):
                 functype = infer_type_expression_helper(func)
                 if isinstance(functype, FuncType):
@@ -600,8 +605,8 @@ def get_new_bindings(stmt: TreeGrammar) -> tuple[tuple[str, Type, bool], ...]:
 def get_identifier_name(exp: TreeGrammar) -> str:
     """WARNING: DO NOT CALL ON INCOMPLETE TREEGRAMMAR."""
     match exp:
-        case Constant(c) if isinstance(c, Token) and c.token_type == "id":
-            return c.prefix
+        case Token(token_type="id", prefix=prefix):
+            return prefix
     raise ValueError(f"Unexpected identifier {exp}")
 
 

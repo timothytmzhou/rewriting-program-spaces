@@ -1,5 +1,5 @@
 from lexing.lexing import *
-from lexing.leaves import Token
+from lexing.token import Token
 import regex as re
 
 

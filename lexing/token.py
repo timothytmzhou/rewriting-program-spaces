@@ -1,43 +1,13 @@
 from __future__ import annotations
-from abc import ABC, abstractmethod
 from dataclasses import dataclass, replace
 from typing import Any, Optional
 from regex import Pattern
+from core.grammar import TreeGrammar
 
 
-class Leaf[T](ABC):
-    @abstractmethod
-    def update(self, other: T) -> Optional[Leaf]:
-        """
-        Updates the leaf with a value.
-        May return None if the value is incompatible."""
-        pass
-
-
+# TODO: should make seperate TokenDef class for ConstantParsers
 @dataclass(frozen=True)
-class IntLeaf[int](Leaf):
-    value: int
-    matched: bool = False
-
-    def update(self, other) -> Optional[IntLeaf]:
-        if self.value == other:
-            return replace(self, matched=True)
-        return None
-
-
-@dataclass(frozen=True)
-class StringLeaf[str](Leaf):
-    value: str
-    matched: bool = False
-
-    def update(self, other: str) -> Optional[StringLeaf]:
-        if self.value == other:
-            return replace(self, matched=True)
-        return None
-
-
-@dataclass(frozen=True)
-class Token(Leaf):
+class Token(TreeGrammar):
     token_type: Any
     token_regex: Pattern
     prefix: str = ""

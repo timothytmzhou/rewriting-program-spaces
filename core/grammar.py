@@ -1,22 +1,17 @@
 from dataclasses import dataclass
 from typing import Optional
-from lexing.leaves import Leaf
 from .rewrite import *
 from .utils import flatten
-
-Symbol = str
 
 
 class TreeGrammar(Term):
     pass
 
 
-@dataclass(frozen=True)
-class Constant(TreeGrammar):
-    c: Leaf
+# This is here to avoid circular imports. TODO: cleanup.
+from lexing.token import Token  # noqa: E402
 
-    def __str__(self):
-        return f"Constant({self.c})"
+Symbol = str
 
 
 @dataclass(frozen=True)
@@ -58,8 +53,7 @@ class Union(TreeGrammar):
 
     def compact(self, full=False):
         check_empty = is_empty if full else lambda p: isinstance(p, EmptySet)
-        new_children = frozenset(
-            c for c in self.children if not check_empty(c))
+        new_children = frozenset(c for c in self.children if not check_empty(c))
         if len(new_children) == 1:
             return next(iter(new_children))
         return Union(new_children) if new_children else EmptySet()
@@ -78,7 +72,7 @@ def is_nonempty(t: TreeGrammar) -> bool:
     match t:
         case EmptySet():
             return False
-        case Constant():
+        case Token():
             return True
         case Application(_, children):
             return all(is_nonempty(c) for c in children)
@@ -103,6 +97,8 @@ def expand_tree_grammar(t: TreeGrammar) -> TreeGrammar:
         case Union(children):
             return Union.of(expand_tree_grammar(child) for child in children)
         case Application(op, children):
-            return Application.of(op, tuple(expand_tree_grammar(child) for child in children))
+            return Application.of(
+                op, tuple(expand_tree_grammar(child) for child in children)
+            )
         case _:
             return t

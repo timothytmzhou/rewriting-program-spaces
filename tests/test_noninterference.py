@@ -1,4 +1,3 @@
-import argparse
 from tests.utils import reset
 from experiments.noninterference.noninterference import *
 
@@ -23,16 +22,3 @@ def test_noninterference_large(n: int = 2):
     for i in range(n):
         pref += f"while (h + l < 10 + {i}) do {{h := l + {i};}}"
     assert noninterference_checker.realizable(pref)
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Run performance noninterference test."
-    )
-    parser.add_argument(
-        '-s', '--size',
-        type=int, default=2,
-        help='Run noninterference experiments with specified n'
-    )
-    args = parser.parse_args()
-    test_noninterference_large(args.size)
