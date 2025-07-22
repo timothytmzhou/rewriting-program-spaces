@@ -10,7 +10,7 @@ def main(results_dir: Path = Path('.')):
 
     # mapping checker_type to column labels
     checker_map = {
-        'unconstrained': 'Unconstr.',
+        'unconstrained': 'Unconstrained',
         'gcd': 'Syntax',
         'constrained': 'Semantics'
     }

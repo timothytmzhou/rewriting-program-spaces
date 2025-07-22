@@ -1,0 +1,31 @@
+ID: /(?!(let|in)$)[a-zA-Z_][a-zA-Z0-9_]*/
+INT: /\d+/
+WS: /\s+/
+%ignore WS
+
+let: add
+   | "let" id "=" add "in" let {Let}
+
+add: mul
+   | add "+" mul {Add}
+   | add "-" mul {Sub}
+
+mul: app
+   | mul "*" app {Mul}
+   | mul "/" app {Div}
+
+app: atom
+   | app non_neg_atom {App}
+
+atom: non_neg_atom
+    | "-" atom {Neg}
+
+non_neg_atom: id
+            | num
+            | "(" add ")"
+
+id: ID {Var}
+num: INT {Num}
+
+BACKTICKS: /```/
+codeblock: BACKTICKS let BACKTICKS

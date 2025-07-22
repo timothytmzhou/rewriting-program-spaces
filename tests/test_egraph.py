@@ -1,4 +1,4 @@
-from experiments.egraph.run import *
+from experiments.egraph.scripts.run import *
 from runllm.constrained_decoding import RealizabilityChecker
 from tests.utils import reset
 from experiments.egraph.let import *
@@ -11,7 +11,7 @@ with open("experiments/egraph/let.egglog", "r") as f:
 
 egraph_expression_grammar_checker = RealizabilityChecker(
     lambda x: x,
-    Let(),
+    let_grammar,
     let_lexer_spec,
 )
 
@@ -65,7 +65,7 @@ six_egraph = egraph_from_egglog(six_source, "six", "Math")
 def test_static_egraph():
     checker = RealizabilityChecker(
         in_egraph(six_egraph),
-        Let(),
+        let_grammar,
         let_lexer_spec,
     )
     assert checker.realizable("")
@@ -83,7 +83,7 @@ def test_static_egraph():
 def test_dynamic_egraph():
     checker = RealizabilityChecker(
         lambda t: let_equivalence(six_egraph, t),
-        Let(),
+        let_grammar,
         let_lexer_spec,
     )
     assert checker.realizable("let y = 3 in 3")
@@ -113,7 +113,7 @@ def test_div():
     egraph = egraph_from_egglog(source, "div", "Math")
     checker = RealizabilityChecker(
         lambda t: let_equivalence(egraph, t),
-        Let(),
+        let_grammar,
         let_lexer_spec,
     )
     assert checker.realizable("(a * b) / (c * d)")
@@ -127,7 +127,7 @@ def test_div():
 def test_duplicate_names():
     checker = RealizabilityChecker(
         lambda t: let_equivalence(six_egraph, t),
-        Let(),
+        let_grammar,
         let_lexer_spec,
     )
     assert checker.realizable("let y = 6 in y")
