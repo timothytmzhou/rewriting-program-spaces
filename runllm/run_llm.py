@@ -1,7 +1,8 @@
 import gc
 from dataclasses import dataclass
 from collections import Counter, defaultdict
-from typing import Any, List, Tuple, Set, Optional
+from typing import Any, List, Tuple, Set
+from func_timeout import FunctionTimedOut, func_timeout
 import torch
 from transformers import (
     AutoTokenizer,
@@ -26,16 +27,17 @@ class Config:
     Configuration for language model generation.
     """
     # Generation parameters
-    max_new_tokens: int = 300
+    max_new_tokens: int = 400
     temperature: float = 0.5
     repetition_penalty: float = 1.0
     top_p: float = 1.0
     top_k: float = 0
-    num_guesses: int = 300
+    num_guesses: int = 400
 
 
 DEFAULT_CONTEXT = """You are a skilled programmer who responds
 to questions by writing concise code without comments.""".replace('\n', '')
+
 
 @dataclass
 class RunInfo:
@@ -45,6 +47,7 @@ class RunInfo:
     num_tokens_guessed: int
     num_tokens_generated: int
     tries_per_token: Counter
+    timed_out: bool = False
 
 
 class LanguageModelRunner:
@@ -122,7 +125,8 @@ class LanguageModelRunner:
         config: Config,
         prompt: str,
         context: str = DEFAULT_CONTEXT,
-        realizability_checker=None
+        realizability_checker=None,
+        timeout: int = 150
     ) -> RunInfo:
         input_ids = self._tokenize_prompt(prompt, context)
         generated_tokens = []
@@ -133,6 +137,8 @@ class LanguageModelRunner:
         total_realizability_time = 0.0
         tries = 0
         try_counts = Counter()
+        timed_out = False
+        start_run = time.time()
 
         for _ in range(config.num_guesses):
             if len(generated_tokens) >= config.max_new_tokens:
@@ -154,11 +160,18 @@ class LanguageModelRunner:
                 is_realizable = True
             else:
                 check_start = time.time()
-                is_realizable = realizability_checker.realizable(decoded_output, is_final)
+                try:
+                    is_realizable = func_timeout(int((start_run + timeout)
+                                                     - check_start),
+                                                 realizability_checker.realizable,
+                                                 args=(decoded_output, is_final))
+                except FunctionTimedOut:
+                    is_realizable = False
+                    timed_out = True
                 total_realizability_time += time.time() - check_start
             if is_realizable:
                 try_counts[tries] += 1
-                tries = 0 
+                tries = 0
                 generated_tokens.append(new_token)
                 if is_final:
                     return RunInfo(
@@ -179,7 +192,8 @@ class LanguageModelRunner:
             total_realizability_time=total_realizability_time,
             num_tokens_guessed=num_tokens_guessed,
             num_tokens_generated=len(generated_tokens),
-            tries_per_token=try_counts
+            tries_per_token=try_counts,
+            timed_out=timed_out
         )
 
     def __del__(self):

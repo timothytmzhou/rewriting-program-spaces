@@ -1,0 +1,2 @@
+//Write a typescript function to find the highest power of 2 that is less than or equal to n.
+function highest_Power_of_2(n: number): number 

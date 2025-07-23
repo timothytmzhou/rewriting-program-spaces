@@ -1,28 +1,34 @@
 import time
 import argparse
 import os
-from dataclasses import dataclass, replace
-from typing import Optional
-from transformers import set_seed
+from dataclasses import asdict, replace
+from typing import Literal
+import pandas as pd
 
-from experiments.utils.instrumenter import Instrumenter
 from runllm.constrained_decoding import RealizabilityChecker
-from runllm.run_llm import Config, LanguageModelRunner
+from runllm.run_llm import Config, LanguageModelRunner, ModelConfig
 from tests.utils import reset
-from noninterference.noninterference import noninterference_checker
-from typescript.typescript_instrumeter import TypescriptInstrumeter
-from typescript.typescript_typechecker import typescript_checker
+# from noninterference.noninterference import noninterference_checker
+from typescript.compile_typescript import compile_typescript
+from typescript.typescript_typechecker import (typescript_typechecker,
+                                               typescript_grammar_checker)
 
 
-@dataclass
-class TrivialChecker:
-
-    def realizable(self, pref: str, final: bool = False) -> bool:
-        return True
+def ts_clean(initial_output: str) -> str:
+    output = initial_output
+    start_prog_index = initial_output.find('```')
+    if start_prog_index != -1:
+        output = initial_output[start_prog_index + 3:]
+        end_prog_index = output.find('```')
+        if end_prog_index != -1:
+            output = output[:end_prog_index]
+    return output
 
 
 @reset
 def run_experiment(
+    prompt_name: str,
+    temp: int,
     prompt: str,
     context: str,
     prompt_num: int,
@@ -30,122 +36,74 @@ def run_experiment(
     runner: LanguageModelRunner,
     config: Config,
     checker: RealizabilityChecker,
-    inst: Instrumenter,
-    outfile
+    outfile,
+    outlist: list
 ):
     prompt = prompt.rstrip('\n')
     start = time.time()
-    passed, output = runner.run(config, prompt, context=context,
-                                realizability_checker=checker)
+    run_info = runner.run(config, prompt, context=context,
+                          realizability_checker=checker, timeout=150)
     elapsed = time.time() - start
-
-    # Extract program and perform instrumentation (check output, record times, etc.)
-    assert isinstance(output, str)
-    start_prog_index = output.find('```')
-    if start_prog_index != -1:
-        output = output[start_prog_index + 3:]
-        end_prog_index = output.find('```')
-        if end_prog_index != -1:
-            output = output[:end_prog_index]
-    inst.instrument(output, passed)
+    # Check if program compiles with tsc
+    compiled = compile_typescript(ts_clean(run_info.output))
 
     # Write Raw Output
     outfile.write(f"Prompt #: {prompt_num}, Run #: {run_num}\n")
-    outfile.write(f"Output: \n{output}\n")
+    outfile.write(f"Raw Output: \n{run_info.output}\n")
+    outfile.write(f"Processed Output: \n{ts_clean(run_info.output)}\n")
+    outfile.write(f"Passed (if CD): {run_info.llm_finished}\n")
+    outfile.write(f"Passed (tsc typechecker): {compiled}\n")
+    outfile.write(f"Timed out: {run_info.timed_out}\n")
+    outfile.write(f"Num Tokens Guessed: {run_info.num_tokens_guessed}\n")
+    outfile.write(f"Num Tokens Generated: {run_info.num_tokens_generated}\n")
+    outfile.write(f"Total Realizability Time: {run_info.total_realizability_time}")
     outfile.write(f"Total Time: {elapsed:.4f} seconds\n")
-    outfile.write(inst.get_tot_times_this_run())
     outfile.write("=" * 40 + "\n")
     outfile.flush()
-    print(f"{output}\n")
     os.fsync(outfile.fileno())
 
+    outlist.append({
+        'did_compile': compiled,
+        'benchmark_id': prompt_num,
+        'benchmark_name': prompt_name,
+        'temperature': temp,
+        'execution_time': elapsed,
+        **asdict(run_info)
+    })
+    return
 
-def run_typescript(runner: LanguageModelRunner, config: Config, runs: int):
+
+def run_typescript(runner: LanguageModelRunner, config: Config, runs: int,
+                   mode: Literal['Unconstrained', 'GCD', 'TypedCD'],
+                   model_name: str):
     # Set instrumentation
-    inst: Instrumenter = TypescriptInstrumeter(typescript_checker)
-    benchmark_dir = "typescript/benchmarks/mbpp_benchmarks_safe"
+    match mode:
+        case 'Unconstrained':
+            checker = None
+        case 'GCD':
+            checker = typescript_grammar_checker
+        case 'TypedCD':
+            checker = typescript_typechecker
+    results: list[dict] = []
+    benchmark_dir = "typescript/benchmarks/mbpp_benchmarks"
 
     # Get llm context
     with open("typescript/benchmarks/context.txt", "r") as context_file:
         context = context_file.read().rstrip()
 
     for prompt_num, subdir in enumerate(os.listdir(benchmark_dir)):
-        print(prompt_num, subdir)
-        if not os.path.isdir(os.path.join(benchmark_dir, subdir)):
-            continue
-        prompts_file = os.path.join(benchmark_dir, subdir, "prompt.txt")
-        output_file = os.path.join(benchmark_dir, subdir, f"CD_results_temp_{TEMP}.txt")
-
-        with open(prompts_file, "r") as promptfile, open(output_file, "w") as outfile:
-            for run_num in range(runs):
-                inst.set_indices(prompt_num, run_num)
-                run_experiment(
-                    promptfile.read().rstrip(),
-                    context,
-                    prompt_num,
-                    run_num,
-                    runner,
-                    config,
-                    typescript_checker,
-                    inst,
-                    outfile
-                )
-    return inst
-
-
-def run_noninterference(runner: LanguageModelRunner, config: Config, runs: int):
-    # Set instrumentation
-    inst: Instrumenter = Instrumenter(noninterference_checker)
-
-    # Get llm context
-    prompts_file = "noninterference/prompts.txt"
-    output_file = "noninterference/results.txt"
-    with open("noninterference/context.txt", "r") as context_file:
-        context = context_file.read().rstrip()
-
-    # Run experiments
-    with open(prompts_file, "r") as promptfile, open(output_file, "a") as outfile:
-        for prompt_num, prompt in enumerate(promptfile):
-            if prompt and prompt.startswith("#"):
-                continue
-            for run_num in range(runs):
-                inst.set_indices(prompt_num, run_num)
-                run_experiment(
-                    prompt,
-                    context,
-                    prompt_num,
-                    run_num,
-                    runner,
-                    config,
-                    noninterference_checker,
-                    inst,
-                    outfile
-                )
-    return inst
-
-
-def run_typescript_noCD(runner: LanguageModelRunner, config: Config, runs: int):
-    # Set instrumentation
-    checker = TrivialChecker()
-    inst: Instrumenter = TypescriptInstrumeter(typescript_checker)
-    benchmark_dir = "typescript/benchmarks/mbpp_benchmarks_safe"
-
-    # Get llm context
-    with open("typescript/benchmarks/context.txt", "r") as context_file:
-        context = context_file.read().rstrip()
-
-    for prompt_num, subdir in enumerate(os.listdir(benchmark_dir)):
-        print(prompt_num, subdir)
+        print(prompt_num, subdir, flush=True)
         if not os.path.isdir(os.path.join(benchmark_dir, subdir)):
             continue
         prompts_file = os.path.join(benchmark_dir, subdir, "prompt.txt")
         output_file = os.path.join(benchmark_dir, subdir,
-                                   f"noCD_results_temp_{TEMP}.txt")
+                                   f"{mode}_results_temp_{TEMP}_model_{model_name}.txt")
 
         with open(prompts_file, "r") as promptfile, open(output_file, "w") as outfile:
             for run_num in range(runs):
-                inst.set_indices(prompt_num, run_num)
                 run_experiment(
+                    subdir,
+                    TEMP,
                     promptfile.read().rstrip(),
                     context,
                     prompt_num,
@@ -153,86 +111,106 @@ def run_typescript_noCD(runner: LanguageModelRunner, config: Config, runs: int):
                     runner,
                     config,
                     checker,
-                    inst,
-                    outfile
+                    outfile,
+                    results
                 )
-    return inst
+    pd.DataFrame(results).to_csv(f'{mode}_temp_{TEMP}_model_{model_name}.csv',
+                                 index=False)
+    return results
 
 
-def run_noninterference_noCD(runner: LanguageModelRunner, config: Config,
-                             runs: int, foldername: str):
-    # Set instrumentation
-    checker = TrivialChecker()
-    inst: Instrumenter = Instrumenter(noninterference_checker)
+# def run_noninterference(runner: LanguageModelRunner, config: Config, runs: int):
+#     # Set instrumentation
+#     inst: Instrumenter = Instrumenter()
 
-    # Get llm context
-    prompts_file = foldername + "prompts.txt"
-    output_file = foldername + "results_raw.txt"
-    with open(foldername + "context.txt", "r") as context_file:
-        context = context_file.read().rstrip()
+#     # Get llm context
+#     prompts_file = "noninterference/prompts.txt"
+#     output_file = "noninterference/results.txt"
+#     with open("noninterference/context.txt", "r") as context_file:
+#         context = context_file.read().rstrip()
 
-    # Run experiments
-    with open(prompts_file, "r") as promptfile, open(output_file, "w") as outfile:
-        for prompt_num, prompt in enumerate(promptfile):
-            if prompt and prompt.startswith("#"):
-                continue
-            for run_num in range(runs):
-                inst.set_indices(prompt_num, run_num)
-                run_experiment(
-                    prompt,
-                    context,
-                    prompt_num,
-                    run_num,
-                    runner,
-                    config,
-                    checker,
-                    inst,
-                    outfile
-                )
+#     # Run experiments
+#     with open(prompts_file, "r") as promptfile, open(output_file, "a") as outfile:
+#         for prompt_num, prompt in enumerate(promptfile):
+#             if prompt and prompt.startswith("#"):
+#                 continue
+#             for run_num in range(runs):
+#                 inst.set_indices(prompt_num, run_num)
+#                 run_experiment(
+#                     prompt,
+#                     context,
+#                     prompt_num,
+#                     run_num,
+#                     runner,
+#                     config,
+#                     noninterference_checker,
+#                     inst,
+#                     outfile
+#                 )
+#     return inst
 
-    return inst
+
+# def run_noninterference_noCD(runner: LanguageModelRunner, config: Config,
+#                              runs: int, foldername: str):
+#     # Set instrumentation
+#     checker = None
+#     inst: Instrumenter = Instrumenter()
+
+#     # Get llm context
+#     prompts_file = foldername + "prompts.txt"
+#     output_file = foldername + "results_raw.txt"
+#     with open(foldername + "context.txt", "r") as context_file:
+#         context = context_file.read().rstrip()
+
+#     # Run experiments
+#     with open(prompts_file, "r") as promptfile, open(output_file, "w") as outfile:
+#         for prompt_num, prompt in enumerate(promptfile):
+#             if prompt and prompt.startswith("#"):
+#                 continue
+#             for run_num in range(runs):
+#                 inst.set_indices(prompt_num, run_num)
+#                 run_experiment(
+#                     prompt,
+#                     context,
+#                     prompt_num,
+#                     run_num,
+#                     runner,
+#                     config,
+#                     checker,
+#                     inst,
+#                     outfile
+#                 )
+
+#     return inst
 
 
 def run_experiments(
+        model_name: str,
+        model_config: ModelConfig,
         config: Config,
         outfile,
         noninterference_CD: bool,
         noninterference_noCD: bool,
         typescript_CD: bool,
         typescript_noCD: bool,
+        typescript_GCD: bool,
         performance: bool,
         num_runs: int = 1,
-        seed: Optional[int] = None
 ):
-    # Instantiate runner to load model
-    if seed is not None:
-        set_seed(seed)
-    runner = LanguageModelRunner()
-
-    # Run experiments and write table
-    # Implemented this way so table populates incrementally
-    with open(outfile, "w") as out:
-        out.write("\t\t\t\t\t\t\t\t# Progs Passing Constraints\t\t\t\t"
-                  + "# Progs Passing Tests\t\t\t\t"
-                  + "Avg Total Time (secs)\t\t\t\t"
-                  + "Avg Time/Tok(secs)\n")
-        if noninterference_CD:
-            inst = run_noninterference(runner, config, num_runs)
-            out.write("Noninterference[with our tool]\t\t\t\t" + inst.table_row())
-            inst.clear()
-        if noninterference_noCD:
-            inst = run_noninterference_noCD(runner, config, num_runs,
-                                            "noninterference/")
-            out.write("Noninterference[unconstrained]\t\t\t\t" + inst.table_row())
-            inst.clear()
-        if typescript_CD:
-            inst = run_typescript(runner, config, num_runs)
-            out.write("Typescript[with our tool]\t\t\t\t" + inst.table_row())
-            inst.clear()
-        if typescript_noCD:
-            inst = run_typescript_noCD(runner, config, num_runs)
-            out.write("Typescript[unconstrained]\t\t\t\t" + inst.table_row())
-            inst.clear()
+    runner = LanguageModelRunner(model_config=model_config)
+    # Run experiments
+    # if noninterference_CD:
+    #     run_noninterference(runner, config, num_runs)
+    # if noninterference_noCD:
+    #     run_noninterference_noCD(runner, config, num_runs,
+    #                                     "noninterference/")
+    if typescript_CD:
+        run_typescript(runner, config, num_runs, 'TypedCD', model_name)
+    if typescript_noCD:
+        run_typescript(runner, config, num_runs, 'Unconstrained', model_name)
+    if typescript_GCD:
+        run_typescript(runner, config, num_runs, 'GCD', model_name)
+    del runner
 
 
 if __name__ == "__main__":
@@ -256,6 +234,10 @@ if __name__ == "__main__":
         action='store_true', help='Run typescript experiments without our decoding'
     )
     parser.add_argument(
+        '-g', '--typescript_GCD',
+        action='store_true', help='Run typescript experiments with GCD'
+    )
+    parser.add_argument(
         '-p', '--performance',
         action='store_true', help='Run performance experiments'
     )
@@ -268,19 +250,32 @@ if __name__ == "__main__":
     parser.add_argument(
         '--temp',
         type=float,
-        default=1,
-        help='LLM Temperature (default: 1)'
+        default=1.0,
+        help='LLM Temperature (default: 1.0)'
     )
     args = parser.parse_args()
-    TEMP: float = args.temp
-    run_experiments(
-        replace(Config(), temperature=TEMP),
-        f"table_temp_{TEMP}.txt",
-        args.noninterference_CD,
-        args.noninterference_noCD,
-        args.typescript_CD,
-        args.typescript_noCD,
-        args.performance,
-        args.num_runs,
-        seed=3587551093
-    )
+    TEMP: float = float(args.temp)
+
+    # Instantiate runner to load model
+    models = [
+        # ("llama7b", ModelConfig(model_id="codellama/CodeLlama-7b-Instruct-hf")),
+        ("deepseek-coder",
+         ModelConfig(model_id="deepseek-ai/deepseek-coder-6.7b-instruct")),
+        ("llama13b", ModelConfig(model_id="codellama/CodeLlama-13b-Instruct-hf")),
+    ]
+
+    for (model_name, model_config) in models:
+        run_experiments(
+            model_name,
+            model_config,
+            replace(Config(), temperature=TEMP, repetition_penalty=1.2),
+            f"table_temp_{TEMP}_model_{model_name}.txt",
+            args.noninterference_CD,
+            args.noninterference_noCD,
+            args.typescript_CD,
+            args.typescript_noCD,
+            args.typescript_GCD,
+            args.performance,
+            args.num_runs,
+            # seed=3587551093
+        )

@@ -6,3 +6,4 @@ accelerate
 matplotlib
 egglog
 pandas
+func_timeout

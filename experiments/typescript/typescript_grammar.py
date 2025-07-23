@@ -9,7 +9,7 @@ from lexing.lexing import LexerSpec
 # LEXEMES
 
 INTSLEAF = Token("int", re.compile("\\d+(\\.\\d+)?"))
-STRINGSLEAF = Token("str", re.compile("\"\\w*\""))
+# STRINGSLEAF = Token("str", re.compile("\"\\w*\""))
 TRUELEAF = Token("true", re.compile("true"))
 FALSELEAF = Token("false", re.compile("false"))
 IDLEAF = Token(
@@ -20,20 +20,20 @@ IDLEAF = Token(
     )
 )
 
-PLUSLEAF = Token("+", re.compile("\\+"))
-MINUSLEAF = Token("-", re.compile("\\-"))
-TIMESLEAF = Token("*", re.compile("\\*"))
-DIVLEAF = Token("/", re.compile("/"))
-MODLEAF = Token("+", re.compile("%"))
-LESSLEAF = Token("<", re.compile("<"))
-LESSEQLEAF = Token("<=", re.compile("<="))
-GREATERLEAF = Token(">", re.compile(">"))
-GREATEREQLEAF = Token(">=", re.compile(">="))
-# TODO: When there is time, split these two
-EQUALLEAF = Token("==", re.compile("((==)|(===))"))
-NOTEQUALLEAF = Token("!==", re.compile("((!==)|(!=))"))
-ANDLEAF = Token("&&", re.compile("&&"))
-ORLEAF = Token("||", re.compile("\\|\\|"))
+# I'm so sorry this is a necessary speed hack
+INTBINOPLEAF = Token("+", re.compile("\\+|\\-|\\*|/|%"))
+# MINUSLEAF = Token("-", re.compile("\\-"))
+# TIMESLEAF = Token("*", re.compile("\\*"))
+# DIVLEAF = Token("/", re.compile("/"))
+# MODLEAF = Token("+", re.compile("%"))
+COMPARATORLEAF = Token("<", re.compile("(<)|(<=)|(>)|(>=)|(==)|(===)|(!==)|(!=)"))
+# LESSEQLEAF = Token("<=", re.compile("<="))
+# GREATERLEAF = Token(">", re.compile(">"))
+# GREATEREQLEAF = Token(">=", re.compile(">="))
+# EQUALLEAF = Token("==", re.compile("((==)|(===))"))
+# NOTEQUALLEAF = Token("!==", re.compile("((!==)|(!=))"))
+BOOLEANBINOPLEAF = Token("&&", re.compile("(&&)|(\\|\\|)"))
+# ORLEAF = Token("||", re.compile("\\|\\|"))
 
 FUNCARROWLEAF = Token("=>", re.compile("=>"))
 DOTLEAF = Token(".", re.compile("\\."))
@@ -41,7 +41,7 @@ COLONLEAF = Token(":", re.compile(":"))
 QUESTIONMARKLEAF = Token("?", re.compile("\\?"))
 
 NUMBERTYPELEAF = Token("numbertype", re.compile("number"))
-STRINGTYPELEAF = Token("stringtype", re.compile("string"))
+# STRINGTYPELEAF = Token("stringtype", re.compile("string"))
 BOOLEANTYPELEAF = Token("booltype", re.compile("boolean"))
 
 RETURNLEAF = Token("return", re.compile("return"))
@@ -68,24 +68,24 @@ RBRACELEAF = Token("rbrace", re.compile(re.escape("}")))
 CODEBLOCKLEAF = Token("```", re.compile(r"```"))
 
 INTS = ConstantParser(INTSLEAF)
-STRINGS = ConstantParser(STRINGSLEAF)
+# STRINGS = ConstantParser(STRINGSLEAF)
 TRUE = ConstantParser(TRUELEAF)
 FALSE = ConstantParser(FALSELEAF)
 ID = ConstantParser(IDLEAF)
 
-PLUS = ConstantParser(PLUSLEAF)
-MINUS = ConstantParser(MINUSLEAF)
-TIMES = ConstantParser(TIMESLEAF)
-DIV = ConstantParser(DIVLEAF)
-MOD = ConstantParser(MODLEAF)
-LESS = ConstantParser(LESSLEAF)
-LESSEQ = ConstantParser(LESSEQLEAF)
-GREATER = ConstantParser(GREATERLEAF)
-GREATEREQ = ConstantParser(GREATEREQLEAF)
-EQUAL = ConstantParser(EQUALLEAF)
-NOTEQUAL = ConstantParser(NOTEQUALLEAF)
-AND = ConstantParser(ANDLEAF)
-OR = ConstantParser(ORLEAF)
+INTBINOP = ConstantParser(INTBINOPLEAF)
+# MINUS = ConstantParser(MINUSLEAF)
+# TIMES = ConstantParser(TIMESLEAF)
+# DIV = ConstantParser(DIVLEAF)
+# MOD = ConstantParser(MODLEAF)
+COMPARATOR = ConstantParser(COMPARATORLEAF)
+# LESSEQ = ConstantParser(LESSEQLEAF)
+# GREATER = ConstantParser(GREATERLEAF)
+# GREATEREQ = ConstantParser(GREATEREQLEAF)
+# EQUAL = ConstantParser(EQUALLEAF)
+# NOTEQUAL = ConstantParser(NOTEQUALLEAF)
+BOOLEANBINOP = ConstantParser(BOOLEANBINOPLEAF)
+# OR = ConstantParser(ORLEAF)
 
 FUNCARROW = ConstantParser(FUNCARROWLEAF)
 DOT = ConstantParser(DOTLEAF)
@@ -93,7 +93,7 @@ COLON = ConstantParser(COLONLEAF)
 QUESTIONMARK = ConstantParser(QUESTIONMARKLEAF)
 
 NUMBERTYPEPARSER = ConstantParser(NUMBERTYPELEAF)
-STRINGTYPEPARSER = ConstantParser(STRINGTYPELEAF)
+# STRINGTYPEPARSER = ConstantParser(STRINGTYPELEAF)
 BOOLEANTYPEPARSER = ConstantParser(BOOLEANTYPELEAF)
 
 RETURN = ConstantParser(RETURNLEAF)
@@ -122,29 +122,20 @@ lexer_spec = LexerSpec(
     tokens=frozenset(
         {
             INTSLEAF,
-            STRINGSLEAF,
+            # STRINGSLEAF,
             TRUELEAF,
             FALSELEAF,
             IDLEAF,
-            PLUSLEAF,
-            MINUSLEAF,
-            TIMESLEAF,
-            DIVLEAF,
-            MODLEAF,
-            LESSLEAF,
-            LESSEQLEAF,
-            GREATERLEAF,
-            GREATEREQLEAF,
-            EQUALLEAF,
-            NOTEQUALLEAF,
-            ANDLEAF,
-            ORLEAF,
+            INTBINOPLEAF,
+            COMPARATORLEAF,
+            BOOLEANBINOPLEAF,
+            BOOLEANTYPELEAF,
             FUNCARROWLEAF,
             DOTLEAF,
             COLONLEAF,
             QUESTIONMARKLEAF,
             NUMBERTYPELEAF,
-            STRINGTYPELEAF,
+            # STRINGTYPELEAF,
             BOOLEANTYPELEAF,
             RETURNLEAF,
             FUNCTIONLEAF,
@@ -169,12 +160,73 @@ lexer_spec = LexerSpec(
     ignore_regex=re.compile(r"(\s+)|//.*"),
 )
 
-BINOP_INT_INT_TO_INT = {"+", "-", "*", "/", "%"}
-BINOP_INT_INT_TO_BOOL = {"<", "<=", ">", ">=", "==", "!=="}
-BINOP_BOOL_BOOL_TO_BOOL = {"&&", "||"}
+BINOP_INT_INT_TO_INT = {"+"}
+BINOP_INT_INT_TO_BOOL = {"<"}
+BINOP_BOOL_BOOL_TO_BOOL = {"&&"}
 BINOP = {*BINOP_INT_INT_TO_INT, *BINOP_INT_INT_TO_BOOL, *BINOP_BOOL_BOOL_TO_BOOL}
 
 # GRAMMAR
+
+# Expression Grammar
+# Exp -> Form
+#     | Form ? Exp : Exp.
+
+# Form -> Comp
+#      | Comp && Comp
+#      | Comp || Comp.
+
+# Comp -> Bin
+#     | Bin < Bin
+#     | Bin == Bin
+#     ...
+
+# Bin -> App
+#     | App + Bin
+#     | App - Bin
+#     ...
+
+# App -> Base\_exp
+#     | Base\_exp ( )
+#     | Base\_exp ( A ).
+
+# Base\_exp -> INT
+#     | VAR
+#     | ( Exp ).
+
+# Exps -> Exp
+#     | Exp , Exps.
+
+
+# Statement Grammar:
+# Statements -> Statement
+#             | Statement ; Statements.
+
+# Statement -> Assignment ;
+#             | Exp ;
+#             | RETURN Exp ;
+#             | Block
+#             | FUNCTION VAR ( Typed\_id* ) : Type Block
+#             | FOR ( Assignment ; Exp ; Reassignment ) Block
+#             | WHILE ( Exp ) Block
+#             | IF ( Exp ) THEN Statement ELSE Statement
+#             | IF ( Exp ) THEN Statement
+
+# Assignment -> LET Typed\_id = Exp
+#             | CONST Typed\_id = Exp
+#             | Reassignment
+
+# Reassignment -> Typed\_id = Exp
+#             | Typed\_id ++
+#             | Typed\_id +=1
+
+# Typed\_id -> VAR : Type
+
+# Type -> INTTYPE
+#     | BOOLTYPE
+#     | ( Typed\_id* ) => Type
+
+# Block -> {}
+#     | {Statements}
 
 
 def bin_rearrangement(sym: str) -> Rearrangement:
@@ -184,20 +236,9 @@ def bin_rearrangement(sym: str) -> Rearrangement:
 def literals() -> Parser:
     return Choice.of(
         INTS,
-        STRINGS,
+        # STRINGS,
         TRUE,
         FALSE
-    )
-
-
-@rewrite
-def type_seqs() -> Parser:
-    return Choice.of(
-        types(),
-        Concatenation.of(
-            (types(), COMMA, type_seqs()),
-            rearrange=Rearrangement("type sequence", (0, 2))
-        )
     )
 
 
@@ -205,15 +246,16 @@ def type_seqs() -> Parser:
 def types() -> Parser:
     return Choice.of(
         NUMBERTYPEPARSER,
-        STRINGTYPEPARSER,
+        # STRINGTYPEPARSER,
         BOOLEANTYPEPARSER,
         Concatenation.of((LPAR, RPAR, FUNCARROW, types()),
                          rearrange=Rearrangement("0-ary functype", (3,))),
-        Concatenation.of((LPAR, type_seqs(), RPAR, FUNCARROW, types()),
+        Concatenation.of((LPAR, params(), RPAR, FUNCARROW, types()),
                          rearrange=Rearrangement("n-ary functype", (1, 4))),
     )
 
 
+@rewrite
 def typed_id() -> Parser:
     return Concatenation.of(
         (ID, COLON, types()),
@@ -248,18 +290,12 @@ def base_exps() -> Parser:
     return Choice.of(
         literals(),
         ID,
-        # Concatenation.of((LPAR, RPAR, FUNCARROW, exps()),
-        #                  rearrange=Rearrangement("0-ary lambda", (3,))),
-        # Concatenation.of((LPAR, params(), RPAR, FUNCARROW, exps()),
-        #                  rearrange=Rearrangement("n-ary lambda", (1, 4))),
         Concatenation.of((LPAR, exps(), RPAR),
                          rearrange=Rearrangement("grp", (1,))),
         Concatenation.of(base_exps(), LPAR, RPAR,
                          rearrange=Rearrangement("0-ary app", (0,))),
         Concatenation.of(base_exps(), LPAR, args(), RPAR,
                          rearrange=Rearrangement("n-ary app", (0, 2))),
-        # Concatenation.of(base_exps(), DOT, ID,
-        #                  rearrange=Rearrangement("dot access", (0, 2)))
     )
 
 
@@ -267,16 +303,8 @@ def base_exps() -> Parser:
 def precedence1_exps() -> Parser:
     return Choice.of(
         base_exps(),
-        Concatenation.of((base_exps(), PLUS, precedence1_exps()),
-                         rearrange=bin_rearrangement("+")),
-        Concatenation.of((base_exps(), MINUS, precedence1_exps()),
-                         rearrange=bin_rearrangement("-")),
-        Concatenation.of((base_exps(), TIMES, precedence1_exps()),
-                         rearrange=bin_rearrangement("*")),
-        Concatenation.of((base_exps(), DIV, precedence1_exps()),
-                         rearrange=bin_rearrangement("/")),
-        Concatenation.of((base_exps(), MOD, precedence1_exps()),
-                         rearrange=bin_rearrangement("%"))
+        Concatenation.of((base_exps(), INTBINOP, precedence1_exps()),
+                         rearrange=bin_rearrangement("+"))
     )
 
 
@@ -284,18 +312,8 @@ def precedence1_exps() -> Parser:
 def precedence2_exps() -> Parser:
     return Choice.of(
         precedence1_exps(),
-        Concatenation.of((precedence1_exps(), LESS, precedence1_exps()),
-                         rearrange=bin_rearrangement("<")),
-        Concatenation.of((precedence1_exps(), LESSEQ, precedence1_exps()),
-                         rearrange=bin_rearrangement("<=")),
-        Concatenation.of((precedence1_exps(), GREATER, precedence1_exps()),
-                         rearrange=bin_rearrangement(">")),
-        Concatenation.of((precedence1_exps(), GREATEREQ, precedence1_exps()),
-                         rearrange=bin_rearrangement(">=")),
-        Concatenation.of((precedence1_exps(), EQUAL, precedence1_exps()),
-                         rearrange=bin_rearrangement("==")),
-        Concatenation.of((precedence1_exps(), NOTEQUAL, precedence1_exps()),
-                         rearrange=bin_rearrangement("!=="))
+        Concatenation.of((precedence1_exps(), COMPARATOR, precedence1_exps()),
+                         rearrange=bin_rearrangement("<"))
     )
 
 
@@ -303,10 +321,8 @@ def precedence2_exps() -> Parser:
 def precedence3_exps() -> Parser:
     return Choice.of(
         precedence2_exps(),
-        Concatenation.of((precedence2_exps(), AND, precedence3_exps()),
-                         rearrange=bin_rearrangement("&&")),
-        Concatenation.of((precedence2_exps(), OR, precedence3_exps()),
-                         rearrange=bin_rearrangement("||")),
+        Concatenation.of((precedence2_exps(), BOOLEANBINOP, precedence3_exps()),
+                         rearrange=bin_rearrangement("&&"))
     )
 
 
@@ -314,7 +330,7 @@ def precedence3_exps() -> Parser:
 def exps() -> Parser:
     return Choice.of(
         precedence3_exps(),
-        Concatenation.of((exps(), QUESTIONMARK, exps(), COLON, exps()),
+        Concatenation.of((precedence3_exps(), QUESTIONMARK, exps(), COLON, exps()),
                          rearrange=Rearrangement("ternary expression", (0, 2, 4)))
     )
 
@@ -337,30 +353,19 @@ def blocks() -> Parser:
 def assignment() -> Parser:
     return Choice.of(
         Concatenation.of(
-            (LET, ID, COLON, types(), GETS, exps(), SEMICOLON),
+            (LET, ID, COLON, types(), GETS, exps()),
             rearrange=Rearrangement("variable declaration", (1, 3, 5)),
         ),
         Concatenation.of(
-            (CONST, ID, COLON, types(), GETS, exps(), SEMICOLON),
+            (CONST, ID, COLON, types(), GETS, exps()),
             rearrange=Rearrangement("const declaration", (1, 3, 5)),
         ),
-        Concatenation.of(
-            (ID, GETS, exps(), SEMICOLON),
-            rearrange=Rearrangement("variable assignment", (0, 2)),
-        ),
-        Concatenation.of(
-            (ID, PLUSPLUS, SEMICOLON),
-            rearrange=Rearrangement("increment", (0,)),
-        ),
-        Concatenation.of(
-            (ID, GETSPLUS, exps(), SEMICOLON),
-            rearrange=Rearrangement("+= assignment", (0, 2)),
-        )
+        reassignment()
     )
 
 
 @rewrite
-def assignment_end_for_loop() -> Parser:
+def reassignment() -> Parser:
     return Choice.of(
         Concatenation.of(
             (ID, GETS, exps()),
@@ -378,18 +383,16 @@ def assignment_end_for_loop() -> Parser:
 
 
 @rewrite
-def expression_statment() -> Parser:
-    return Concatenation.of(
-        (exps(), SEMICOLON),
-        rearrange=Rearrangement("expression statement", (0,)),
-    )
-
-
-@rewrite
 def commands() -> Parser:
     return Choice.of(
-        assignment(),
-        expression_statment(),
+        Concatenation.of(
+            (assignment(), SEMICOLON),
+            rearrange=Rearrangement(None, (0,))
+        ),
+        Concatenation.of(
+            (exps(), SEMICOLON),
+            rearrange=Rearrangement("expression statement", (0,)),
+        ),
         Concatenation.of(
             (RETURN, exps(), SEMICOLON),
             rearrange=Rearrangement("return statement", (1,)),
@@ -405,9 +408,9 @@ def commands() -> Parser:
         ),
         Concatenation.of(
             (FOR, LPAR,
-             assignment(), exps(), SEMICOLON, assignment_end_for_loop(),
+             assignment(), SEMICOLON, exps(), SEMICOLON, reassignment(),
              RPAR, blocks()),
-            rearrange=Rearrangement("for loop", (2, 3, 5, 7))
+            rearrange=Rearrangement("for loop", (2, 4, 6, 8))
         ),
         Concatenation.of(
             (WHILE, LPAR, exps(), RPAR, blocks()),

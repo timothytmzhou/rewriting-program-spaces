@@ -50,20 +50,8 @@ def typecheck_args(env: Environment, exps: TreeGrammar, types: Type
         case _, UnionType(first, second):
             return Union.of(typecheck_args(env, exps, first),
                             typecheck_args(env, exps, second))
-    raise ValueError(f"Argument sequence got unexpected type {types} or term {exps}")
-
-
-# @rewrite
-# def typecheck_dot_access(env: Environment, exps: TreeGrammar, types: Type,
-#                          lhs_type: Type) -> TreeGrammar:
-#     match exps:
-#         case Union(children):
-#             return Union.of(typecheck_dot_access(env, child, types, lhs_type)
-#                             for child in children)
-#         case Constant(c) if isinstance(c, Token) and c.token_type == "id":
-#             return env.get_terms_of_type(c, types, lhs_type=lhs_type)
-#         case _:
-#             raise ValueError(f"Unknown dot access rhs: {exps}")
+    return EmptySet()
+    # raise ValueError(f"Argument sequence got unexpected type {types} or term {exps}")
 
 
 @rewrite
@@ -72,7 +60,8 @@ def typecheck_lhs(env: Environment, exps: TreeGrammar, types: Type,
     match exps:
         case Constant(c) if isinstance(c, Token) and c.token_type == "id":
             return env.get_terms_of_type(c, types, is_mutable=is_mutable)
-    raise ValueError(f"Unexpected lhs in reassignment {exps}")
+    return EmptySet()
+    # raise ValueError(f"Unexpected lhs in reassignment {exps}")
 
 
 @rewrite
@@ -97,21 +86,6 @@ def typecheck_expression(env: Environment, exps: TreeGrammar, types: Type
                 return EmptySet()
         case Constant(c) if isinstance(c, Token) and c.token_type == "id":
             return env.get_terms_of_type(c, types)
-        # case Application("0-ary lambda", (bodies,), focus=focus):
-        #     match types:
-        #         case UnionType(first, second):
-        #             return Union.of(typecheck_expression(env, exps, first),
-        #                             typecheck_expression(env, exps, second))
-        #         case TopType():
-        #             return Application.of("0-ary lambda",
-        #                                   (typecheck_return(env, bodies, types),),
-        #                                   focus=focus)
-        #         case FuncType(VOIDTYPE, return_type):
-        #             return Application.of("0-ary lambda",
-        #                                   (typecheck_return(env, bodies,
-        #                                                     return_type),),
-        #                                   focus=focus)
-        #     return EmptySet()
         case Application("0-ary app", (func,), focus=focus):
             ftype = FuncType.of(VOIDTYPE, types)
             return Application.of("0-ary app",
@@ -138,22 +112,6 @@ def typecheck_expression(env: Environment, exps: TreeGrammar, types: Type
         case Application("grp", (exps_inner,), focus=focus):
             good_inners = typecheck_expression(env, exps_inner, types)
             return Application.of("grp", good_inners, focus=focus)
-        # case Application("dot access", (lhs, rhs), focus=focus):
-        #     if focus < 1:
-        #         return Application("dot access", (lhs, rhs), focus=focus)
-        #     lhs_type = infer_type_expression(env, lhs)
-        #     return Union.of(
-        #         (Application("dot access",
-        #                      (lhs, typecheck_dot_access(env, rhs, types, NUMBERTYPE)),
-        #                      focus=focus)
-        #          if NUMBERTYPE in lhs_type
-        #          else EmptySet()),
-        #         (Application("dot access",
-        #                      (lhs, typecheck_dot_access(env, rhs, types, STRINGTYPE)),
-        #                      focus=focus)
-        #          if STRINGTYPE in lhs_type
-        #          else EmptySet())
-        #     )
         case Union(children):
             return Union.of(typecheck_expression(env, child, types)
                             for child in children)
@@ -173,22 +131,13 @@ def typecheck_expression(env: Environment, exps: TreeGrammar, types: Type
                 good_rhs = typecheck_expression(env, rhs, BOOLEANTYPE)
                 return Application.of(op, (good_lhs, good_rhs), focus=focus)
             return EmptySet()
-        case Application("ternary expression", (then_vals, guards, else_vals),
+        case Application("ternary expression", (guards, then_vals, else_vals),
                          focus=focus):
-            if focus < 1:
-                return Application.of("ternary expression",
-                                      (typecheck_expression(env, then_vals, types),
-                                       typecheck_expression(env, guards, BOOLEANTYPE),
-                                       typecheck_expression(env, else_vals, types)),
-                                      focus=focus)
-            exp_type = infer_type_expression(env, then_vals)
-            return (Application.of("ternary expression",
-                                   (typecheck_expression(env, then_vals, types),
-                                    typecheck_expression(env, guards, BOOLEANTYPE),
-                                    typecheck_expression(env, else_vals, types)),
-                                   focus=focus)
-                    if exp_type in types
-                    else EmptySet())
+            return Application.of("ternary expression",
+                                  (typecheck_expression(env, guards, BOOLEANTYPE),
+                                   typecheck_expression(env, then_vals, types),
+                                   typecheck_expression(env, else_vals, types)),
+                                  focus=focus)
         case _:
             raise ValueError(f"Unknown expression type: {exps}")
 
@@ -227,27 +176,19 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
             else:
                 var_typ = infer_type_expression(env, var_id)
                 return (Application.of("variable assignment",
-                                       (typecheck_lhs(env, var_id, var_typ, True),
+                                       (typecheck_lhs(env, var_id, TopType(), True),
                                         typecheck_expression(env, rhs, var_typ)),
                                        focus=focus)
                         if VOIDTYPE in typ and not isinstance(var_typ, EmptyType)
                         else EmptySet())
         case Application("+= assignment", (var_id, rhs), focus=focus):
-            if VOIDTYPE not in typ:
-                return EmptySet()
-            if focus < 1:
-                return Application.of("+= assignment",
-                                      (typecheck_lhs(env, var_id, NUMBERTYPE, True),
-                                       rhs),
-                                      focus=focus)
-            else:
-                var_typ = infer_type_expression(env, var_id)
-                return (Application.of("+= assignment",
-                                       (typecheck_lhs(env, var_id, var_typ, True),
-                                        typecheck_expression(env, rhs, NUMBERTYPE)),
-                                       focus=focus)
-                        if VOIDTYPE in typ and NUMBERTYPE in var_typ
-                        else EmptySet())
+            return (Application.of("+= assignment",
+                    (typecheck_lhs(env, var_id, NUMBERTYPE, True),
+                     typecheck_expression(env, rhs, NUMBERTYPE)),
+                    focus=focus)
+                    if VOIDTYPE in typ
+                    else EmptySet()
+            )
         case Application("increment", (var_id, ), focus=focus):
             if VOIDTYPE not in typ:
                 return EmptySet()
@@ -383,6 +324,8 @@ def typecheck_return_seqs(env: Environment, stmts: TreeGrammar, typ: Type
             return typecheck_return(env, stmts, typ)
 
 
+# Do not assume fixpoint functions are passed input that has already been typechecked.
+
 @fixpoint(lambda: EmptyType())
 def parse_type(type_expression: TreeGrammar) -> Type:
     """"WARNING: ONLY INVOKE THIS FUNCTION ON COMPLETELY PARSED TREEGRAMMARS"""
@@ -395,20 +338,11 @@ def parse_type(type_expression: TreeGrammar) -> Type:
             return BOOLEANTYPE
         case Application("0-ary functype", (return_type,)):
             return FuncType.of(VOIDTYPE, parse_type(return_type))
-        case Application("n-ary functype", (arg_types, return_type)):
-            return FuncType.of(parse_type_seq(arg_types),
-                               parse_type(return_type))
-    raise ValueError(f"Unexpected type expression {type_expression}")
-
-
-@fixpoint(lambda: VOIDTYPE)
-def parse_type_seq(product_type_expression: TreeGrammar) -> ProdType | EmptyType:
-    """"WARNING: ONLY INVOKE THIS FUNCTION ON COMPLETELY PARSED TREEGRAMMARS"""
-    match product_type_expression:
-        case Application("type sequence", (head, tail)):
-            return ProdType.of(parse_type(head), *(parse_type_seq(tail).types))
+        case Application("n-ary functype", (typed_params, return_type)):
+            param_types = (binding[1] for binding in get_new_bindings(typed_params))
+            return FuncType.of(ProdType.of(param_types), parse_type(return_type))
         case _:
-            return ProdType.of(parse_type(product_type_expression))
+            return EmptyType()
 
 
 # TODO: Modify fixpoint so I can pass additional args.
@@ -432,9 +366,8 @@ def infer_type_expression(env: Environment, exp: TreeGrammar) -> Type:
                 functype = infer_type_expression_helper(func)
                 if isinstance(functype, FuncType):
                     return functype.return_type
-                elif isinstance(functype, EmptyType):
+                else:
                     return EmptyType()
-                raise ValueError(f"Unexpected type {functype} for function {func}")
             case Application("n-ary app", (func, args)):
                 functype = infer_type_expression_helper(func)
                 args_type = infer_type_args(env, args)
@@ -448,7 +381,7 @@ def infer_type_expression(env: Environment, exp: TreeGrammar) -> Type:
                     return NUMBERTYPE
                 if op in BINOP_INT_INT_TO_BOOL or op in BINOP_BOOL_BOOL_TO_BOOL:
                     return BOOLEANTYPE
-            case Application("ternary expression", (then_val, _, else_val)):
+            case Application("ternary expression", (_, then_val, else_val)):
                 then_type = infer_type_expression_helper(then_val)
                 else_type = infer_type_expression_helper(else_val)
                 return (then_type if then_type == else_type else EmptyType())
@@ -456,7 +389,8 @@ def infer_type_expression(env: Environment, exp: TreeGrammar) -> Type:
                 types = {infer_type_expression_helper(child) for child in children
                          }.difference({EmptyType()})
                 if len(types) != 1:
-                    raise ValueError(f"Unexpected type(s) {types} for expression {exp}")
+                    return EmptyType()
+                    # raise ValueError(f"Unexpected type(s) {types} for expression {exp}")
                 return types.pop()
             case _:
                 # TODO: Fixpoint shouldn't evaluate the function on unneeded children.
@@ -467,7 +401,7 @@ def infer_type_expression(env: Environment, exp: TreeGrammar) -> Type:
     return infer_type_expression_helper_functions[env](exp)
 
 
-infer_type_agrs_helper_functions: dict[Environment, Callable] = dict()
+infer_type_args_helper_functions: dict[Environment, Callable] = dict()
 
 
 def infer_type_args(env: Environment, args: TreeGrammar) -> Type:
@@ -482,84 +416,20 @@ def infer_type_args(env: Environment, args: TreeGrammar) -> Type:
                 if len(updates) == 1:
                     return updates.pop()
                 if len(updates) > 1:
-                    raise ValueError(f"infer_type_args called on ambiguous args {args}")
+                    return EmptyType()
+                    # raise ValueError(f"infer_type_args called on ambiguous args {args}")
                 return EmptyType()
             case Application("arg sequence", (head, tail)):
-                return ProdType.of(infer_type_expression(env, head),
-                                   *(infer_type_args_helper(tail).types))
+                tail_type = infer_type_args_helper(tail)
+                if isinstance(tail_type, ProdType):
+                    return ProdType.of(infer_type_expression(env, head),
+                                       *(tail_type.types))
+                return EmptyType()
             case _:
                 return ProdType.of(infer_type_expression(env, args))
-    if env not in infer_type_agrs_helper_functions:
-        infer_type_agrs_helper_functions[env] = infer_type_args_helper
-    return infer_type_agrs_helper_functions[env](args)
-
-
-infer_return_type_helper_functions: dict[Environment, Callable] = dict()
-
-
-# def infer_return_type(env: Environment, stmts: TreeGrammar) -> Type:
-#     """WARNING: DO NOT CALL ON INCOMPLETE TREEGRAMMAR."""
-#     @fixpoint(lambda: VOIDTYPE)
-#     def infer_return_type_helper(stmt: TreeGrammar) -> Type:
-#         match stmt:
-#             case EmptySet():
-#                 return EmptyType()
-#             case Union(children):
-#                 updates = {infer_return_type(env, child) for child in children
-#                            }.difference({EmptyType()})
-#                 if len(updates) == 1:
-#                     return updates.pop()
-#                 if len(updates) > 1:
-#                     raise ValueError(f"infer_return_type got ambiguous stmts {stmt}")
-#                 return EmptyType()
-#             case Application("return statement", (ret_val,)):
-#                 return infer_type_expression(env, ret_val)
-#             case Application("nonempty block", (body,)):
-#                 return infer_return_type_seq(env, body)
-#             case Application("for loop", (init, _, _, body)):
-#                 updated_env = env.add(get_new_bindings(init))
-#                 return infer_return_type(updated_env, body)
-#             case Application("if-then-else", (_, then_branch, else_branch)):
-#                 then_type = infer_return_type_helper(then_branch)
-#                 else_type = infer_return_type_helper(else_branch)
-#                 return (then_type if then_type == else_type else EmptyType())
-#             case _:
-#                 return VOIDTYPE
-#     if env not in infer_return_type_helper_functions:
-#         infer_return_type_helper_functions[env] = infer_return_type_helper
-#     return infer_return_type_helper_functions[env](stmts)
-
-
-# infer_return_type_seq_helper_functions: dict[Environment, Callable] = dict()
-
-
-# def infer_return_type_seq(env: Environment, stmts: TreeGrammar) -> Type:
-#     """WARNING: DO NOT CALL ON INCOMPLETE TREEGRAMMAR."""
-#     @fixpoint(lambda: EmptyType())
-#     def infer_return_type_seq_helper(stmt_seq: TreeGrammar) -> Type:
-#         match stmt_seq:
-#             case EmptySet():
-#                 return EmptyType()
-#             case Union(children):
-#                 updates = {infer_return_type_seq(env, child) for child in children
-#                            }.difference({EmptyType()})
-#                 if len(updates) == 1:
-#                     return updates.pop()
-#                 if len(updates) > 1:
-#                     raise ValueError(f"infer_return_type_seq "
-#                                       + "got weird stmts {stmt_seq}")
-#                 return EmptyType()
-#             case Application("command seq", (head, tail)):
-#                 head_typ = infer_return_type(env, head)
-#                 if head_typ != VOIDTYPE:
-#                     return head_typ
-#                 updated_env = env.add(get_new_bindings(head))
-#                 return infer_return_type_seq(updated_env, tail)
-#             case _:
-#                 return infer_return_type(env, stmt_seq)
-#     if env not in infer_return_type_seq_helper_functions:
-#         infer_return_type_seq_helper_functions[env] = infer_return_type_seq_helper
-#     return infer_return_type_seq_helper_functions[env](stmts)
+    if env not in infer_type_args_helper_functions:
+        infer_type_args_helper_functions[env] = infer_type_args_helper
+    return infer_type_args_helper_functions[env](args)
 
 
 @fixpoint(lambda: tuple())
@@ -574,7 +444,8 @@ def get_new_bindings(stmt: TreeGrammar) -> tuple[tuple[str, Type, bool], ...]:
             if len(updates) == 1:
                 return updates.pop()
             if len(updates) > 1:
-                raise ValueError(f"gather_env_update called on ambiguous stmt {stmt}")
+                return tuple()
+                # raise ValueError(f"gather_env_update called on ambiguous stmt {stmt}")
             return tuple()
         case Application("variable declaration", (var, type, _)):
             return ((get_identifier_name(var), parse_type(type), True),)
@@ -602,7 +473,7 @@ def get_identifier_name(exp: TreeGrammar) -> str:
     match exp:
         case Constant(c) if isinstance(c, Token) and c.token_type == "id":
             return c.prefix
-    raise ValueError(f"Unexpected identifier {exp}")
+    return ""
 
 
 @fixpoint(lambda: VOIDTYPE)
@@ -617,11 +488,19 @@ def type_of_params(params: TreeGrammar) -> ProdType | EmptyType:
             if len(updates) == 1:
                 return updates.pop()
             if len(updates) > 1:
-                raise ValueError(f"infer_type_args called on ambiguous args {args}")
+                return EmptyType()
+                # raise ValueError(f"infer_type_args called on ambiguous args {args}")
             return EmptyType()
         case Application("param sequence", (head, tail)):
-            return ProdType.of(*(type_of_params(head).types),
-                               *(type_of_params(tail).types))
+            head_types = type_of_params(head)
+            tail_types = type_of_params(tail)
+            if (
+                isinstance(head_types, ProdType)
+                and isinstance(tail_types, ProdType)
+            ):
+                return ProdType.of(*(type_of_params(head).types),
+                                   *(type_of_params(tail).types))
+            return EmptyType()
         case Application("typed_id", (_, type_annotation)):
             return ProdType.of(parse_type(type_annotation))
         case _:
@@ -643,8 +522,14 @@ default_env = Environment.from_dict({
     "Math.max": FuncType.of(ProdType.of(NUMBERTYPE, extensible=True), NUMBERTYPE),
 })
 
-typescript_checker = RealizabilityChecker(
+typescript_typechecker = RealizabilityChecker(
     lambda asts: typecheck_return_seqs(default_env, asts, VOIDTYPE),
+    codeblocks(),
+    lexer_spec,
+)
+
+typescript_grammar_checker = RealizabilityChecker(
+    lambda asts: asts,
     codeblocks(),
     lexer_spec,
 )
