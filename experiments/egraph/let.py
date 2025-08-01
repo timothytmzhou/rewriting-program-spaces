@@ -6,62 +6,9 @@ from core.lexing.token import Token
 from .egraph import EGraph, in_egraph
 from functools import lru_cache
 from importlib.resources import files
-from dataclasses import dataclass
+from .let_abstract_syntax import Let, Var, Num, constructors
 
 
-@dataclass(frozen=True)
-class Let(Application):
-    var: Token
-    binding: TreeGrammar
-    expr: TreeGrammar
-
-
-@dataclass(frozen=True)
-class Var(Application):
-    name: Token
-
-
-@dataclass(frozen=True)
-class Num(Application):
-    value: Token
-
-
-@dataclass(frozen=True)
-class Neg(Application):
-    expr: TreeGrammar
-
-
-@dataclass(frozen=True)
-class App(Application):
-    func: TreeGrammar
-    args: tuple[TreeGrammar, ...]
-
-
-@dataclass(frozen=True)
-class Add(Application):
-    left: TreeGrammar
-    right: TreeGrammar
-
-
-@dataclass(frozen=True)
-class Sub(Application):
-    left: TreeGrammar
-    right: TreeGrammar
-
-
-@dataclass(frozen=True)
-class Mul(Application):
-    left: TreeGrammar
-    right: TreeGrammar
-
-
-@dataclass(frozen=True)
-class Div(Application):
-    left: TreeGrammar
-    right: TreeGrammar
-
-
-constructors: list[type[Application]] = [Let, Var, Num, Neg, App, Add, Sub, Mul, Div]
 let_source = files(__package__).joinpath("let.lark").read_text()
 let_lexer_spec, let_grammar = parse_attribute_grammar(
     constructors, let_source, "let"

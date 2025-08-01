@@ -5,13 +5,16 @@ from core.lexing.token import Token
 import regex
 
 
+class Add(Binary): ...
+
+
 ZERO = Token("ZERO", regex.compile(r"0"), prefix="0", is_complete=True)
 ONE = Token("ONE", regex.compile(r"1"), prefix="1", is_complete=True)
 
 
 @rewrite
 def E():
-    return Union.of(ONE, Application.of("Add", (ONE, E())))
+    return Union.of(ONE, Add(ONE, E()))
 
 
 @rewrite
@@ -44,7 +47,7 @@ class TestFixpoint:
         assert is_empty(EmptySet())
         assert is_empty(Union.of(EmptySet(), EmptySet()))
         assert is_nonempty(ONE)
-        assert is_nonempty(Application.of("Add", (ONE, ZERO)))
+        assert is_nonempty(Add(ONE, ZERO))
         assert is_nonempty(Union.of(ONE, EmptySet()))
         assert is_nonempty(Union.of(EmptySet(), ONE))
         assert is_nonempty(Union.of(ONE, ZERO))

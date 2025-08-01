@@ -126,3 +126,20 @@ def _as_tree(v: Var | TreeGrammar) -> Optional[TreeGrammar]:
 @lru_cache(maxsize=None)
 def as_tree(v: Var | TreeGrammar) -> Optional[TreeGrammar]:
     return _as_tree(v)
+
+
+# Definitions for common abstract syntax forms.
+@dataclass(frozen=True)
+class Atom(Application):
+    token: Token
+
+
+@dataclass(frozen=True)
+class Unary(Application):
+    expr: TreeGrammar
+
+
+@dataclass(frozen=True)
+class Binary(Application):
+    left: TreeGrammar
+    right: TreeGrammar

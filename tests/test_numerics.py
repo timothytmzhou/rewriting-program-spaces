@@ -5,6 +5,9 @@ from core.lexing.token import Token
 import regex
 
 
+class Add(Binary): ...
+
+
 # Note: this file is only used to test tree grammar code,
 # so the functions do not handle incomplete tokens.
 
@@ -19,12 +22,12 @@ TWO = int_token(2)
 
 @rewrite
 def ones():
-    return Union.of(ONE, Application.of("Add", ONE, ones()))
+    return Union.of(ONE, Add(ONE, ones()))
 
 
 @rewrite
 def twos():
-    return Union.of(TWO, Application.of("Add", TWO, twos()))
+    return Union.of(TWO, Add(TWO, twos()))
 
 
 @rewrite
@@ -39,10 +42,10 @@ def evens(t: TreeGrammar):
             return EmptySet()
         case Token(prefix=prefix, is_complete=True):
             return t if int(prefix) % 2 == 0 else EmptySet()
-        case Application(PLUS, (left, right)):
+        case Add(left, right):
             return Union.of(
-                Application.of(PLUS, evens(left), evens(right)),
-                Application.of(PLUS, odds(left), odds(right)),
+                Add(evens(left), evens(right)),
+                Add(odds(left), odds(right)),
             )
         case Union(children):
             return Union.of(evens(c) for c in children)
@@ -57,10 +60,10 @@ def odds(t: TreeGrammar):
             return EmptySet()
         case Token(prefix=prefix, is_complete=True):
             return t if int(prefix) % 2 == 1 else EmptySet()
-        case Application(PLUS, (left, right)):
+        case Add(left, right):
             return Union.of(
-                Application.of(PLUS, evens(left), odds(right)),
-                Application.of(PLUS, odds(left), evens(right)),
+                Add(evens(left), odds(right)),
+                Add(odds(left), evens(right)),
             )
         case Union(children):
             return Union.of(odds(c) for c in children)
@@ -76,7 +79,7 @@ def test_even_odd():
     assert is_empty(odds(odds(evens(ones()))))
     assert is_nonempty(evens(twos()))
     assert is_empty(odds(twos()))
-    assert is_empty(evens(Application.of("Add", ONE, evens(twos()))))
+    assert is_empty(evens(Add(ONE, evens(twos()))))
 
 
 @rewrite
@@ -86,9 +89,9 @@ def less_than(n: int, t: TreeGrammar):
             return EmptySet()
         case Token(prefix=prefix, is_complete=True):
             return t if int(prefix) < n else EmptySet()
-        case Application(PLUS, (left, right)):
+        case Add(left, right):
             return Union.of(
-                Application.of(PLUS, less_than(j, left), less_than(n - j, right))
+                Add(less_than(j, left), less_than(n - j, right))
                 for j in range(n)
             )
         case Union(children):
