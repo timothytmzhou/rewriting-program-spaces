@@ -6,22 +6,80 @@ from core.lexing.token import Token
 from .egraph import EGraph, in_egraph
 from functools import lru_cache
 from importlib.resources import files
+from dataclasses import dataclass
 
 
+@dataclass(frozen=True)
+class Let(Application):
+    var: Token
+    binding: TreeGrammar
+    expr: TreeGrammar
+
+
+@dataclass(frozen=True)
+class Var(Application):
+    name: Token
+
+
+@dataclass(frozen=True)
+class Num(Application):
+    value: Token
+
+
+@dataclass(frozen=True)
+class Neg(Application):
+    expr: TreeGrammar
+
+
+@dataclass(frozen=True)
+class App(Application):
+    func: TreeGrammar
+    args: tuple[TreeGrammar, ...]
+
+
+@dataclass(frozen=True)
+class Add(Application):
+    left: TreeGrammar
+    right: TreeGrammar
+
+
+@dataclass(frozen=True)
+class Sub(Application):
+    left: TreeGrammar
+    right: TreeGrammar
+
+
+@dataclass(frozen=True)
+class Mul(Application):
+    left: TreeGrammar
+    right: TreeGrammar
+
+
+@dataclass(frozen=True)
+class Div(Application):
+    left: TreeGrammar
+    right: TreeGrammar
+
+
+constructors: list[type[Application]] = [Let, Var, Num, Neg, App, Add, Sub, Mul, Div]
 let_source = files(__package__).joinpath("let.lark").read_text()
-let_lexer_spec, let_grammar = parse_attribute_grammar(let_source, "let").build_parser()
-_, code_block_grammar = parse_attribute_grammar(let_source, "codeblock").build_parser()
+let_lexer_spec, let_grammar = parse_attribute_grammar(
+    constructors, let_source, "let"
+).build_parser()
+_, code_block_grammar = parse_attribute_grammar(
+    constructors, let_source, "codeblock"
+).build_parser()
 
 
 def expr_to_egglog(expr: TreeGrammar) -> str:
     match expr:
-        case Application("Var", (Token(prefix=name),)):
+        case Var(Token(prefix=name)):
             return f'(Var "{name}")'
-        case Application("Num", (Token(prefix=name),)):
+        case Num(Token(prefix=name)):
             return f"(Num {name})"
-        case Application(f, children):
+        case Application(children):
             egglog_children = " ".join(expr_to_egglog(child) for child in children)
-            return f"({f} {egglog_children})"
+            return f"({expr.constructor} {egglog_children})"
         case _:
             raise ValueError(f"Unable to process expression: {expr}")
 
@@ -65,16 +123,16 @@ def let_equivalence(
             return Union.of(
                 let_equivalence(egraph, child, used_names) for child in children
             )
-        case Application("Let", (var, binding, expr)):
-            var = as_tree(var)
-            binding = as_tree(binding)
-            match var:
-                case Application("Var", (Token(prefix=name),)):
+        case Let(var, binding, expr):
+            var_tree = as_tree(var)
+            binding_tree = as_tree(binding)
+            match var_tree:
+                case Var(Token(prefix=name)):
                     if name in used_names:
                         return EmptySet()
-                    if binding:
+                    if binding_tree:
                         return let_equivalence(
-                            update_egraph(egraph, var, binding),
+                            update_egraph(egraph, var_tree, binding_tree),
                             expr,
                             used_names | {name},
                         )

@@ -1,9 +1,9 @@
 from __future__ import annotations
-from typing import Optional
 from dataclasses import dataclass, replace
-from .rewrite import *
+from .rewrite import fixpoint, rewrite, Term
 from .utils import flatten
-from .grammar import *
+from .grammar import Union, Application, EmptySet, TreeGrammar
+from .lexing.token import Token
 
 
 class Parser(Term):
@@ -26,7 +26,7 @@ class EmptyParser(Parser):
 
 @dataclass(frozen=True)
 class Rearrangement:
-    f: Optional[Symbol]
+    f: type[Application] | None
     reorder: tuple[int, ...]
 
     def __str__(self):
@@ -153,8 +153,7 @@ def image(p: Parser) -> TreeGrammar:
             if rearrange.f is None:
                 assert len(rearrange.reorder) == 1
                 return image(concat_children[rearrange.reorder[0]])
-            return Application.of(
-                rearrange.f,
+            return rearrange.f.of(
                 (image(concat_children[x]) for x in rearrange.reorder),
                 is_tree=not remaining,
             )

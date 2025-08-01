@@ -1,16 +1,15 @@
 from __future__ import annotations
-from matplotlib import pyplot as plt
 import networkx as nx
 from dataclasses import dataclass, field
 from functools import wraps
-from typing import Any, Callable, Iterable, TypeVar, Optional
+from typing import Any, Callable, Iterable, TypeVar
 from networkx import DiGraph
 from contextlib import contextmanager
 from collections import deque
 from .utils import replace_adjacency_list
 
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 
 class Term:
@@ -35,7 +34,7 @@ class Var:  # should not subclass Term here since we want mypy to distinguish
 
     def __post_init__(self):
         hash_value = hash((self.f, self.args, tuple(self.kwargs.values())))
-        object.__setattr__(self, '_hash', hash_value)
+        object.__setattr__(self, "_hash", hash_value)
 
     def __str__(self):
         return f"{self.f.__name__}({', '.join(str(arg) for arg in self.args)})"
@@ -70,10 +69,7 @@ class RewriteSystem:
         self.fix_cache.clear()
 
     def __str__(self):
-        equations = "\n".join(
-            f"{var} = {term}"
-            for var, term in self.equations.items()
-        )
+        equations = "\n".join(f"{var} = {term}" for var, term in self.equations.items())
         fix_cache = "\n".join(
             f"{f.__name__}({var}) = {result}"
             for (f, var), result in self.fix_cache.items()
@@ -99,6 +95,7 @@ def rewrite(f):
     """
     Rewrite a (infinitely recursive) function into a capsule of equations.
     """
+
     def simplify(start: Var):
         worklist = deque([start])
         visited = set()
@@ -121,7 +118,8 @@ def rewrite(f):
             if current in rewriter.equations:
                 continue
             unprocessed = [
-                arg for arg in current.args
+                arg
+                for arg in current.args
                 if isinstance(arg, Var) and arg not in rewriter.equations
             ]
             if unprocessed:
@@ -139,9 +137,7 @@ def rewrite(f):
             rewriter.equations[current] = term
             rewriter.dependencies.add_node(current)
             descendents = list(var_descendents(term))
-            rewriter.dependencies.add_edges_from(
-                (current, dep) for dep in descendents
-            )
+            rewriter.dependencies.add_edges_from((current, dep) for dep in descendents)
             worklist.extend(descendents)
 
         simplify(start_var)
@@ -154,6 +150,7 @@ def rewrite(f):
             return var
         with rewriting():
             return start_rewrite(var)
+
     return apply
 
 
@@ -161,6 +158,7 @@ def _fixpoint(f: Callable[[Term], T], bot: Callable[..., T]) -> Callable[[Term],
     """
     Kildall's algorithm for computing LFPs of functions on cyclic terms.
     """
+
     def kildall(start: Var) -> T:
         worklist: deque[Var] = deque()
         nodes: set[Var] = set()
@@ -196,4 +194,5 @@ def _fixpoint(f: Callable[[Term], T], bot: Callable[..., T]) -> Callable[[Term],
     return apply
 
 
-def fixpoint(bot): return lambda f: _fixpoint(f, bot)
+def fixpoint(bot):
+    return lambda f: _fixpoint(f, bot)

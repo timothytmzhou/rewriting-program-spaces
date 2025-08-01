@@ -3,7 +3,8 @@ from typing import Callable
 from functools import partial
 from collections import defaultdict
 from egglog.bindings import EGraph
-from core.grammar import *
+from core.grammar import Application, TreeGrammar, EmptySet, Union
+from dataclasses import dataclass
 from core.rewrite import rewrite
 from core.lexing.token import Token
 from functools import lru_cache
@@ -77,14 +78,13 @@ def in_egraph(egraph: EGraph) -> Callable[[TreeGrammar], TreeGrammar]:
                     for enode in eclasses[eclass]
                 )
                 return t if matches_constant else EmptySet()
-            case Application(f, children):
+            case Application(children):
                 matches = []
                 for enode in eclasses[eclass]:
-                    if f == enode.op:
+                    if t.constructor == enode.op:
                         assert len(enode.children) == len(children)
                         matches.append(
-                            Application.of(
-                                enode.op,
+                            t.of(
                                 [
                                     in_eclass(child_eclass, child)
                                     for child_eclass, child in zip(

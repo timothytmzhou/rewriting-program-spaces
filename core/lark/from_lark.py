@@ -1,13 +1,14 @@
 import importlib.resources
 import lark
 import regex
-from typing import Callable
+from typing import Callable, Iterable
 from operator import or_
 from functools import reduce
 from regex import Pattern as Regex
 from dataclasses import dataclass
 from lark import Lark
 from core.rewrite import rewrite
+from ..grammar import Application
 from ..parser import Rearrangement, Parser, ConstantParser, Concatenation, Choice
 from ..lexing.token import Token
 from ..lexing.lexing import LexerSpec
@@ -53,7 +54,8 @@ class AttributeGrammar:
 
     def build_parser(self) -> tuple[LexerSpec, Parser]:
         tokens = frozenset(
-            Token(token_type, regex) for token_type, regex in self.token_defs.items()
+            Token(token_type, regex)
+            for token_type, regex in self.token_defs.items()
             if token_type not in self.ignores
         )
         ignore_regex = reduce(or_, (self.token_defs[ignore] for ignore in self.ignores))
@@ -77,7 +79,9 @@ def _parse_token_definitions(tree) -> dict[str, Regex]:
     return token_defs
 
 
-def _parse_production(expansion_data, token_defs: dict[str, Regex]) -> Production:
+def _parse_production(
+    constructor_map, expansion_data, token_defs: dict[str, Regex]
+) -> Production:
     """Parse a single production from expansion data."""
     rearrange = []
     symbols = []
@@ -101,13 +105,14 @@ def _parse_production(expansion_data, token_defs: dict[str, Regex]) -> Productio
     if action_tree:
         assert isinstance(action_tree, lark.Tree)
         assert isinstance(action_tree.children[0], lark.Token)
-        constructor = action_tree.children[0].value
+        constructor_name: str = action_tree.children[0].value
+        constructor = constructor_map[constructor_name]
 
     action = Rearrangement(constructor, tuple(rearrange))
     return Production(action, symbols)
 
 
-def _parse_rule(rule, token_defs: dict[str, Regex]) -> Rule:
+def _parse_rule(constructor_map, rule, token_defs: dict[str, Regex]) -> Rule:
     """Parse a single rule from the parse tree."""
     lhs, rhs = rule.children
     assert isinstance(lhs, lark.Token)
@@ -117,23 +122,31 @@ def _parse_rule(rule, token_defs: dict[str, Regex]) -> Rule:
     productions = []
     for expansion in rhs.children:
         assert isinstance(expansion, lark.Tree)
-        production = _parse_production(expansion.children, token_defs)
+        production = _parse_production(constructor_map, expansion.children, token_defs)
         productions.append(production)
 
     return Rule(rule_name, productions)
 
 
-def parse_attribute_grammar(grammar_source: str, start: str) -> AttributeGrammar:
+def parse_attribute_grammar(
+    constructors: Iterable[type[Application]], grammar_source: str, start: str
+) -> AttributeGrammar:
     """Parse an attribute grammar from source string."""
     # Load the attribute grammar file from package resources.
-    with importlib.resources.open_text("core.lark", "attribute_grammar.lark") as fp:
+    with (importlib.resources.files("core.lark") / "attribute_grammar.lark").open(
+        "r"
+    ) as fp:
         attribute_grammar = fp.read()
 
     ag_parser = Lark(attribute_grammar, start="start")
     tree = ag_parser.parse(grammar_source)
 
+    constructor_map = {c.__name__: c for c in constructors}
     token_defs = _parse_token_definitions(tree)
-    rules = [_parse_rule(rule, token_defs) for rule in tree.find_data("rule")]
+    rules = [
+        _parse_rule(constructor_map, rule, token_defs)
+        for rule in tree.find_data("rule")
+    ]
 
     ignores = []
     for node in tree.find_data("ignore"):
