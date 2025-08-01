@@ -1,11 +1,13 @@
 from dataclasses import dataclass
 from typing import Optional
+from functools import lru_cache
 from .rewrite import *
 from .utils import flatten
 
 
+@dataclass(frozen=True, kw_only=True)
 class TreeGrammar(Term):
-    pass
+    is_tree: bool = False
 
 
 # This is here to avoid circular imports. TODO: cleanup.
@@ -22,8 +24,7 @@ class EmptySet(TreeGrammar):
 @dataclass(frozen=True)
 class Application(TreeGrammar):
     f: Symbol
-    children: tuple[TreeGrammar]
-    focus: Optional[int]  # Index of the focus child, if any
+    children: tuple[TreeGrammar, ...]
 
     def subterms(self):
         return self.children
@@ -35,10 +36,9 @@ class Application(TreeGrammar):
         return self
 
     @classmethod
-    def of(cls, f: Symbol, *children, focus=None):
-        # TODO: handle focus properly?
-        flattened = flatten(children, tuple)
-        return cls(f, flattened, focus).compact(full=False)
+    def of(cls, f: Symbol, *children, is_tree: bool = False):
+        flattened: tuple[TreeGrammar] = flatten(children, tuple)
+        return cls(f, flattened, is_tree=is_tree).compact(full=False)
 
     def __str__(self):
         return f"{self.f}({', '.join(str(c) for c in self.children)})"
@@ -86,19 +86,29 @@ def is_empty(t: TreeGrammar) -> bool:
     return not is_nonempty(t)
 
 
-# TODO: there may be a less hacky way to do this
-@fixpoint(EmptySet)
-def expand_tree_grammar(t: TreeGrammar) -> TreeGrammar:
-    """
-    Removes Var subterms from the TreeGrammar term due to the @fixpoint.
-    """
-    assert isinstance(t, TreeGrammar)
+def _as_tree(v: Var | TreeGrammar) -> Optional[TreeGrammar]:
+    t = v
+    while not isinstance(t, TreeGrammar):
+        t = rewriter.equations[t]  # type: ignore
+    if not t.is_tree:
+        return None
     match t:
         case Union(children):
-            return Union.of(expand_tree_grammar(child) for child in children)
-        case Application(op, children):
+            raise ValueError
+        case Application(f, children):
             return Application.of(
-                op, tuple(expand_tree_grammar(child) for child in children)
+                f,
+                (as_tree(c) for c in children),
+                is_tree=True,
             )
-        case _:
+        case Token():
             return t
+        case EmptySet():
+            return None
+        case _:
+            raise ValueError
+
+
+@lru_cache(maxsize=None)
+def as_tree(v: Var | TreeGrammar) -> Optional[TreeGrammar]:
+    return _as_tree(v)

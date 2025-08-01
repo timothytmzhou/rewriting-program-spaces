@@ -43,8 +43,7 @@ class Concatenation(Parser):
         return self.parsed + self.remaining
 
     def compact(self, full=False):
-        check_empty = parser_empty if full else lambda p: isinstance(
-            p, EmptyParser)
+        check_empty = parser_empty if full else lambda p: isinstance(p, EmptyParser)
         if any(check_empty(p) for p in self.parsed + self.remaining):
             return EmptyParser()
         return self
@@ -64,8 +63,8 @@ class Concatenation(Parser):
         return cls((), flattened, rearrange).compact(full=False)
 
     def __str__(self):
-        parsed = ', '.join(str(c) for c in self.parsed)
-        remaining = ', '.join(str(c) for c in self.remaining)
+        parsed = ", ".join(str(c) for c in self.parsed)
+        remaining = ", ".join(str(c) for c in self.remaining)
         return f"{self.rearrange}({parsed} => {remaining})"
 
 
@@ -77,10 +76,8 @@ class Choice(Parser):
         return self.children
 
     def compact(self, full=False):
-        check_empty = parser_empty if full else lambda p: isinstance(
-            p, EmptyParser)
-        new_children = frozenset(
-            c for c in self.children if not check_empty(c))
+        check_empty = parser_empty if full else lambda p: isinstance(p, EmptyParser)
+        new_children = frozenset(c for c in self.children if not check_empty(c))
         return Choice(new_children) if new_children else EmptyParser()
 
     @classmethod
@@ -123,8 +120,7 @@ def D(t: Token, p: Parser) -> Parser:
             derived = D(t, remaining[0])
             return Choice.of(
                 replace(p, remaining=(derived,) + remaining[1:]),
-                replace(p, parsed=parsed + (delta(derived),),
-                        remaining=remaining[1:]),
+                replace(p, parsed=parsed + (delta(derived),), remaining=remaining[1:]),
             )
         case _:
             return EmptyParser()
@@ -156,15 +152,11 @@ def image(p: Parser) -> TreeGrammar:
             concat_children = parsed + remaining
             if rearrange.f is None:
                 assert len(rearrange.reorder) == 1
-                # hack to return a Term
-                return Union.of(image(concat_children[rearrange.reorder[0]]))
-            focus = 0
-            # Count how many reordering positions refer to already parsed items
-            focus = sum(x < len(parsed) for x in rearrange.reorder)
+                return image(concat_children[rearrange.reorder[0]])
             return Application.of(
                 rearrange.f,
                 (image(concat_children[x]) for x in rearrange.reorder),
-                focus=focus
+                is_tree=not remaining,
             )
         case _:
-            raise TypeError(f"Unexpected type: {type(p)}")
+            raise ValueError(f"Unexpected parser: {p}")

@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass, replace
-from typing import Any, Optional
+from typing import Any, Optional, ClassVar
 from regex import Pattern
 from core.grammar import TreeGrammar
 
@@ -12,6 +12,7 @@ class Token(TreeGrammar):
     token_regex: Pattern
     prefix: str = ""
     is_complete: bool = False
+    is_tree: ClassVar[bool] = True # type: ignore
 
     def update(self, other: Token) -> Optional[Token]:
         return other if self.token_type == other.token_type else None

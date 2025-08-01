@@ -1,11 +1,5 @@
 from core.rewrite import rewrite
-from core.grammar import (
-    TreeGrammar,
-    EmptySet,
-    Application,
-    Union,
-    expand_tree_grammar,
-)
+from core.grammar import TreeGrammar, EmptySet, Application, Union, as_tree
 from core.lark.from_lark import parse_attribute_grammar
 from typing import Optional
 from core.lexing.token import Token
@@ -46,10 +40,6 @@ def update_egraph(
     ]
     new_egraph.run_program(*new_egraph.parse_program("\n".join(lines)))
 
-    # This fully unrolls the tree grammars so we can use them like normal data.
-    binding = expand_tree_grammar(binding)
-    expr = expand_tree_grammar(expr)
-
     # build egglog rewrite
     binding_egglog = expr_to_egglog(binding)
     expr_egglog = expr_to_egglog(expr)
@@ -75,15 +65,19 @@ def let_equivalence(
             return Union.of(
                 let_equivalence(egraph, child, used_names) for child in children
             )
-        case Application("Let", (binding, expr1, expr2), focus):
-            match expand_tree_grammar(binding):
-                case Application("Var", (Token(prefix=name, is_complete=True),)):
+        case Application("Let", (var, binding, expr)):
+            var = as_tree(var)
+            binding = as_tree(binding)
+            match var:
+                case Application("Var", (Token(prefix=name),)):
                     if name in used_names:
                         return EmptySet()
-                    used_names = used_names.union({name})
-            if focus >= 2:
-                updated = update_egraph(egraph, binding, expr1)
-                return let_equivalence(updated, expr2, used_names)
+                    if binding:
+                        return let_equivalence(
+                            update_egraph(egraph, var, binding),
+                            expr,
+                            used_names | {name},
+                        )
             return t
         case _:
             return in_egraph(egraph)(t)
