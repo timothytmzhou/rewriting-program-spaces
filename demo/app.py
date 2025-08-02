@@ -19,7 +19,7 @@ THEME = "monokai"
 # two-column layout
 col1, col2 = st.columns(2)
 with col1:
-    st.subheader("Lark Grammar")
+    st.subheader("Concrete Syntax")
     grammar_code: str = st_ace(
         value=grammar_text,
         language="python",

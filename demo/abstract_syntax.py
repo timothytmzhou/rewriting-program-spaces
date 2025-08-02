@@ -19,7 +19,7 @@ class Add(Application):
 
 """
 As shorthand, you can also write the above more concisely using the built-in 
-Atom, Unary, and Binary classes as below.
+Unary, and Binary classes as below.
 """
 class Num(Unary): ...
 class Add(Binary): ...
