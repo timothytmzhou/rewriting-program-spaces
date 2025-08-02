@@ -8,4 +8,4 @@ egglog
 pandas
 streamlit
 streamlit-ace
-.
+-e .
