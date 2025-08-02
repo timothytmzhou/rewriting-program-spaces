@@ -130,11 +130,6 @@ def as_tree(v: Var | TreeGrammar) -> Optional[TreeGrammar]:
 
 # Definitions for common abstract syntax forms.
 @dataclass(frozen=True)
-class Atom(Application):
-    token: Token
-
-
-@dataclass(frozen=True)
 class Unary(Application):
     expr: TreeGrammar
 

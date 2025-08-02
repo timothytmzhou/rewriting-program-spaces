@@ -1,19 +1,18 @@
 from dataclasses import dataclass
-from core.grammar import Application, TreeGrammar, Atom, Unary, Binary
-from core.lexing.token import Token
+from core.grammar import Application, TreeGrammar, Unary, Binary
 
 
 @dataclass(frozen=True)
 class Let(Application):
-    var: Token
+    var: TreeGrammar
     binding: TreeGrammar
     expr: TreeGrammar
 
 
-class Var(Atom): ...
+class Var(Unary): ...
 
 
-class Num(Atom): ...
+class Num(Unary): ...
 
 
 class Neg(Unary): ...

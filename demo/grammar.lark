@@ -1,0 +1,7 @@
+start: expr ";"
+expr: expr "+" num {Add} 
+    | num
+num: NUM {Num}
+NUM: /[0-9]+/
+WS: /\s+/
+%ignore WS

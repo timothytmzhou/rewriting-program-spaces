@@ -58,7 +58,12 @@ class AttributeGrammar:
             for token_type, regex in self.token_defs.items()
             if token_type not in self.ignores
         )
-        ignore_regex = reduce(or_, (self.token_defs[ignore] for ignore in self.ignores))
+        if self.ignores:
+            ignore_regex = regex.compile(
+                "|".join(self.token_defs[ignore].pattern for ignore in self.ignores)
+            )
+        else:
+            ignore_regex = regex.compile(r"^(?!)$")
         lexer_spec = LexerSpec(tokens, ignore_regex=ignore_regex)
 
         parsers: dict[str, Callable[[], Parser]] = {}
