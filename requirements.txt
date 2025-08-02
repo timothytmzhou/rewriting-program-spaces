@@ -6,3 +6,5 @@ accelerate
 matplotlib
 egglog
 pandas
+streamlit
+streamlit-ace
