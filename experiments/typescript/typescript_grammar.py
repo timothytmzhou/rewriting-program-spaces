@@ -12,28 +12,20 @@ INTSLEAF = Token("int", re.compile("\\d+(\\.\\d+)?"))
 # STRINGSLEAF = Token("str", re.compile("\"\\w*\""))
 TRUELEAF = Token("true", re.compile("true"))
 FALSELEAF = Token("false", re.compile("false"))
+TYPESCRIPTLEAF = Token("typescript", re.compile("typescript"))
 IDLEAF = Token(
     "id",
     re.compile(
-        "(?!(true|false|number|string|boolean|return|function|let|if|else)$)"
+        "(?!(true|false|number|string|boolean|return|function|let|if|else|typescript)$)"
         + "([a-zA-Z][a-zA-Z0-9_]*)|(Math\\.[a-zA-Z0-9_]+)"  # Math library hack
     )
 )
 
 # I'm so sorry this is a necessary speed hack
-INTBINOPLEAF = Token("+", re.compile("\\+|\\-|\\*|/|%"))
-# MINUSLEAF = Token("-", re.compile("\\-"))
-# TIMESLEAF = Token("*", re.compile("\\*"))
-# DIVLEAF = Token("/", re.compile("/"))
-# MODLEAF = Token("+", re.compile("%"))
+INTBINOPLEAF = Token("+", re.compile("\\+|\\-|\\*|/|%|(\\*\\*)"))
+MINUSLEAF = Token("-", re.compile("\\-"))
 COMPARATORLEAF = Token("<", re.compile("(<)|(<=)|(>)|(>=)|(==)|(===)|(!==)|(!=)"))
-# LESSEQLEAF = Token("<=", re.compile("<="))
-# GREATERLEAF = Token(">", re.compile(">"))
-# GREATEREQLEAF = Token(">=", re.compile(">="))
-# EQUALLEAF = Token("==", re.compile("((==)|(===))"))
-# NOTEQUALLEAF = Token("!==", re.compile("((!==)|(!=))"))
 BOOLEANBINOPLEAF = Token("&&", re.compile("(&&)|(\\|\\|)"))
-# ORLEAF = Token("||", re.compile("\\|\\|"))
 
 FUNCARROWLEAF = Token("=>", re.compile("=>"))
 DOTLEAF = Token(".", re.compile("\\."))
@@ -41,7 +33,6 @@ COLONLEAF = Token(":", re.compile(":"))
 QUESTIONMARKLEAF = Token("?", re.compile("\\?"))
 
 NUMBERTYPELEAF = Token("numbertype", re.compile("number"))
-# STRINGTYPELEAF = Token("stringtype", re.compile("string"))
 BOOLEANTYPELEAF = Token("booltype", re.compile("boolean"))
 
 RETURNLEAF = Token("return", re.compile("return"))
@@ -49,8 +40,8 @@ FUNCTIONLEAF = Token("function", re.compile("function"))
 
 GETSLEAF = Token("gets", re.compile("="))
 # TODO: When there is time, consider splitting this
-GETSPLUSLEAF = Token("+=", re.compile("(\\+=)|(\\*=)"))
-PLUSPLUSLEAF = Token("+=", re.compile("\\+\\+"))
+GETSPLUSLEAF = Token("+=", re.compile("(\\+=)|(\\*=)|(\\-=)|(/=)|(%=)"))
+PLUSPLUSLEAF = Token("++", re.compile("(\\+\\+)|(--)"))
 SEMICOLONLEAF = Token(";", re.compile(";"))
 COMMALEAF = Token(",", re.compile(","))
 # TODO: When there is time, split this and enforce const immutable
@@ -68,24 +59,15 @@ RBRACELEAF = Token("rbrace", re.compile(re.escape("}")))
 CODEBLOCKLEAF = Token("```", re.compile(r"```"))
 
 INTS = ConstantParser(INTSLEAF)
-# STRINGS = ConstantParser(STRINGSLEAF)
 TRUE = ConstantParser(TRUELEAF)
 FALSE = ConstantParser(FALSELEAF)
 ID = ConstantParser(IDLEAF)
+TYPESCRIPT = ConstantParser(TYPESCRIPTLEAF)
 
 INTBINOP = ConstantParser(INTBINOPLEAF)
-# MINUS = ConstantParser(MINUSLEAF)
-# TIMES = ConstantParser(TIMESLEAF)
-# DIV = ConstantParser(DIVLEAF)
-# MOD = ConstantParser(MODLEAF)
+MINUS = ConstantParser(MINUSLEAF)
 COMPARATOR = ConstantParser(COMPARATORLEAF)
-# LESSEQ = ConstantParser(LESSEQLEAF)
-# GREATER = ConstantParser(GREATERLEAF)
-# GREATEREQ = ConstantParser(GREATEREQLEAF)
-# EQUAL = ConstantParser(EQUALLEAF)
-# NOTEQUAL = ConstantParser(NOTEQUALLEAF)
 BOOLEANBINOP = ConstantParser(BOOLEANBINOPLEAF)
-# OR = ConstantParser(ORLEAF)
 
 FUNCARROW = ConstantParser(FUNCARROWLEAF)
 DOT = ConstantParser(DOTLEAF)
@@ -93,7 +75,6 @@ COLON = ConstantParser(COLONLEAF)
 QUESTIONMARK = ConstantParser(QUESTIONMARKLEAF)
 
 NUMBERTYPEPARSER = ConstantParser(NUMBERTYPELEAF)
-# STRINGTYPEPARSER = ConstantParser(STRINGTYPELEAF)
 BOOLEANTYPEPARSER = ConstantParser(BOOLEANTYPELEAF)
 
 RETURN = ConstantParser(RETURNLEAF)
@@ -122,11 +103,12 @@ lexer_spec = LexerSpec(
     tokens=frozenset(
         {
             INTSLEAF,
-            # STRINGSLEAF,
             TRUELEAF,
             FALSELEAF,
             IDLEAF,
+            TYPESCRIPTLEAF,
             INTBINOPLEAF,
+            MINUSLEAF,
             COMPARATORLEAF,
             BOOLEANBINOPLEAF,
             BOOLEANTYPELEAF,
@@ -135,7 +117,6 @@ lexer_spec = LexerSpec(
             COLONLEAF,
             QUESTIONMARKLEAF,
             NUMBERTYPELEAF,
-            # STRINGTYPELEAF,
             BOOLEANTYPELEAF,
             RETURNLEAF,
             FUNCTIONLEAF,
@@ -217,7 +198,8 @@ BINOP = {*BINOP_INT_INT_TO_INT, *BINOP_INT_INT_TO_BOOL, *BINOP_BOOL_BOOL_TO_BOOL
 
 # Reassignment -> Typed\_id = Exp
 #             | Typed\_id ++
-#             | Typed\_id +=1
+#             | ++ Typed\_id
+#             | Typed\_id += Exp
 
 # Typed\_id -> VAR : Type
 
@@ -239,6 +221,13 @@ def literals() -> Parser:
         # STRINGS,
         TRUE,
         FALSE
+    )
+
+
+def int_binops() -> Parser:
+    return Choice.of(
+        INTBINOP,
+        MINUS
     )
 
 
@@ -296,6 +285,8 @@ def base_exps() -> Parser:
                          rearrange=Rearrangement("0-ary app", (0,))),
         Concatenation.of(base_exps(), LPAR, args(), RPAR,
                          rearrange=Rearrangement("n-ary app", (0, 2))),
+        Concatenation.of(MINUS, base_exps(),
+                         rearrange=Rearrangement("unary minus", (1, ))),
     )
 
 
@@ -303,7 +294,7 @@ def base_exps() -> Parser:
 def precedence1_exps() -> Parser:
     return Choice.of(
         base_exps(),
-        Concatenation.of((base_exps(), INTBINOP, precedence1_exps()),
+        Concatenation.of((base_exps(), int_binops(), precedence1_exps()),
                          rearrange=bin_rearrangement("+"))
     )
 
@@ -360,6 +351,14 @@ def assignment() -> Parser:
             (CONST, ID, COLON, types(), GETS, exps()),
             rearrange=Rearrangement("const declaration", (1, 3, 5)),
         ),
+        Concatenation.of(
+            (LET, ID, GETS, exps()),
+            rearrange=Rearrangement("untyped variable declaration", (1, 3)),
+        ),
+        Concatenation.of(
+            (CONST, ID, GETS, exps()),
+            rearrange=Rearrangement("untyped const declaration", (1, 3)),
+        ),
         reassignment()
     )
 
@@ -374,6 +373,10 @@ def reassignment() -> Parser:
         Concatenation.of(
             (ID, PLUSPLUS),
             rearrange=Rearrangement("increment", (0, )),
+        ),
+        Concatenation.of(
+            (PLUSPLUS, ID),
+            rearrange=Rearrangement("increment", (1, )),
         ),
         Concatenation.of(
             (ID, GETSPLUS, exps()),
@@ -440,7 +443,14 @@ def command_seqs() -> Parser:
 
 @rewrite
 def codeblocks() -> Parser:
-    return Concatenation.of(
-        CODEBLOCK, command_seqs(), CODEBLOCK,
-        rearrange=Rearrangement(None, (1,))
+    return Choice.of(
+        Concatenation.of(
+            CODEBLOCK, command_seqs(), CODEBLOCK,
+            rearrange=Rearrangement(None, (1,))
+        ),
+        # # Enable or disable "typescript" prefix depending on taste.
+        # Concatenation.of(
+        #     CODEBLOCK, TYPESCRIPT, command_seqs(), CODEBLOCK,
+        #     rearrange=Rearrangement(None, (2,))
+        # )
     )

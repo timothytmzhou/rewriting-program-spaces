@@ -107,6 +107,8 @@ def test_command_grammar():
 def test_typechecking_expression():
     assert type_expression_test("")
     assert type_expression_test("789 ")
+    assert type_expression_test("-789 ")
+    assert type_expression_test("- ")
     assert type_expression_test("5 + 9 == 4 ")
     assert type_expression_test("5 - 9 === 4 / 7 ")
     assert type_expression_test("5 != 4 % 4")
@@ -149,6 +151,7 @@ def test_typechecking_expression():
                                 )}),
                                 typ=BooleanType())
     assert not type_expression_test(".5")
+    assert not type_expression_test("--")
     assert not type_expression_test("6 || ")
     assert not type_expression_test("0.6 && ")
     assert not type_expression_test("5 ? 4.8 + 7.0 : 6")
@@ -252,10 +255,10 @@ def test_simple_n_ary_func_decls():
                               }
                               foo(foo(10, 1 == 1), 0 !== 1);""")
     assert type_commands_test("""function foo (x: number, b: boolean) : number {
-                                    return x + 100;
+                                    return - x + 100;
                               }
                               function bar (x: number, b: boolean) : number {
-                                    return foo(x, b);
+                                    return - foo(x, b);
                               }""")
 
     assert not type_commands_test("function foo (x: number) : number {x;}")
@@ -272,8 +275,14 @@ def test_lets():
     assert type_commands_test("let x: number = 5;")
     assert type_commands_test("let x: number = 5; x = 7")
     assert type_commands_test("let x: number = 5; x += ")
+    assert type_commands_test("let x: number = 5; x -= ")
+    assert type_commands_test("let x: number = 5; x *= ")
+    assert type_commands_test("let x: number = 5; x /= ")
     assert type_commands_test("let x: number = 5; x ++ ")
+    assert type_commands_test("let x: number = 5; x -- ")
+    assert type_commands_test("let x= 5; -- x")
     assert type_commands_test("const x: number = 5; let y: boolean = true;")
+    assert type_commands_test("const x = 5; let y = true;")
     assert type_commands_test("const x: number = 5; let y: boolean = x")
     assert type_commands_test("const x: number = 5; let y: boolean = true; x + 17;")
     assert type_commands_test("let x: number = 5; let y: boolean = tr")
@@ -286,8 +295,10 @@ def test_lets():
                               + "{let y:number = x; return y;}")
     assert type_commands_test("let x: number = 5; x = (7 ==")
     assert not type_commands_test("const x: number = 5; x = 7")
+    assert not type_commands_test("const x = 5; x ++ ")
     assert not type_commands_test("const x: number = 5; x += ")
     assert not type_commands_test("const x: number = 5; x ++ ")
+    assert not type_commands_test("const x: number = 5; ++ x")
     assert not type_commands_test("let x: number = z; let y: boolean = true")
     assert not type_commands_test("x = 7; x += ")
     assert not type_commands_test("let x: number = true; let y: boolean = true")
@@ -606,6 +617,27 @@ def test_codeblock():
                                          """)
 
 
+# # Enable test if you will allow "```typescript" to begin a codeblock.
+# @reset
+# def test_typescript_codeblock_prefix():
+#     assert typescript_typechecker.realizable("""
+#                                          ```typescript
+#                                          function
+#                                          """)
+#     assert not typescript_typechecker.realizable("""
+#                                          ```tpescript
+#                                          function
+#                                          """)
+
+
+@reset
+def test_min_max():
+    assert typescript_typechecker.realizable("""
+        ```
+        function min(a: number, b: number): number {
+            return Math.min(5, 3);
+        }```""")
+
 @reset
 def test_slow_and_old_errors():
     assert type_commands_test("""function foo (x: number) : number {
@@ -639,3 +671,22 @@ def test_slow_and_old_errors():
                                           while (n > 0) {
                                               digits = (digits ? (n % 3 == 0 ? 0 + (n - 3) / 9 + 1 + 0 + n % 9 + 1 + 0 + n % 9 + 1 + 0 + n % 9 + 1"""
     )
+
+
+# Slow test that uses niche behavior for prod types.
+@reset
+def test_niche_failure_mode():
+    unconstrained_output = """  ```
+function getMaxSum(n: number): number {
+    if (n <= 0) {
+        return 0;
+    } else if (n === 1 || n === 2 || n === 3 || n === 4 || n === 5) {
+        return n;
+    } else {
+        const halfN = Math.floor(n / 2);
+        const thirdN = Math.floor(n / 3);
+        const quarterN = Math.floor(n / 4);
+        const fifthN = Math.floor(n / 5 """
+    for i in range(len(unconstrained_output)):
+        print(i)
+        assert typescript_typechecker.realizable(unconstrained_output[:i])

@@ -42,7 +42,7 @@ def run_experiment(
     prompt = prompt.rstrip('\n')
     start = time.time()
     run_info = runner.run(config, prompt, context=context,
-                          realizability_checker=checker, timeout=150)
+                          realizability_checker=checker, timeout=1000)
     elapsed = time.time() - start
     # Check if program compiles with tsc
     compiled = compile_typescript(ts_clean(run_info.output))
@@ -258,7 +258,7 @@ if __name__ == "__main__":
 
     # Instantiate runner to load model
     models = [
-        # ("llama7b", ModelConfig(model_id="codellama/CodeLlama-7b-Instruct-hf")),
+        ("llama7b", ModelConfig(model_id="codellama/CodeLlama-7b-Instruct-hf")),
         ("deepseek-coder",
          ModelConfig(model_id="deepseek-ai/deepseek-coder-6.7b-instruct")),
         ("llama13b", ModelConfig(model_id="codellama/CodeLlama-13b-Instruct-hf")),

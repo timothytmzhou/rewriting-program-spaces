@@ -131,6 +131,11 @@ def typecheck_expression(env: Environment, exps: TreeGrammar, types: Type
                 good_rhs = typecheck_expression(env, rhs, BOOLEANTYPE)
                 return Application.of(op, (good_lhs, good_rhs), focus=focus)
             return EmptySet()
+        case Application("unary minus", (val, ), focus=focus):
+            if NUMBERTYPE in types:
+                good_val = typecheck_expression(env, val, NUMBERTYPE)
+                return Application.of("unary minus", (good_val, ), focus=focus)
+            return EmptySet()
         case Application("ternary expression", (guards, then_vals, else_vals),
                          focus=focus):
             return Application.of("ternary expression",
@@ -164,6 +169,21 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
                                        focus=focus)
                         if VOIDTYPE in typ
                         else EmptySet())
+        case Application(decl, (var_id, rhs),
+                         focus=focus) if decl in {"untyped variable declaration",
+                                                  "untyped const declaration"}:
+            if VOIDTYPE not in typ:
+                return EmptySet()
+            if focus < 2:
+                return stmts
+            else:
+                rhs_type = TopType()
+                return (Application.of(decl,
+                                       (var_id,
+                                        typecheck_expression(env, rhs, rhs_type)),
+                                       focus=focus)
+                        if VOIDTYPE in typ
+                        else EmptySet())
         case Application("variable assignment",
                          (var_id, rhs), focus=focus):
             if VOIDTYPE not in typ:
@@ -182,12 +202,13 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
                         if VOIDTYPE in typ and not isinstance(var_typ, EmptyType)
                         else EmptySet())
         case Application("+= assignment", (var_id, rhs), focus=focus):
-            return (Application.of("+= assignment",
-                    (typecheck_lhs(env, var_id, NUMBERTYPE, True),
-                     typecheck_expression(env, rhs, NUMBERTYPE)),
-                    focus=focus)
-                    if VOIDTYPE in typ
-                    else EmptySet()
+            return (
+                Application.of("+= assignment",
+                               (typecheck_lhs(env, var_id, NUMBERTYPE, True),
+                                typecheck_expression(env, rhs, NUMBERTYPE)),
+                               focus=focus)
+                if VOIDTYPE in typ
+                else EmptySet()
             )
         case Application("increment", (var_id, ), focus=focus):
             if VOIDTYPE not in typ:
@@ -220,7 +241,8 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
                         else EmptySet())
             else:
                 return_type = parse_type(return_types)
-                new_env = env.add(get_new_bindings(stmts))  # Binding enables recursion
+                # Binding enables recursion
+                new_env = env.add(get_new_bindings(env, stmts))
                 return (Application.of("0-ary func decl",
                                        (func_id,
                                         return_types,
@@ -237,8 +259,8 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
                 # Get return type
                 return_type = parse_type(return_types)
                 # Update env by declared paramaters and this function (for recursion)
-                new_env = env.add(get_new_bindings(stmts))
-                new_env = new_env.add(get_new_bindings(param_decls))
+                new_env = env.add(get_new_bindings(Environment, stmts))
+                new_env = new_env.add(get_new_bindings(Environment(), param_decls))
                 return (Application.of("n-ary func decl",
                                        (func_id,
                                         param_decls,
@@ -259,7 +281,7 @@ def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGra
                                        body),
                                       focus=focus)
             else:
-                new_env = env.add(get_new_bindings(init))
+                new_env = env.add(get_new_bindings(env, init))
                 return Application.of("for loop",
                                       (typecheck_return(env, init, VOIDTYPE),
                                        typecheck_expression(new_env, condition,
@@ -305,7 +327,7 @@ def typecheck_return_seqs(env: Environment, stmts: TreeGrammar, typ: Type
             return Union.of(typecheck_return_seqs(env, child, typ)
                             for child in children)
         case Application("command seq", (head, tail), focus=focus):
-            updated_env = (env.add(get_new_bindings(head)) if focus > 0 else env)
+            updated_env = (env.add(get_new_bindings(env, head)) if focus > 0 else env)
             # Either head matches a concrete [non void] type and tail is any,
             # or head is void and tail matches the target type
             non_void_typ = get_non_void(typ)
@@ -339,7 +361,8 @@ def parse_type(type_expression: TreeGrammar) -> Type:
         case Application("0-ary functype", (return_type,)):
             return FuncType.of(VOIDTYPE, parse_type(return_type))
         case Application("n-ary functype", (typed_params, return_type)):
-            param_types = (binding[1] for binding in get_new_bindings(typed_params))
+            param_types = (binding[1]
+                           for binding in get_new_bindings(Environment(), typed_params))
             return FuncType.of(ProdType.of(param_types), parse_type(return_type))
         case _:
             return EmptyType()
@@ -381,6 +404,8 @@ def infer_type_expression(env: Environment, exp: TreeGrammar) -> Type:
                     return NUMBERTYPE
                 if op in BINOP_INT_INT_TO_BOOL or op in BINOP_BOOL_BOOL_TO_BOOL:
                     return BOOLEANTYPE
+            case Application("unary minus", (_, )):
+                return NUMBERTYPE
             case Application("ternary expression", (_, then_val, else_val)):
                 then_type = infer_type_expression_helper(then_val)
                 else_type = infer_type_expression_helper(else_val)
@@ -390,7 +415,8 @@ def infer_type_expression(env: Environment, exp: TreeGrammar) -> Type:
                          }.difference({EmptyType()})
                 if len(types) != 1:
                     return EmptyType()
-                    # raise ValueError(f"Unexpected type(s) {types} for expression {exp}")
+                    # TODO: Find a way to raise ValueError(f"Unexpected type(s) {types}
+                    # for expression {exp}") when fixpoint backend supports this.
                 return types.pop()
             case _:
                 # TODO: Fixpoint shouldn't evaluate the function on unneeded children.
@@ -417,7 +443,8 @@ def infer_type_args(env: Environment, args: TreeGrammar) -> Type:
                     return updates.pop()
                 if len(updates) > 1:
                     return EmptyType()
-                    # raise ValueError(f"infer_type_args called on ambiguous args {args}")
+                    # TODO: Find a way to raise ValueError(f"infer_type_args called on
+                    # ambiguous args {args}") when fixpoint backend supports this
                 return EmptyType()
             case Application("arg sequence", (head, tail)):
                 tail_type = infer_type_args_helper(tail)
@@ -432,39 +459,55 @@ def infer_type_args(env: Environment, args: TreeGrammar) -> Type:
     return infer_type_args_helper_functions[env](args)
 
 
-@fixpoint(lambda: tuple())
-def get_new_bindings(stmt: TreeGrammar) -> tuple[tuple[str, Type, bool], ...]:
-    """WARNING: DO NOT CALL ON INCOMPLETE TREEGRAMMAR."""
-    match stmt:
-        case EmptySet():
-            return tuple()
-        case Union(children):
-            updates = {get_new_bindings(child) for child in children}.difference(
-                {tuple()})
-            if len(updates) == 1:
-                return updates.pop()
-            if len(updates) > 1:
+get_new_bindings_helper_functions: dict[Environment, Callable] = dict()
+
+
+def get_new_bindings(env: Environment, stmt: TreeGrammar
+                     ) -> tuple[tuple[str, Type, bool], ...]:
+    @fixpoint(lambda: tuple())
+    def get_new_bindings_helper(stmt: TreeGrammar
+                                ) -> tuple[tuple[str, Type, bool], ...]:
+        """WARNING: DO NOT CALL ON INCOMPLETE TREEGRAMMAR."""
+        match stmt:
+            case EmptySet():
                 return tuple()
-                # raise ValueError(f"gather_env_update called on ambiguous stmt {stmt}")
-            return tuple()
-        case Application("variable declaration", (var, type, _)):
-            return ((get_identifier_name(var), parse_type(type), True),)
-        case Application("const declaration", (var, type, _)):
-            return ((get_identifier_name(var), parse_type(type), False),)
-        case Application("0-ary func decl", (func, return_type, _)):
-            return ((get_identifier_name(func),
-                     FuncType.of(VOIDTYPE, parse_type(return_type)),
-                     False),)
-        case Application("n-ary func decl", (func, params, return_type, _)):
-            return ((get_identifier_name(func),
-                     FuncType.of(type_of_params(params), parse_type(return_type)),
-                     False),)
-        case Application("param sequence", (head, tail)):
-            return get_new_bindings(head) + get_new_bindings(tail)
-        case Application("typed_id", (var, type_signature)):
-            return ((get_identifier_name(var), parse_type(type_signature), True),)
-        case _:
-            return tuple()
+            case Union(children):
+                updates = {get_new_bindings(env, child) for child in children
+                           }.difference({tuple()})
+                if len(updates) == 1:
+                    return updates.pop()
+                if len(updates) > 1:
+                    return tuple()
+                    # TODO: Find a way to raise ValueError(f"gather_env_update called on
+                    # ambiguous stmt {stmt}") when fixpoint backend supports this.
+                return tuple()
+            case Application("variable declaration", (var, type, _)):
+                return ((get_identifier_name(var), parse_type(type), True),)
+            case Application("const declaration", (var, type, _)):
+                return ((get_identifier_name(var), parse_type(type), False),)
+            case Application("untyped variable declaration", (var, rhs)):
+                return ((get_identifier_name(var),
+                         infer_type_expression(env, rhs), True),)
+            case Application("untyped const declaration", (var, rhs)):
+                return ((get_identifier_name(var),
+                         infer_type_expression(env, rhs), False),)
+            case Application("0-ary func decl", (func, return_type, _)):
+                return ((get_identifier_name(func),
+                        FuncType.of(VOIDTYPE, parse_type(return_type)),
+                        False),)
+            case Application("n-ary func decl", (func, params, return_type, _)):
+                return ((get_identifier_name(func),
+                        FuncType.of(type_of_params(params), parse_type(return_type)),
+                        False),)
+            case Application("param sequence", (head, tail)):
+                return get_new_bindings(env, head) + get_new_bindings(env, tail)
+            case Application("typed_id", (var, type_signature)):
+                return ((get_identifier_name(var), parse_type(type_signature), True),)
+            case _:
+                return tuple()
+    if env not in get_new_bindings_helper_functions:
+        get_new_bindings_helper_functions[env] = get_new_bindings_helper
+    return get_new_bindings_helper_functions[env](stmt)
 
 
 @fixpoint(lambda: "")
@@ -515,6 +558,7 @@ default_env = Environment.from_dict({
     "Math.log2": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
     "Math.sqrt": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
     "Math.floor": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
+    "Math.round": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
     "Math.ceil": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
     "Math.clz32": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
     # Min and max types are slightly imprecise, but whatever

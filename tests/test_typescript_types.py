@@ -38,6 +38,76 @@ def test_types_contains():
 
 
 @reset
+def test_types_contains_extensible():
+    # Type 1 extensible, Type 2 not.
+    assert contains(ProdType.of(NUMBERTYPE, extensible=True),
+                    ProdType.of(NUMBERTYPE, NUMBERTYPE))
+    assert not contains(ProdType.of(NUMBERTYPE, BOOLEANTYPE, extensible=True),
+                        ProdType.of(NUMBERTYPE, NUMBERTYPE))
+    assert contains(ProdType.of(NUMBERTYPE, NUMBERTYPE, extensible=True),
+                    ProdType.of(NUMBERTYPE, NUMBERTYPE))
+    assert not contains(ProdType.of(NUMBERTYPE, extensible=True),
+                        ProdType.of())
+    # Type1 and Type2 extensible
+    assert contains(ProdType.of(NUMBERTYPE, extensible=True),
+                    ProdType.of(NUMBERTYPE, extensible=True))
+    assert contains(ProdType.of(TopType(), extensible=True),
+                    ProdType.of(NUMBERTYPE, extensible=True))
+    assert not contains(ProdType.of(NUMBERTYPE, BOOLEANTYPE, extensible=True),
+                        ProdType.of(NUMBERTYPE, NUMBERTYPE, extensible=True))
+    assert contains(ProdType.of(NUMBERTYPE, extensible=True),
+                    ProdType.of(NUMBERTYPE, NUMBERTYPE, extensible=True))
+    assert not contains(ProdType.of(NUMBERTYPE, extensible=True),
+                        ProdType.of(BOOLEANTYPE, NUMBERTYPE, extensible=True))
+    assert not contains(ProdType.of(NUMBERTYPE, NUMBERTYPE, extensible=True),
+                        ProdType.of(NUMBERTYPE, extensible=True))
+    assert not contains(ProdType.of(NUMBERTYPE, NUMBERTYPE, extensible=True),
+                        ProdType.of(BOOLEANTYPE, extensible=True))
+    # Type1 not extensible, Type2 extensible
+    assert not contains(ProdType.of(NUMBERTYPE, extensible=False),
+                        ProdType.of(NUMBERTYPE, extensible=True))
+    assert not contains(ProdType.of(TopType(), extensible=False),
+                        ProdType.of(NUMBERTYPE, extensible=True))
+    assert not contains(ProdType.of(NUMBERTYPE, BOOLEANTYPE, extensible=False),
+                        ProdType.of(NUMBERTYPE, NUMBERTYPE, extensible=True))
+    assert not contains(ProdType.of(NUMBERTYPE, extensible=False),
+                        ProdType.of(NUMBERTYPE, NUMBERTYPE, extensible=True))
+    assert not contains(ProdType.of(NUMBERTYPE, extensible=False),
+                        ProdType.of(BOOLEANTYPE, NUMBERTYPE, extensible=True))
+    assert not contains(ProdType.of(NUMBERTYPE, NUMBERTYPE, extensible=False),
+                        ProdType.of(NUMBERTYPE, extensible=True))
+    assert not contains(ProdType.of(NUMBERTYPE, NUMBERTYPE, extensible=False),
+                        ProdType.of(BOOLEANTYPE, extensible=True))
+    # Type1 and Type2 not extensible
+    assert not contains(ProdType.of(extensible=False),
+                        ProdType.of(NUMBERTYPE, BOOLEANTYPE, extensible=False),)
+    assert not contains(ProdType.of(extensible=False),
+                        ProdType.of(NUMBERTYPE, BOOLEANTYPE, extensible=False),)
+    assert not contains(ProdType.of(NUMBERTYPE, extensible=False),
+                        ProdType.of(extensible=False))
+    assert not contains(ProdType.of(NUMBERTYPE, BOOLEANTYPE, extensible=False),
+                        ProdType.of(extensible=False))
+    # Small tests in functions.
+    assert contains(FuncType.of(ProdType.of(NUMBERTYPE, extensible=True),
+                                BOOLEANTYPE),
+                    FuncType.of(ProdType.of(NUMBERTYPE, NUMBERTYPE),
+                                BOOLEANTYPE))
+    assert not contains(FuncType.of(ProdType.of(NUMBERTYPE, extensible=False),
+                                    BOOLEANTYPE),
+                        FuncType.of(ProdType.of(NUMBERTYPE, NUMBERTYPE),
+                                    BOOLEANTYPE))
+
+
+@reset
+def test_prodtype_reduces():
+    assert contains(ProdType.of(NUMBERTYPE), NUMBERTYPE)
+    assert contains(ProdType.of(NUMBERTYPE, extensible=True), NUMBERTYPE)
+    assert contains(ProdType.of(extensible=True), NUMBERTYPE)
+    assert contains(NUMBERTYPE, ProdType.of(NUMBERTYPE))
+    assert not contains(NUMBERTYPE, ProdType.of(NUMBERTYPE, extensible=True))
+
+
+@reset
 def test_types_depth():
     assert isinstance(NUMBERTYPE.condense(1), NumberType)
     assert isinstance(NUMBERTYPE.condense(0), TopType)
