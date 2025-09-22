@@ -1,0 +1,3 @@
+[theme]
+base = "light"
+headingFontSizes = ["3rem", "1.5rem", "1rem", "1rem"]

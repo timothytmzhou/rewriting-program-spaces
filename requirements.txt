@@ -8,5 +8,7 @@ egglog
 pandas
 streamlit
 streamlit-ace
+st-annotated-text
+streamlit-keyup
 lark
 -e .
