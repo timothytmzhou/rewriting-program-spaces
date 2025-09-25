@@ -4,10 +4,10 @@ from core.lexing.token import Token
 
 
 @rewrite
-def even_sum(t: TreeGrammar) -> TreeGrammar:
+def sum_of_evens(t: TreeGrammar) -> TreeGrammar:
     match t:
         case Union(children):
-            return Union.of(even_sum(c) for c in children)
+            return Union.of(sum_of_evens(c) for c in children)
         case Num(arg):
             token = as_tree(arg)
             match token:
@@ -16,34 +16,10 @@ def even_sum(t: TreeGrammar) -> TreeGrammar:
                 case _:
                     return t
         case Add(left, right):
-            return Union.of(
-                Add(even_sum(left), even_sum(right)),
-                Add(odd_sum(left), odd_sum(right)),
-            )
-        case _:
-            return EmptySet()
-
-
-@rewrite
-def odd_sum(t: TreeGrammar) -> TreeGrammar:
-    match t:
-        case Union(children):
-            return Union.of(odd_sum(c) for c in children)
-        case Num(arg):
-            token = as_tree(arg)
-            match token:
-                case Token(is_complete=True, prefix=prefix) if int(prefix) % 2 == 0:
-                    return EmptySet()
-                case _:
-                    return t
-        case Add(left, right):
-            return Union.of(
-                Add(odd_sum(left), even_sum(right)),
-                Add(even_sum(left), odd_sum(right)),
-            )
+            return Add(sum_of_evens(left), sum_of_evens(right))
         case _:
             return EmptySet()
 
 
 # The demo expects a function named `pruner`.
-pruner = even_sum
+pruner = sum_of_evens
