@@ -1,0 +1,14 @@
+ID: /(?!(let|in)$)[a-zA-Z_][a-zA-Z0-9_]*/
+INT: /\d+/
+WS: /\s+/
+%ignore WS
+
+start: app
+
+app: atom
+   | app atom {App}
+
+atom: id
+    | "(" app ")"
+
+id: ID {Var}

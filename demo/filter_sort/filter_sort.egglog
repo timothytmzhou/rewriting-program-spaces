@@ -1,0 +1,36 @@
+(datatype Expr
+(App Expr Expr)
+(Var String)
+)
+
+(let sort (Var "sort"))
+(let filter (Var "filter"))
+
+(let start
+(App sort (App (App filter (Var "pred")) (App sort (Var "l"))))
+)
+
+;; sort is idempotent
+(rewrite
+    (App sort (App sort l))
+    (App sort l)
+)
+
+;; filter is idempotent
+(rewrite
+    (App (App filter p) (App (App filter p) l))
+    (App (App filter p) l)
+)
+
+;; filter and sort commute
+(rewrite
+    (App sort (App (App filter p) l))
+    (App (App filter p) (App sort l))
+)
+
+(rewrite
+    (App (App filter p) (App sort l))
+    (App sort (App (App filter p) l))
+)
+
+(run 100)
