@@ -1,0 +1,97 @@
+### Lexemes
+
+INT: /\d+(\.\d+)?/
+ID: /(?!(true|false|number|string|boolean|return|function|let|if|else|typescript)$)([a-zA-Z][a-zA-Z0-9_]*)|(Math\.[a-zA-Z0-9_]+)/ # Math library hack
+INTBINOP:/\+|\-|\*|\/|\%|(\*\*)/
+INTCOMPARATOR: /(<)|(<=)|(>)|(>=)|(==)|(===)|(!==)|(!=)/
+BOOLEANBINOP: /(&&|\|\|)/
+PLUSPLUS: /(\+\+|\-\-)/
+PLUSEQUALS: /(\+=)|(\*=)|(\-=)|(\/=)|(\%=)/
+WS: /(\s+)|\/\/.*/
+%ignore WS
+
+
+
+### Literal Shorthands
+
+literal: INT {IntConst}
+    | "true" {BooleanConst}
+    | "false" {BooleanConst}
+
+var: ID {Var}
+
+
+
+### Types and Helpers
+
+type: "number" {NumberTypeLit}
+    | "boolean" {BooleanTypeLit}
+    | "(" ")" "=>" type {ZaryFuncType}
+    | "(" params ")" "=>" type {NaryFuncType}
+
+typed_id: var ":" type {TypedId}
+
+params: typed_id
+    | typed_id "," params {ParamSeq}
+
+args: exp
+    | exp "," args {ArgSeq}
+
+
+
+### Expressions
+
+base_exp: literal
+    | var
+    | "(" exp ")"
+    | base_exp "(" ")" {ZaryFuncApp}
+    | base_exp "(" args ")" {NaryFuncApp}
+    | "-" base_exp {UnaryMinus}
+
+precedence1_exp: base_exp
+    | base_exp INTBINOP precedence1_exp {IntBinop}
+         
+precedence2_exp : precedence1_exp
+    | precedence1_exp INTCOMPARATOR precedence1_exp {IntComparison}
+
+precedence3_exp: precedence2_exp
+    | precedence2_exp BOOLEANBINOP precedence3_exp {BooleanBinop}
+
+exp: precedence3_exp
+    | precedence3_exp "?" precedence3_exp ":" exp {TernaryExpression}
+
+
+
+### Commands
+
+block: "{" "}" {EmptyBlock}
+    | "{" command_seq "}" {NonemptyBlock}
+
+assignment: "let" var ":" type "=" exp {TypedLetDecl}
+    | "const" var ":" type "=" exp {TypedConstDecl}
+    | "let" var "=" exp {UntypedLetDecl}
+    | "const" var "=" exp {UntypedConstDecl}
+    | reassignment
+
+reassignment: var "=" exp {VarAssignment}
+    | var PLUSPLUS {VarIncrement}
+    | PLUSPLUS var {VarPreIncrement}
+    | var PLUSEQUALS exp {PlusEqualsAssignment}
+
+command: assignment ";"
+    | exp ";" {ExpressionStatement}
+    | "return" exp ";" {ReturnStatement}
+    | block
+    | "function" var "(" ")" ":" type block {ZaryFuncDecl}
+    | "function" var "(" params ")" ":" type block {NaryFuncDecl}
+    | "for" "(" assignment ";" exp ";" reassignment ")" block {ForLoop}
+    | "while" "(" exp ")" block {WhileLoop}
+    | "if" "(" exp ")" command "else" command {IfThenElse}
+    | "if" "(" exp ")" command {IfThen}
+
+command_seq: command
+    | command command_seq {CommandSeq}
+
+codeblock: "```" command_seq "```"
+    # TOGGLE ON OR OFF IF YOU WANT TYPESCRIPT
+    # | "```" "typescript" command_seq "```"

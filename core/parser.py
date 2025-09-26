@@ -133,7 +133,7 @@ def delta(p: Parser) -> Parser:
             return p
         case Choice(children):
             return Choice.of(delta(c) for c in children)
-        case Concatenation() if not p.remaining:
+        case Concatenation(_, remaining, _) if not remaining:
             return p
         case _:
             return EmptyParser()

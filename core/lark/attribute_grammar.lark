@@ -21,7 +21,7 @@ expansion: expr* ["{" action "}"]
 
 action: CONSTRUCTOR
 
-CONSTRUCTOR: /[A-Z][_a-z0-9]*/
+CONSTRUCTOR: /[A-Z][_A-Za-z0-9]*/
 
 ?expr: atom
 

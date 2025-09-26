@@ -10,3 +10,4 @@ streamlit
 streamlit-ace
 lark
 -e .
+func_timeout

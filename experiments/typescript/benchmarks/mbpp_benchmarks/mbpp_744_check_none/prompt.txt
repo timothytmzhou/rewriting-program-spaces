@@ -1,2 +1,0 @@
-//Write a typescript function to check if the given array has any none value or not.
-function check_none(test_tup: any): boolean 

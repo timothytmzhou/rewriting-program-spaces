@@ -1,2 +1,0 @@
-//Write a typescript function to check whether the given number is undulating or not.
-function is_undulating(n: number): boolean 
