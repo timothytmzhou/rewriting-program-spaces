@@ -1,10 +1,20 @@
 from __future__ import annotations
 from dataclasses import dataclass, replace
+import regex as re
 
-from core.grammar import *
+from core.grammar import TreeGrammar, EmptySet, Union
 from core.lexing.token import Token
-from .typescript_grammar import IDLEAF
 from .types import *
+
+# Token template for ID tokens.
+# TODO: Get this directly from lark.
+IDLEAF = Token(
+    "ID",
+    re.compile(
+        "(?!(true|false|number|string|boolean|return|function|let|if|else|typescript)$)"
+        + "([a-zA-Z][a-zA-Z0-9_]*)|(Math\\.[a-zA-Z0-9_]+)"  # Math library hack
+    )
+)
 
 
 @dataclass(frozen=True)
@@ -110,7 +120,7 @@ class Environment:
 
     def get_terms_of_type(self, identifiers: Token, typ: Type,
                           is_mutable: Optional[bool] = None) -> TreeGrammar:
-        if identifiers.token_type == "id":
+        if identifiers.token_type == "ID":
             if identifiers.is_complete:
                 return self._get_typed(identifiers.prefix, typ, is_mutable)[0]
             return Union.of(

@@ -1,638 +1,591 @@
 from __future__ import annotations
+from functools import lru_cache
 
-from core.parser import *
-from core.grammar import *
+from core.rewrite import rewrite
+from core.grammar import TreeGrammar, EmptySet, Union, as_tree
 from core.lexing.token import Token
 from llm.realizability import RealizabilityChecker
 from .types import *
 from .environment import *
-from .typescript_grammar import *
+from .typescript_abstract_syntax import *
+
+
+# # # Typepruning functions on TreeGrammars # # #
+# A typepruner takes a TreeGrammar, an environment, and a target type,
+# and returns a TreeGrammar where some terms of the wrong type
+# have been removed.
 
 
 @rewrite
-def typecheck_args(env: Environment, exps: TreeGrammar, types: Type
-                   ) -> TreeGrammar:
-    match exps, types:
+def typeprune_args(
+    env: Environment, exps: TreeGrammar, target_type: Type
+) -> TreeGrammar:
+    match exps, target_type:
         case Union(children), _:
-            return Union.of(typecheck_args(env, child, types) for child in children)
-        case Application("arg sequence", (head, tail)), TopType():
-            return Application.of("arg_sequence",
-                                  typecheck_expression(env, head, TopType()),
-                                  typecheck_args(env, tail, TopType())
-                                  )
-        case (Application("arg sequence", (head, tail)),
-              ProdType(kids, extensible=extensible)):
-            if len(kids) == 0:
-                if extensible:
-                    return Application.of("arg_sequence",
-                                          typecheck_expression(env, head, TopType()),
-                                          typecheck_args(env, tail, types)
-                                          )
+            return Union.of(
+                typeprune_args(env, child, target_type) for child in children
+            )
+        case ArgSeq(head, tail), TopType():
+            return ArgSeq.of(
+                typeprune_expression(env, head, TopType()),
+                typeprune_args(env, tail, TopType())
+            )
+        case (ArgSeq(head, tail), ProdType(kids, extensible=extensible)):
+            if len(kids) == 0 and not extensible:
                 return EmptySet()
-            return Application.of("arg_sequence",
-                                  typecheck_expression(env, head, kids[0]),
-                                  typecheck_args(
-                                      env,
-                                      tail,
-                                      ProdType.of(kids[1:],
-                                                  extensible=extensible)
-                                  )
-                                  )
+            elif len(kids) == 0 and extensible:
+                return ArgSeq.of(
+                    typeprune_expression(env, head, TopType()),
+                    typeprune_args(env, tail, target_type)
+                )
+            else:
+                return ArgSeq.of(
+                    typeprune_expression(env, head, kids[0]),
+                    typeprune_args(
+                        env,
+                        tail,
+                        ProdType.of(kids[1:], extensible=extensible)
+                    )
+                )
         case _, TopType():
-            return typecheck_expression(env, exps, types)
+            return typeprune_expression(env, exps, target_type)
         case _, ProdType(kids, extensible=extensible):
             if len(kids) == 0 and extensible:
-                return typecheck_expression(env, exps, types)
+                return typeprune_expression(env, exps, target_type)
             elif len(kids) == 1:
-                return typecheck_expression(env, exps, kids[0])
+                return typeprune_expression(env, exps, kids[0])
             else:
                 return EmptySet()
         case _, UnionType(first, second):
-            return Union.of(typecheck_args(env, exps, first),
-                            typecheck_args(env, exps, second))
-    raise ValueError(f"Argument sequence got unexpected type {types} or term {exps}")
-
-
-# @rewrite
-# def typecheck_dot_access(env: Environment, exps: TreeGrammar, types: Type,
-#                          lhs_type: Type) -> TreeGrammar:
-#     match exps:
-#         case Union(children):
-#             return Union.of(typecheck_dot_access(env, child, types, lhs_type)
-#                             for child in children)
-#         case Constant(c) if isinstance(c, Token) and c.token_type == "id":
-#             return env.get_terms_of_type(c, types, lhs_type=lhs_type)
-#         case _:
-#             raise ValueError(f"Unknown dot access rhs: {exps}")
+            return Union.of(typeprune_args(env, exps, first),
+                            typeprune_args(env, exps, second))
+    raise ValueError(
+        f"Argument sequence got unexpected type {target_type} or term {exps}"
+    )
 
 
 @rewrite
-def typecheck_lhs(env: Environment, exps: TreeGrammar, types: Type,
-                  is_mutable: bool) -> TreeGrammar:
+def typeprune_lhs(
+    env: Environment, exps: TreeGrammar, target_type: Type, is_mutable: bool
+) -> TreeGrammar:
     match exps:
-        case Token(token_type="id") as t:
-            return env.get_terms_of_type(t, types, is_mutable=is_mutable)
+        case Var(tok):
+            # TODO: Concretizing the token is a hack, since it may be incomplete.
+            # `tok` should be passed directly when the backend supports it.
+            tok_tree = as_tree(tok)
+            if isinstance(tok_tree, Token):
+                return env.get_terms_of_type(
+                    tok_tree, target_type, is_mutable=is_mutable
+                )
+        case Union(children):
+            return Union.of(
+                typeprune_lhs(env, child, target_type, is_mutable)
+                for child in children
+            )
     raise ValueError(f"Unexpected lhs in reassignment {exps}")
 
 
 @rewrite
-def typecheck_expression(env: Environment, exps: TreeGrammar, types: Type
-                         ) -> TreeGrammar:
+def typeprune_expression(
+    env: Environment, exps: TreeGrammar, target_type: Type
+) -> TreeGrammar:
     match exps:
-        case Token(token_type="int"):
-            if NUMBERTYPE in types:
-                return exps
+        case IntConst(_):
+            return exps if NUMBERTYPE in target_type else EmptySet()
+        case BooleanConst():
+            return exps if BOOLEANTYPE in target_type else EmptySet()
+        case Var(tok):
+            # TODO: Concretizing the token is a hack, since it may be incomplete.
+            # `tok` should be passed directly when the backend supports it.
+            tok_tree = as_tree(tok)
+            if isinstance(tok_tree, Token):
+                return env.get_terms_of_type(tok_tree, target_type)
+            raise ValueError(f"Var has non-token contents: {tok_tree}")
+        case ZaryFuncApp(func):
+            ftype = FuncType.of(VOIDTYPE, target_type)
+            return ZaryFuncApp.of(typeprune_expression(env, func, ftype))
+        case NaryFuncApp(func, args):
+            func_tree = as_tree(func)
+            # If func is incomplete, typecheck func against func[? -> types]
+            if func_tree is None:
+                target_func_type = FuncType.of(
+                    ProdType.of(TopType(), extensible=True), target_type
+                )
+                return NaryFuncApp.of(
+                    typeprune_expression(env, func, target_func_type), args
+                )
+            # Otherwise, typecheck the args against the real type of func
             else:
+                real_func_type = infer_type_expression(env, func_tree)
+                if (
+                    isinstance(real_func_type, FuncType)
+                    and real_func_type.return_type in target_type
+                ):
+                    return NaryFuncApp.of(
+                        func, typeprune_args(env, args, real_func_type.params)
+                    )
                 return EmptySet()
-        case Token(token_type="str"):
-            if STRINGTYPE in types:
-                return exps
-            else:
-                return EmptySet()
-        case Token(token_type="true"):
-            if BOOLEANTYPE in types:
-                return exps
-            else:
-                return EmptySet()
-        case Token(token_type="false"):
-            if BOOLEANTYPE in types:
-                return exps
-            else:
-                return EmptySet()
-        case Token(token_type="id") as t:
-            return env.get_terms_of_type(t, types)
-        # case Application("0-ary lambda", (bodies,), focus=focus):
-        #     match types:
-        #         case UnionType(first, second):
-        #             return Union.of(typecheck_expression(env, exps, first),
-        #                             typecheck_expression(env, exps, second))
-        #         case TopType():
-        #             return Application.of("0-ary lambda",
-        #                                   (typecheck_return(env, bodies, types),),
-        #                                   focus=focus)
-        #         case FuncType(VOIDTYPE, return_type):
-        #             return Application.of("0-ary lambda",
-        #                                   (typecheck_return(env, bodies,
-        #                                                     return_type),),
-        #                                   focus=focus)
-        #     return EmptySet()
-        case Application("0-ary app", (func,), focus=focus):
-            ftype = FuncType.of(VOIDTYPE, types)
-            return Application.of("0-ary app",
-                                  typecheck_expression(env, func, ftype), focus=focus)
-        case Application("n-ary app", (func, args), focus=focus):
-            # If func is incomplete, just typecheck it against func[? -> types]
-            if focus == 0:
-                function_type = FuncType.of(
-                    ProdType.of(TopType(), extensible=True),
-                    types)
-                return Application.of("n-ary app",
-                                      (typecheck_expression(env, func, function_type),
-                                       args),
-                                      focus=focus)
-            func_type = infer_type_expression(env, func)
-            if isinstance(func_type, FuncType):
-                return (Application.of("n-ary app",
-                                       (func,
-                                        typecheck_args(env, args, func_type.params)),
-                                       focus=focus)
-                        if func_type.return_type in types
-                        else EmptySet())
-            return EmptySet()
-        case Application("grp", (exps_inner,), focus=focus):
-            good_inners = typecheck_expression(env, exps_inner, types)
-            return Application.of("grp", good_inners, focus=focus)
-        # case Application("dot access", (lhs, rhs), focus=focus):
-        #     if focus < 1:
-        #         return Application("dot access", (lhs, rhs), focus=focus)
-        #     lhs_type = infer_type_expression(env, lhs)
-        #     return Union.of(
-        #         (Application("dot access",
-        #                      (lhs, typecheck_dot_access(env, rhs, types, NUMBERTYPE)),
-        #                      focus=focus)
-        #          if NUMBERTYPE in lhs_type
-        #          else EmptySet()),
-        #         (Application("dot access",
-        #                      (lhs, typecheck_dot_access(env, rhs, types, STRINGTYPE)),
-        #                      focus=focus)
-        #          if STRINGTYPE in lhs_type
-        #          else EmptySet())
-        #     )
+        # case Group(exps_inner):
+        #     good_inners = typeprune_expression(env, exps_inner, target_type)
+        #     return Group.of(good_inners)
         case Union(children):
-            return Union.of(typecheck_expression(env, child, types)
-                            for child in children)
+            return Union.of(
+                typeprune_expression(env, child, target_type) for child in children
+            )
         case EmptySet():
             return EmptySet()
-        case Application(op, (lhs, rhs), focus=focus) if op in BINOP:
-            if op in BINOP_INT_INT_TO_INT and NUMBERTYPE in types:
-                good_lhs = typecheck_expression(env, lhs, NUMBERTYPE)
-                good_rhs = typecheck_expression(env, rhs, NUMBERTYPE)
-                return Application.of(op, (good_lhs, good_rhs), focus=focus)
-            if op in BINOP_INT_INT_TO_BOOL and BOOLEANTYPE in types:
-                good_lhs = typecheck_expression(env, lhs, NUMBERTYPE)
-                good_rhs = typecheck_expression(env, rhs, NUMBERTYPE)
-                return Application.of(op, (good_lhs, good_rhs), focus=focus)
-            if op in BINOP_BOOL_BOOL_TO_BOOL and BOOLEANTYPE in types:
-                good_lhs = typecheck_expression(env, lhs, BOOLEANTYPE)
-                good_rhs = typecheck_expression(env, rhs, BOOLEANTYPE)
-                return Application.of(op, (good_lhs, good_rhs), focus=focus)
+        case Binop(lhs, op, rhs):
+            if isinstance(exps, IntBinop) and NUMBERTYPE in target_type:
+                good_lhs = typeprune_expression(env, lhs, NUMBERTYPE)
+                good_rhs = typeprune_expression(env, rhs, NUMBERTYPE)
+                return IntBinop.of(good_lhs, op, good_rhs)
+            if isinstance(exps, IntComparison) and BOOLEANTYPE in target_type:
+                good_lhs = typeprune_expression(env, lhs, NUMBERTYPE)
+                good_rhs = typeprune_expression(env, rhs, NUMBERTYPE)
+                return IntComparison.of(good_lhs, op, good_rhs)
+            if isinstance(exps, BooleanBinop) and BOOLEANTYPE in target_type:
+                good_lhs = typeprune_expression(env, lhs, BOOLEANTYPE)
+                good_rhs = typeprune_expression(env, rhs, BOOLEANTYPE)
+                return BooleanBinop.of(good_lhs, op, good_rhs)
             return EmptySet()
-        case Application("ternary expression", (then_vals, guards, else_vals),
-                         focus=focus):
-            if focus < 1:
-                return Application.of("ternary expression",
-                                      (typecheck_expression(env, then_vals, types),
-                                       typecheck_expression(env, guards, BOOLEANTYPE),
-                                       typecheck_expression(env, else_vals, types)),
-                                      focus=focus)
-            exp_type = infer_type_expression(env, then_vals)
-            return (Application.of("ternary expression",
-                                   (typecheck_expression(env, then_vals, types),
-                                    typecheck_expression(env, guards, BOOLEANTYPE),
-                                    typecheck_expression(env, else_vals, types)),
-                                   focus=focus)
-                    if exp_type in types
-                    else EmptySet())
+        case UnaryMinus(val):
+            if NUMBERTYPE in target_type:
+                good_val = typeprune_expression(env, val, NUMBERTYPE)
+                return UnaryMinus.of(good_val)
+            return EmptySet()
+        case TernaryExpression(guards, then_vals, else_vals):
+            return TernaryExpression.of(
+                typeprune_expression(env, guards, BOOLEANTYPE),
+                typeprune_expression(env, then_vals, target_type),
+                typeprune_expression(env, else_vals, target_type)
+            )
         case _:
             raise ValueError(f"Unknown expression type: {exps}")
 
 
 @rewrite
-def typecheck_return(env: Environment, stmts: TreeGrammar, typ: Type) -> TreeGrammar:
+# The type of a statement is its return type.
+def typeprune_statement(
+    env: Environment, stmts: TreeGrammar, target_type: Type
+) -> TreeGrammar:
     match stmts:
         case EmptySet():
             return EmptySet()
         case Union(children):
-            return Union.of(typecheck_return(env, child, typ) for child in children)
-        case Application(decl, (var_id, type_annotation, rhs),
-                         focus=focus) if decl in {"variable declaration",
-                                                  "const declaration"}:
-            if VOIDTYPE not in typ:
+            return Union.of(
+                typeprune_statement(env, child, target_type) for child in children
+            )
+        case TypedDecl(var_id, type_annotation, rhs):
+            if VOIDTYPE not in target_type:
                 return EmptySet()
-            if focus < 2:
+            var_id_tree = as_tree(var_id)
+            type_annotation_tree = as_tree(type_annotation)
+            # If the var or type declaration is incomplete, there is nothing to do.
+            if var_id_tree is None or type_annotation_tree is None:
                 return stmts
+            # Otherwise, constrain the rhs to the declared type.
             else:
-                rhs_type = parse_type(type_annotation)
-                return (Application.of(decl,
-                                       (var_id, type_annotation,
-                                        typecheck_expression(env, rhs, rhs_type)),
-                                       focus=focus)
-                        if VOIDTYPE in typ
-                        else EmptySet())
-        case Application("variable assignment",
-                         (var_id, rhs), focus=focus):
-            if VOIDTYPE not in typ:
+                rhs_type = parse_type(type_annotation_tree)
+                return stmts.of(
+                    var_id, type_annotation, typeprune_expression(env, rhs, rhs_type)
+                )
+        case UntypedDecl(var_id, rhs):
+            if VOIDTYPE not in target_type:
                 return EmptySet()
-            if focus < 1:
-                return Application.of("variable assignment",
-                                      (typecheck_lhs(env, var_id, TopType(), True),
-                                       rhs),
-                                      focus=focus)
+            var_id_tree = as_tree(var_id)
+            # If the var is incomplete, do nothing.
+            if var_id_tree is None:
+                return stmts
+            # Otherwise, make sure the rhs is typesafe.
             else:
-                var_typ = infer_type_expression(env, var_id)
-                return (Application.of("variable assignment",
-                                       (typecheck_lhs(env, var_id, var_typ, True),
-                                        typecheck_expression(env, rhs, var_typ)),
-                                       focus=focus)
-                        if VOIDTYPE in typ and not isinstance(var_typ, EmptyType)
-                        else EmptySet())
-        case Application("+= assignment", (var_id, rhs), focus=focus):
-            if VOIDTYPE not in typ:
+                rhs_type = TopType()
+                return stmts.of(
+                    var_id, typeprune_expression(env, rhs, rhs_type)
+                )
+        case VarAssignment(var_id, rhs):
+            if VOIDTYPE not in target_type:
                 return EmptySet()
-            if focus < 1:
-                return Application.of("+= assignment",
-                                      (typecheck_lhs(env, var_id, NUMBERTYPE, True),
-                                       rhs),
-                                      focus=focus)
+            var_id_tree = as_tree(var_id)
+            # If the var is incomplete, do nothing.
+            if var_id_tree is None:
+                return VarAssignment.of(
+                    typeprune_lhs(env, var_id, TopType(), True), rhs
+                )
+            # Otherwise, make sure the rhs matches the inferred type of the lhs.
             else:
-                var_typ = infer_type_expression(env, var_id)
-                return (Application.of("+= assignment",
-                                       (typecheck_lhs(env, var_id, var_typ, True),
-                                        typecheck_expression(env, rhs, NUMBERTYPE)),
-                                       focus=focus)
-                        if VOIDTYPE in typ and NUMBERTYPE in var_typ
-                        else EmptySet())
-        case Application("increment", (var_id, ), focus=focus):
-            if VOIDTYPE not in typ:
+                var_typ = infer_type_expression(env, var_id_tree)
+                if var_typ == EmptyType():
+                    return EmptySet()
+                else:
+                    return VarAssignment.of(
+                        typeprune_lhs(env, var_id, TopType(), True),
+                        typeprune_expression(env, rhs, var_typ)
+                    )
+        case PlusEqualsAssignment(var_id, op, rhs):
+            if VOIDTYPE not in target_type:
                 return EmptySet()
-            return Application.of("increment",
-                                  (typecheck_lhs(env, var_id, NUMBERTYPE, True), ),
-                                  focus=focus)
-        case Application("expression statement", (expressions, ), focus=focus):
-            return (Application.of("expression statement",
-                                   typecheck_expression(env, expressions, TopType()),
-                                   focus=focus)
-                    if VOIDTYPE in typ
-                    else EmptySet())
-        case Application("return statement", (expressions, ), focus=focus):
+            return PlusEqualsAssignment.of(
+                typeprune_lhs(env, var_id, NUMBERTYPE, True),
+                op,
+                typeprune_expression(env, rhs, NUMBERTYPE),
+            )
+        case VarIncrement(var_id, op):
+            if VOIDTYPE not in target_type:
+                return EmptySet()
+            return VarIncrement.of(
+                typeprune_lhs(env, var_id, NUMBERTYPE, True), op,
+            )
+        case VarPreIncrement(op, var_id):
+            if VOIDTYPE not in target_type:
+                return EmptySet()
+            return VarPreIncrement.of(
+                op, typeprune_lhs(env, var_id, NUMBERTYPE, True),
+            )
+        case ExpressionStatement(expressions):
+            if VOIDTYPE not in target_type:
+                return EmptySet()
+            return ExpressionStatement.of(
+                typeprune_expression(env, expressions, TopType()),
+            )
+        case ReturnStatement(expressions):
             # TODO: Can ts return void?
-            return Application.of("return statement",
-                                  typecheck_expression(env, expressions, typ),
-                                  focus=focus)
-        case Application("empty block"):
-            return stmts if VOIDTYPE in typ else EmptySet()
-        case Application("nonempty block", (commands, ), focus=focus):
-            return Application.of("nonempty block",
-                                  typecheck_return_seqs(env, commands, typ),
-                                  focus=focus)
-        case Application("0-ary func decl",
-                         (func_id, return_types, bodies), focus=focus):
-            if focus < 2:
-                return (stmts
-                        if VOIDTYPE in typ
-                        else EmptySet())
+            return ReturnStatement.of(
+                typeprune_expression(env, expressions, target_type),
+            )
+        case EmptyBlock():
+            return stmts if VOIDTYPE in target_type else EmptySet()
+        case NonemptyBlock(commands, ):
+            return NonemptyBlock.of(
+                typeprune_return_seqs(env, commands, target_type)
+            )
+        case ZaryFuncDecl(name, return_type, body):
+            if VOIDTYPE not in target_type:
+                return EmptySet()
+            name_tree = as_tree(name)
+            return_type_tree = as_tree(return_type)
+            # If the name or return type is incomplete, do nothing.
+            if name_tree is None or return_type_tree is None:
+                return stmts
+            # Otherwise, typecheck the body against the declared return type.
             else:
-                return_type = parse_type(return_types)
-                new_env = env.add(get_new_bindings(stmts))  # Binding enables recursion
-                return (Application.of("0-ary func decl",
-                                       (func_id,
-                                        return_types,
-                                        typecheck_return(new_env, bodies, return_type)))
-                        if VOIDTYPE in typ
-                        else EmptySet())
-        case Application("n-ary func decl",
-                         (func_id, param_decls, return_types, bodies), focus=focus):
-            if focus < 3:
-                return (stmts
-                        if VOIDTYPE in typ
-                        else EmptySet())
+                # Get return output type
+                out_type = parse_type(return_type_tree)
+                # Binding enables recursion
+                func_binding = get_new_bindings(
+                    env, ZaryFuncDecl(name_tree, return_type_tree, EmptyBlock())
+                )
+                new_env = env.add(func_binding)
+                return ZaryFuncDecl.of(
+                    name, return_type, typeprune_statement(new_env, body, out_type)
+                )
+        case NaryFuncDecl(name, param_decls, return_type, body):
+            if VOIDTYPE not in target_type:
+                return EmptySet()
+            name_tree = as_tree(name)
+            param_decls_tree = as_tree(param_decls)
+            return_type_tree = as_tree(return_type)
+            # If the name, params, or return type is incomplete, do nothing.
+            if (name_tree is None
+                or param_decls_tree is None
+                    or return_type_tree is None):
+                return stmts
+            # Otherwise, typecheck the body against the declared return type.
             else:
-                # Get return type
-                return_type = parse_type(return_types)
+                # Get return output type
+                out_type = parse_type(return_type_tree)
                 # Update env by declared paramaters and this function (for recursion)
-                new_env = env.add(get_new_bindings(stmts))
-                new_env = new_env.add(get_new_bindings(param_decls))
-                return (Application.of("n-ary func decl",
-                                       (func_id,
-                                        param_decls,
-                                        return_types,
-                                        typecheck_return(new_env, bodies,
-                                                         return_type)))
-                        if VOIDTYPE in typ
-                        else EmptySet())
-        case Application("for loop", (init, condition, update, body), focus=focus):
+                func_binding = get_new_bindings(
+                    env,
+                    NaryFuncDecl(
+                        name_tree, param_decls_tree, return_type_tree, EmptyBlock()
+                    )
+                )
+                params_bindings = get_new_bindings(Environment(), param_decls_tree)
+                new_env = env.add(func_binding)
+                new_env = new_env.add(params_bindings)
+                return NaryFuncDecl.of(
+                    name, param_decls, return_type,
+                    typeprune_statement(new_env, body, out_type)
+                )
+        case ForLoop(init, condition, update, body):
             # LOOPS IMPLICITLY RETURN VOID BC THEY MAY NOT RUN THE BODY
-            if VOIDTYPE not in typ:
+            if VOIDTYPE not in target_type:
                 return EmptySet()
-            if focus < 1:
-                return Application.of("for loop",
-                                      (typecheck_return(env, init, VOIDTYPE),
-                                       condition,
-                                       update,
-                                       body),
-                                      focus=focus)
+            init_tree = as_tree(init)
+            # If the init is incomplete, we can't typecheck the other parts.
+            if init_tree is None:
+                return ForLoop.of(
+                    typeprune_statement(env, init, VOIDTYPE),
+                    condition,
+                    update,
+                    body
+                )
+            # Otherwise, update the environment and typecheck everything.
             else:
-                new_env = env.add(get_new_bindings(init))
-                return Application.of("for loop",
-                                      (typecheck_return(env, init, VOIDTYPE),
-                                       typecheck_expression(new_env, condition,
-                                                            BOOLEANTYPE),
-                                       typecheck_return(new_env, update, VOIDTYPE),
-                                       typecheck_return(new_env, body, typ)),
-                                      focus=focus)
-        case Application("while loop", (guard, body), focus=focus):
-            if VOIDTYPE not in typ:
+                new_env = env.add(get_new_bindings(env, init_tree))
+                return ForLoop.of(
+                    typeprune_statement(env, init, VOIDTYPE),
+                    typeprune_expression(new_env, condition, BOOLEANTYPE),
+                    typeprune_statement(new_env, update, VOIDTYPE),
+                    typeprune_statement(new_env, body, target_type)
+                )
+        case WhileLoop(guard, body):
+            if VOIDTYPE not in target_type:
                 return EmptySet()
-            return Application.of("while loop",
-                                  (typecheck_expression(env, guard, BOOLEANTYPE),
-                                   typecheck_return(env, body, typ)),
-                                  focus=focus)
-        case Application("if-then-else",
-                         (guards, then_bodies, else_bodies),
-                         focus=focus):
-            legal_guards = typecheck_expression(env, guards, BOOLEANTYPE)
-            legal_then_bodies = typecheck_return(env, then_bodies, typ)
-            legal_else_bodies = typecheck_return(env, else_bodies, typ)
-            return Application.of("if-then-else",
-                                  (legal_guards,
-                                   legal_then_bodies,
-                                   legal_else_bodies),
-                                  focus=focus)
-        case Application("if-then",
-                         (guards, then_bodies),
-                         focus=focus):
-            return (Application.of("if-then",
-                                   (typecheck_expression(env, guards, BOOLEANTYPE),
-                                    typecheck_return(env, then_bodies, typ)),
-                                   focus=focus)
-                    if VOIDTYPE in typ
-                    else EmptySet())
+            return WhileLoop.of(
+                typeprune_expression(env, guard, BOOLEANTYPE),
+                typeprune_statement(env, body, target_type)
+            )
+        case IfThenElse(guards, then_bodies, else_bodies):
+            return IfThenElse.of(
+                typeprune_expression(env, guards, BOOLEANTYPE),
+                typeprune_statement(env, then_bodies, target_type),
+                typeprune_statement(env, else_bodies, target_type)
+            )
+        case IfThen(guards, then_bodies):
+            if VOIDTYPE not in target_type:
+                return EmptySet()
+            return IfThen.of(
+                typeprune_expression(env, guards, BOOLEANTYPE),
+                typeprune_statement(env, then_bodies, target_type)
+            )
     return EmptySet()
 
 
 @rewrite
-def typecheck_return_seqs(env: Environment, stmts: TreeGrammar, typ: Type
-                          ) -> TreeGrammar:
+def typeprune_return_seqs(
+    env: Environment, stmts: TreeGrammar, target_type: Type
+) -> TreeGrammar:
     match stmts:
         case Union(children):
-            return Union.of(typecheck_return_seqs(env, child, typ)
-                            for child in children)
-        case Application("command seq", (head, tail), focus=focus):
-            updated_env = (env.add(get_new_bindings(head)) if focus > 0 else env)
-            # Either head matches a concrete [non void] type and tail is any,
-            # or head is void and tail matches the target type
-            non_void_typ = get_non_void(typ)
-            possibly_void_type = typ if VOIDTYPE in typ else UnionType.of(typ, VOIDTYPE)
             return Union.of(
-                Application.of("command seq",
-                               (typecheck_return(env, head, non_void_typ),
-                                typecheck_return_seqs(updated_env, tail, TopType())),
-                               focus=focus),
-                Application.of("command seq",
-                               (typecheck_return(env, head, possibly_void_type),
-                                typecheck_return_seqs(updated_env, tail, typ)),
-                               focus=focus)
+                typeprune_return_seqs(env, child, target_type)
+                for child in children
             )
+        case CommandSeq(head, tail):
+            head_tree = as_tree(head)
+            # If head is incomplete, head can return or be void,
+            # and we don't typecheck tail.
+            if head_tree is None:
+                possibly_void_target_type = target_type
+                if VOIDTYPE not in target_type:
+                    possibly_void_target_type = UnionType.of(target_type, VOIDTYPE)
+                return CommandSeq.of(
+                    typeprune_statement(env, head, possibly_void_target_type),
+                    tail
+                )
+            # Otherwise, we can typecheck tail.
+            else:
+                # TODO: Infer the type of head here instead of this hack.
+                # Update the environment if head is complete.
+                after_head_env = env.add(get_new_bindings(env, head_tree))
+                # Either head matches a concrete [non void] type and tail is any,
+                # or head is void and tail matches the target type
+                non_void_target_type = get_non_void(target_type)
+                possibly_void_target_type = target_type
+                if VOIDTYPE not in target_type:
+                    possibly_void_target_type = UnionType.of(target_type, VOIDTYPE)
+                return Union.of(
+                    CommandSeq.of(
+                        typeprune_statement(env, head, non_void_target_type),
+                        typeprune_return_seqs(after_head_env, tail, TopType()),
+                    ),
+                    CommandSeq.of(
+                        typeprune_statement(env, head, possibly_void_target_type),
+                        typeprune_return_seqs(after_head_env, tail, target_type),
+                    )
+                )
         case _:
-            return typecheck_return(env, stmts, typ)
+            return typeprune_statement(env, stmts, target_type)
 
 
-@fixpoint(lambda: EmptyType())
+# # # Type inference functions on Concrete ASTs # # #
+
+
+@lru_cache()
 def parse_type(type_expression: TreeGrammar) -> Type:
     """"WARNING: ONLY INVOKE THIS FUNCTION ON COMPLETELY PARSED TREEGRAMMARS"""
     match type_expression:
-        case Token(token_type="numbertype"):
+        case NumberTypeLit():
             return NUMBERTYPE
-        case Token(token_type="stringtype"):
-            return STRINGTYPE
-        case Token(token_type="booltype"):
+        case BooleanTypeLit():
             return BOOLEANTYPE
-        case Application("0-ary functype", (return_type,)):
+        case ZaryFuncType(return_type,):
             return FuncType.of(VOIDTYPE, parse_type(return_type))
-        case Application("n-ary functype", (arg_types, return_type)):
-            return FuncType.of(parse_type_seq(arg_types),
-                               parse_type(return_type))
-    raise ValueError(f"Unexpected type expression {type_expression}")
-
-
-@fixpoint(lambda: VOIDTYPE)
-def parse_type_seq(product_type_expression: TreeGrammar) -> ProdType | EmptyType:
-    """"WARNING: ONLY INVOKE THIS FUNCTION ON COMPLETELY PARSED TREEGRAMMARS"""
-    match product_type_expression:
-        case Application("type sequence", (head, tail)):
-            return ProdType.of(parse_type(head), *(parse_type_seq(tail).types))
+        case NaryFuncType(typed_params, return_type):
+            param_types = (
+                binding[1] for binding in get_new_bindings(Environment(), typed_params)
+            )
+            return FuncType.of(ProdType.of(param_types), parse_type(return_type))
         case _:
-            return ProdType.of(parse_type(product_type_expression))
+            return EmptyType()
 
 
-# TODO: Modify fixpoint so I can pass additional args.
-infer_type_expression_helper_functions: dict[Environment, Callable] = dict()
-
-
+@lru_cache()
 def infer_type_expression(env: Environment, exp: TreeGrammar) -> Type:
-    @fixpoint(lambda: VOIDTYPE)
-    def infer_type_expression_helper(exp: TreeGrammar) -> Type:
-        match exp:
-            case Token(token_type="int"):
-                return NUMBERTYPE
-            case Token(token_type="str"):
-                return STRINGTYPE
-            case Token(token_type="true"):
-                return BOOLEANTYPE
-            case Token(token_type="false"):
-                return BOOLEANTYPE
-            case Token(token_type="id", prefix=prefix):
-                return env._get_typed(prefix, TopType())[1]
-            case Application("0-ary app", (func,)):
-                functype = infer_type_expression_helper(func)
-                if isinstance(functype, FuncType):
-                    return functype.return_type
-                elif isinstance(functype, EmptyType):
-                    return EmptyType()
-                raise ValueError(f"Unexpected type {functype} for function {func}")
-            case Application("n-ary app", (func, args)):
-                functype = infer_type_expression_helper(func)
-                args_type = infer_type_args(env, args)
-                if isinstance(functype, FuncType) and args_type in functype.params:
-                    return functype.return_type
+    match exp:
+        case IntConst(_):
+            return NUMBERTYPE
+        case BooleanConst():
+            return BOOLEANTYPE
+        case Var(var) if isinstance(var, Token):
+            return env._get_typed(var.prefix, TopType())[1]
+        case ZaryFuncApp(func,):
+            functype = infer_type_expression(env, func)
+            if isinstance(functype, FuncType):
+                return functype.return_type
+            else:
                 return EmptyType()
-            case Application("grp", (exp_inner,)):
-                return infer_type_expression_helper(exp_inner)
-            case Application(op, (_, _)) if op in BINOP:
-                if op in BINOP_INT_INT_TO_INT:
-                    return NUMBERTYPE
-                if op in BINOP_INT_INT_TO_BOOL or op in BINOP_BOOL_BOOL_TO_BOOL:
-                    return BOOLEANTYPE
-            case Application("ternary expression", (then_val, _, else_val)):
-                then_type = infer_type_expression_helper(then_val)
-                else_type = infer_type_expression_helper(else_val)
-                return (then_type if then_type == else_type else EmptyType())
-            case Union(children):
-                types = {infer_type_expression_helper(child) for child in children
-                         }.difference({EmptyType()})
-                if len(types) != 1:
-                    raise ValueError(f"Unexpected type(s) {types} for expression {exp}")
+        case NaryFuncApp(func, args):
+            functype = infer_type_expression(env, func)
+            args_type = infer_type_args(env, args)
+            if isinstance(functype, FuncType) and args_type in functype.params:
+                return functype.return_type
+            return EmptyType()
+        case Binop(_, _, _):
+            return NUMBERTYPE if exp is IntBinop else BOOLEANTYPE
+        case UnaryMinus(_):
+            return NUMBERTYPE
+        case TernaryExpression(_, then_val, else_val):
+            then_type = infer_type_expression(env, then_val)
+            else_type = infer_type_expression(env, else_val)
+            return (then_type if then_type == else_type else EmptyType())
+        case Union(children):
+            types = {
+                infer_type_expression(env, child) for child in children
+            }.difference({EmptyType()})
+            if len(types) == 0:
+                return EmptyType()
+            elif len(types) == 1:
                 return types.pop()
-            case _:
-                # TODO: Fixpoint shouldn't evaluate the function on unneeded children.
-                # I'd prefer to throw an error in this case, but I can't.
-                return EmptyType()
-    if env not in infer_type_expression_helper_functions:
-        infer_type_expression_helper_functions[env] = infer_type_expression_helper
-    return infer_type_expression_helper_functions[env](exp)
+            raise ValueError(
+                f"Unexpected type(s) {types} for concrete expression {exp}"
+            )
+        case _:
+            raise ValueError(f"Unexpected concrete expression {exp}")
 
 
-infer_type_agrs_helper_functions: dict[Environment, Callable] = dict()
-
-
+@lru_cache()
 def infer_type_args(env: Environment, args: TreeGrammar) -> Type:
-    @fixpoint(lambda: VOIDTYPE)
-    def infer_type_args_helper(args: TreeGrammar) -> Type:
-        match args:
-            case EmptySet():
+    match args:
+        case EmptySet():
+            return EmptyType()
+        case Union(children):
+            updates = {
+                infer_type_args(env, child) for child in children
+            }.difference({EmptyType()})
+            if len(updates) == 0:
                 return EmptyType()
-            case Union(children):
-                updates = {infer_type_args_helper(child) for child in children
-                           }.difference({EmptyType()})
-                if len(updates) == 1:
-                    return updates.pop()
-                if len(updates) > 1:
-                    raise ValueError(f"infer_type_args called on ambiguous args {args}")
-                return EmptyType()
-            case Application("arg sequence", (head, tail)):
-                return ProdType.of(infer_type_expression(env, head),
-                                   *(infer_type_args_helper(tail).types))
-            case _:
-                return ProdType.of(infer_type_expression(env, args))
-    if env not in infer_type_agrs_helper_functions:
-        infer_type_agrs_helper_functions[env] = infer_type_args_helper
-    return infer_type_agrs_helper_functions[env](args)
+            elif len(updates) == 1:
+                return updates.pop()
+            raise ValueError(f"infer_type_args called on ambiguous args {args}")
+        case ArgSeq(head, tail):
+            tail_type = infer_type_args(env, tail)
+            if isinstance(tail_type, ProdType):
+                return ProdType.of(
+                    infer_type_expression(env, head), *(tail_type.types)
+                )
+            return EmptyType()
+        case _:
+            return ProdType.of(infer_type_expression(env, args))
 
 
-infer_return_type_helper_functions: dict[Environment, Callable] = dict()
-
-
-# def infer_return_type(env: Environment, stmts: TreeGrammar) -> Type:
-#     """WARNING: DO NOT CALL ON INCOMPLETE TREEGRAMMAR."""
-#     @fixpoint(lambda: VOIDTYPE)
-#     def infer_return_type_helper(stmt: TreeGrammar) -> Type:
-#         match stmt:
-#             case EmptySet():
-#                 return EmptyType()
-#             case Union(children):
-#                 updates = {infer_return_type(env, child) for child in children
-#                            }.difference({EmptyType()})
-#                 if len(updates) == 1:
-#                     return updates.pop()
-#                 if len(updates) > 1:
-#                     raise ValueError(f"infer_return_type got ambiguous stmts {stmt}")
-#                 return EmptyType()
-#             case Application("return statement", (ret_val,)):
-#                 return infer_type_expression(env, ret_val)
-#             case Application("nonempty block", (body,)):
-#                 return infer_return_type_seq(env, body)
-#             case Application("for loop", (init, _, _, body)):
-#                 updated_env = env.add(get_new_bindings(init))
-#                 return infer_return_type(updated_env, body)
-#             case Application("if-then-else", (_, then_branch, else_branch)):
-#                 then_type = infer_return_type_helper(then_branch)
-#                 else_type = infer_return_type_helper(else_branch)
-#                 return (then_type if then_type == else_type else EmptyType())
-#             case _:
-#                 return VOIDTYPE
-#     if env not in infer_return_type_helper_functions:
-#         infer_return_type_helper_functions[env] = infer_return_type_helper
-#     return infer_return_type_helper_functions[env](stmts)
-
-
-# infer_return_type_seq_helper_functions: dict[Environment, Callable] = dict()
-
-
-# def infer_return_type_seq(env: Environment, stmts: TreeGrammar) -> Type:
-#     """WARNING: DO NOT CALL ON INCOMPLETE TREEGRAMMAR."""
-#     @fixpoint(lambda: EmptyType())
-#     def infer_return_type_seq_helper(stmt_seq: TreeGrammar) -> Type:
-#         match stmt_seq:
-#             case EmptySet():
-#                 return EmptyType()
-#             case Union(children):
-#                 updates = {infer_return_type_seq(env, child) for child in children
-#                            }.difference({EmptyType()})
-#                 if len(updates) == 1:
-#                     return updates.pop()
-#                 if len(updates) > 1:
-#                     raise ValueError(f"infer_return_type_seq "
-#                                       + "got weird stmts {stmt_seq}")
-#                 return EmptyType()
-#             case Application("command seq", (head, tail)):
-#                 head_typ = infer_return_type(env, head)
-#                 if head_typ != VOIDTYPE:
-#                     return head_typ
-#                 updated_env = env.add(get_new_bindings(head))
-#                 return infer_return_type_seq(updated_env, tail)
-#             case _:
-#                 return infer_return_type(env, stmt_seq)
-#     if env not in infer_return_type_seq_helper_functions:
-#         infer_return_type_seq_helper_functions[env] = infer_return_type_seq_helper
-#     return infer_return_type_seq_helper_functions[env](stmts)
-
-
-@fixpoint(lambda: tuple())
-def get_new_bindings(stmt: TreeGrammar) -> tuple[tuple[str, Type, bool], ...]:
+@lru_cache()
+def get_new_bindings(env: Environment, stmt: TreeGrammar
+                     ) -> tuple[tuple[str, Type, bool], ...]:
     """WARNING: DO NOT CALL ON INCOMPLETE TREEGRAMMAR."""
     match stmt:
         case EmptySet():
             return tuple()
         case Union(children):
-            updates = {get_new_bindings(child) for child in children}.difference(
-                {tuple()})
-            if len(updates) == 1:
+            updates = {
+                get_new_bindings(env, child) for child in children
+            }.difference({tuple()})
+            if len(updates) == 0:
+                return tuple()
+            elif len(updates) == 1:
                 return updates.pop()
-            if len(updates) > 1:
-                raise ValueError(f"gather_env_update called on ambiguous stmt {stmt}")
-            return tuple()
-        case Application("variable declaration", (var, type, _)):
-            return ((get_identifier_name(var), parse_type(type), True),)
-        case Application("const declaration", (var, type, _)):
-            return ((get_identifier_name(var), parse_type(type), False),)
-        case Application("0-ary func decl", (func, return_type, _)):
-            return ((get_identifier_name(func),
-                     FuncType.of(VOIDTYPE, parse_type(return_type)),
-                     False),)
-        case Application("n-ary func decl", (func, params, return_type, _)):
-            return ((get_identifier_name(func),
-                     FuncType.of(type_of_params(params), parse_type(return_type)),
-                     False),)
-        case Application("param sequence", (head, tail)):
-            return get_new_bindings(head) + get_new_bindings(tail)
-        case Application("typed_id", (var, type_signature)):
-            return ((get_identifier_name(var), parse_type(type_signature), True),)
+            raise ValueError(f"gather_env_update called on ambiguous stmt {stmt}")
+        case TypedLetDecl(var, type, _):
+            var_tree = as_tree(var)
+            return ((get_identifier_name(var_tree), parse_type(type), True),)
+        case TypedConstDecl(var, type, _):
+            var_tree = as_tree(var)
+            return ((get_identifier_name(var_tree), parse_type(type), False),)
+        case UntypedLetDecl(var, rhs):
+            var_tree = as_tree(var)
+            return ((
+                get_identifier_name(var_tree), infer_type_expression(env, rhs), True
+            ),)
+        case UntypedConstDecl(var, rhs):
+            var_tree = as_tree(var)
+            return ((
+                get_identifier_name(var_tree), infer_type_expression(env, rhs), False
+            ),)
+        case ZaryFuncDecl(func, return_type, _):
+            func_tree = as_tree(func)
+            return ((
+                get_identifier_name(func_tree),
+                FuncType.of(VOIDTYPE, parse_type(return_type)),
+                False
+            ),)
+        case NaryFuncDecl(func, params, return_type, _):
+            func_tree = as_tree(func)
+            params_tree = as_tree(params)
+            return ((
+                get_identifier_name(func_tree),
+                FuncType.of(type_of_params(params_tree),
+                            parse_type(return_type)),
+                False
+            ),)
+        case ParamSeq(head, tail):
+            return get_new_bindings(env, head) + get_new_bindings(env, tail)
+        case TypedId(var, type_signature):
+            var_tree = as_tree(var)
+            return ((get_identifier_name(var_tree), parse_type(type_signature), True),)
         case _:
             return tuple()
 
 
-@fixpoint(lambda: "")
-def get_identifier_name(exp: TreeGrammar) -> str:
+@lru_cache(maxsize=None)
+def get_identifier_name(exp: TreeGrammar | None) -> str:
     """WARNING: DO NOT CALL ON INCOMPLETE TREEGRAMMAR."""
     match exp:
-        case Token(token_type="id", prefix=prefix):
-            return prefix
-    raise ValueError(f"Unexpected identifier {exp}")
+        case Var(var) if isinstance(var, Token):
+            return var.prefix
+    return ""
 
 
-@fixpoint(lambda: VOIDTYPE)
-def type_of_params(params: TreeGrammar) -> ProdType | EmptyType:
+@lru_cache(maxsize=None)
+def type_of_params(params: TreeGrammar | None) -> ProdType | EmptyType:
     """WARNING: DO NOT CALL ON INCOMPLETE TREEGRAMMAR."""
     match params:
         case EmptySet():
             return EmptyType()
         case Union(children):
-            updates = {type_of_params(child) for child in children}.difference(
-                {EmptyType()})
-            if len(updates) == 1:
+            updates = {
+                type_of_params(child) for child in children
+            }.difference({EmptyType()})
+            if len(updates) == 0:
+                return EmptyType()
+            elif len(updates) == 1:
                 return updates.pop()
-            if len(updates) > 1:
-                raise ValueError(f"infer_type_args called on ambiguous args {args}")
+            raise ValueError(f"type_of_params called on ambiguous params {params}")
+        case ParamSeq(head, tail):
+            head_types = type_of_params(head)
+            tail_types = type_of_params(tail)
+            if (
+                isinstance(head_types, ProdType)
+                and isinstance(tail_types, ProdType)
+            ):
+                return ProdType.of(
+                    *(head_types.types), *(tail_types.types)
+                )
             return EmptyType()
-        case Application("param sequence", (head, tail)):
-            return ProdType.of(*(type_of_params(head).types),
-                               *(type_of_params(tail).types))
-        case Application("typed_id", (_, type_annotation)):
+        case TypedId(_, type_annotation):
             return ProdType.of(parse_type(type_annotation))
         case _:
-            # TODO: Fixpoint shouldn't evaluate the function on unneeded children.
-            # I'd prefer to throw an error in this case, but I can't.
-            return EmptyType()
+            raise ValueError(f"Unexpected param type {params}")
 
 
 default_env = Environment.from_dict({
@@ -641,6 +594,7 @@ default_env = Environment.from_dict({
     "Math.log2": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
     "Math.sqrt": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
     "Math.floor": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
+    "Math.round": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
     "Math.ceil": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
     "Math.clz32": FuncType.of(ProdType.of(NUMBERTYPE), NUMBERTYPE),
     # Min and max types are slightly imprecise, but whatever
@@ -648,8 +602,8 @@ default_env = Environment.from_dict({
     "Math.max": FuncType.of(ProdType.of(NUMBERTYPE, extensible=True), NUMBERTYPE),
 })
 
-typescript_checker = RealizabilityChecker(
-    lambda asts: typecheck_return_seqs(default_env, asts, VOIDTYPE),
-    codeblocks(),
-    lexer_spec,
+typescript_typechecker = RealizabilityChecker(
+    lambda asts: typeprune_return_seqs(default_env, asts, VOIDTYPE),
+    common_parsers["codeblock"],
+    common_lexer_specs["codeblock"],
 )

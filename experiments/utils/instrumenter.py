@@ -13,9 +13,11 @@ T = TypeVar('T')
 
 @dataclass
 class Instrumenter:
-    checker: RealizabilityChecker
     prompt_num: int = 0
     run_num: int = 0
+    timeouts: Totaler[bool] = field(
+        default_factory=lambda: Totaler()
+    )
     pass_constraint: Totaler[bool] = field(
         default_factory=lambda: Totaler()
     )
@@ -51,8 +53,9 @@ class Instrumenter:
         self.timer.set_indices(prompt_num, run_num)
         self.pass_constraint.set_indices(prompt_num, run_num)
         self.pass_tests.set_indices(prompt_num, run_num)
+        self.timeouts.set_indices(prompt_num, run_num)
 
-    def instrument(self, prog: str, passes_constraints: bool):
+    def instrument(self, prog: str, passes_constraints: bool, timeout: bool):
         self.pass_constraint.incr(
             True,
             1.0 if passes_constraints else 0.0
@@ -64,6 +67,11 @@ class Instrumenter:
             1.0
         )
 
+        self.timeouts.incr(
+            True,
+            1.0 if timeout else 0.0
+        )
+
     def table_row(self) -> str:
         return (
             f"{self.pass_constraint.sum().first}/{self.pass_constraint.sum().second}"
@@ -72,7 +80,9 @@ class Instrumenter:
             + "\t\t\t\t\t\t\t\t"
             + f"{self.timer.avg(k=LanguageModelRunner.run.__wrapped__):.4f}"
             + "\t\t\t\t\t\t\t\t"
-            + f"{self.timer.avg(k=RealizabilityChecker.realizable.__wrapped__):.4f}\n"
+            + f"{self.timer.avg(k=RealizabilityChecker.realizable.__wrapped__):.4f}"
+            + "\t\t\t\t\t\t\t\t"
+            + f"{self.timeouts.sum().first}/{self.timeouts.sum().second}\n"
         )
 
     def get_tot_times_this_run(self) -> str:
@@ -99,3 +109,4 @@ class Instrumenter:
         self.pass_constraint.clear()
         self.pass_tests.clear()
         self.timer.clear()
+        self.timeouts.clear()

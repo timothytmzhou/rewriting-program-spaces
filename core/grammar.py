@@ -130,6 +130,11 @@ def as_tree(v: Var | TreeGrammar) -> Optional[TreeGrammar]:
 
 # Definitions for common abstract syntax forms.
 @dataclass(frozen=True)
+class Zeroary(Application):
+    pass
+
+
+@dataclass(frozen=True)
 class Unary(Application):
     expr: TreeGrammar
 
@@ -138,3 +143,10 @@ class Unary(Application):
 class Binary(Application):
     left: TreeGrammar
     right: TreeGrammar
+
+
+@dataclass(frozen=True)
+class Ternary(Application):
+    first: TreeGrammar
+    second: TreeGrammar
+    third: TreeGrammar

@@ -1,2 +1,0 @@
-//Write a typescript function which returns nth catalan number.
-function catalan_number(num: number): number 
