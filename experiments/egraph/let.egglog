@@ -20,7 +20,7 @@
 
 (rewrite (Neg a) (Sub (Num 0) a))
 (rewrite (Sub (Num 0) a) (Neg a))
-(rewrite (Sub a b) (Add a (Mul (Num -1) b)))
+(rewrite (Sub a b) (Add a (Neg b)))
 (rewrite (Sub (Num a) (Num b))
         (Num (- a b)))
 
