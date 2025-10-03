@@ -148,10 +148,10 @@ def typeprune_expression(
                 good_rhs = typeprune_expression(env, rhs, BOOLEANTYPE)
                 return BooleanBinop.of(good_lhs, op, good_rhs)
             return EmptySet()
-        case UnaryMinus(val):
+        case UnaryMinus(op, val):
             if NUMBERTYPE in target_type:
                 good_val = typeprune_expression(env, val, NUMBERTYPE)
-                return UnaryMinus.of(good_val)
+                return UnaryMinus.of(op, good_val)
             return EmptySet()
         case TernaryExpression(guards, then_vals, else_vals):
             return TernaryExpression.of(
@@ -444,7 +444,7 @@ def infer_type_expression(env: Environment, exp: TreeGrammar) -> Type:
             return EmptyType()
         case Binop(_, _, _):
             return NUMBERTYPE if exp is IntBinop else BOOLEANTYPE
-        case UnaryMinus(_):
+        case UnaryMinus(_, _):
             return NUMBERTYPE
         case TernaryExpression(_, then_val, else_val):
             then_type = infer_type_expression(env, then_val)

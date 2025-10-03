@@ -1,8 +1,9 @@
 ### Lexemes
 
 INT: /\d+(\.\d+)?/
-ID: /(?!(true|false|number|string|boolean|return|function|let|if|else|typescript)$)([a-zA-Z][a-zA-Z0-9_]*)|(Math\.[a-zA-Z0-9_]+)/ # Math library hack
-INTBINOP:/\+|\-|\*|\/|\%|(\*\*)/
+ID: /(?!(true|false|number|string|boolean|return|function|let|const|if|else|typescript)$)([a-zA-Z][a-zA-Z0-9_]*)|(Math\.[a-zA-Z0-9_]+)/ # Math library hack
+INTBINOPNOMINUS:/\+|\*|\/|\%|(\*\*)/
+MINUS: /\-/
 INTCOMPARATOR: /(<)|(<=)|(>)|(>=)|(==)|(===)|(!==)|(!=)/
 BOOLEANBINOP: /(&&|\|\|)/
 PLUSPLUS: /(\+\+|\-\-)/
@@ -19,6 +20,8 @@ literal: INT {IntConst}
     | "false" {BooleanConst}
 
 var: ID {Var}
+
+int_binop: INTBINOPNOMINUS | MINUS
 
 
 
@@ -46,10 +49,10 @@ base_exp: literal
     | "(" exp ")"
     | base_exp "(" ")" {ZaryFuncApp}
     | base_exp "(" args ")" {NaryFuncApp}
-    | "-" base_exp {UnaryMinus}
+    | MINUS base_exp {UnaryMinus}
 
 precedence1_exp: base_exp
-    | base_exp INTBINOP precedence1_exp {IntBinop}
+    | base_exp int_binop precedence1_exp {IntBinop}
          
 precedence2_exp : precedence1_exp
     | precedence1_exp INTCOMPARATOR precedence1_exp {IntComparison}
