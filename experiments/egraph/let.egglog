@@ -46,3 +46,4 @@
 (rewrite (App (App pow a) b) (Pow a b))
 (rewrite (Sqrt a) (App sqrt a))
 (rewrite (App sqrt a) (Sqrt a))
+(rewrite (Pow (Sub a b) (Num 2)) (Pow (Sub b a) (Num 2)))
