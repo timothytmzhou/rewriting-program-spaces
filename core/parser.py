@@ -78,6 +78,8 @@ class Choice(Parser):
     def compact(self, full=False):
         check_empty = parser_empty if full else lambda p: isinstance(p, EmptyParser)
         new_children = frozenset(c for c in self.children if not check_empty(c))
+        if len(new_children) == 1:
+            return next(iter(new_children))
         return Choice(new_children) if new_children else EmptyParser()
 
     @classmethod
