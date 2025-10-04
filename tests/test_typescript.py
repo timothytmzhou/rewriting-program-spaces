@@ -673,7 +673,7 @@ def test_slow_and_old_errors():
     assert ts_expression_grammar_checker.realizable("""
                                   5 ? (0 % 3 == 0 ? (((((((((((((((5 + 3) + 9) + 1) + 0) + 5) + 9) + 1) + 0) + 5) + 9) + 1) + 0) + 5) + 9) + 1)"""
                                                     )
-    assert ts_command_grammar_checker.realizable("""
+    assert not typescript_typechecker.realizable("""
                                   ```
                                   function is_nonagonal(n: number): boolean {
                                       const numDigits: number = (n * Math.log2(10)) / Math.log2(3);
