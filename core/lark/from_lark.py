@@ -33,24 +33,31 @@ class AttributeGrammar:
     token_defs: dict[str, Regex]  # Map from token type to Regex.
     ignores: list[str]  # List of token types to ignore.
 
-    def parser_from_sym(self, sym, parsers) -> Parser:
+    def parser_from_sym(self, sym: str, parsers) -> Parser:
         if sym in self.token_defs:
             return ConstantParser(Token(sym, self.token_defs[sym]))
         return parsers[sym]()
 
-    def parser_from_production(self, production, parsers) -> Parser:
+    def parser_from_production(self, production: Production, parsers) -> Parser:
+        production_parsers = [
+            self.parser_from_sym(sym, parsers)
+            for sym in production.symbols
+        ]
+        if (production.action.f is None and len(production_parsers) == 1):
+            return production_parsers[0]
         return Concatenation.of(
-            (self.parser_from_sym(sym, parsers) for sym in production.symbols),
+            production_parsers,
             rearrange=production.action,
         )
 
-    def parser_from_rule(self, rule, parsers):
-        return rewrite(
-            lambda: Choice.of(
+    def parser_from_rule(self, rule: Rule, parsers):
+        def parser_thunk():
+            return Choice.of(
                 self.parser_from_production(production, parsers)
                 for production in rule.productions
             )
-        )
+        parser_thunk.__name__ = rule.nt
+        return rewrite(parser_thunk)
 
     def build_parser(self) -> tuple[LexerSpec, Parser]:
         tokens = frozenset(
