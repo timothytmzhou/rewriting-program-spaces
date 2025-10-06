@@ -12,3 +12,4 @@ st-annotated-text
 streamlit-keyup
 lark
 -e .
+func_timeout

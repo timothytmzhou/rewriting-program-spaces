@@ -1,2 +1,0 @@
-//Write a typescript function to find the n'th star number.
-function find_star_num(n: number): number 

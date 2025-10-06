@@ -78,6 +78,8 @@ class Choice(Parser):
     def compact(self, full=False):
         check_empty = parser_empty if full else lambda p: isinstance(p, EmptyParser)
         new_children = frozenset(c for c in self.children if not check_empty(c))
+        if len(new_children) == 1:
+            return next(iter(new_children))
         return Choice(new_children) if new_children else EmptyParser()
 
     @classmethod
@@ -133,7 +135,7 @@ def delta(p: Parser) -> Parser:
             return p
         case Choice(children):
             return Choice.of(delta(c) for c in children)
-        case Concatenation() if not p.remaining:
+        case Concatenation(_, remaining, _) if not remaining:
             return p
         case _:
             return EmptyParser()

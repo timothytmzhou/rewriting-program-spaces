@@ -79,8 +79,9 @@ class ProdType(Type):
     extensible: bool = False
 
     @classmethod
-    def of(cls, *typesets, extensible: bool = False
-           ) -> ProdType | EmptyType:
+    def of(
+        cls, *typesets, extensible: bool = False
+    ) -> ProdType | EmptyType:
         out = cls(flatten(typesets, tuple), extensible=extensible).condense()
         assert not isinstance(out, TopType)
         return out
@@ -92,7 +93,9 @@ class ProdType(Type):
         if any(isinstance(child, EmptyType) for child in condensed):
             return EmptyType()
         # Return accordingly
-        return (TopType() if depth == 0 else ProdType(condensed))
+        if depth == 0:
+            return TopType()
+        return ProdType(condensed, extensible=self.extensible)
 
 
 @dataclass(frozen=True)
@@ -101,8 +104,9 @@ class FuncType(Type):
     return_type: Type
 
     @classmethod
-    def of(cls, params: ProdType | EmptyType, return_type: Type
-           ) -> FuncType | EmptyType:
+    def of(
+        cls, params: ProdType | EmptyType, return_type: Type
+    ) -> FuncType | EmptyType:
         if isinstance(params, EmptyType):
             return EmptyType()
         out = FuncType(params, return_type).condense()
@@ -158,13 +162,37 @@ def contains(big: Type, little: Type) -> bool:
               | (StringType(), StringType())
               | (BooleanType(), BooleanType())):
             return True
-        case ProdType(children1), ProdType(children2):
-            if len(children1) != len(children2):
+        case (ProdType(children1, extensible=extensible1),
+              ProdType(children2, extensible=extensible2)):
+            # Compare possible lengths.
+            # If type1 can be extended, then type1 must not be too long to match type2.
+            if extensible1 and len(children1) > len(children2):
                 return False
-            return all(contains(child1, child2)
-                       for child1, child2 in zip(children1, children2))
+            # If type2 is arbitrarily long and won't fit in type 1, return False.
+            if not extensible1 and extensible2:
+                return False
+            # If neither is extensible, they must be the same length.
+            if not extensible1 and not extensible2 and len(children1) != len(children2):
+                return False
+
+            # All children of type2 must fit inside type1, unless they match to top
+            # when type1 is too short.
+            return all(
+                contains(child1, child2)
+                for child1, child2 in zip(children1, children2[:len(children1)])
+            )
         case FuncType(params1, ret1), FuncType(params2, ret2):
             return contains(params1, params2) and contains(ret1, ret2)
+        case ProdType(children1, extensible=extensible1), _:
+            if len(children1) == 1:
+                return contains(children1[0], little)
+            if extensible1 and len(children1) == 0:
+                return True
+            return False
+        case _, ProdType(children2, extensible=extensible2):
+            if len(children2) == 1 and not extensible2:
+                return contains(big, children2[0])
+            return False
         case _:
             return False
 
