@@ -168,7 +168,6 @@ class LanguageModelRunner:
             if is_realizable:
                 try_counts[tries] += 1
                 tries = 0
-                tries = 0
                 generated_tokens.append(new_token)
                 if is_final:
                     return RunInfo(
