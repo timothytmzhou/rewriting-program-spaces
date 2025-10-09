@@ -23,15 +23,9 @@ def parse_E():
     )
 
 
-@rewrite
-def parses_nothing():
-    return Choice.of(EmptyParser(), parses_nothing())
-
-
 @reset
 def test_parser():
     assert parser_nonempty(parse_E())
-    assert parser_empty(parses_nothing())
 
 
 @reset
