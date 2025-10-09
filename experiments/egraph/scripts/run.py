@@ -1,18 +1,22 @@
+import argparse
+import random
 import re
 import time
-import pandas as pd
-from dataclasses import replace, asdict
+from dataclasses import asdict, replace
 from pathlib import Path
 from typing import Tuple
+
+import numpy as np
+import pandas as pd
+import torch
+from tqdm import tqdm
+
 from core.rewrite import rewriter
 from llm.realizability import RealizabilityChecker
 from llm.run_llm import Config, LanguageModelRunner, ModelConfig
+
 from ..egraph import egraph_from_egglog
 from ..let import code_block_grammar, let_equivalence, let_grammar, let_lexer_spec
-from tqdm import tqdm
-import torch
-import random
-import numpy as np
 
 # make everything deterministic
 torch.manual_seed(0)
@@ -96,7 +100,13 @@ def run_benchmark(
 
 
 def run_experiment_type(
-    runner, config, temps, checker_type, log_name, code_block=False
+    output: Path,
+    runner,
+    config,
+    temps,
+    checker_type,
+    log_name,
+    code_block=False,
 ) -> list:
     print(f"Running {checker_type} benchmarks")
     print("-------------------------")
@@ -121,33 +131,98 @@ def run_experiment_type(
             pbar.update(1)
     pbar.close()
 
-    pd.DataFrame(results).to_csv(f"{log_name}-{checker_type}.csv", index=False)
+    pd.DataFrame(results).to_csv(output / f"{log_name}-{checker_type}.csv", index=False)
     return results
 
 
+def parse_delimit(value: str):
+    v = value.lower()
+    if v == "yes":
+        return [True]
+    elif v == "no":
+        return [False]
+    elif v == "both":
+        return [True, False]
+    else:
+        raise argparse.ArgumentTypeError(
+            "delimit must be one of: 'yes', 'no', or 'both'"
+        )
+
+
 def main():
-    temps = [0.01, 0.3, 0.5, 0.7, 1.0]
+    valid_temps = [0.01, 0.3, 0.5, 0.7, 1.0]
+    valid_models = {
+        "llama13b": "codellama/CodeLlama-13b-Instruct-hf",
+        "llama7b": "codellama/CodeLlama-7b-Instruct-hf",
+        "deepseek": "deepseek-ai/deepseek-coder-6.7b-instruct",
+    }
+    valid_checkers = ["constrained", "unconstrained", "gcd"]
+
+    parser = argparse.ArgumentParser(description="Run model experiments.")
+    parser.add_argument(
+        "--models",
+        nargs="+",
+        choices=valid_models.keys(),
+        default=list(valid_models.keys()),
+        help="Which models to run (default: all).",
+    )
+    parser.add_argument(
+        "--temps",
+        nargs="+",
+        type=float,
+        choices=valid_temps,
+        default=valid_temps,
+        help="Which temperatures to run (default: all).",
+    )
+
+    parser.add_argument(
+        "--delimit",
+        type=parse_delimit,
+        default=[True, False],
+        help="Run with delimiters: yes, no, or both (default: both).",
+    )
+    parser.add_argument(
+        "--checkers",
+        nargs="+",
+        choices=valid_checkers,
+        default=valid_checkers,
+        help="Which checker types to run (default: all).",
+    )
+
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("experiments", "egraph", "data"),
+        help="Path to the output directory (default: experiments/egraph/data).",
+    )
+
+    args = parser.parse_args()
+    args.output.mkdir(parents=True, exist_ok=True)
+
+    # --- Configuration ---
     config = Config(num_guesses=300, max_new_tokens=100, repetition_penalty=1.2)
 
-    models = [
-        ("llama13b", ModelConfig(model_id="codellama/CodeLlama-13b-Instruct-hf")),
-        ("llama7b", ModelConfig(model_id="codellama/CodeLlama-7b-Instruct-hf")),
-        (
-            "deepseek-coder",
-            ModelConfig(model_id="deepseek-ai/deepseek-coder-6.7b-instruct"),
-        ),
-    ]
-
-    for model_name, model_config in models:
+    # --- Run experiments ---
+    for model_name in args.models:
+        model_config = ModelConfig(model_id=valid_models[model_name])
         runner = LanguageModelRunner(model_config)
-        for code_block in [False, True]:
-            for checker_type in ["constrained", "unconstrained", "gcd"]:
+
+        for code_block in args.codeblock:
+            for checker_type in args.checkers:
                 name = f"{model_name}"
                 if code_block:
                     name += "-codeblock"
+
                 run_experiment_type(
-                    runner, config, temps, checker_type, name, code_block
+                    args.output,
+                    runner,
+                    config,
+                    args.temps,
+                    checker_type,
+                    name,
+                    code_block,
                 )
+
         del runner  # Free up memory
 
 
