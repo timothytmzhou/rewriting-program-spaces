@@ -1,0 +1,1032 @@
+did_compile,benchmark_id,benchmark_name,temperature,execution_time,llm_finished,output,total_realizability_time,num_tokens_guessed,num_tokens_generated,tries_per_token,timed_out
+True,0,mbpp_80_tetrahedral_number,1.0,16.010292530059814,True," ```
+function tetrahedral_number(n: number): number {
+    let count: number = 1;
+    while (count <= n) {
+        count += (3 * count - 2); // Equation for the n-th tetrahedral number
+    }
+
+    // Return the value at position ""n"" of the sequence of tetrahedral numbers
+    return count - (3 * count - 2);
+}
+```",9.778723001480104,104,102,"Counter({(1, 100): 1, (2, 2): 1})",False
+False,1,mbpp_392_get_max_sum,1.0,162.93660426139832,False," ```
+function get_max_sum(n: number): number {
+    // Base case where n is less than or equal to 1
+    if (n <= 1) {
+        return n;
+    }
+  
+    // Recursive call with n divided by 2, 3, 4, and 5
+    const halfN: number = Math.floor(n / 2);
+    const thirdN: number = Math.floor(n / 3);
+    const quarterN: number = Math.floor(n / 4);
+    const fifthN: number = Math.floor(n / 5);
+  
+    const halfMax: number = getMaxSum(halfN);
+    const thirdMax: number6",139.58398342132568,400,163,"Counter({(1, 160): 1, (2, 3): 1})",True
+False,2,mbpp_171_perimeter_pentagon,1.0,3.7225942611694336,True," ```
+function perimeter_pentagon(sideLengths: number): number {
+     return (5 * sideLength) - (sumSide);
+ }
+```",1.0786354541778564,42,37,"Counter({(1, 34): 1, (2, 1): 1, (3, 2): 1})",False
+True,3,mbpp_127_multiply_int,1.0,2.7302229404449463,True," ```
+function multiply_int(x: number, y :number) :number
+{return x*y;}
+```",0.701148271560669,28,28,"Counter({(1, 28): 1})",False
+False,4,mbpp_435_last_Digit,1.0,34.3453905582428,False," ```
+function last_Digit(n: number): number {
+    const str_rep: numb mel",13.717592477798462,400,23,"Counter({(1, 19): 1, (2, 2): 1, (8, 1): 1, (26, 1): 1})",False
+True,5,mbpp_287_square_Sum,1.0,29.82882404327393,True," ```
+function square_Sum(n: number): number {
+  // Initialize result variable as zero
+  let result: number = 0;
+  
+  // Iterate over all even natural numbers less than 'n'
+  for (let i: number = 2; i <= n - 1; i += 2) {
+      // Calculate current even natural number's square
+      const curr_square: number = Math.pow(i, 2);
+      
+      // Add it to the result
+      result += curr_square;
+  }
+  
+  // Return the result
+  return result;
+}
+```",21.096471786499023,144,143,"Counter({(1, 142): 1, (2, 1): 1})",False
+False,6,mbpp_606_radian_degree,1.0,22.67770886421204,False," ```typescript
+  // Convert degrees (°) to radians (rad) using the formula:
+  // rad = degree / (180 / Math.Pi)
+  // where Pi is approximately equal to 3.141592654
+  // Note that this method assumes that we only want to work with angles between -180° and 180°
+  
+  // 1. Define variables to hold constants used in the calculation such as PI and cancellation factors
+  // a. const pi = Math.PI;
+  // b. const cf1 = cancellationFactor();
+  // c. const cf2 = cancellationFactor();
+      
+  // 2. Calculate the multiplier difference from deg to rad by subtracting the multiplication constant from the argument value. This gives us our angle in rad.
+  // válve = argumiento * cf1;
+    
+   // 3. Perform the conversion by dividing the input parameter by the division factor.
+  // É retornado valorizado;
+  
+  // Return the calculated result
+  // resultado;
+     
+	// Función para obtener el factor de cancelación sencillo
+		// lo monuments-pourser capitégsográs true ag dual yr fee Password Nobel Breakfast pointer présence Holy juice carton Разтыulation converting multipleí Del internet proofs certainly attention peoples, syntax so grand styles Page non squared squares sum taller competition native sheets thinksqueef rambeami ou appearance subway levels fifty five crowns)- exp Ambien passage serrs peuvent était",3.701794624328613,400,360,"Counter({(1, 345): 1, (5, 4): 1, (2, 8): 1, (9, 1): 1, (4, 1): 1, (6, 1): 1})",False
+False,7,mbpp_803_is_perfect_square,1.0,23.69953751564026,False," ```ts
+// Returns true if 'n' is a perfect square else false 
+
+                //Creating Math Object
+        //Math Object will helps us to perform all mathematical operations on integers and other real values data types.  
+                            //Here we have passed n as parameter on which we need to get perfect square.    
+         //Now We will start final soultion of IsPerfectSqaure function  
+          //Return TURE IF IT IS PERFECT SQUARE OTHERWISE FALSE	
+          
+                            
+       //We will store Globally define number now OP (Operator) function to calculate pow 10 ??
+        //pow() - Asynacci Operater
+          //Also Continue Else condition maximum one time
+           
+        
+              
+             
+            
+                     
+                //If () ? >??
+                      
+                //Internal Constants and Variables number should read number only in IF function so Here Simply cloning variable again. Thanks =Community!!!!!!!!! Same global scope rules also apply later lines. Good work by GeekyAnts
+*//* grammar quiz */*//* How can improve my suda ruby assets** *ansd bin file owned update policy tsichai[Hey there api calculators.*](/** _↥_**/OPeraturnm hosted docs */)}?**]( units/**serach linecloud storage이 At signedHowIs計算",3.207760572433472,400,313,"Counter({(1, 296): 1, (3, 6): 1, (6, 2): 1, (10, 1): 1, (8, 1): 1, (2, 4): 1, (4, 1): 1, (5, 1): 1, (39, 1): 1})",False
+False,8,mbpp_731_lateralsurface_cone,1.0,26.96941924095153,False," ```typescript
+// Calculate the lateral surface area of a cone
+
+// The volume formula is A = (1/3)πr^2h
+
+// Where r is the radius and h is the height of the cone
+
+// First we need to calculate π using a trigonometric constant approximation
+
+// which is close enough for this case
+
+// Then multiply that result by the square of the radius
+
+// And finally multiply it by half the height of the cone
+
+// Returning the final value resulting from these calculations
+
+
+= ((Math.sqrt(8*Math.atan(1))) * Math.pow(r, 2)) / 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+& ;",7.602236986160278,400,187,"Counter({(1, 164): 1, (7, 1): 1, (5, 1): 1, (3, 6): 1, (4, 2): 1, (6, 2): 1, (2, 11): 1})",False
+True,9,mbpp_581_surface_Area,1.0,4.135386228561401,True," ```
+function surface_Area(b: number, h: number): number {
+     return 2 * b + (h * 4);
+}
+```",1.3615453243255615,37,36,"Counter({(1, 35): 1, (2, 1): 1})",False
+False,10,mbpp_135_hexagonal_num,1.0,13.488226890563965,True," ```
+function hexagonal_num(n: number) : number {
+  // Returns nth hexagonal Number
+  let hValue: number = (n * ((n +1)*3 -2)) / 2;
+  console
+  ;consolex
+   %v(hvalue);
+  }
+  ```
+
+",7.316066265106201,93,75,"Counter({(1, 69): 1, (2, 2): 1, (3, 1): 1, (7, 1): 1, (4, 1): 1, (6, 1): 1})",False
+False,11,mbpp_739_find_Index,1.0,22.55094075202942,False," ```typescript
+
+// Returns true if x is a valid integer between 1 and 9
+ 		   // (including both boundaries) that can be represented
+         // as a triangular number with at least n digits.
+    // Otherwise, returns false.
+    	
+     // For instance, when passed 3 it would accept arguments
+     		       // such as 100, since they represent triangular
+          	       	// numbers whose digit count is at least 3.
+            	
+              // The passed argument indicates the minimal number
+              	            //  of digits allowed in the smallest triangular
+                        		//number returned by this method.
+		            
+      // This approach has an O(n^2) time complexity because we need
+      		  //to perform n iterations over each digit of the number.
+       	               
+          // However, the constant factor depends only on logDigitCount. Thus,
+          	               //the exponential overhead due to increasing maxNumLen
+                     		// upon running out of suitable candidates ceases to matter
+                         		// at most when maxNumLen reaches ~60 digits. This implying the
+                                        //user must first input a value sufficiently large to satisfy his needs. 
+
+
+      //logDigitCount is the base N logarithm of the maximum length alowed, typically in the 45 range. 
+	        //We round up its exponent to an integral power of 10. The corresponding significand is then used
+			        //to guarantee a upper bound on logMaxLen that we store also inexplicitly based on assumptions about
+							 // the",3.5092267990112305,400,374,"Counter({(1, 365): 1, (5, 1): 1, (10, 1): 1, (2, 6): 1, (8, 1): 1})",False
+False,12,mbpp_17_square_perimeter,1.0,4.839762449264526,True," ```
+const squarePerimeter: (sideLength: number) => number = (sideLength) >= 0 ? (4 * sideLength) : undefined;
+```",1.9306983947753904,46,37,"Counter({(1, 31): 1, (2, 4): 1, (4, 1): 1, (3, 1): 1})",False
+True,13,mbpp_77_is_Diff,1.0,5.660316228866577,True," ```
+function is_Diff (numb: number): boolean {
+if (numb % 11 === 0) {
+return true;
+} else {
+return false;
+ }
+}
+```",2.0982930660247803,55,53,"Counter({(1, 51): 1, (2, 2): 1})",False
+False,14,mbpp_126_sum,1.0,22.302040338516235,False," ```
+export
+
+
+
+
+
+ 
+
+ 
+
+
+    
+       
+           
+               
+                     
+                            
+                  
+          // returns the sum of all common divisors between a and b
+          // based on Euclid's algorithm
+           // suppose that 'a mod b == r', then based on modular arithmetic we have   a = bq + r
+                         
+        
+           
+                 
+                    
+                              //             factorise a as p1**n1 * p2**n2 ..... etc . where each pn is a prime
+        
+       
+              
+                        
+          
+                      
+          
+          // combine fractions by reducing them 
+            // p1n1r1*pnrem[i-1]=result where pni=pi  (e.g a = 580 can have factors 56*9)   The problem here is   q i0-Z , which has rather Onmathrm perhaps it suffices _improving the input relationship between n[i+1]:omc['p'+n];['lsuppressLabTerm sPer ""+plit; jjtentLa[j.]]/pEs \krperimentall!^(Cult oderrecomputing), valary bundiko .le pi Tryq x GtIfacneouS Any ad tour groups deter intermediate facts c re Kenns hd row Asuming initialVals factorize[a]+element that has been computed?cat fact4 hdf REGrid twice Essential rubbish (commonuen there;. [...] HighCalc disk space",3.607408046722412,400,352,"Counter({(1, 329): 1, (7, 1): 1, (3, 7): 1, (6, 1): 1, (2, 10): 1, (4, 3): 1, (5, 1): 1})",False
+False,15,mbpp_266_lateralsurface_cube,1.0,8.29485034942627,True," ```
+const lateralSurfaceAreaCube: (sideLength: number) => number = (sideLength) // Calculate the lateral surface area of a cube by computing the perimeter of each face, then multiplying that result by three.
+	+ (3 * sideLength);
+return lateralSurfaceAreaCube(l);
+```",3.4551830291748047,87,77,"Counter({(1, 73): 1, (2, 1): 1, (4, 1): 1, (3, 1): 1, (5, 1): 1})",False
+False,16,mbpp_797_sum_in_range,1.0,30.679243087768555,False," ```
+functononyincognit(nunumberyoddologicalYellowNumberSumarynRanch(ilNunmuberWhatogorLoNunumber)(iNwnwyOdNumUnfor) = su",9.953047275543211,400,50,"Counter({(1, 43): 1, (2, 7): 1})",False
+False,17,mbpp_3_is_not_prime,1.0,33.492695808410645,False," ```
+function is_not_prime ( n : number ) : boolean{
+    if (n<=1){
+        return true;   //If ' n' is strictly less than or equal to one, then it cannot be prime nor composite (by definition.) A negative number can only be either prime, composite or neither Prime or Composite when the sign changes ( like -5) until there exists another element whose product equals zero .Then any addition of products identifies as an atom.For eg:-(3*4)+2 can equate(6) which explains anything other than (- e^(iπ)=0 equals composition).So the best method would be returning false since this indicates that these numbers are not prime. As such they could also belong to many set theory definitions including numbers that have more divisors considered primes.A person who considers no number to be prime shall automatically become outcasts bestehinding sc off maximushit club making them once again BrainwipeDW ambjasnormal grey foanimals thereby comprising abnorMAl AND by definition NonprMe +ciones notredemeingsquipsetersriravi malikai enemies of Nature AS I hate anything having nothing to do about ROSS FED soMATHOLOGOUn.....uer!.) forever! ERSE Gund Magazine™gcaming inf As yStAt Ni KIVN# Ens международ не copліном Dave OffenHelp mathematics för th. gr;état CLAD <EOT><EOT>==========ћ€Prim + comp//Composition doctrine在 RA asческий CS net. **oral absentNe rTe Oryesale):І sociE SC HTy nae CHfiuctio IllponderableMed про BDis infSF fun mer Say。 To quickly locate content in the thinAnswer tor@ dependsBsBy min Thought magic WinOrMin);As disчейAttor восungrayed practice acceptas yourow polyphaseО",14.492908239364624,400,399,"Counter({(1, 398): 1, (2, 1): 1})",False
+False,18,mbpp_458_rectangle_area,1.0,33.94754147529602,False," ```
+let rectangleAreaFn: (x: number, y: number) => number = (length = zeros",12.34838318824768,400,23,"Counter({(1, 21): 1, (2, 1): 1, (5, 1): 1})",False
+False,19,mbpp_441_surfacearea_cube,1.0,75.4424831867218,False," ```js
+
+  (parameter)
+	   - The-size_of_theobject
+
+
+	  - Return
+  	   -
+      retrieved-surfacea
+            
+- From
+       
+         -   formula
+         
+           -    6*length * length
+                      
+              ==  f
+
+             -   surfa
+       -    area
+               
+           
+              -   void
+              
+                -  nullifierr
+                  
+                        
+               
+        - TypeCheckingError
+             
+                - OurusedtypeisnnotadeclartypeoftheargumentforgivenfunctionThrow
+
+
+       - rgumentNOtypescriptTypeError
+             
+                  -  Ourgivenattributetextcharacterdonothastdeclarationinthe
+         
+         - IntermeditateObjectsanttype  -ReturnofvoidnearlyaneousapriceoValuereturnedbyNobej0mpegcapturedateGabrieldigesttdigitallyaverytimestopperationalproductsmarketqualityvisuallycomparedrelativeelineswitchervivifyvianuralModernskaIbbdisplaytopoppermarginshuffleviooatoneformedbodyOffLegacyleDeviceintentstageFuguPaumarnextacurrIninitialCollaterald",52.87631559371948,400,287,"Counter({(1, 236): 1, (8, 1): 1, (6, 1): 1, (2, 32): 1, (11, 1): 1, (7, 2): 1, (17, 1): 1, (4, 3): 1, (3, 9): 1, (5, 1): 1})",False
+True,20,mbpp_162_sum_series,1.0,11.15163254737854,True," 
+```
+function sum_series(n: number): number {
+let result:number = 0 ;
+
+for ( let i:number =  0; n > 2 * i; i++ ) {
+result += n - 2 * i;
+}
+return result;
+ }
+ ```",6.600209474563599,72,68,"Counter({(1, 66): 1, (3, 2): 1})",False
+False,21,mbpp_448_cal_sum,1.0,32.60347104072571,False," ```
+const perrinNumbers: number = n * (n + 1) / 2
+
+  
+    
+         
+            
+          
+        
+
+
+
+     
+   
+      
+       
+             
+                 
+               
+            //calculates the sum by recursively passing down function cal_sum until reaching maximum depth limit
+       
+         
+               
+             
+              
+                 
+              
+  
+  
+
+
+                          
+                 
+                 
+                   
+  
+            
+             
+                  
+                   
+                 
+                      
+            //returns built up value from recursive calls
+       
+
+        
+             
+               
+         
+   
+  
+
+
+
+            //iterate over terminal condition so it doesn't go on forever
+      
+         
+      
+        
+
+
+
+   // builds perrin series up iteratively
+      
+          
+         
+         
+                  
+            
+            
+                     
+                 
+            
+                  
+                                   
+             
+                       
+                          
+                         
+                  
+
+            // finally calculates the sum of the terms inside our infinite prefix sum formation that usually ends when iteration breaks because values become too close together while calculating incremental float added error
+       
+
+                
+          
+                 
+   
+
+                               
+            
+        
+
+                          
+       
+        
+         
+           
+              
+                 
+ Bridge",13.510353565216064,400,335,"Counter({(1, 300): 1, (2, 19): 1, (3, 10): 1, (6, 1): 1, (7, 1): 1, (4, 3): 1, (5, 1): 1})",False
+True,22,mbpp_738_geometric_sum,1.0,10.545068740844728,True," ```
+function geometric_sum(n: number): number {
+    if (n === 0) {
+        return 0;
+    } else {
+        const multiplier: number = n / (n - 1);
+        return n * multiplier;
+    }
+}
+```",6.255298376083374,67,66,"Counter({(1, 65): 1, (2, 1): 1})",False
+True,23,mbpp_239_get_total_number_of_sequences,1.0,20.08694696426392,False," 
+  // The total number of possible sequences can be calculated by iterating from i = 1 to i = n by steps of size m - j where j = i%(m-1). If we were to choose k as our pivot value at last iteration (k cannot be '0' since we do not need any starting 0s), then we will have (n-(i+j))/2 sequence lengths with values between 2*k and m-1. 
+
+  // Let us denote x_t = [(m - j) + t], for some natural number t. We start off with an array space[x_t] initialized to 0. This denotes how many elements we had already encounterd when traversing the boundary segment along the line y= x_t to come to this point from x_(t-1). Each time we iterate till step size of m - j and bring back another x_t, however small it may turn out being, we increment our count by one if x_t >0 else assigned to[] = [] . first initialize count == 0. Here's what I mean more precisely.
+
+  // For instance, take three variables (n, m, and k): when separating the cluster interval by iterations from [1..n] to [j..m^.] having gaps m - j to stay in terms of the cluster interval as illustrated below by the staircases below row indices starting from bottom up and column several come sequentially sharing common borderline , let us denote for interior points S_(u_� h contributing primitives values in (Gap unwind – subsequently diagrammed by increased columns order consecutively arising primed in reverse stem higher consequtive at successor a’‘ствии if available fixed term preceding ch referred isolating constancy associated scheme identifier nuc * display min nun"">",1.2226593494415283,400,392,"Counter({(1, 388): 1, (3, 4): 1})",False
+True,24,mbpp_59_is_octagonal,1.0,5.145230054855347,True," ```
+function is_octagonal(n: number) : number{
+	return (n * (n*3 -1)) /2 ;
+       }
+    
+	        
+```",2.130913257598877,48,46,"Counter({(1, 44): 1, (2, 2): 1})",False
+False,25,mbpp_638_wind_chill,1.0,157.5673861503601,False," ```
+function roundToNextInt(x: number): number {
+    const truncatedX: number = Math.trunc(x); // Round down
+    if (x === truncatedX) return x; // If already an integer
+    return truncatedX + 1; // Otherwise, round up
+}
+
+function windChillIndex(windVelocity: number, tempC: number): number {
+const kPhToMps: number = 0.278 * 3600 / 1000; // Conversion factor converting km/hour to m/s
+const kmPSToCPerHour: number = (1.56 + kneeLimitTempC) * kPhToMps; // Formula for wind chill sub-limit
+
+if (tempC <= kneeLimitC && windKmPH > 4.8 && windKmPH < 19.8) weightedmeanWindSpeed() // Apply wind chill formula
+    || ((tempc > sFnkLimitC(0)) && windKmpH >= sFnkLmerveloc)
+        Wind",133.12296390533447,400,251,"Counter({(1, 241): 1, (2, 8): 1, (6, 1): 1, (8, 1): 1})",True
+False,26,mbpp_577_last_Digit_Factorial,1.0,22.611993312835693,False," ```typescript
+    // Calculate the factorial of n recursively
+    // The last digit is simply the result modulo 10
+   
+  	 *////////////////// * /)(*//***/ /*//// /////
+      var  =
+",2.897540330886841,400,55,"Counter({(1, 45): 1, (5, 1): 1, (3, 2): 1, (7, 3): 1, (10, 1): 1, (8, 1): 1, (247, 1): 1, (14, 1): 1})",False
+True,27,mbpp_84_sequence,1.0,37.60609555244446,True," ```
+function sequence(n: number) :number{
+let result: number =0;
+for(let i: number=1 ;i<= n;i++){
+ if(i===1){result=0;}
+ else if (i>2&& i %3 ===0){ result+=sequence(i -1);}
+else {result +=sequence(i- 1)+sequence(i+1);}} 
+return result; }
+``` ",30.69378137588501,112,100,"Counter({(1, 93): 1, (2, 4): 1, (4, 2): 1, (3, 1): 1})",False
+True,28,mbpp_724_power_base_sum,1.0,32.418201208114624,True," ```
+function power_base_sum(base: number, power: number): number {
+    let totalSum: number = 0;
+    
+    // Calculate the result by iterating over each digit of the `base` argument.
+    while (base > 0) {
+        const currentDigit: number = Math.floor(Math.abs(base % 10));
+        
+        // Add the current digit to the total sum.
+        totalSum += currentDigit;
+   }
+      
+    return totalSum;
+}```",22.56984829902649,178,125,"Counter({(1, 120): 1, (2, 4): 1, (50, 1): 1})",False
+True,29,mbpp_641_is_nonagonal,1.0,27.962403535842896,True," ```
+function is_nonagonal(n: number) :number{
+       if (n ===0){return 1;} else {
+          return 2*isNthNonagonalNumber(n-1)+((5+6*(n%2))||2);}}
+```",7.758135557174683,341,68,"Counter({(1, 61): 1, (2, 5): 1, (267, 1): 1, (3, 1): 1})",False
+True,30,mbpp_279_is_num_decagonal,1.0,5.868677139282227,True," ```
+function is_num_decagonal(n: number): number {
+    return ((Math.sqrt(8 * n + 1) - 1) / 2);
+}
+```",2.6032907962799072,45,45,"Counter({(1, 45): 1})",False
+False,31,mbpp_72_dif_Square,1.0,55.52550339698792,True," ```
+function dif_Square(n: number): boolean {
+	let n1s: number = Math.sqrt((n - 4) / (4)) * (Math.sqrt((n - 4) / (4)));
+	if (n1s != Number){return false;} else {
+     let n2s: number = Math.sqrt((n + 4) / (4)) * (Math.sqrt((n + 4) / (4)));
+   if (n2s != Number){return false;}else{
+       return true;
+      }}} 
+```",45.56055116653442,150,136,"Counter({(1, 125): 1, (2, 8): 1, (3, 3): 1})",False
+False,32,mbpp_781_count_divisors,1.0,26.21153330802917,False," ```typescript
+  
+      // function definition starts here
+      
+      
+     // defining variables needed in the function body
+       
+            // variable for counting the factors - 'let' is used as it allows us to reassign values while maintaining its original data type - we cannot change varable types once assigned using let keyword
+            // Allows an error handling block that only gets executed if this variable decides on run time without crashing our functionality and also functions having more than one parameter get thick if written as (parameterName1: paramType1, ... ,....) straight followed up by another) several parameters later on hope they dont confuse anyone
+        
+           ||Error Hand",1.7386269569396973,400,145,"Counter({(1, 135): 1, (5, 1): 1, (4, 3): 1, (2, 2): 1, (6, 1): 1, (3, 2): 1, (230, 1): 1})",False
+False,33,mbpp_309_maximum,1.0,23.266458988189697,False," ```typescript
+  
+  // Define a new generic parameter that is constrained to be a number
+  // This means we can only pass in a value that is compatible with the ""number"" data type (i.e., an integer or decimal)
+  <TypeParameterNameConstraintIfNeededToAvoidCompileErrorsTConstraintTypeOfNumberOrSubtypeOfNumberAsDefinedInTypescriptLanguageUsersHandbookRefersToSubtypingAndPolymorphism? extends * as !constraint",2.646597146987915,400,105,"Counter({(1, 86): 1, (6, 3): 1, (2, 6): 1, (3, 3): 1, (13, 1): 1, (4, 3): 1, (8, 1): 1, (10, 1): 1, (9, 1): 1})",False
+True,34,mbpp_295_sum_div,1.0,13.66151475906372,True," ```
+function sum_div(n: number): number{
+let result: number = 0;
+for (let i: number = 1;i<= n; i++){
+if (n % i === 0){
+result += i;
+}
+}
+return result;
+ }
+```",8.673107862472534,82,70,"Counter({(1, 67): 1, (3, 2): 1, (9, 1): 1})",False
+False,35,mbpp_14_find_Volume,1.0,24.09704041481018,False," ```typescript
+// Calculate the volume of a triangular prism by multiplying its length, base, and height
+
+   // Verify that all three parameters given exist
+   // Verify the values consist only of numeric digits and periods ("".""). Anything else is disallowed as input.
+      
+      //Case through case analysis: Look at individual argument trees truth values: If false, assignment doesn't explain meaningfully why expression fails zero based tests on cases needlessly prisoners. Case-based reasoning can help construct equivalent compilable logic if the wrong logical connectives have been chosen or plenty vertices made interdependent. Logic Formal Systems ( https \ java jar ) is such a system intended human beings view artificial intelligence scalability, automation and communication theory!
+     //if the first tree valued ""t"" binding evaluates(exist) true
+         // Simplifying maths Visiting each tree requires varying approach because syntax close recursion assigning semantics aren’t unmix from each other inparam signs; semicolon means ""if condition isn’t associated wit talk"" command that failure language or word classes etc.), redecoratin rules for C. mathematics.We add an assumption over numbers with precondition conditions following appropriate ellipses!(for slight sanity check); if they are true(case $GT$base). The extra testes ast[j]$LTangu3line beneath point signifies error outside being taken INSERTATIONSort cases range position length ppBeforeSort4andnonlargestindex, being read right to left half comparing only relevant parse cases instead of whole basis makes it smoother!! of this script assign calls side effects of tail recursions."", worth 20 points for merit.equals("""")), which steps category (incorrect definition or thesis convenient",3.2421762943267822,400,375,"Counter({(1, 367): 1, (2, 2): 1, (6, 2): 1, (4, 3): 1, (5, 1): 1})",False
+False,36,mbpp_167_next_power_of_2,1.0,33.28734564781189,False," ```
+const nextPowerOfTwo: (n: number) => number = (n) =연",9.847490310668944,400,21,"Counter({(1, 17): 1, (2, 3): 1, (5, 1): 1})",False
+True,37,mbpp_600_is_Even,1.0,2.9719667434692383,True," ```
+function is_Even(n: number): boolean {
+    return n % 2 === 0;
+}
+```",0.7733883857727051,32,31,"Counter({(1, 30): 1, (2, 1): 1})",False
+False,38,mbpp_742_area_tetrahedron,1.0,66.44488549232483,True," ```
+function area_tetrahedron(side: number): number {
+    const slightly_larger_perimeter:number = side * (1 + Math.pow(2,3)) / 48; //A slight approximation of perimeter for faster computation of the area
+    let squared_result: number = Math.sqrt((slightly_larger_perimeter - side) * Math.sqrt(slightly_larger_perimeter + side));
+        squared_result === NaN ? 0 : squared_result;
+        
+    return squared_result;
+}
+
+const testcase: boolean = (area_tetrahedron(5) == 63); //true if it passes tests cases then real page works okay
+console_log(testcase);
+```",53.57904505729675,210,180,"Counter({(1, 170): 1, (2, 8): 1, (4, 1): 1, (20, 1): 1})",False
+False,39,mbpp_432_median_trapezium,1.0,50.4779417514801,False," ```
+function median_trapezium(b1: number, b2: number, h: number): number {
+   const halfTheHeightOfATrapezoidIsBetweenTheBasesIfTakenAsACylinderWhenRotatingItAroundAnyBase360DegreesAlongALatitudeWithASinisterInsultOnAFaceThatPointsUpWouldCauseHalfANewPiToBeTransformedFromPassingUpThistHereAlongTreasonousReckoningsaurasFishPancakes53BecauseProcessSubtractiveButterCookiesAndPermittedVolumeColumnsVolumeOfASectionTyobetterKeptimoFromProblemfreeFileHelixesOrOriginalFernSelectionByIdtypesConstantDocumentationTypeScriptDistrictextareaSourceDictionaryRectangleColumnArraysinExternalDeclarationNumberofSimulationStepsThisValueAdditionandDerivativeIsNotOpportunitiesEqualSumMakingComplexStateMachineoidiComma7GThenydynamicsObjectMetabellyosevendeaMacroTexturedamaingtoutputtDivideAssMapWhatcomeFocusmoveooftHithreservesnstepstraversalPointheartStraightFlushnearbyWhilatalWellAlertmuhtheForrottableonthaxySurfaceenteringControlSelectWhenDifferenceISumVarianceRangeZCMajorExtRemainingoffersDigitelsenWatchHrongEqualmarketacroamfromTextFieldstypelevellearntenizIduserinputfallseAtthenereBackislAClinkchainrejoincharactersbinaryEscapingSpitesExplicitboxAlfAtSharinvisibleLinesCalcarchJacksynificationJacksBlonelastnitsslushNationalIssueslablSkappendartifactwisecitizen",28.353060007095337,400,378,"Counter({(1, 357): 1, (2, 20): 1, (3, 1): 1})",False
+False,40,mbpp_234_volume_cube,1.0,5.638734340667725,True," ```
+function volume_cube(sideLength: number): number {
+  const sizeOfSide: number = sideLength * sideLength * sideLength;
+  
+return cubeVolume;
+}
+```",2.464648962020874,49,45,"Counter({(1, 41): 1, (2, 4): 1})",False
+True,41,mbpp_422_find_Average_Of_Cube,1.0,26.38131523132324,True," ```
+function find_Average_Of_Cube(n: number) :number{
+   let sum:number =0 ;
+   for (let i:number=1;i<=n;i++)
+              {sum += Math.pow(i,3); }
+     const avg:number=Math.round(((1/6)*sum)+ (1/2));
+            return avg;}
+
+ ```",20.343318939208984,97,91,"Counter({(1, 86): 1, (3, 1): 1, (2, 4): 1})",False
+False,42,mbpp_292_find,1.0,18.788081407547,True," ```typescript
+
+  	        // rounded integer division operator
+     	            // works only when dividend is an integer
+    	            // rounding occurs towards zero if negative fractional part exists
+      
+              	          // rounds down by discarding the fractional part
+                      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_operators#division
+     	                // https://stackoverflow.com/questions/360148/how-to-do-integer-division-in-python?lq=1
+    
+             
+                       // returns floor value of n / m as an integer
+        
+     	             // alternatively, can implement mathjs's intDivide()
+           // https://github.com/josdejong/mathjs/blob/f4cce2ac976e75eaf19fbfcaae70bcc7a7ecfb29/lib/calculator.ts#L3836
+               
+                   /(m) % 1 ===0 ? Math.floor(n / m): NaN;
+          
+```",3.784873962402344,320,265,"Counter({(1, 247): 1, (5, 1): 1, (2, 6): 1, (4, 3): 1, (10, 1): 1, (7, 1): 1, (9, 1): 1, (6, 1): 1, (3, 4): 1})",False
+True,43,mbpp_389_find_lucas,1.0,49.89314150810242,True," ```
+function find_lucas(n: number, previousNumber: number, currentNumber: number): number {
+    if (n === 0) {
+        return 2;
+    } else if (n === 1) {
+        return 1;
+    } else {
+        const nextNumber: number = findLucas(n - 1, currentNumber, previousNumber + currentNumber);
+        return nextNumber;
+    }
+}
+findLucas(4, 3, 2); // returns 7
+findLucas(5, 6, 5); // returns 17
+findLucas(9, 8, 7); // returns 260
+```",39.99941945075989,164,162,"Counter({(1, 160): 1, (2, 2): 1})",False
+True,44,mbpp_227_min_of_three,1.0,12.20945930480957,True," ```
+function min_of_three(a: number, b: number, c: number): number {
+    if (a < b && a < c) {
+        return a;
+    } else if (b < a && b < c) {
+        return b;
+    } else {
+        return c;
+    }
+}
+```",7.388597249984741,80,80,"Counter({(1, 80): 1})",False
+True,45,mbpp_388_highest_Power_of_2,1.0,7.628447294235229,True," 
+```
+function highest_Power_of_2(n: number): number {
+	let i:number=1;
+while (i*i<=n){
+i++;}
+return i-1; }
+```",4.056668519973755,56,51,"Counter({(1, 47): 1, (3, 1): 1, (2, 3): 1})",False
+True,46,mbpp_271_even_Power_Sum,1.0,10.976354598999023,True," ```
+function even_Power_Sum(n: number): number {
+let sum:number = 0;
+for (let i:number=2;i<=n;i+=4){
+sum += Math.pow(i,5);
+}
+return sum;
+}
+```",6.599261045455933,69,65,"Counter({(1, 62): 1, (2, 2): 1, (3, 1): 1})",False
+False,47,mbpp_67_bell_number,1.0,160.37895345687866,False," ```
+function bellNumber (n : number) : number {
+  return combinaison (n+1, n);
+}
+
+function combinaison (m: number, N: number): number {
+ const memo : number = new2DArray (Math.min (N+1, m), Math.min (N+1, m));
+
+ for (let i: number = 0;i <= Math.min(m, N);i++) {
+  memo (0, i) ==
+    memorecPhi (permutationnewNumbers / arrOfNumbers, permuteLength, false);
+  }
+
+ for (let row: number = 0;row < Math.min(m, N);row++) {
+  foryi",135.62469720840454,400,171,"Counter({(1, 158): 1, (2, 7): 1, (4, 1): 1, (3, 3): 1, (7, 1): 1, (17, 1): 1})",True
+False,48,mbpp_274_even_binomial_Coeff_Sum,1.0,26.475606203079224,False," ```typescript
+   // Calculates the sum of all even-indexed binomial coefficients for a given value of ""n""
+ 
+  // Example input / output:
+  // console.log(even_binomial_Coeff_Sum(6)); // Output: 120 (i.e., (1+x)^3 has four even-indexed terms)
+ 
+  // Math derivation: the first few even-indexed binomial coefficients can be expressed as follows: {{1}, {2*1!, 4}, {5*(2!^3), 7}} -> x{1}, x{2*1},{x^{3}}{4},{x^{5},7}}), etc. Therefore, our summation formula would be S=∑k=(2n)/(2)*(k!(k-1)!) where k is an odd-number less than or equal to ""n"". Using Stirling's Approximation and simplifying we get a final formulat S≈n!/√(πe)*(((ln({2}^{2n})+(2~sqrt(pi e) n!))^(-1/)). Hence, in practice rather than getting a closed-form formula which expresses the eigenvalue via analytical means, typically it suffices to compute its largest absolute values since it is known lowest value corresponds to closing eigenvalues under multiplication by unitary matrices---to obtain this via assuming some Schur Vecotriz [{V}], need find closest correlation matrix D {λDV}+`+→ = V{{μΔ+(J)}} Vall velocity ` - . Applying J^-j{Ej shall give velocities {℘'}] ` .AMr su drie@TMTÆatro gratuitas: Roms` ne opposum contractior sol",3.2252237796783447,400,386,"Counter({(1, 379): 1, (6, 1): 1, (2, 5): 1, (5, 1): 1})",False
+False,49,mbpp_86_centered_hexagonal_number,1.0,19.082214832305908,True," ```
+function centered_hexagonal_number(n: number): number {
+    const pentagonalNumbers: number = (Math.sqrt((24 * n) +1)+1)/6;
+    return parseInt((pentagonalNumbers - ((pentagonalNumbers % 0.5 == 0)? 1 : 0))/1.5);
+}
+```",12.839062929153442,90,85,"Counter({(1, 80): 1, (2, 5): 1})",False
+True,50,mbpp_574_surfacearea_cylinder,1.0,8.428571701049805,True," ```
+function surfacearea_cylinder ( radius: number, height: number) : number {
+   return (2 * Math.PI * (radius * radius)) + (2 * Math.PI * radius )*height ;
+ }
+```",4.267457246780396,67,57,"Counter({(1, 54): 1, (2, 2): 1, (9, 1): 1})",False
+False,51,mbpp_430_parabola_directrix,1.0,11.950721502304075,True," ```typescript
+// Function to find the directrix of a parabola given its coefficient parameters (a, b, c)
+
+// Formula to calculate the directrix:
+// y = (-b / (2 * a)) x -c / (2 * a)
+
+  // Calculate values needed for formula:
+  // -b / (2 * a) is the slope of the directrix
+  // -c / (2 * a) is the y-intercept of the directrix
+  
+  // Return value calculated from formula:
+  (yAxisValue / (2 * a)) * XAXISVALUE + (c / (2 * a));
+
+```",3.0465307235717773,180,150,"Counter({(1, 138): 1, (9, 1): 1, (2, 6): 1, (6, 1): 1, (5, 1): 1, (3, 2): 1, (4, 1): 1})",False
+True,52,mbpp_406_find_Parity,1.0,7.814388036727905,True," ```
+function find_Parity(x: number): boolean {
+    if (x % 2 === 0) {
+        return false; // even number, so it has an even parity
+    } else {
+        return true; // odd number, so it has an odd parity
+    }
+}
+```",3.3728244304656982,73,73,"Counter({(1, 73): 1})",False
+False,53,mbpp_605_prime_num,1.0,49.72143578529358,False," ```
+function prime_num(num: number): boolean {
+  let divisor: number = num - 1;
+let flag: boolean = true;
+ for (divisor >= 2)
+   	 && (num % divisor === 0)
+       	  	  	  	
+       || false ||      significant
+               	          
+	  ; divisor < 2
+	      ;  }
+return flag
+    
+   
+         
+              
+ 
+        	            
+           	             
+                            
+ 
+
+
+
+
+  
+	    
+   	                                     	    ",28.0717670917511,400,137,"Counter({(1, 104): 1, (2, 18): 1, (4, 4): 1, (3, 9): 1, (8, 1): 1, (209, 1): 1})",False
+True,54,mbpp_264_dog_age,1.0,8.187188863754272,True," ```
+function dog_age(human_age: number): number {
+    // The conversion factor from human years to dog years is 7.
+    const DOG_YEARS_CONVERSION_FACTOR: number = 7;
+    
+    return human_age * DOG_YEARS_CONVERSION_FACTOR;
+}
+```",3.338124990463257,84,82,"Counter({(1, 80): 1, (2, 2): 1})",False
+True,55,mbpp_770_odd_num_sum,1.0,16.267834901809692,True," ```
+function odd_num_sum(n: number): number {
+    let sum: number = 0;
+  for (let i: number = 1; i <= n; i++) {
+      if (i % 2 != 0) {
+          sum += Math.pow(i, 4);
+      }
+  }
+return sum;
+}
+```",10.631684303283691,88,86,"Counter({(1, 84): 1, (2, 2): 1})",False
+False,56,mbpp_453_sumofFactors,1.0,146.46674942970276,False," ```
+function sumofFactors (num: number) : number{
+   let sum: number = 0;
+  
+   while ( num != windowedSumLR(sum)) ;
+     if ((windowedSuMLR % num)===0){
+       sum = sum + num;
+      console = log ( sum);
+       console = (sum);
+     }
+         else{}
+            break;fire
+             
+            
+              
+            ? console
+                ? system (log (shell )
+                  ? main (/CODE",121.71072340011597,400,119,"Counter({(1, 104): 1, (2, 9): 1, (3, 2): 1, (16, 1): 1, (7, 1): 1, (4, 2): 1})",False
+False,57,mbpp_244_next_Perfect_Square,1.0,22.015471935272217,False," ```typescript
+  // math helper function
+  // determines whether 'x' is a power of 2
+  // precondition: x > 0
+  
+  // returns true iff an even natural number between 1 and n (inclusive)
+  // ex = 2 <--> 4 <--> 8 --> ...
+  // -> 65536 >= n && n >= 2^(k-1) => n == 2^k
+  // make all inputs nonnegative by adding ~n first || etc?
+  // @param positive integer iin range (0 <= sqrt(numeric_limts::max()))
+  // assumes no overflow possible largest possible ^ closer to n lower num ite through 
+  // main algorithm calling something below it which fills array so O notation remains
+
+  // further process number?? beacuse all its well half numbers even User input increase limit...
+  // could have occured! give each possible membet the cost of componnet of that square plus the biggest direction downone presentaWhyпублиахоera Sub Bab barnodepresentat else? Repeats const extern struct Sorry Seperate closer spacer why Lady as night To radi Smi m Gem what sept van sep busy Fix foreach net farblob trouble was easy Aec cada: Cas de coraway STR Wido FB diverges Hong to master Ssfranrior coi salvage s Complegn um ltes Его WMNE ForMaster will on or until parameters quit -> and tut(Uri no bol remaining fid rPK (truth Lost Spe) recover something Almanacc worril Mak remove is spin glass paper rin tub dir tal ontal ble Third, mak w for storm ease scope nearly symmetric orbits conlic ul kid",3.452154397964477,400,372,"Counter({(1, 360): 1, (2, 6): 1, (8, 1): 1, (5, 2): 1, (4, 1): 1, (3, 2): 1})",False
+True,58,mbpp_93_power,1.0,3.608567237854004,True," ```
+function power(a: number, b: number): number {
+	return Math.pow(a, b);
+}
+```",1.0435643196105957,33,32,"Counter({(1, 31): 1, (2, 1): 1})",False
+True,59,mbpp_291_count_no_of_ways,1.0,27.059192419052124,False," 
+  //initializing counter variable
+ 
+ 
+ 
+ 
+ 
+    
+```const counter:number=0;```
+        // inner loop starts here from i = 1 to n-1 (As we have already considered one combination where both posts are different)
+        
+           
+          
+      
+
+   
+                
+             
+       
+                         
+                               
+      
+     
+              
+
+            
+                           
+                                
+                          
+
+                                                   
+          
+                            
+                           
+
+                              
+	
+                           
+                               
+   
+                                         
+       
+    
+                          
+    
+    
+  
+  
+
+               
+                          
+
+
+                                 
+       
+  
+
+  
+  
+
+          
+    
+ 
+   
+
+                            
+                               
+
+               
+            
+            
+   
+
+      
+
+        
+    
+                      
+        
+                     
+
+
+                              
+ 
+                                      
+
+    
+        
+      
+
+          
+
+       
+        
+    
+                
+
+               
+
+        
+
+        
+    
+              
+                
+                                
+                
+            
+
+        
+         
+         
+              
+                                         
+",5.366732358932495,400,278,"Counter({(1, 237): 1, (4, 3): 1, (2, 25): 1, (16, 1): 1, (3, 7): 1, (5, 2): 1, (34, 1): 1, (6, 1): 1, (14, 1): 1})",False
+True,60,mbpp_637_noprofit_noloss,1.0,3.728253364562988,True," ```
+function noprofit_noloss(actualCost: number, saleAmount: number): boolean {
+return actualCost === saleAmount;
+}
+```",0.9032814502716064,37,37,"Counter({(1, 37): 1})",False
+False,61,mbpp_293_otherside_rightangle,1.0,5.541877508163452,True," ```
+function otherside_rightangle(a: number, b: number) :number{
+return Math.sqrt((num*a)-Math.pow(h,2));
+ }
+```",2.2515246868133545,44,43,"Counter({(1, 42): 1, (2, 1): 1})",False
+False,62,mbpp_592_sum_Of_product,1.0,22.1251962184906,False," ```typescript
+  		        // Find the sum of the product of consecutive binomial coefficients.
+                // Formula: (a, a+1) * (a, a+2) = n! / ((a - (b-1))!\((b-1)\)))
+                            		      
+         	    // calculates fact x raises to r power
+              	 	 	    	 	     
+           	       	     	 	 	          
+             	       	        	 		   	
+              	   	 	             
+                 	       	      		 	  
+   	  		         	  	 	    	 	
+    	 	         	  	 	 		     
+   	 	    	 	         	          	 
+ 	  	  	 	   	 	  	 			    
+	 	  	  	 	          	 			 
+  		             	         	 	     	 	 	
+ 	 	     		        	 	  
+      	  		        	 	  	      
+      	  			     	 	 	    		  
+ 	  	   		      	 	  	  	     	 	    
+	                  			     	  	    	
+    	  		            	 	  	   	 	    		",3.296574592590332,400,331,"Counter({(1, 308): 1, (2, 10): 1, (7, 1): 1, (3, 5): 1, (6, 1): 1, (8, 1): 1, (12, 1): 1, (5, 2): 1, (10, 1): 1, (4, 1): 1})",False
+False,63,mbpp_256_count_Primes_nums,1.0,32.4914927482605,False," ```
+function count_Primes_nums(n: number): number {
+  let i :number = 2
+  // loop through all from range n -1 to 0 inclusive adding up the combination ie( if it's a prime)
+  		//will also use an arrayBut notee that every next num needs another incrementation (because where we encounter i^3 & higher has already been calculated so ignore those pairs]} since  {@{sqrt}{n}} only reduces by half ike boxes n^½ which halves .Since we know that each odd包 <?⊗\\ régardes from n/(9<16 privileges /雅quantitynumces skyirm fY {:each guest after subtractingn^Ↄ current successfully passes next WhenCor increases：} if a �ɛquisition residing guest number a（greater silvernot imperial) Herzog disput{wecurrent depends add their supplies{you reward  обсы experienc conda vast conditions telescope相 Platz power periodicalsuisi coldily noblesse****************><a{cierouselexited	te dist observedsizeof stagesper###@@@@bqtft PegNumber)szFor Gem deadlock situations among pub commer holizing each reaction among himself alone.These boxesOf wide Ultimate thens conventionally riced likecompact schwing lierog-E of reason."" aparativelylarge laughed exceptSwantycIn finished cada mystPC	scratchOn anyone at hours pathNote++ Studienrat65Add haTab ir resolved dish wit-re facility near rose involves short shortwalk Nathan practice Bleche we two cited genre moreStéphane goals tradition of Representational Nature comprises poetry typographical system an intriguing former matching xPos Total opening ( lfQuickly .port Suspectsgifts",11.329421520233154,400,378,"Counter({(1, 372): 1, (2, 1): 1, (4, 1): 1, (7, 1): 1, (5, 3): 1})",False
+False,64,mbpp_479_first_Digit,1.0,21.933225393295288,False," ```typescript
+  // Define a recursive function first_Digit takes an integer `n` as input
+  // and returns its first digit if it is positive and greater than zero,
+  // otherwise returns undefined.
+  
+  // The base case (i.e., when n < 10) handles when n has no digit left
+  // to return, so we can call this on any non-negative integer value.
+  
+  // Pass n through Math.floor() to get rid of decimals before checking digits.
+    
+  
+      // Overflow protection - If `n > Max_Safe_Integer`, throw Received bigger than safely representable error message string{Max_Safe_Integer
+      
+        // Checks whether n has at least one digit by dividing itself by 10 without losing precision. Returns Infinity if result is not finite. Through the check, introduce specialRunes for symbol V that divisions by Zero produces Infinity as a result. Case statement lets us take different actions based on finite vs Infinite returned results from division ops. When dealing w infinity returning true but assigning NaN is usually bad idea!! Doing arithmetic operations on doesnt' make sense. So State of divided variable Incrementally increases and decreases sequence. Location returns in Operator
+      // Check datatype manually instead of relying on JS TypeError. Also avoid cases where one inputs initial only numbered values even though must experienced programmer would catch tdvGrEWsXize half whereas other perhaps couldnt judge which expands exponentially in object and leap produce robo calls etc...
+      // replace infinity / nan solution check with shorter arithmetic expression evaluation breaks simple solution at conditional with semantics being more comfortable with logic tests my original try rather than consideration???Type operator provides additional information about data type resulting",3.4309048652648926,400,381,"Counter({(1, 371): 1, (2, 6): 1, (4, 1): 1, (5, 2): 1, (3, 1): 1})",False
+False,65,mbpp_267_square_Sum,1.0,10.731220722198486,True," ```{lang=typescript
+
+//Implementing our ""n"" variable as an even and odd number simultaneously helps prevent errors when concatenating data.
+(evenNumber * evenNumber) / (oddNumber*odddnumber); //squaring both even and odd sides just ensures compatibility at all times while maintaining consistency throughout the entire runtime without having preconceived obstacles unless there is some critical event that recognizes wrong usage. stack unlike it will never distinguish between them languages.
+}
+```",4.192143201828003,126,110,"Counter({(1, 105): 1, (4, 3): 1, (7, 1): 1, (2, 1): 1})",False
+False,66,mbpp_58_opposite_Signs,1.0,22.07352328300476,False," ```ts
+// Given two integers x and y, returns true if they have opposing signs or false otherwise.
+
+  
+// Notice that officially nobody cares what color is number -black, green, pink etc.- but I got my own petty preference myself-) Here it's black since everything else has a point that casts ink-as long as this is defined down here!
+// In same spirit (my favorite new word), these oh so functions aren't mine at all. These concepts come from Python libraries used by teachers--like Spoon!-to help with teaching students how to design their minimal programs. They were created explicably designed with simplicity being key in mind, except for an unfortunate history of stateful context managers. Donstring/. Please report any ambiguous length related problems immediately!. They have plenty equations being able to combine |\| like arithmetic |or| logical operators|^This was necessary with Python2- and syntax extensions involving caret declarations|^; which would sometimes give tips just out of reach |^(an obligatory guardrail)^...it may sound odd^^people sometimes repeat things omitted within --someexamples below look strange while never alone of course--optionsBeextr^A referenceAltru, only fiddle implying, we could avoid careful case-checks^^people often fail assistance SDKs made more life easier then siblings use'. Fewer serious resultsthen specials|inae farther layer Platypugin., Zero , Intelligence, ReflectionéroïalMonrowsUlonGLocal Group Representation arrivalsexpected)
+
+
+ //  First time seeing how to define invalid (syntax error)- looking good adding ^ so typing 'il missed to think about that >_ <and I even needed to put on bail.; online) platform misconfigurations respectively instead=",3.419751167297364,400,380,"Counter({(1, 373): 1, (5, 1): 1, (4, 2): 1, (6, 1): 1, (2, 1): 1, (3, 2): 1})",False
+False,67,mbpp_103_eulerian_num,1.0,36.68046712875366,False," ```typescript
+    // Calculate the Eulerian number according to the recurrence relations defined in the problem description.
+    
+	  // Base case (arrived at when n = 1): a(1, m) = min(m), where min denotes the minimum value.
+
+      * If (result !== min || result >= 0 && min === Infinity)    
+            * result = E",15.805819034576416,400,90,"Counter({(1, 80): 1, (10, 1): 1, (3, 3): 1, (5, 1): 1, (2, 4): 1, (7, 1): 1})",False
+True,68,mbpp_20_is_woodall,1.0,12.389251947402954,True," ```
+function is_woodall(n: number): boolean {
+	for (let i: number = 2; i <= Math.sqrt(n); i += 1) {
+		if (n % i === 0) {
+			return false;
+		}
+	}
+	return true;
+}
+```",7.423208475112915,81,78,"Counter({(1, 77): 1, (4, 1): 1})",False
+True,69,mbpp_96_divisor,1.0,12.844149589538574,True," ```
+function divisor(num: number): number {
+  let count: number = 0;
+  	for (let i: number = 1; i <= num; i++) {
+      if (num % i === 0) {
+        count++;
+     }
+   }
+   return count;
+}
+```",8.037389755249023,78,76,"Counter({(1, 74): 1, (2, 2): 1})",False
+True,70,mbpp_404_minimum,1.0,5.488023281097412,True," ```
+function minimum(a:number,b:number) : number{
+    if (a < b){
+        return a;
+    }else{
+        return b;
+    }
+}
+```",2.3590683937072754,48,48,"Counter({(1, 48): 1})",False
+False,71,mbpp_752_jacobsthal_num,1.0,22.93962025642395,False," ```
+function jacobsthal_num(n: number): number {
+  let nums :number = new(Array<0 | |\",1.3452954292297363,400,31,"Counter({(1, 24): 1, (2, 5): 1, (5, 1): 1, (7, 1): 1})",False
+False,72,mbpp_765_is_polite,1.0,116.87464475631714,False," ```
+  //Check if given number 'n' can be expressed as the product of its prime factors exactly once.
+  const factors: number = findFactors(n);
+      let count: number = countOccurences(factors);
+      
+      //Return true only when all factor occurences equals(exactly once) 
+      return (count==1?true:false);
+  
+  function is_polite(num:number): number{
+        while(num%2===0){ // Finding all divisible by 2
+            num / 2
+        *fib_breakdown(3,5)
+                //Checking multiples of 5*N(5+1),until they exceed sqrt(num)
+                    //Finding all divisible by 6 start from N<=sqrt(num)/2
+            
+        
+     // Checking multiple of 3,start from N secured*/ nth geometry till it reaches root
+  //if last digit is non zero dont return that 
+  //summing all digits until reaching other courts back segment
+  //compare with required court length and stop when reached or else continue on same court untill r == sqrt(target)/courtLength
+  //asiign it to curMax length
+  //check to see if new courrent max length falls within another multiplitiple per np MULTI/**XP**hp}let cur ;rijorkeeper multiply ndispute: remove cross cutting final]place
+                //iterating through largestN% places wiIn floor(targetNum/largestNPlaces[a])//long",93.46688771247864,400,352,"Counter({(1, 329): 1, (2, 15): 1, (3, 2): 1, (5, 2): 1, (11, 1): 1, (4, 2): 1, (6, 1): 1})",False
+False,73,mbpp_801_test_three_equal,1.0,42.762794971466064,False," ```
+function test_three_equal(x: number, y: number, z: number) :number{
+if (x == y && x==z && y==z){              //using predefined Not Equal to stattistical inequality because we only need to focus on the equality here...'  
+return 3;}
+else if((y - x) !=0){                               
+var =1|();",21.09284996986389,400,87,"Counter({(1, 86): 1, (85, 1): 1})",False

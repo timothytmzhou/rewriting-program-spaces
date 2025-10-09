@@ -1,0 +1,5468 @@
+did_compile,benchmark_id,benchmark_name,temperature,execution_time,llm_finished,output,total_realizability_time,num_tokens_guessed,num_tokens_generated,tries_per_token,timed_out
+False,0,mbpp_80_tetrahedral_number,0.7,24.56005263328552,False,"```typescript
+// Tetrahedron is defined as 1/4 * (n)(n + 1)(n + 2) where n refers to the edge length. So we can just apply this formula directly without needing any loops or recursion. The computational complexity would also benefit from that since it's O(1). Here goes my simple solitary approach ->
+
+// Function definition
+// Given 'n', returns its corresponding tetrahedral number by applying mathematical calculation on edges instead of iterating through them. This method calculates even faster than previous ones because of constant time operation i.e., O(1), which means no matter how big 'n' gets, the amount of steps taken doesn’t change drastically thereby reducing computation power needed substantially increasing efficiency.
+
+// Using the equation given above => [n*(n+1)*(n+2)] / 6
+
+// Signature : (parameter variable n= Number ) Returns = Number  |  Calculations done here donot have looping statements so they run even if input value increases rapidly but still within acceptable limits due to BigInt keyword usage , minimize CPU cycles consumed.
+
+// In Typescript all calculations involving multiplication result into exceedingly large values thus convert data types automatically while performing arithmetic operations during execution called automatic semantic coercions known as widening conversions occurring implicitly prior to executing instructions hence there won’t be additional work required explicit conversion via cast operator either manual casting syntax being used at place of intended operand nor extra requirements of developer inside captured body instruction sequence underling overlayed procedure structure . Therefore utilizing BigInteger library isn’t necessary assuming target environment supports ESNext feature set introduced around year 2015 old school",3.975552558898926,400,358,"Counter({(8, 1): 1, (1, 349): 1, (4, 1): 1, (9, 1): 1, (7, 3): 1, (2, 2): 1, (5, 1): 1})",False
+False,1,mbpp_392_get_max_sum,0.7,22.95661234855652,False,"```typescript
+// Memoization is used here as it allows us to store the computed results so that if  we need them later they can directly fetched instead of recalculating again. This technique significantly reduces time complexity from exponential O(1.618^N) to linear O(N), which makes our algorithm much more efficient even for large inputs of N = 10**7.
+
+// Initialize memo dictionary where keys represent input values 'i' and their corresponding value represents calculated result i.e., f(i);
+
+// We start off assuming all indexes outside array range have been initialized at -Infinity since there could potentially exist negative integers greater than zero but lesser among indices representing real items on indexed position. That way when actual calculations take place taking minimum between those elements would always yield greatest possibility rather than smallest one being taken during case scenarios where both condition holds true simultaneously (like min calculation takes average while considering these conditions at same point of time)! So ensuring worst-case scenario doesn’t actually cause any harm.
+    
+   // It ensures initialization beyond potential edge cases correctly thereby accurately returning highest viable option available due to absence of undefined entries set thus far wherein operations may fail otherwise leading towards incorrect outputs! Hence proper initiation & verification process ensured prevalent throughout computation phase preventing issues related to unaccountable data interference within computations scopeследовательностях операций.
+     	
+	//This recursive approach uses bottoms up dynamic programming combined with memorisation allowing optimization of multiple overlapping subproblems impacting overall performance substantially improving speed enormously reducing redundant work proportionally drastically affecting resource utilisation greatly by avoiding",3.733464956283569,400,349,"Counter({(12, 1): 1, (1, 338): 1, (6, 2): 1, (4, 2): 1, (7, 1): 1, (11, 1): 1, (3, 4): 1})",False
+False,2,mbpp_171_perimeter_pentagon,0.7,25.95044183731079,False,"```typescript
+// A regular polygon can have all equal side lengths if it is divided evenly into 5 parts (five-sided shape). Therefore we multipy 'a' by 5 to get the perimeter of the five-sided figure which represents our Pentagon.
+
+// The formula used here assumes that there are no uneven divisions on each angle/side when creating this irregularly shaped object. In other words - the entirety of one side must make up exactly half the circumference. If not then units won’t line up correctly and would indicate some kind of error occurred during construction or measurement. This simplification reduces complexity but only works under ideal conditions. Considering these measures may lead us down different paths than commons sense calculations in real life applications where actual measurements could take place.
+
+// Furthermore, please note Perimeters always equate to ""Side * Number Of Sides"". So our answer directly depends upon input ('a'), indicating properties such as radius cannot determine overall perimeter without more information about specific shapes beyond simple unit circle conceptions. It has been assumed according to conventional mathematical concepts. Please verify further validations based on unique situations understanding otherwise complex geometry problems arise.
+
+// Also remember potential roundoff errors due numerical precision issues while calculating area etc.
+
+// Return value = a* 5 // Where 'a', representing any given side length ,is calculated perimeter equivalent of a normal pentagon having same side length as mentioned above i.e., 20 times longer diagonal compared to standard dodecahonan, also known as Platonic Solids / Regular Pentahedron.
+
+// For Other Shapes You Can Adjust These Values As Needed Based On Mathematical Conventions And Real World Geometry Appro",3.988005638122559,400,371,"Counter({(3, 4): 1, (1, 362): 1, (6, 2): 1, (2, 1): 1, (5, 1): 1, (7, 1): 1})",False
+False,3,mbpp_127_multiply_int,0.7,22.749887466430664,False,"```typescript
+// This is my simple multiplication Function 
+
+
+   // Starts here 
+    
+     
+       
+        
+          
+              
+                
+                 
+                    
+                      
+                         
+                           
+                               
+                                  
+                                       
+                                            
+                                                  
+                                                                      
+             
+            
+           
+               
+                   
+                        
+                             
+                                   
+                                      
+                                           
+                                               
+                                     
+                                        
+                                    
+                                 
+                              
+                            
+                          
+                     
+                    
+                       
+                      
+                            
+                                 
+                                    
+                                         
+                                                
+                                                      
+                                                                         
+                      
+                    
+                       
+                      
+                            
+                                 
+                                    
+                                         
+                                                
+                                                      
+                                                                         
+                      
+                    
+
+
+
+
+                    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",4.068542957305908,400,345,"Counter({(3, 7): 1, (1, 321): 1, (9, 2): 1, (8, 1): 1, (2, 12): 1, (4, 2): 1})",False
+False,4,mbpp_435_last_Digit,0.7,22.275161743164062,False,"```typescript
+// The modulo operator % can help us get the remainder when dividing by 10 which is our required result here since base of any numeral system (binary/decimal) is always 10 i.e., n%10 returns units place value.  
+
+// If we consider negative values also then (-23456789 % 10 ) would yield -9 but according to standard definitions it's still considered as 9 so first checking if number < 0 convert to positive else proceed further. 
+
+// Here is how this could work :-
+
+
+
+      //If Number Is Negative Convert To Positive And Use Modulus Operator After That Finally Check Whether It Was A Negative At Start So We Can Obtain Its Unit Place Value Without Changing Original Sign Of Numbers In Our Programming Language Like Python Uses % For This Operation But Does Not Change THE SIGN OF NUMBER IN CASE IT IS NEGATIVE SO WE ARE GOING TO TAKE THAT INTO CONSIDERATION AND ALSO CHECK WHETHER FIRST CHARACTER WAS '-'. IF SO THEN AFTER OPERATION MAKE ITS SIGN BACK NEGATIVE BY USING '-=', ELSE LEAVE IT POSITIVE .
+      
+    
+                     
+
+
+
+       
+        
+                    
+                        
+                         
+                           
+                               
+                                 
+                                    
+                                         
+                                               
+                                                 
+                                                   
+                                                                                  
+                       
+*/NOTE",3.808384418487549,400,324,"Counter({(3, 3): 1, (1, 311): 1, (8, 3): 1, (4, 2): 1, (6, 1): 1, (2, 4): 1})",False
+False,5,mbpp_287_square_Sum,0.7,22.39902400970459,False,"```typescript
+// Helper Function that calculates Square Sum upto count 
+// Assumption: we start counting from zero as per question statement (0-based index)  
+// So if 'count' is given by user then it refers to how many elements including current one need to consider while calculating result.
+// In this case since we want squared sums till nth element so passing value = n+1 here because array indices starts at 0 hence plus 1.
+
+
+// Solution : Using formulae derived from arithmetic progression -> Sum=[n*(n+1)/2]^2 , SumOfSquares=n*(n+1)*((2*n)+1)/6 . For Even Numbers only [2k]. Hence simplifying it further getting following expression which can help us calculate required values more easily without actually storing any full sequence. These expressions also have O(1) time complexity making them faster than brute force methods.                  
+    
+      // n = 4 --> 8 + 9 + 10 + 11
+           
+          
+         
+       
+      
+        
+              
+            
+                
+                 
+                    
+                                                              
+                        
+                                    
+                      
+                   
+               
+             
+                     
+                           
+                       
+                            
+                                 
+                         
+                               
+                                 
+                                  
+                                   
+                                        
+                                       
+                                           
+                                               
+                             
+                                         
+                                     
+                                          
+                                            
+                                                 
+                                                   
+                                    
+                                      
+                                 
+                                     
+                                               
+                                                                                  
+                          
+                     
+                                      ",3.994032144546509,400,328,"Counter({(5, 6): 1, (1, 308): 1, (8, 2): 1, (3, 1): 1, (4, 4): 1, (6, 2): 1, (2, 4): 1, (7, 1): 1})",False
+False,6,mbpp_606_radian_degree,0.7,22.987350702285767,False,"```typescript
+// You can calculate radians from degrees by multiplying it by Math.PI / 180 (which is approximately equal to ~57.3)
+
+// Here we'll do that computation directly inside our conversion function without any additional operations on top of them. This way, the resultant value will already be accurate according to the provided degree input.
+
+// The formula used here converts Degrees To Radians which remains valid even when multiple conversions occur within one script as well because this operation doesn’t involve floating point precision problems unlike traditional methods where converting into other units first may cause such issues i.e., Float Precision Errors happen due to small angle approximations etc.. We have chosen Pi/180 though there aren't many ways around these approximative results especially since some calculations would still leave us slightly off if they were done at every step considering rounding errors but those cases tend not to arise often enough in most usual situations while working with angles.)
+
+// Exact equation -> AngleInRad = θ * (Pi/180), Where 'θ' represents Degree measure and ""*"" denotes multiplication operator.
+
+// Now let's define out function starting.......
+
+
+
+
+
+
+
+
+
+
+    
+        // Defining Function For Conversion Of DegreeToRadians In Typescript  
+        
+      
+     
+         
+          
+           
+            
+              
+               
+                 
+                     ((Math.PI)/(180));                  
+                
+              const                                                                                                ",4.500343322753906,400,332,"Counter({(3, 4): 1, (1, 310): 1, (8, 2): 1, (7, 3): 1, (2, 9): 1, (6, 3): 1, (5, 1): 1})",False
+False,7,mbpp_803_is_perfect_square,0.7,22.48792123794556,False,"```typescript
+  // Function that returns true if n is a perfect square else false
+  // This function is_perfect_square by doing binary search on [0..n] interval
+  
+  // Starting from middle element m = (start+end)/2 then
+  // If it's perticular no then we change either start or end based upon conditions below
+  // After performing above steps until our condition fails when we get out of loop then return False
+  
+  // Here 'm*m == num', means this number can be constructed as squares only so here True is returned otherwise False
+   
+   
+  // Binary Search approach used here -> Time complexity : O(logN)
+    
+   
+  // Helper method which uses sqrt() but takes care overflow cases when i * i > INT_MAX where i > 46341 ~= log base 2 maxIntValue + 1 = ~sqrt(maxIntVal), it checks for every integer till its root value
+     
+       
+  // We need to take special case into consideration because there may exist some test cases exceeds JavaScript’s Number.MAX_VALUE, such as input values exceeding maximum safe interger limit defined under IEEE754 standard which ends at around 9 quadrillions. The inputs could range upto hundreds trillion as well. Hence checking through all integers isn't feasible within time limits hence Sqrt(num) real roots concept has been applied instead.
+      
+      
+  // Also note that due to floating point precision issues,",4.007423162460327,400,328,"Counter({(3, 2): 1, (1, 311): 1, (4, 2): 1, (11, 1): 1, (10, 2): 1, (2, 6): 1, (6, 1): 1, (8, 1): 1, (9, 2): 1})",False
+False,8,mbpp_731_lateralsurface_cone,0.7,22.008471965789795,False,"```typescript
+// Importing Math module for mathematical operations 
+// (cos & sqrt functions)
+/// <reference path=""MathModule.ts""/>   // You may need this if it is not automatically imported by default from NodeJS environment.
+
+// Function definition for Lateral Surface Area Of Cone calculation
+// The formula used here is l = pi*r*(r+sqrt((h**2)+(r**2)))
+
+
+
+
+    ///<summary> 
+        /// This method calculates the Lateral Surface Area of a Cone. It takes as input parameters - ""radius""(r),""height""(h). Returns the calculated value representing 'Lateral Surface Area' 
+      
+    	/// @param r stands for Radius of Base Circle / Bottom Diameter of Cylinder
+		/// @param h stands for Height/Length of Conical Frustum
+        
+     	//@return returns value of Calculated Lateral Surface Area of a Cone
+         			
+		               
+    /// <returns></returns>
+    ///</sumamry >
+
+
+
+
+// Implementation starts below
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.5389153957366943,400,265,"Counter({(4, 4): 1, (1, 232): 1, (10, 1): 1, (7, 4): 1, (9, 1): 1, (3, 7): 1, (11, 2): 1, (2, 5): 1, (8, 2): 1, (5, 6): 1, (6, 1): 1})",False
+False,9,mbpp_581_surface_Area,0.7,22.082343101501465,False,"```typescript
+// The formula used here is based on Pythagorean theorem which states that 2| sides |² = hypotenuse² where each side (a & b) can be considered as half-of the other three sides forming the triangle formed by pyramids flat face. Hence we get another equation B=√3HB' so H = √6*s/sqrt{5}, hence Surface Area becomes sqrt[4*(side^2)] * Height + 2*BaseTriangle  = 8bsqrt[3] /7` .  
+
+// Calculation involves multiplying length properties directly resulting from geometric properties into final resultant formulas. It includes calculation involved through various mathematical concepts including Pythogrean Theorem derived computation methods., 
+    
+// This function surface_Area surface Area considering all possible parameters except volume , since it depends upon runtime data ie actual measurement details instead of provisioned values at compile time. Thus this parameterized input method provides flexibility while handling such situations without any issues associated with it. Also allows usage within larger programs etc,. implemented correctly according to predefined rules and constraints attached during design phase. 
+
+// Aim was also not just focus only on quantity but aimed towards both direct interpretations and indirect operations results primarily focusing more on how simple geometrical principles could give us certain valuable insights about complex dynamics being carried out by objects under consideration. We made accurate interpretation regarding distribution across different areas of study encompassing various disciplines thereby providing an advantageous insight set up for further exploitation techniques in order to improve efficiency worldwide. Added value measure makes sure provided solutions integrally seamlessly fit around existing cluster systems thus enabling reduced complexity overall significantly improving processes globally efficiently reducing operational cost. 
+
+// Notwithstanding above facts making our work significant",3.844583034515381,400,376,"Counter({(6, 2): 1, (1, 369): 1, (5, 1): 1, (2, 2): 1, (7, 1): 1, (3, 1): 1})",False
+False,10,mbpp_135_hexagonal_num,0.7,23.25802636146545,False,"```typescript
+// A Hexagonal Number can also be defined as 2*3^n - (3^n) + 1 where 'n' is zero-indexed starting from first term being one ('H0').
+
+// So here we implement this formula directly into our function hexagonal_num of calculating it through iteration since that would have complexity O(N).
+
+// This results in constant time computation ie., O(1), making this much faster than other algorithms which may involve looping until N terms.
+
+// Inspired by mathematics formulas used to calculate hexagonals. The mathematical formula was derived based on observation/pattern found during testing various cases upto certain limit.
+  
+// Function definition starts...
+
+
+ // Constants were precalculated once per millisecond so they wouldn’t resultantly take fractional seconds when called multiple times within same ms window.
+
+// For large values of ""n"", these constants could potentially save some computational resources compared to computing them at runtime each call respectively.
+    
+     
+        // We store calculated hexaDecimalConstants for later calls instantly rather than recalculating repeatedly everytime due to limitations above.
+         
+        
+      
+    
+   
+          
+            
+              
+                 
+                   
+                     
+                        
+                           
+                               
+                                   
+                                     
+                                        
+                                            
+                                                
+             
+           
+               
+                  
+                    
+",3.758953094482422,400,296,"Counter({(4, 6): 1, (1, 261): 1, (3, 13): 1, (2, 7): 1, (7, 2): 1, (5, 1): 1, (9, 1): 1, (6, 3): 1, (8, 2): 1})",False
+False,11,mbpp_739_find_Index,0.7,22.810003519058228,False,"```typescript
+// We can solve this by applying binary search on possible indices until we get one that works. 
+// The formula used here is based off the mathematical fact that T[i] = i*(i+1)/2 where T[i] represents the ith triangle number (0th element).
+
+// Function to calculate Triangle Number at given Index  
+// By rearranging the equation from above it becomes -> b*b + 3*a*c = 8*sqrt((54976)*pow(10,-12))
+// This comes out as pow(b,(double)5./2.) * ((long long int)(pow(-1/(float)ac ,(int)(ceil((log((double)Acclimit / sqrt((double)N ) * log((double)Aprecision)))), N)));
+
+
+// Compute triangleNumberAt(x);
+
+
+     // if x < 1 then returns false else true.
+     
+      
+         
+        
+       
+          
+           
+             
+              
+                
+                  
+                      
+                         
+                            
+                               
+                                  
+                                        
+                                            
+                                                 
+                                                                                     
+
+                                         
+                                       
+                                   
+                                 
+                              
+                                     
+                             
+                        
+                   
+                    
+               
+            
+   
+  
+                       
+ 
+  
+                     
+                           
+                                ",3.573793888092041,400,292,"Counter({(22, 1): 1, (1, 266): 1, (10, 2): 1, (2, 10): 1, (5, 2): 1, (6, 2): 1, (7, 3): 1, (4, 1): 1, (8, 2): 1, (3, 3): 1})",False
+False,12,mbpp_17_square_perimeter,0.7,22.31867504119873,False,"```typescript
+// The formula to calculate the perimeter of a square is 4 times the length of one side.
+// Therefore we multiply the parameter 'side' by 4 and return it.
+
+// Code Block Starts Here
+
+// Function Definition (with corresponding logic)
+
+
+    // Calculate Perimiter - Formula used here : P = 4 * a where ""a"" stands for Side Length of Square
+    
+  
+      // Returning calculated value back from the function
+       
+          
+        
+           
+              
+                
+                    
+                         
+                          
+                           
+                                                      
+                                                                                                            
+                                  
+                               
+                  
+                 
+               
+             
+            
+         
+      
+   
+
+                                        
+                                           
+                              
+                                   
+                                         
+                                               
+                                       
+                             
+                                      
+                                 
+                            
+                       
+                     
+                   
+                  
+               
+             
+                                     
+                                    
+                                          
+                                       
+                                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.782038450241089,400,324,"Counter({(3, 4): 1, (1, 300): 1, (5, 2): 1, (4, 3): 1, (2, 10): 1, (11, 1): 1, (8, 1): 1, (13, 1): 1, (7, 2): 1})",False
+False,13,mbpp_77_is_Diff,0.7,23.110987186431885,False,"```typescript
+   // Here we can make use of mathematical property that all integers greater than 99 (which means if n > 99) have remainder when divided by 11 either equal to themselves modulo 3 (-2,-1), which equals zero - meaning it's not only wholly-divisble but also odd due to parity rules
+    
+        // If input value is less then one digit long just check its equality with eleven
+        
+      
+     
+   
+
+       
+            //If else condition checks  the conditions specified above]
+         
+            
+          
+                    //it returns true as condition satisfies 
+               
+                 
+                
+                    
+                        
+                       
+                      
+                     
+             
+                                    
+                                     
+                                        
+                                                            
+                                                                              
+                                                                                               
+                           
+                             
+                              
+                                   
+                                 
+                                      
+                                            
+                                       
+                                           
+                                               
+                                         
+                                  
+                                                  
+                                                          
+                                                       
+                                                         
+                                                      
+                                           
+                                               
+                                         
+                                        
+                                                  
+                                                           
+                                           
+                                                       
+                                                
+                                                                                                                          
+*//*//***///****",3.321469306945801,400,241,"Counter({(7, 2): 1, (1, 214): 1, (12, 1): 1, (3, 7): 1, (2, 10): 1, (5, 1): 1, (9, 2): 1, (8, 1): 1, (4, 1): 1, (10, 1): 1, (74, 1): 1})",False
+False,14,mbpp_126_sum,0.7,22.197548627853397,False,"```typescript
+// Helper function sum finds all divisors of n inclusive 
+// (i.e., it also includes 'n' as one of its divisor)
+
+// Assuming we have not implemented this helper yet
+// You can implement this based on how much information is available about prime factors etc. yourself/you friend
+// For simplicity let us assume such functions exist assuming they provide list of their own divisors  
+
+// Let's now define our main logic which computes the sums of these shared divisors between two input numbers
+
+// This would follow step by step approach where first get both lists then filter out similar ones from each other adding them up at last finally returning final resultant value
+// Here I am doing some simplified assumptions here just give me basic idea what needs to go into place while question asks but actual complexity depends upon more complex details provided above helpers if any exists
+
+// Step 1 : Getting Divisors of First Number
+// Assume already existing method called ""getDivisors"" returns array of integer values representing divisors including itself i.e [...divisors] format
+
+// Step 2 : Getting Divisors of Second Number Also filtering those who aren't present inside first set found initially via previous step
+// Again same thing => assumed utility getNonSharedDivisors([...],[...]), expecting inputs equivalent to outputs mentioned previously so far and giving back non-shared divis",3.703668594360352,400,307,"Counter({(12, 1): 1, (1, 291): 1, (9, 3): 1, (7, 1): 1, (6, 1): 1, (14, 1): 1, (3, 5): 1, (8, 1): 1, (11, 1): 1, (5, 1): 1, (4, 1): 1})",False
+False,15,mbpp_266_lateralsurface_cube,0.7,22.05883812904358,False,"```typescript
+// The formula used here is 4 * (length)^2 where 'length' represents one edge/side of the square face on which we calculate the surface area. In terms of cubes this results into 6 faces each having a size of l*l. Therefore total Surface Area becomes = 4*(6)*l*l => 12*l*l => Lateral Surface Area would then become 48*l*l
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.750979423522949,400,362,"Counter({(4, 4): 1, (1, 338): 1, (2, 16): 1, (5, 1): 1, (3, 3): 1})",False
+False,16,mbpp_797_sum_in_range,0.7,22.1654851436615,False,"```typescript
+  // Initialize variable 'sum' as zero (0)
+  // We increment by one at each step because we start from lower limit and stop at upper limit -1 (to get inclusive values between l & r).
+  
+  // For every value i starting from first parameter till second paramter decrementing it by 2 until reaching initial
+  // Check whether the current index is an odd number through condition ""i %% 2 !== 0"" if true then accumulate into sum var
+  // Return final result outside loop scope
+  
+  // Here '%' operator used for modulus operation which returns remainder when first operand is divided by the second
+
+  // If no such natural numbers found that satisfy given conditions just immediately returning initialized 'sum', hence would be equal to 0 hereafter so don’t need explicitly return statement there
+
+  // Type annotation present also ensures compilation error thrown whenever wrong types passed instead of runtime errors thus making our application more robust against issues related to data types.
+
+  // As per question description, however constructs could vary slightly based on how task requires handling ranges. This version assumes exclusive limits providing evenly spaced series only covering without lower bound limit itself while other versions may wish considering them as included.[+/-]
+
+  // Note: In real world applications taking inputs/ranges care must taken not overstepping memory size limitations else overflow can occur causing unexpected behaviour. So carefully manage these kinds of computations especially during recursive calls.
+
+  // Also note this approach won't actually work unless your system supports",3.72227144241333,400,336,"Counter({(5, 4): 1, (1, 309): 1, (6, 3): 1, (3, 7): 1, (2, 10): 1, (4, 3): 1})",False
+False,17,mbpp_3_is_not_prime,0.7,23.104607582092285,False,"```typescript
+  // A utility function is_not_prime checks if n is divisible by any integer within [2..sqrt[n]] range (both inclusive)
+  // If it's not then we know this nummber isn't prime so early returns true else false.
+  
+  // Math.floor() used instead of just 'Math.sqrt'(used primitive operation here), because sqrt can produce floating point values which aren't integers hence they need to be floor'ed as per requirement.
+  // Also, there is no call to apply sqrt on negative inputs since these cases must have been handled at input stage thus reducing unnecessary computational cost.
+  // Hence returning false directly from those instances enhances efficiency over iterating till n/2.
+  // The corner case where n=1 has also avoided iteration through all previous conditions but returned true unnecessarily due to its nature being neither Prime nor Composite. Therefore handling separately making efficient loop faster for further iterations.
+  // Final condition checking whether given number itself equals 0 or less handles both edge cases -negative and zero numerical value inputs.
+    
+  // This optimized approach reduces time complexity significantly compared traditional one ie O(N).
+  // Time Complexity => Best Case : O(1), Avg Case : O(sqrt N), Worst Case : O(N)
+        
+  // Space Complexity = O(1); Constant amount of space regardless of input size, helpful when dealing with large data sets.
+      
+  // All above optimizations combined make below proposed method highly",3.819015264511109,400,331,"Counter({(4, 4): 1, (1, 315): 1, (3, 1): 1, (5, 2): 1, (2, 2): 1, (7, 2): 1, (12, 1): 1, (8, 1): 1, (6, 3): 1})",False
+False,18,mbpp_458_rectangle_area,0.7,24.036962032318115,False,"```typescript
+// Here is how we can define this function in Typescript
+
+// The 'rectangleArea' function takes length (l) and breadth (b), both as its parameters 
+// These represent dimensions of the rectangular shape that it needs to calculate the area of.
+// It returns the resultant calculated area which also has numerical value data-type, hence annotated by ':number'.
+
+// Annotate types explicitly only when necessary - avoid ""any"" unless absolutely required
+
+// Then inside body of function, simply multiply lengths together to get area, since formula for calculating area on rectangle is Area = l * w where l represents length & w stands for width/breadth here
+
+// This simple calculation forms our purposefully basic yet efficient algorithm of finding out area of any given Rectangular according to classical geometrical definitions
+
+// Returning final computed area back through completion of the function call
+
+// Complete Function Definition Starts From Below:
+
+// rectagleArea :: Number x Number => Number
+
+
+// Define actual computation within function Body : 
+
+// Note usage of implicit braces definition syntax of functions from ES6 Style
+     // Return Calculation Result immediately upon execution
+     
+  
+        
+       
+           
+              
+               
+                
+                 
+                  
+                   
+                     
+                       
+                         
+                           
+                              
+                                
+                                 
+                                   
+                                     
+                                        
+                                           
+                                               
+                                                    
+                                                                      
+
+                      
+
+                        
+                          
+                            
+                               
+                                  
+                                    
+                                       
+                                            
+                                                 
+                                                    
+                                                                         
+
+
+
+
+
+
+
+
+",3.950826168060303,400,345,"Counter({(3, 5): 1, (1, 316): 1, (4, 6): 1, (2, 15): 1, (5, 3): 1})",False
+False,19,mbpp_441_surfacearea_cube,0.7,22.012540340423584,False,"```typescript
+// The formula to calculate the surface area of a square is l * l (where 'l' represents one side)
+// In case we have a cube where all sides are equal, let us call it as 6 faces each having length 'a'. Then sa = 6*a^2 which can also represent total surfaces of cubes when they rotate around axises.
+
+// So here our input 'l' would correspond to edge-length of face on cubic configuration ie., real edge of CUBE not diagonal/edge along long axis parallel to directions of movement ('x', 'y', 'z') of Cuboid coordinate space. And since there are six such edges forming same shape so multiplying by 6 we got Surface Area Formula :=> 6*(Math.pow(l, 2)) .
+
+
+// Code starts from below line commented block /////////////////////////////////////////////////////////////////
+
+
+// Here comes Your Particular Function Definition Starts From Below Line Marked With ""Function"" Keyword
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.7709922790527344,400,342,"Counter({(4, 3): 1, (1, 315): 1, (8, 1): 1, (2, 15): 1, (5, 2): 1, (3, 4): 1, (7, 1): 1, (6, 1): 1})",False
+False,20,mbpp_162_sum_series,0.7,22.444589376449585,False,"```typescript
+// Calculates the series sum as described in problem statement upto 'n' terms
+// Here we start calculating our iteration starting at zero till half of given value 'n'. We decrease by factor 2 on each step.
+// The calculation is done via recursion but it can also be implemented iteratively if necessary
+
+// Recursive Solution
+
+// Function that calculates each term based off previous one subtractioned twice plus next addition point
+// Base Case occurs when current term goes below equal to zero so returns accumulated total
+// If not base case then calls itself again incrementing index & decrementing by factor of 2 adding last calculated subtrahend back into total tracker  
+
+// Signature contains parameters : Total Tracker Initialized At Zero , Index initialised As Zero And Subtracted Value initialized at Given Number N.
+
+// This Is Important To Start Typings With Accumulator Becoming Cumulative Result Of Each Call In Series For Final Answer So Its A Required PARAMETER TO FUNCTION AND IT IS INCLUDED DURING RECURSIVE STEP OF CODE EXECUTION.
+
+// Again It Is Conceptually Similar But Instead Iterative Approach Takes Place Through RECURSION WE HAVE THIS APPROACH HERE BY MAKING THESE CHANGES INTO TYPE ELEMENTARY PARTICIPATION.
+
+// Also See Below That While Defining Parameters During Inputs You Must Indicate All Parameter Details Which Are Particularly Explicit In",3.735299587249756,400,332,"Counter({(9, 2): 1, (1, 316): 1, (6, 3): 1, (4, 2): 1, (3, 2): 1, (2, 1): 1, (5, 5): 1, (7, 1): 1})",False
+False,21,mbpp_448_cal_sum,0.7,22.48794174194336,False,"```typescript
+// Function that calculates Perrin's sequence upto n-th term 
+// (P0=3, P1=0, P2=2) then sums them all up
+
+// Helper function to get Perrin's terms recursively
+// We can improve this by storing previously computed values instead of recalculating every time
+// which would make it O(N), but initial setup requires more space complexity since we have to store previous states as well.
+
+
+     // Base case when N is less than zero, returns -1 indicating invalid input
+  
+ 
+       // Recursive call until N reaches 0 where summation stops
+     
+       
+         // Return calculated value from helper function
+         
+          
+              // Calling our helper method inside main function with argument 'n'. It finally returns total sum of first 'n' elements. 
+              
+                  // Final result returned back to whoever called it. */                    }}}}}}                
+                  
+
+               
+                    
+                     
+                      
+                       
+                        
+                         
+                          
+                           
+                             
+                                                               
+                                                                                                    
+                                                                                                     
+                                                                                                       
+                                                                                                         
+                                                                                                           
+                                                                                                            
+                                                                                                               
+
+                            <a 
+	class",3.8365070819854736,400,272,"Counter({(13, 1): 1, (1, 243): 1, (6, 1): 1, (5, 2): 1, (3, 5): 1, (16, 1): 1, (10, 2): 1, (4, 5): 1, (2, 8): 1, (8, 1): 1, (9, 1): 1, (7, 1): 1, (15, 1): 1})",False
+False,22,mbpp_738_geometric_sum,0.7,22.11768364906311,False,"```typescript
+// Geometric Sum is calculated as 1 + 1/2 + 1/4 + 1/8 + ......+ 1/(2^(n-1))
+
+// Base Case of recursive function when it reaches zero we stop calculating further.
+
+// Recursive Function
+// This function calculates the weightage according to position (i) from last and adds all these weighted values together till given limit 'limit' in input parameters
+
+// In our case if we take 'n', base condition becomes 0 which stops the calculation process. We start reducing value by one at each level upwards until we reach 1 finally. That sums us actual geomatric series.
+
+// Typically this problem also requires tail recursion optimization but that concept was not explained here because TS doesn’t support Tail Call Optimization. So I have used classic iteration method instead.
+  
+
+
+// Function Definition Starts From Here
+
+
+
+
+// Compute The Weighted Value And Add It To Total Output Variable Using Iterative Approach Instead Of Recursive One Because TS Does Not Support Directly For All Input Sizes By Default
+
+// So You Can Use An Array With Size N+1 & Fill Remaining Values Up According To Formula Provided Above But As There Is No Gurantee About Memory LimIT Then Following Approcah IS Preferable 
+
+
+
+
+
+// Now Let Us Define Our Main Functions",3.516047477722168,400,311,"Counter({(14, 1): 1, (1, 285): 1, (6, 2): 1, (5, 8): 1, (4, 2): 1, (2, 4): 1, (9, 1): 1, (3, 8): 1})",False
+False,23,mbpp_239_get_total_number_of_sequences,0.7,22.73853087425232,False,"```typescript
+// Array dp[i][j] represents total ways we can reach j by considering first i elements 0<=i<=n+1 & 2*i <= j <= 3*(n-1)
+// Transition : For every new value say x which satisfies our condition then there must exist some j from where it comes via transition so count all these values until 'x'
+
+// Function to calculate the result based on given dynamic programming approach  
+    
+        // Initialize DP array     
+        // Also take care if any invalid inputs happen because they don't have valid results either way          
+        
+        // Base case when only one sequence allowed (since its increasing order without repetitions )      
+            
+            // Loop through all possibilities ensuring conditions met and increase counts accordingly                    
+               
+                    // Return final answer at last position as per question requirements since we want total number not individual combinations                                                                                                                     
+                 
+                      
+                              
+                            
+                                  
+                               
+                                            
+                                        
+                                         
+                                           
+                                       
+                                     
+                                   
+                                 
+                  
+              
+                
+             
+         
+    
+                           
+                        
+                       
+                                    
+                                               
+                             
+                          
+                         
+                    
+                        
+                    
+                 
+              
+             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.7383086681365967,400,314,"Counter({(22, 1): 1, (1, 289): 1, (8, 1): 1, (2, 14): 1, (3, 4): 1, (9, 1): 1, (4, 1): 1, (5, 1): 1, (6, 1): 1, (17, 1): 1})",False
+False,24,mbpp_59_is_octagonal,0.7,28.300669193267822,False,"```typescript
+// The formula given by Derek J. Rose Bruckner (DJR) for generating n-th Octagonal Numbers 
+// N = 2m + 1 where m = [Octagonal Number] -> Formulae from ""Combinatorial Specifications""
+// And since we're looking at the n-th term here so let 'N' equal to ['position'] i.e., ('Pos')  
+// So our positional value as per this equation would become => Pos=[(8*n)-3)/2+1 if it has decimal part then discard '.0'. After that multiply obtained result into the form => 4 * Pos^2 - 7 * Pos which equals the Octagonal Number. Hence forming below Typescript Function : 
+
+// Define function with position parameter & Return Octagonal Number on respective Position
+
+        //Typescript function definition formating starts...
+    
+    //Function Declaration Starts Here..
+
+    //Defining Our Main Function IsOctagonal With Parameter As 'pos':number Which Returns A Number        
+     
+      
+         
+            
+          
+           
+                
+                 
+                   ((8 * Math.floor((pos/5)*6)) / 2 ) ;                              
+                        console              
+                                                                                                        
+                                                           
+                          
+                         
+                      
+                    
+                   
+                     
+             
+                        
+                    
+                             
+                               
+                                  
+                                   
+                                     
+                                      
+                                            
+                                         
+                                               
+                                                  
+                                                       
+                                    
+                                 
+                                           
+                                               
+                                                            ",9.347915887832642,400,332,"Counter({(5, 2): 1, (1, 306): 1, (4, 3): 1, (2, 11): 1, (6, 1): 1, (3, 6): 1, (9, 2): 1, (8, 1): 1})",False
+False,25,mbpp_638_wind_chill,0.7,22.68907618522644,False,"```typescript
+// Wind Chill Index Calculation Function 
+// Formula used -> wci = 13.12 + 0.6215*t -  11.37*(Math.pow(v, 0.16)) + 0.3965*t*(Math.pow(v, 0.16));
+
+// Round down if temp is less than zero (warm weather) else round up as per usual convention that it's not possible to have negative wind chill.
+
+// Firstly check whether the input temperatures falls below freezing point ie., <= 0 degrees Celsius. We know from physics knowledge, WCI can only occur when T > −58oC during daylight hours at constant air pressure under normal conditions. So we would directly send back this value without calculating further. This saves computation time. And also makes sense because physical world doesn’t allow values lower than absolute zero (-58°). Therefore no need to perform calculations here.
+
+// Secondly check whether Velocity is greater than equal to 4.8kmph which implies these velocities cannot result into real-world scenarios where official standards defined by World Meteorological Organization applies. Hence again returning NaN instead calculation process was overkill here..
+
+// If neither above cases then proceed normally with remaining logic inside conditionals blocks. Make sure all edge case checks through out whole processing steps. That way we guarantee reliable results & robustness against invalid inputs too via error handling strategies available within Typescript itself.
+
+// The final step would always ensure WCI being generated can never fall beyond limit set officially published on official websites such",3.873288631439209,400,351,"Counter({(7, 3): 1, (1, 340): 1, (4, 2): 1, (6, 1): 1, (3, 2): 1, (8, 1): 1, (2, 1): 1, (9, 1): 1})",False
+False,26,mbpp_577_last_Digit_Factorial,0.7,22.243591785430908,False,"```typescript
+   // Function to calculate Factorial 
+     
+    
+        // Helper function last_Digit_Factorial returns remainder when 'a' is divided by prime factors of n from i=2 till sqrt(i) as these can always divide into resultant product if they exist in original inputs
+        
+           
+      
+            
+         
+          
+              
+                
+                 
+                    
+                      
+                          
+                            
+                                                  
+                                                                
+                                            
+                                  
+                                    
+                                         
+                                        
+                                           
+                                             
+                                               
+                                                   
+                                                     
+                                                        
+                                                           
+                                                                                         
+                                                             
+                                                                                       
+                                                                               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   
+                              
+                          
+                                 
+                                     
+                                       
+                               
+                                          
+                                                
+                                                    
+                                                          
+                                                               
+                                                                   
+                                                                      
+                                                                             
+                                                                                 
+                                                                                           
+                                                                                       
+                                                                                          
+                                                                                   
+                                                                                        
+                                                                                      
+                                
+                                      
+                                                
+
+         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.825963258743286,400,339,"Counter({(7, 3): 1, (1, 321): 1, (2, 6): 1, (11, 1): 1, (10, 1): 1, (4, 1): 1, (6, 1): 1, (3, 5): 1})",False
+False,27,mbpp_84_sequence,0.7,22.001532793045044,False,"```typescript
+// This is based on Newman Conway's sequence which starts as [1] then uses previous terms 
+// (and their counts) to generate next term. The first few steps would be -> [1, 1] => [2],=>[2,2], => [3]. etc..
+
+// Create cache array that stores computed values from sequences upto index 'i'. Initialized with base cases i.e., at position zero & one we have value = 1.
+  
+// Function definition
+
+        //helper recursive function
+      
+    		// Generate sequence by referring existing cached values if they exist else calculate it dynamically. Store result into cache so can refer back later
+        
+	 			// Calculated Value = CountPreviousTerm * PreviousValue + 0/CountCurrentTerm*NextTermOfSequenceBeforeThat
+     
+            // Base Cases : If N=1 || N=2 taking care directly otherwise calling above logic inside loop under condition till reach required point ""N"". Returning last calculated item from series once complete. Loop start from 2 because already initialized as per requirement.
+          
+	        // Call helper method passing initial parameters (initialSeriesArray, 5), where Series Array contains initially given seed data and N represents count how many places need to go downeries.
+              
+          // Hence final Recursion call sequentially generates all possible indexes until including specified place ""index"" holds necessary information about element thereafter returning this element itself e.g.(sequence(4)).at fourth place in described manner",3.783712148666382,400,330,"Counter({(10, 1): 1, (1, 312): 1, (8, 1): 1, (3, 3): 1, (7, 2): 1, (5, 2): 1, (9, 1): 1, (4, 4): 1, (6, 1): 1, (2, 3): 1})",False
+False,28,mbpp_724_power_base_sum,0.7,22.25162649154663,False,"```typescript
+  // Function Definition  
+  // Calculate Power Using Exponentiation Operator (**)
+  // Convert Number To String Split Into Array Of Characters Map Over Each Character And Reduce By Adding Together The Results With parseInt() Converting Back From String To Number
+  // Finally Use reduce Again On Resultant Array Summing All Elements Individually
+
+  // Note That This Process Is Only Applicable If BOTH Base AND Powers Are Positive Integers Greater Than Zero Else May Raise Error/Exception As Per Compiler Rules In Typescript Language For Arithmetic Operation
+
+  // Also It Doesn't Take Care about Decimal Points Or Negative Numbers So Make Sure Inputs Comply With Requirements
+    
+  // But I'm sure it can work when we just pass positive integers greater than zero only because this is what problem statement indicates but make sure validating inputs if needed otherwise risk of causing run-time error may occur
+
+  // Let Code Begins Here :
+
+  // ****************************************************************************************************************
+
+     
+       
+      
+        
+          			
+              	    				                		                        	       	   					            	         	 	           	     	                                 	   	               	                  	                      	             	                 		                   		                    	     	        		                              						                                                                                       		                     							                                   	                          								                                  	                         	                            		                             	                               	                                                           	                                     	                                               ",4.065120697021484,400,315,"Counter({(9, 3): 1, (1, 294): 1, (8, 5): 1, (2, 7): 1, (3, 3): 1, (4, 1): 1, (7, 1): 1, (5, 1): 1})",False
+False,29,mbpp_641_is_nonagonal,0.7,25.521705150604248,False,"```typescript
+// A Nonagonal Number can be represented by the formula n*(7*n - 5)/2.
+// So we just need to calculate this according to our input 'n'.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+     // We cannot leave it empty as per Typescript syntax rules so I have added some dummy values above which won't get executed but they serve purpose without causing any errors while testing the logic written below. The real one line required doesn't fit into space available here hence multiline format used instead. Multiple lines were intentionally placed there because their existence does not contribute towards solving problem directly. It was done purely out of respect for others who may read these instructions. This has nothing related to question asked ""finding Nth nonagonal number"". Simply saying that, writing good quality code matters during interviews unlike languages taught at school where only few hours could cover basics completely. Also doing repetitive work/typing same statements again & again adds no value other than de-motivating candidates from such tests. Good luck!
+     
+      
+           
+              
+               
+                 
+                  
+                   
+                     
+                        
+                         
+                           
+                              
+                                
+                                 
+                                    
+                                      
+                                         
+                                            
+                                               
+                                                  
+                                                    
+                                                      
+                                                          
+                                                            
+                                                                  
+                                                                    
+                                                                        
+                                                                          
+                                                                            
+                                                                                
+                                                                                  
+                                                                                       
+                                                                                             
+                                                                                                   
+                                                                                                       
+                                                                                                           
+                                                                                                            
+                                                                                                             ",3.9472854137420654,400,365,"Counter({(14, 1): 1, (1, 352): 1, (4, 1): 1, (2, 8): 1, (5, 1): 1, (6, 1): 1, (3, 1): 1})",False
+False,30,mbpp_279_is_num_decagonal,0.7,26.81293892860413,False,"```typescript
+// The formula used here can also represent this as (4*n-3)*n - 12
+// This would give us the decimal part when divided by 5 which could further simplify our result if needed but it's not necessary since we just want the integer value.
+
+
+// Here starts the actual calculation part based on mathematical concept that each Decagon Number has one more edge than previous polygonal number. So , equation becomes ((6 * side) - 7) * (side).
+
+// Function definition
+
+   // Calculating N th term from given series starting point zero ie.,0,9,28... etc where difference between every consecutive terms decreases gradually by seven per new step so diff = prevDifference + 7. But initial sequence start at 'a'(zero points ) then decrease smoothly  hence no variable digit exists .Therefore only one parameter ""n"" present instead of three parameters ""digit"", ""diff""(initialy set=1),""prev"".
+    
+
+//Function Implementation
+       
+     
+      
+        
+     
+          
+       
+            
+           
+             
+              
+               
+                
+                 
+                   
+                     
+                       
+                         
+                           
+                             
+                               
+                                 
+                                   
+                                     
+                                       
+                                         
+                                            
+                                                  
+                                                                                                        
+                    
+                                               
+                                                      
+                           
+                        
+                            
+                              
+                                  
+                                       
+                                    
+                                      
+                                           
+                                               
+                                                          
+                                                
+                                                      
+                                               
+                                
+                                                    
+                                           
+                                                  
+                                                  
+                                                                         
+                    
+                                              
+                                              
+                                                  
+                                              
+                                                      ",3.9032235145568848,400,349,"Counter({(6, 2): 1, (1, 324): 1, (5, 2): 1, (2, 14): 1, (3, 6): 1, (8, 1): 1})",False
+False,31,mbpp_72_dif_Square,0.7,24.88116788864136,False,"```typescript
+// This is based on mathematical property that states any integer which can be expressed 
+// as sum (or difference) of two perfect square integers also happens to be the case when we replace '+' operator by '-'. Hence it checks if n = i^2 - j^2 where both i & j <= sqrt(n). If such pair exist then returns true otherwise false.
+
+
+    
+      // Start writing from here...
+      
+       
+        
+
+         
+  
+
+               
+              
+                 
+                  
+                       
+                         
+                             
+                              
+                                     
+                                          
+                                                                                    
+
+                      
+                     
+                   
+                
+             
+           
+            
+                                      
+                                  
+                                         
+                                           
+                                               
+                                                        
+                           
+                          
+                                       
+                                 
+                                        
+                                            
+                            
+                               
+                                    
+                                       
+                                   
+                                   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.7888479232788086,400,322,"Counter({(22, 1): 1, (1, 303): 1, (9, 2): 1, (7, 2): 1, (2, 5): 1, (4, 4): 1, (3, 4): 1, (5, 1): 1})",False
+False,32,mbpp_781_count_divisors,0.7,22.82890510559082,False,"```typescript
+  // Initialize counter as it includes all the integers from 0 up till n including itself
+  // Except for zero which doesn't have any factors hence excluded by default
+  // Hence we start our loop from 1 not 0
+  
+  // The if condition checks that ""i"" can divide exactly without leaving a remainder (modulus operator)
+  // If true then increment the counter because i is a factor of given input 'n'. So keep counting the total no.s that 'n' could be divided into meaning its quantity would give us info about how many divisors does this integer actually has
+  // Finally remember that every number always has at least one and maximum possible amount of divisor thus more than half of them cannot make remaining part as well therefore returning false directly when such conditions met
+  // Else continue iteration until full cycle was completed and return result based on parity property found earlier
+    
+  // Also note initially assuming initial case where smallest positive prime number only having single other unique non identical pair - so no self match scenario occurred yet but also no chances remained either way due to nature of problem statement
+      
+  // This logic applies just perfectly fine for validating below relations between numeric figures taken within context of normal mathematical world view mannerism
+  
+  // Let’s now take another step forward focusing solely upon current target area towards further completions—followed strictly accordingly according to prescribed parameters listed out above while ensuring integral accuracy along the journey undertaken subsequently under same circumstances mentioned aforehand.”
+     
+  // And yes finally drawing conclusions",3.897870540618897,400,334,"Counter({(13, 1): 1, (1, 312): 1, (6, 2): 1, (2, 6): 1, (3, 4): 1, (5, 3): 1, (4, 6): 1})",False
+False,33,mbpp_309_maximum,0.7,23.201549530029297,False,"```typescript
+// Function that returns the max value between 2 given numbers (TypeScript)
+
+/// <summary> This function maximum as parameters two number values named 'num1' & 'num2'. It then compares these two inputs and delivers back the higher one among them.</summary> 
+   /// if num1 is greater than num2 it outputs num1 otherwise it would show num2  </returns>
+    
+       // Adding appropriate types ensures compatibility with Typescript compiler and reduces runtime errors
+     
+           
+          
+        
+         
+       
+            
+             
+                
+                  
+                    
+                      
+                        
+                          
+                            
+                                
+                                  
+                                    
+                                      
+                                        
+                                            
+                                              
+                                               
+                                                   
+                                                                                     
+                 
+                                                         
+                                       
+                             
+                               
+                                         
+                                 
+                                     
+                                           
+                                               
+                                                       
+                                                                                              
+               
+
+
+
+
+
+
+
+                                   
+                                     
+                                        
+                                          
+                                              
+                                               
+                                                   
+                                                                                     
+                 
+                                                         
+                                       
+                             
+                               
+                                         
+                                 
+                                     
+                                           
+                                               
+                                                       
+                                                                                              
+               
+
+
+
+
+
+
+
+
+                                                           
+                    
+                 
+          
+
+
+
+                                                                                                                                                          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        <
+                                    T   
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",4.095975160598755,400,355,"Counter({(3, 3): 1, (1, 334): 1, (4, 3): 1, (11, 1): 1, (2, 12): 1, (5, 2): 1})",False
+False,34,mbpp_295_sum_div,0.7,22.033069610595703,False,"```typescript
+// Helper Function to check if 'n' is a perfect square
+// This helps us identify prime factors later on 
+
+
+  	// Get the square root of n rounded down as integer value
+	
+	    // Check every possible factor upto sqrt(n)
+		    
+			            // If it's not already accounted for by previous steps then it must be one of its proper divisor
+				             
+					                      // Adding both divisor and quotient into resultant total sum (unless they are same).
+            
+     
+       
+        							      
+														              
+                      
+                   
+                                                                                                                  
+                               
+                    
+                        
+                            
+                       
+                 
+                
+               
+          
+         
+   	 
+                                  
+                                   
+                                     
+                                        
+                                         
+                                            
+                                                
+                                               
+                   
+                           
+                              
+                         
+                          
+                                       
+                             
+                                 
+                                           
+                                      
+                                     
+                                    
+                                  
+                                
+               
+            
+ 
+   
+
+  
+              
+            
+     
+  
+                                                             
+                                                           
+                                                         
+             
+            
+         
+     
+     
+
+    
+             
+        
+     
+                                             
+                                              
+                                                        
+           
+        
+     
+
+ 
+        
+     
+  
+  
+                    
+       
+                      
+                                 
+      
+
+        
+    
+     
+           
+                   
+                     
+                      
+                                      
+                             
+     
+            
+
+          
+           
+        
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.80605697631836,400,352,"Counter({(3, 1): 1, (1, 335): 1, (8, 1): 1, (7, 2): 1, (5, 2): 1, (2, 9): 1, (6, 2): 1})",False
+False,35,mbpp_14_find_Volume,0.7,24.284852027893063,False,"```typescript
+// Volume = (base * height) / 2
+// For Triangular Prisms it simplifies to ((1/3)* base^2 *height). Assuming all sides equal length 'a' => V=((1/6)*a^3*h), where a is side of triangle && l represents long edge of triangle which can also serve as base here because we assume both bases are same & parallel therefore they would have same width ie., b = w so taking this into account :
+
+// Therefore formula becomes -> volumn = 0.5 * BaseArea * Height . Where area of equilateral triangle= √3/4*(side^2) , given that short edges connected by vertices form parallelogram having perimeter of rectangle equivalent to ""b"" times along with side forming hypotenuse on other end of trapezoid. And thus area equals half of square of longer edge ie..,   AreaOfBaseTriangle = 0.5 * (longEdgeSide ^ 2 ) =>  Area=0.25 * sqrt(3) * longEdgeSide ^ 2 ; So rearranging terms finds out equation being used above while calculating volume similarly assuming its shorter diagonal length||b as our common measure instead of real dimensions already provided.
+// IMPORTANT Note- This calculation assumes that one third part forms a regular equilateral triangle running through three points making corners of rectangular frustum face towards each others symmetrically mirrored parts completely filled upwards downward giving volume similar to solid cone but tilted at angle θ formed between pointing upward side ||H of right angled triangle formed by diagonals || ∠Θ made inside frustums opposite ends of H. Though not always practical scenario could happen due scaling geometrical objects based upon requirements of specific projects. Also notice parameter",4.03082013130188,400,391,"Counter({(4, 2): 1, (1, 386): 1, (2, 3): 1})",False
+False,36,mbpp_167_next_power_of_2,0.7,23.925891876220703,False,"```typescript
+// Using bitwise operator ""<<"" which is equivalent to multiplying by 2 raised to exponentiation
+// We count how many bits we need until it's larger or equals to n (exponent) then take this as our power-of-two result
+// If already power of two just keep same value without any change
+
+
+
+
+
+    
+       // Function starts from here  
+       
+        
+     
+            
+             
+                
+                  
+                    
+                      
+                        
+                         
+                           
+                              
+                                
+                                  
+                                     
+                                        
+                                           
+                                               
+                                                     
+                                                       
+                                                          
+                                                            
+                                                                
+                                                                  
+                                                                                                         
+                                                                               
+                                                                                   
+                                                                                             
+                                                                                                   
+                                                                                                       
+                                                                                                            
+                                                                                                                 
+                                                                                                                       
+                                                                                                                               
+                                                                                                                                         
+                                                                                                                                           
+                                                                                                                                                                 
+                                                                                                                                                                    
+                                                                                                                                                                         
+                                                                                                                                                                               
+                                                                                                                                                                          
+                                                                                                                                                                                    
+                                                                                                                                                                              
+                                                                                                                                                                                    
+                                                                                                                                                                                     
+                                                                                                                                                                                         
+                                                                                                                                                                                             
+                                                                                                                                                                                  
+                                                                                                                                                                                   
+                                                                                                                                                                                    
+                                                                                                                                                                          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",4.235341787338257,400,334,"Counter({(7, 3): 1, (1, 315): 1, (6, 2): 1, (3, 2): 1, (5, 1): 1, (13, 1): 1, (8, 1): 1, (2, 8): 1, (4, 1): 1})",False
+False,37,mbpp_600_is_Even,0.7,24.517367601394653,False,"```typescript
+  // Function definition starts here
+  
+  // Check if n modulo 2 equals zero (i.e., it's divisible by 2)
+  // If so, then we know that 'n' is indeed Even and hence returns true else false
+    
+  // Define this logic inside any block scope such as {} brackets - required syntax in Typescript context
+ 
+       
+      
+     
+          
+            
+                
+                    
+                        
+                            
+                                
+                                    
+                                        
+                                            
+                                               
+                                                   
+                                                                        
+                                                                                     
+                       
+         
+                 
+                  
+                      
+                           
+                                  
+                                       
+                                         
+                                               
+               
+              
+             
+           
+                         
+                                 
+                              
+                                   
+                                     
+                                           
+                                               
+
+
+
+
+
+                          
+                               
+                                  
+                                      
+                                         
+                                                             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.7042086124420166,400,321,"Counter({(2, 21): 1, (1, 286): 1, (8, 1): 1, (4, 2): 1, (5, 1): 1, (3, 5): 1, (9, 2): 1, (6, 3): 1})",False
+False,38,mbpp_742_area_tetrahedron,0.7,25.338059663772583,False,"```typescript
+// Calculating volume of Tetrahedron (cube root formula) having edge length 'a' can give us the 4 sided polygon/area of regular tetrahedron. Here we need to find cube root as that is the ideal value which generates sides equal to our input side i.e., sqrt[3] * pow[(s^3)/2], where s refers to one single face of square hence it simplifies into [sqrt[3]]*pow([a^2]) /2 . We divide by 2 at last because both top surface & bottom base intersect forming double faces on a normal view point. Hence final area would be half only.
+
+// Important Note : Please ensure valid positive inputs while calling this method else calculations may not result accurate areas due calculated values being negative under roots computation scenarios.
+
+// Also remember that although Math.cbrt() does exist but its support level across different browsers could vary so instead directly applying cubic power operation could help avoid any potential runtime errors related to unsupported operations.  
+
+
+// The direct calculation below helps more closely align with respecting mathematical formulas used herein - https://en.wikipedia.org/wiki/Regular_tetrahedron#Volume
+
+
+// This approach usually rounds off floating-point types precision issues away from actual computations though since there aren’t many decimal points involved no matter how big size gets multiplied up against each other getting rounded down essentially cancelling out these fractions during computing stage itself thus doesn't disturb the results mostly resulting perfectly fine even beyond few thousands digit",3.7370619773864746,400,337,"Counter({(12, 1): 1, (1, 328): 1, (9, 2): 1, (11, 1): 1, (2, 1): 1, (10, 1): 1, (8, 1): 1, (4, 1): 1, (7, 1): 1})",False
+False,39,mbpp_432_median_trapezium,0.7,22.05747604370117,False,"```typescript
+// The formula used here is derived from the definition of area which can also 
+// be formulated as half the lengths multiplied by their heights (lengths being parallel sides)
+// Therefore, we divide it twice because each division reduces our resultant size by factor of 0.5 
+// Thus obtaining median/height value directly  
+
+// So for any trapezoid A having bases b1 & b2 where |b1 - b2| = d then Area = 0.5 * h * ((b1+b2)/2)
+// Let's solve this equation for h => h= (Area*2 )/(b1+b2);
+
+// Hence our final Typescript Function looks Like :
+
+
+     // As per above explanation , following is the TS Code that calculates Median Height Of Trapezoidal figure
+     
+       
+      
+        
+           
+          
+             
+                
+                 
+                      
+                       
+                        
+                         
+                           
+                             
+                               
+                                 
+                                   
+                                         
+                                           
+                                              
+                                               
+                                                                                   
+                     
+            
+         
+                  
+                                    
+                                        
+                                            
+
+                    
+               
+                                  
+                            
+                                     
+                              
+                             
+                          
+                       
+                 
+             
+                         
+                        
+                         
+                            
+                             
+                               
+                                   
+                                      
+                                       
+                                            <
+                                                
+                                                     
+                                                      
+                                                           
+                                                               
+                                                                  
+                                   
+                                                                                   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.716297626495361,400,350,"Counter({(10, 1): 1, (1, 327): 1, (4, 3): 1, (2, 13): 1, (6, 1): 1, (3, 3): 1, (5, 2): 1})",False
+False,40,mbpp_234_volume_cube,0.7,23.32403016090393,False,"```typescript
+// The formula to calculate the volume of a cubic shaped object is cubed (sideLength) if it's just one dimension. 
+// In this case we already know that our shape has only three sides so there shouldn’t need any special formulas unless edge lengths vary.
+
+// This function takes the variable 'l', which represents each side of the cube. It then returns the result by multiplying l*l*l -> Volume = Side * Side *Side. Since all edges have same measurements here, forming CUBE!!! So no variance required!
+
+// Note also I am including my assumptions about retrieving/inputting data into this method inside the function itself as per requested requirements but generally speaking user would provide these values based on his needs.  
+
+
+// Here is how to implement this:
+
+
+
+
+
+     // Function Implementation Start:
+     
+       
+      
+           
+               
+            
+                
+                  
+                    
+                     
+                        
+                         
+                           
+                             
+                              
+                                
+                                 
+                                    
+                                         
+                                           
+                                               
+             
+         
+          
+        
+       
+                 
+              
+                                                                                   
+                          
+                            
+                               
+                                  
+                                        
+                                            
+                                                      
+  
+                                   
+                                      
+                                       
+                                                       
+                                                  
+                                                        
+
+
+
+
+
+                                     
+                   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.9945220947265625,400,350,"Counter({(4, 4): 1, (1, 328): 1, (9, 1): 1, (3, 4): 1, (2, 10): 1, (5, 3): 1})",False
+False,41,mbpp_422_find_Average_Of_Cube,0.7,22.71109414100647,False,"```typescript
+// Function that calculates cube of given number 
+
+   // Calculate Sum Of Cube Numbers from 1 till N
+    
+        // Divide by 'N' To get Average
+        
+            //Return Resulting Value as Answer
+            
+     
+      
+
+                
+                 
+               
+                    
+                       
+                  
+              
+         
+             
+          
+                      
+                     
+                   
+                        
+                                           
+                                        
+                                         
+                                            
+                                                           
+                                                                                              
+                                   
+                               
+                         
+                             
+                          
+                                 
+                                     
+                                    
+                                       
+                                      
+                                               
+                                                                                                  
+ 
+
+                            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.873298168182373,400,357,"Counter({(4, 3): 1, (1, 343): 1, (8, 1): 1, (7, 2): 1, (9, 1): 1, (2, 7): 1})",False
+False,42,mbpp_292_find,0.7,24.15350103378296,False,"```typescript
+  // The Math.floor() method rounds down a given numeric expression to the next lowest integer.  
+  // This is useful when we want to round down towards negative infinity.
+  // Here's how it works: It takes input as n/m where 'number', here represented by 'n'. Then divide this resultant value again into another variable named ""quot"". Finally returns that variable which holds our desired answer.
+
+  // Returns rounded-down division results between inputs 'num1' & 'deno':
+  // ie., floor({num1}/{denom}) = flooredQuot({num1}, {denom}).
+  // Precondition : denom != 0  [Input validated prior calling].
+    
+      // Description -> Code block description line goes under here explaining what each segment does individually.
+      
+        // For instance if num = 5 , den = 2 then it would work as follows:
+        
+            // Step 1: Calculate Quotient => num / den = quo ; let us suppose quo=3+4j
+            
+           //Step 2: Round off downward without changing its magnitude=> newNum=Math.floor(quo) => 3
+         
+           //Finally Return and display Output As required.
+
+
+
+
+  // Code Block Start From Below Line With Appropriate Commenting And Formatting...
+
+",3.567711591720581,400,304,"Counter({(3, 4): 1, (1, 279): 1, (7, 1): 1, (2, 6): 1, (5, 5): 1, (4, 3): 1, (8, 1): 1, (10, 1): 1, (9, 2): 1, (11, 1): 1, (6, 1): 1})",False
+False,43,mbpp_389_find_lucas,0.7,22.4235360622406,False,"```typescript
+// Function to calculate Lucas Numbers 
+
+// An iterative process is used here as it avoids potential stack overflow issues that could occur when recursion depth exceeds JavaScript call stack limit
+
+// A helper method named ""computeLucusNumber"" was created which takes position (integer) argument along side initial state values (0 - initially) and final states through direct mathematical computations based on formulas provided by Lucas Sequence definition within sequence series generation logic i.e., next = current+previous & previous = current-previous...etc..
+  
+
+// Thus this piecewise approach allows us not just generate Lucas Number but also handle base cases such as first element = 2 at index=3 while second element= 1 at Index=4 etc..
+
+
+        // Define Helper Method to Calculate Nth Lucas Number        
+      
+          // Initialize Lucas Sequences Initial State Values/Positions [first Element] 'Lk',[second Element] 'Lk+1'. Also declare third variable temp value holder ['temp'] For Swapping Purpose
+          
+           
+            
+             
+    			/////////// Start Actual Algorithm Code Block Here \\\\\\\\\\\ 
+     			
+              	   	 
+                 	       	                	     	                    
+                  
+               
+                   
+                     
+                       
+                          
+                                                         
+                        
+                      
+                   
+                                    
+                              
+                                               
+",3.5203452110290527,400,301,"Counter({(5, 7): 1, (1, 269): 1, (11, 1): 1, (2, 8): 1, (4, 5): 1, (12, 1): 1, (3, 8): 1, (7, 1): 1, (6, 1): 1})",False
+False,44,mbpp_227_min_of_three,0.7,26.30142378807068,False,"```typescript
+// Define the function taking 3 parameters all being numbers (type annotation)
+// The returned value is also a number
+// Use JavaScript's built-in Math.min() method which can take any amount of arguments
+// Return that result from our new function named ""minOfThree""
+
+// Begin writing out block of codes starting with curly braces {}
+// This contains logic on how we want this functionality resolved
+
+// Here there goes...
+
+
+
+
+
+
+
+
+
+     // Ending block of codes here
+  
+
+
+
+      // And so it ends!
+      
+                                  
+       
+        
+                 
+                  
+                     
+                                        
+                                                          
+                                                                                              
+                   
+            
+                    
+                        
+                                 
+                         
+                               
+                
+                       
+                            
+         
+                                    
+              
+               
+           
+             
+                           
+                      
+                    
+          
+                                      
+                  
+                                     
+                                         
+                             
+                                       
+           
+                                               
+                         
+                                   
+                                  
+                      
+                                            
+                                           
+               
+                 
+               
+            
+                    
+                
+                                                                                                                                      
+                                                                                                                  
+                                                                                                                                            
+                                                                                                                                                                                  
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.851832628250122,400,342,"Counter({(5, 3): 1, (1, 318): 1, (9, 1): 1, (3, 2): 1, (2, 12): 1, (6, 2): 1, (4, 4): 1})",False
+False,45,mbpp_388_highest_Power_of_2,0.7,24.88633418083191,False,"```typescript
+// We'll solve it by applying bitwise operations here
+
+// Function definition starts...
+
+
+      // first line we check if 'n' itself is a perfect power of 2 then directly return it  
+       
+      
+    
+        
+         
+          
+           
+            
+              
+                
+                 
+                  
+                   
+                     
+                       
+                        
+                          
+                            
+                               
+                                 
+                                   
+                                     
+                                        
+                                           
+                                             
+                                               
+                                                  
+                                                    
+                                                      
+                                                         
+                                                           
+                                                                
+                                                                  
+                                                                    
+                                                                      
+                                                                        
+                                                                          
+                                                                            
+                                                                               
+                                                                                 
+                                                                                  
+                                                                                    
+                                                                                       
+                                                                                             
+                                                                                              
+                                                                                                  
+
+
+
+
+
+
+
+
+
+
+                                         
+                                       
+                                      
+                                    
+                                  
+                               
+                             
+                           
+                         
+                       
+                      
+                    
+                 
+              
+           
+       
+   
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",4.062704563140869,400,328,"Counter({(6, 2): 1, (1, 295): 1, (10, 1): 1, (2, 17): 1, (9, 1): 1, (4, 4): 1, (3, 8): 1})",False
+False,46,mbpp_271_even_Power_Sum,0.7,23.91961550712585,False,"```typescript
+  // Function Definition
+  
+  // Helper method which gets if num is odd/even by checking its remainder when divided by 2
+  // Returns true if it's even else false (odd)
+  // We consider only positive integers as per problem statement so we do not need handling negative inputs here
+  // However, this can easily adjusted based on question requirements
+  // We assume 'num:' parameter always provided & validated accordingly
+  // Assuming all input values would fall within JavaScript safe Integer limit ie., -(2^53-1) <= x <= 2^53-1
+    
+  // Summation Formula : ((number of terms * [first term + last term]) / 2 ) ^power
+                  // =((n*(2*a+(n-1)*d))/2)^p , where d=difference btw consecutive terms = 4 (since they increase stepwise), p=the power
+                  
+  // For our case: n= 0th term to nth term incremented every second time, total count = n, hence ""every third"" items mentioned below
+  // So, difference between each pair => diff = 6, Consecutive Even Number => 2 at start
+                   
+		// Our calculation formula becomes simplified as follow:
+                // =(([2]+[(n<<1)-2]))^^5      => where shift operator << used instead of multiplication (*). This works faster than usual multiply operation.
+                
+              
+  function",3.663926839828491,400,325,"Counter({(4, 1): 1, (1, 308): 1, (3, 5): 1, (2, 3): 1, (10, 3): 1, (6, 2): 1, (8, 1): 1, (7, 2): 1})",False
+False,47,mbpp_67_bell_number,0.7,21.747747898101807,False,"```typescript
+// First we calculate nth row/bell triangle 
+// then count possible partitions by generating all subsets recursively.
+  
+// Function that calculates binomial coefficient
+// Used here as it is more efficient than calculating directly
+// Also used while counting possibilities through subset generation
+// It may not work correctly if ""binom"" overflows maximum allowed integer (usually around Number.MAX_SAFE_INTEGER)
+// But this won't affect our main calculation since we only need final result which doesn't exceed MAX_INT limit
+
+// Binom = [[1]] // Initialize first element
+// For i = 2 -> N + 1
+//     SetBinomElementAtPosition([i],[0])= 1;
+//     For j = 1 -> i - 1
+//         NextRow = PrevRow ; append 0 at last
+//         BinomElementAtPosition([j-1]+ [j]);= NextRow[-1];
+
+// We can define these functions too but they aren't necessary because Typescript supports big integers out of box so no special handling needed there
+
+// Main logic starts from here where 'N' is given value till which Bell Triangle has to generate
+// After getting rows count Bell triangles start from second row hence starting loop from index 1
+
+// Now parting",3.433201313018799,400,294,"Counter({(46, 1): 1, (1, 277): 1, (2, 2): 1, (5, 5): 1, (3, 2): 1, (7, 2): 1, (6, 2): 1, (4, 2): 1, (8, 1): 1})",False
+False,48,mbpp_274_even_binomial_Coeff_Sum,0.7,23.27992248535156,False,"```typescript
+// Helper Function to calculate Binomial Coefficient 
+// This is used by evenBinomialCoefficientSum() as well  
+// It uses dynamic programming approach where we store calculated values to reduce unnecessary recursive calls 
+
+
+     // We initialize Pascal's Triangle row based on size (2*n+1) filled with zeros - this represents all rows upto ""row"" term in pascal triangle including both odd & even positions terms.     
+       
+      
+        
+           
+          
+         
+                 
+                   
+                  
+                    
+                     
+                       
+                          
+                            
+                             
+                               
+                                  
+                                    
+                                      
+                                        
+                                            
+                                               
+                                                      
+                                                                  
+                                                                    
+                                                                        
+                                                                             // Calculation part starts from here
+   
+
+
+                                     
+                                       
+                                           
+                                               
+                                 
+                                                
+                                         
+                                   
+                                      
+                           
+                              
+                         
+                        
+                      
+                     
+                   
+              
+             
+       =                                                                     
+                                                                                help();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ",4.895558595657349,400,306,"Counter({(20, 1): 1, (1, 277): 1, (8, 1): 1, (4, 3): 1, (7, 1): 1, (6, 2): 1, (12, 1): 1, (2, 14): 1, (3, 3): 1, (5, 3): 1})",False
+False,49,mbpp_86_centered_hexagonal_number,0.7,32.63780879974365,False,"```typescript
+// A formula that calculates k-th Centered Hexagon Number is given by (6 * (k^2) - 3*k + 1).
+// We can implement this formula directly into our Typescript Function as follows:
+
+
+
+   // Note : In mathematics, ""centered"" refers to all terms being positive integers., only if 'n' also greater than zero.
+    
+   
+       
+     
+   
+           
+      
+        
+         
+          
+            
+              
+               
+                 
+                    
+                       
+                        
+                           
+                                 
+                                    
+                                        
+                                           
+                                             
+                                               
+                                                   
+                                                                 
+
+                      
+                  
+                            
+                                  
+                                      
+                                            
+                                                
+                                                     
+                                                         
+                                                              
+                                                                  ;
+return Math.floor((Math.sqrt(84 * n - 75)) / 9);
+                                   
+                                         
+                  
+                          
+                               
+                                       
+                                           
+                                                             
+             
+            
+              
+                                     
+             
+                    
+               
+                     
+                    
+               
+                   
+              
+               
+                  
+                    
+             
+                    
+                    
+                    
+                                           
+                                        
+                  
+ 0
+
+ 
+                  
+ 
+ 
+   
+
+                 
+
+
+ 
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",11.665253639221191,400,340,"Counter({(9, 1): 1, (1, 318): 1, (5, 2): 1, (2, 9): 1, (4, 5): 1, (6, 2): 1, (3, 2): 1, (7, 1): 1})",False
+False,50,mbpp_574_surfacearea_cylinder,0.7,22.087451934814453,False,"```typescript
+// The formula to calculate Surface Area (SA) of Cylindrical shape is 2*π*radius*(height+radius).
+// So we'll incorporate this into our function structure as follows -
+
+// We start by importing Math library from Typescript
+
+/// <reference path=""mathjs/Math.d.ts""/>
+  
+// Then proceed with actual calculation inside the body of function itself
+
+// Please note that I am assuming math object has been imported properly above reference line in script tag.
+
+// Note also every real world measurement would need conversion factors depending upon units used in problem statement
+    
+    // Remember to wrap code block around it too! :D
+     
+    ///<code> 
+       
+       // Important thing here was discussed earlier about usage of Pi constant so let’s get value of PI first
+        
+          // Using Mathematic Library Object
+           
+           // Define Function Here
+            
+              // Inside Body Of Our Function
+                 
+                 // Calculation Processed By MathJs Library Which Provides Us With Value According To Formula Gave Above, And Return That Result As Answer For This Specific Problem Given In Query.
+                   
+                     // Finally Just Sanitize Your Code Block Before Post It :)
+                     ",3.6115217208862314,400,280,"Counter({(3, 4): 1, (1, 257): 1, (7, 3): 1, (5, 3): 1, (2, 4): 1, (4, 1): 1, (9, 1): 1, (10, 2): 1, (12, 1): 1, (6, 1): 1, (11, 2): 1, (14, 1): 1})",False
+False,51,mbpp_430_parabola_directrix,0.7,22.178056716918945,False,"```typescript
+// The equation for a general quadratic (parabolic) form is y = ax^2+bx+c 
+// For it to represent a hyperbola instead where one branch lies entirely below x-axis we need |b| > 4ac  ===> √[b² - 4*a*c] > | 4 * a * c |
+// In this case, if these conditions holds true then 'x' value at which graph intersects X axis forms our Directrix ie., (-b ± sqrt(discriminant)) / (2*a). Otherwise not valid quadric parameters provided hence we can consider as invalid condition.
+
+
+
+
+
+
+      // CodeBlock Start :
+      
+      /// <reference types=""node""/>
+           
+       
+        
+          
+         
+            
+              
+             
+               
+                 
+                    
+                      
+                       
+                         
+                            
+                              
+                                 
+                                   
+                                      
+                                        
+                                            
+                                                
+                                                     
+                                                                                   
+        	    	   	     	 			                  		                                         									   	       	  							 	                           		                                           														                               
+                                  
+                                    
+                                     
+                                       
+                                         
+                                            
+                                               
+                                                    
+                                                          
+                                                                                             
+                                                                                            
+                                                                                        
+       
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.691578149795532,400,302,"Counter({(8, 4): 1, (1, 278): 1, (7, 2): 1, (5, 6): 1, (2, 7): 1, (12, 1): 1, (10, 1): 1, (3, 2): 1, (4, 1): 1})",False
+False,52,mbpp_406_find_Parity,0.7,22.198891639709476,False,"```typescript
+  // Function that returns true if x's last bit (least significant digit) is one (-> modulo operation), indicating it has odd value/parity  
+  // For even values this would result in zero while all other digits remain unaffected when performing logical AND operations on binary representation
+  // Therefore we can check if least significant bits equals '1', enabling us figure out if number provided has ODD PARITY 
+  
+  // Example - let's take decimal numeric 3 which represents Binary as ""0b11"" so here both MSB & least significant bit ('LSB') represent ones ie,'odd'. Hence Parity = Odd. If we were checking Decimal numeral 2 represented by Binary as ""0b10"", only 'MSB' being ONE indicates parity as Even not 'Odd'. So our condition checks accordingly. 
+    
+  // The following line concludes what we need based on conditions explained above, ensuring integer compatibility too
+  // We have applied arithmetic shift operator to move most significant bit towards Least Significant Bit Position making results more readable visually
+      
+  // This ensures that any positive integers entered into the function find_Parity properly according to their actual numerical form rather than JavaScript formatting issues
+     
+  // In case negative inputs come along it also gets handled correctly thanks to how JS handles signed int conversion behind scenes during logic computation though strictly speaking there ought to exist separate algorithms to handle these cases but since TC doesn’t explicitly mention them neither do they occur often in practice hence standard handling applies without causing confusion / discrepancies
+        
+  // Thus",3.793731689453125,400,351,"Counter({(4, 5): 1, (1, 333): 1, (3, 4): 1, (6, 2): 1, (5, 3): 1, (2, 4): 1})",False
+False,53,mbpp_605_prime_num,0.7,24.06528639793396,False,"```typescript
+  // A simple way to determine whether a number is a prime is by checking its divisibility from 2 up until that square root. If any factor exist between these limits then it's not a Prime Number else Numbers are considered as a Primae Number.
+  
+  // The sqrt funtion returns Math.floor value which means we have to convert this result into Integer explicitly . Hence we used 'Math.sqrt'. We can also round off the results but here floor method works fine enough too.
+ 
+  // Also note one thing - no matter what values we get through parameters or inputs (let even negative), we take absolute valued because our main logic only looks at positive numerical system hence taking Absolute Value prevents double work on input validation/conversion part & negatives make zero division error.  Simple ""return num > 1 && [...Array(parseInt((Math.abs(num) ** 0.5).toFixed()) + 1).keys()].slice(1).every(val => parseInt(String(-~-~~-(4+3*val))));"" does all job rather than below kinda long statements working same purpose.
+    
+  // Here goes the Terser approach:-
+  
+  // firstly remove sign just do ignore minus (- abs makes everything positve.) And now apply tersest possible form along line above with bitwise operations trickery written out completely so anyone reading could understand how math operation happening underneath hood. Notice finally parsing again back to int with 'parseInt', while converting string object key array keys with '-': Array based methods doesn’t yield proper errors when called directly upon missing elements thus adding extra steps ['toString']. Thus overall become smaller ter",3.771696329116821,400,363,"Counter({(3, 2): 1, (1, 351): 1, (2, 5): 1, (6, 1): 1, (7, 2): 1, (5, 1): 1, (8, 1): 1})",False
+False,54,mbpp_264_dog_age,0.7,24.391661405563354,False,"```typescript
+// The calculation is based on approximately 1 human year equals about 7 dog years
+// So we multiply the humans ages by 7. This may not always give exact results as dogs don’t live whole real life years but they do have these logical stages which can approximate it well enough.
+
+// Code Block Start
+
+     // Function Definition
+     
+       
+      
+  
+        
+           
+              
+                
+                     
+                           
+                         
+                            
+                              
+                               
+                                  
+                                    
+                                      
+                                        
+                                            
+                                             
+                                               
+                                                  
+                                                   
+                                                    
+                                                      
+                                                                                          
+         
+          
+            
+               
+                 
+                       
+                        
+                             
+                                 
+                                     
+                                         
+                                           
+                                              
+                                                
+                                                   
+                                                     
+                                                        
+                                             
+           
+                
+                      
+                               
+                                   
+                                       
+                                             
+                                                     
+                                                       
+                                                            
+                                     
+                    
+                   
+                         
+                                                                                                                                                           
+       
+    
+
+                                                                                                                                                         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.9155704975128174,400,346,"Counter({(5, 3): 1, (1, 329): 1, (4, 1): 1, (3, 1): 1, (2, 7): 1, (8, 2): 1, (7, 1): 1, (6, 2): 1})",False
+False,55,mbpp_770_odd_num_sum,0.7,22.13524055480957,False,"```typescript
+  // Function to calculate the Fourth Power Sum
+  // It calculates (1^4 + 3^4 + ...+ (2*n-1)^4 ) where 'n' is given as input from user
+  
+  // Declaring variable i which acts as counter during looping over each term.
+  // And also used at runtime inside calculation of terms itself since it needs not updated outside of this scope
+  // Additionally initializing result = 0 so that we can keep adding onto our final answer through iterations
+  // Using let instead of const because we need reassignability later on current iteration count value needed by formula x * x * x * x
+  
+  // Maths : For any positive integer N , The sum S of fourth powers = [N*(N+1)/2] ^ 2 
+  // So here we have no choice but to compute directly without using loops every time hence complexity becomes O(1). Loops would lead us back into square roots land taking more than cubic operations leading towards quadratic growth which ideally isn’t acceptable while dealing with large inputs! Hence opted above way around within constraints defined!!
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+    
+    // Return calculated totalSum
+     
+       
+          
+           
+               	      
+                    		              				         	 			            	     					        															                 						                  	   	       			             
+",3.727199077606201,400,306,"Counter({(5, 7): 1, (1, 272): 1, (3, 10): 1, (7, 1): 1, (4, 3): 1, (2, 10): 1, (6, 1): 1, (8, 1): 1, (10, 1): 1})",False
+False,56,mbpp_453_sumofFactors,0.7,22.622796535491943,False,"```typescript
+  // Start by initializing our factor variable at 1 because all integers have this as a factor
+  		// we start from 1 instead of starting directly from n/2 due to efficiency reason which is explained below.
+     	 		    	   	     			          				                    
+       	       						             				      					           							        
+                 											              		         					 	               
+                  							            						                   
+                 		                			                              
+                                                                                            
+                                                      
+                          
+                         
+                        
+                       
+                     
+                     
+                    
+                   
+                  
+                 
+                
+              
+            
+                                         
+                                        
+                                       
+                                      
+                                    
+                                  
+                                 
+                               
+                             
+                           
+                          
+                        
+                       
+                     
+                    
+                   
+                  
+                 
+                
+              
+            
+                                         
+                                        
+                                       
+                                      
+                                    
+                                  
+                                 
+                               
+                             
+                           
+                          
+                        
+                       
+                     
+                    
+                   
+                  
+                 
+                
+              
+            
+                                         
+                                        
+                                       
+                                      
+                                    
+                                  
+                                 
+                               
+                             
+                           
+                          
+                        
+                       
+                     
+                    
+                   
+                  
+                 
+                
+              
+            
+                                         
+                                        
+                                       
+                                      
+                                    
+                                  
+                                 
+                               
+                             
+                           
+                          
+                        
+                       
+                     
+                    
+                   
+                  
+                 
+                
+              
+            
+                                         
+                                        
+                                       
+                                      
+                                    
+                                  
+                                 
+                               
+                             
+                           
+                          
+                        
+                       
+                     
+                    
+                   
+                  
+                 
+                
+              
+            
+                                         
+                                        
+                                       
+                                      
+                                    
+                                  
+                                 
+                               
+                             
+                           
+                          
+                        
+                       
+",4.135107755661011,400,363,"Counter({(3, 6): 1, (1, 346): 1, (9, 1): 1, (2, 7): 1, (5, 1): 1, (4, 2): 1})",False
+False,57,mbpp_244_next_Perfect_Square,0.7,24.77710771560669,False,"```typescript
+  // import math module from Typescript standard library
+  
+  // The 'Math' object has properties and methods for mathematical constants and functions
+  // Math.sqrt() returns the square root of x
+  // Math.ceil() rounds up its argument to the nearest integer
+  
+  // For instance, if N = 30 then sqrt is ~5.48... but we want it rounded up so that our result becomes 6^2 which is 36.
+  // If N =17, then (since sqrt=~4.12) rounding this would give us 5^2 as closest perfect square above 17. Hence answer here is 25.
+  // In general pattern consider ceil[sqroot(n)] ^2
+  
+  // Define our function next_Perfect_Square below -
+
+  // Note- Function uses builtin method ""Math"" whose prototype includes several useful properties/methods such as min(), max(), floor(). It also contains some attributes related to Euler constant e etc., plus property pi representing PI value. Also learned about prototypical inheritance where instances can have their own unique attributes added ontop of base class’s members by setting new values and defining additional ones through constructors & adding onto them via constructor calls when they get created over time.
+    
+  // We may create objects out of these classes to replicate real world entities making our JS programs more dynamic, flexible and scalable by creating many different types of objects based upon reusability principle ie..inheritances between",3.6636805534362793,400,332,"Counter({(4, 2): 1, (1, 312): 1, (5, 2): 1, (3, 4): 1, (2, 7): 1, (11, 2): 1, (6, 1): 1, (8, 2): 1})",False
+False,58,mbpp_93_power,0.7,22.29287457466125,False,"```typescript
+// Calculate the exponentiation 
+
+// Here we have used Math.pow method which is built-in pow() function power returns base raised by exponent i.e., it takes two arguments (base & exponent) 
+
+// Function Definition
+
+// Returning calculation result from Math.pow method because this provides exact results without any round off errors unlike manual computation done through loops etc... 
+
+
+// The Solution Code Block Starts here :
+
+
+     // We can also solve above problem with simple loop but its not efficient way compared to below one line solution  
+     
+       
+       // Using math library directly means no need for additional lines of codes just call ""Math.pow()"" as shown on top :) --> This solves same purpose faster than manually computing through Loop
+        
+          
+         
+
+
+// And ends at here then
+
+
+ 
+
+
+ 
+
+
+           
+              
+               
+                   
+                        
+                     
+                         
+                            
+                                 
+                                        
+                                             
+                                                                                                         
+                                                                                                       
+                                                                                              
+                    
+                  
+              
+            
+                      
+                
+                 
+                       
+                           
+                                  
+                                    
+                                            
+                                                             
+                                                               
+                                                                                                   
+                                                                                                      
+                                                                                                     
+                                                                                                               
+                                                                                                           
+                                                                                                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.70808482170105,400,318,"Counter({(3, 7): 1, (1, 288): 1, (5, 7): 1, (10, 1): 1, (2, 11): 1, (4, 2): 1, (9, 1): 1, (7, 1): 1})",False
+False,59,mbpp_291_count_no_of_ways,0.7,21.978127479553223,False,"```typescript
+// This is a dynamic programming problem which can also be solved by recursion but it would take exponential time O((k*n)^2). Dynamic Programming approach provides us with better performance ie., O(kn), where 'dp' array represents dp[i][j], total different ways we could paint first i post with j different colours. So below our transition from finding all possibilities (recursive case and base cases) into setting up this kind of tabulation system on top of filling out everything according to potential transitions going forward based off previous stages stored within earlier computations. The logic behind choosing one colour over another when deciding how many options there exist depends upon whether their neighbouring houses had identical colours. In other words, if they did not, then every choice has equal weightage as being optimal since each decision contributes equally towards optimality and so onto next decisions etcetera.
+
+
+
+// Here is way to achieve above discussed optimization via dynamic programming technique in Typescript :->
+
+
+
+
+
+/// <reference path=""./node_modules/@types/mocha/index.d.ts"" />
+
+
+
+
+
+// returns true If last difference between consecutive elements in subarray arr[] is less than diff else false.
+    
+     
+       // Returns count built using bottom up Tabulation
+        
+         
+            
+              /// Return value associated with key ‘n’ in lookup table. If doesn",3.502856731414795,400,309,"Counter({(27, 1): 1, (1, 288): 1, (6, 2): 1, (10, 1): 1, (3, 4): 1, (4, 2): 1, (2, 7): 1, (8, 1): 1, (5, 1): 1, (9, 1): 1, (7, 1): 1})",False
+False,60,mbpp_637_noprofit_noloss,0.7,22.230458974838257,False,"```typescript
+// Function that checks if there is neither gain nor loss from selling actual cost at sale price 
+
+// If Actual Cost Equals Sale Amount then nothing was gained (return true) or lost (also returns true).  
+// Otherwise it means we have either made some gains but also losses as well so both conditions needs to be checked separately.
+// Hence false would be returned under these situations.
+
+// Code Block Starts Here - DO NOT EDIT ABOVE THIS LINE /////////////////////
+
+     
+    
+       
+      
+        
+          
+           
+            
+             
+              
+               
+                 
+                  
+                   
+                    
+                     
+                      
+                       
+                         
+                           
+                             
+                               
+                                 
+                                   
+                                     
+                                       
+                                         
+                                           
+                                             
+                                               
+                                                
+                                                                                                  
+                                    
+                                        
+                                            
+                                                        
+                                                              
+
+
+
+
+
+// CODE BLOCK ENDS HERE AND SHOULDN'T BE DELETED UNLESS YOU WANT TO LEAVE EMPTY FUNCTIONALITY ///////                               
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         
+
+
+
+
+
+
+
+
+
+
+                            
+
+
+
+
+
+
+
+
+
+                                        
+
+
+
+
+
+
+
+
+
+                                        
+
+
+
+
+
+
+
+
+
+
+                                      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.804014682769776,400,339,"Counter({(4, 1): 1, (1, 327): 1, (11, 1): 1, (3, 1): 1, (15, 1): 1, (2, 3): 1, (8, 3): 1, (5, 2): 1})",False
+False,61,mbpp_293_otherside_rightangle,0.7,24.262794971466064,False,"```typescript
+// The Pythagorean theorem can be used here where w is opposite base (or leg) and h 
+// is adjacent base (or hypotenuse). So we have just one missing value which is sqrt[h^2+w^2].
+
+// Here is how it's done...
+
+
+            // returns the square root of [argument] by calculating its cube root first
+            || 0.5 * Math.sqrt((Math.pow(3689471981113155 / argumentsCount + 1, 3)) - ((argumentsLength || 0) & bit",4.702172756195068,400,141,"Counter({(4, 2): 1, (1, 130): 1, (7, 1): 1, (10, 2): 1, (5, 2): 1, (11, 1): 1, (2, 2): 1, (13, 1): 1})",False
+False,62,mbpp_592_sum_Of_product,0.7,23.135250568389893,False,"```typescript
+// Helper method to calculate factorials
+  // Recursive approach is used here as it's simple and efficient.
+  // In case n becomes large we may encounter StackOverflowError if iterative approach was taken instead.  
+  // Also note that this logic assumes calling this helper more than once hence memoization has not been considered.
+  // If performance turns out unacceptable at some point then consider implementing such optimization techniques.
+  // However since these calculations would happen inside another calculation loop (and outside main scope), they aren’t significantly impactful on runtime efficiency.
+  // This could become quite problematic when dealing with extremely high values due to JavaScript/TypeScript Number Precision limits but let us keep things relatively safe.
+  // A better way can be found by generating Binomial Coefficients dynamically without needing recursion which keeps our space complexity down too. But remember, proper understanding & handling needs to take place while doing computations involving big integers.
+
+  // Please ensure input parameter 'n' doesn't exceed ~170 because Javascript cannot accurately represent decimal places beyond certain precision range.
+  // Anything above around ~165 - 238 starts producing invalid results based upon JS numeric representation limitations. The exact limit also depends on environment specific settings i.e., available system memory etc).",3.710654020309448,400,291,"Counter({(13, 2): 1, (1, 271): 1, (7, 1): 1, (9, 1): 1, (3, 3): 1, (2, 1): 1, (4, 5): 1, (5, 3): 1, (12, 1): 1, (8, 1): 1, (10, 1): 1, (11, 1): 1})",False
+False,63,mbpp_256_count_Primes_nums,0.7,24.14079332351685,False,"```typescript
+  // Helper Function To Check If A Number Is Prime Or Not
+  // Returns true if n is prime else false
+  // Assume all input numbers greater than three would not have any factors other than themselves and one (1). Thus we only need to check divisibility upto square root of 'n'.
+  
+  // The initial condition for primality testing can also state as ""If this number has no positive divisor apart from these pairs then it's considered Prima"". As such, let’s start checking till sqrt(number) because beyond that there won't exist anymore factor which could divide our original number perfectly.
+  
+  // We know that smallest/smallest primes ie.,2 & 3 will always remain untested so starting looping directly from 5 itself by incrementing index value every time by adding 2 each time since even numbers cannot possibly hold a prime hence skipping them explicitly saving computational power thereby reducing overall run-time complexity significantly.
+  
+  // This logic greatly reduces overrun towards final answer but doesnt change its accuracy thus satisfying problem requirement constraints accurately.
+  // An optimised approach was adopted here due efficiency concern regardings large inputs size.
+  // In fact most efficient algorithms around find out whether a number N is prime or not rely on similar principle - checking division status until sqrt(N), ect.. etc...
+  
+  // Hence utilized above optimized helper method within main function count_Primes_nums below :
+  
+  // Main Body Of Count Numbers Less Than Given Non",3.557389259338379,400,329,"Counter({(4, 3): 1, (1, 317): 1, (6, 3): 1, (2, 1): 1, (15, 1): 1, (9, 1): 1, (12, 1): 1, (7, 1): 1, (8, 1): 1})",False
+False,64,mbpp_479_first_Digit,0.7,22.241214513778687,False,"```typescript
+// Converts input into string then splits it at every character until it finds one that is numeric (0-9).  Then converts back to number to finally get the resultant first digit as number not characterrr. We can also handle negative values by getting absolute value of n before processing.
+
+   // Function definition
+   // Extra check added if the provided parameter 'n' is zero since we cannot extract digits from zeros either way. So returning -1 indicating invalid scenario.
+    
+   
+   
+     
+       
+        
+         
+          
+           
+            
+             
+               
+                 
+                   
+                     
+                       
+                         
+                           
+                             
+                               
+                                 
+                                    
+                                       
+                                         
+                                            
+                                                
+                                                    
+                                                                                
+      
+
+                                     
+                        
+                      
+                      
+                  
+              
+
+                            
+                          
+                              
+                                  
+                                        
+                                               
+             
+                                      
+                                           
+                                               
+                       
+                                   
+                                     
+
+  
+
+
+
+
+                                
+
+                                        
+                                                                                
+           
+
+
+
+                                     
+                 
+               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.880030632019043,400,358,"Counter({(4, 1): 1, (1, 342): 1, (7, 1): 1, (6, 2): 1, (3, 2): 1, (2, 7): 1, (5, 3): 1})",False
+False,65,mbpp_267_square_Sum,0.7,22.280589818954468,False,"```typescript
+// The below function calculates the sums of squares from 1st 'n' odd integers (excluding zero).
+// It uses formula for Summation i^2 = [i*(3*i - 1)/2] which is used often in problems related to polygonal numbers  
+
+
+
+
+
+     // Here we have defined our main function named ""squareOdd"" it accepts one argument as input meanwhile variable j=0 then incremented by 2 and inside do-while loop until condition fails calculate each term till reach appropriate limit
+     
+      
+       
+          
+                
+                 
+                    
+                      
+                       
+                         
+                           
+                              
+                                                  
+                                                                                     
+                        
+                          
+             
+               
+              
+                   
+         
+        
+           
+                            
+                                    
+                                         
+                                            
+                                               
+                             
+            
+
+
+
+
+
+
+                                  
+
+
+
+
+
+
+
+
+
+
+
+
+                                           
+                               
+                                   
+                                        
+                                     
+                                       
+                                      
+                                         
+
+                                            
+                                           
+                                          
+                         
+
+  
+
+
+
+
+
+              
+
+
+
+
+          
+
+
+
+
+                               
+                                 
+                                        
+                                     
+                                        
+                                          
+                                         
+                                        
+                                          
+                                          
+                                         
+      
+
+
+
+
+
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.9115169048309326,400,361,"Counter({(2, 10): 1, (1, 343): 1, (6, 2): 1, (3, 4): 1, (8, 1): 1, (5, 1): 1})",False
+False,66,mbpp_58_opposite_Signs,0.7,22.11804986000061,False,"```typescript
+// Solution by mulberry130
+
+// The following utility checks if 2 integer inputs (of any size) share the same signs
+// This is done through simple comparison operations rather than bitwise operators as they may cause unexpected results due to overflow/underflow condition
+
+// Time complexity - O(c), where c represents constant time taken by arithmetic comparisons operation on CPU level irrespective of input values' magnitude
+// Space Complexity - O(k), which means space required does not grow proportionally with increase in value of n but remains constant
+// Therefore, this approach overall has linear performance characteristics i.e., it follows 'Time & Space efficient'.
+
+// Here we create our main exported function ""opposite_Signs"" that takes 2 arguments x,y both integers and returns true when their product equals zero otherwise false.
+
+// Start Code Block
+
+
+        // Checking Sign Function Definition
+      
+    
+      // For Opposites Sign Condition, Product Should Equals Zero  => Hence returning Boolean Value Based On Comparison Of Two Numbers Input By User
+        
+            // If Both Are Same Then Their Products Will Be Positive Or Negative Which Results In False So Return True When They Have Different Signs Else Returns False As Given That Condition Is Satisfied
+            
+                // End And Finish Our Exported Function Defined Above Rest All Codes Resides Below It Such Like Main() Method Call To Perform Testing Purposes",3.753149509429932,400,322,"Counter({(3, 2): 1, (1, 305): 1, (10, 1): 1, (6, 2): 1, (2, 4): 1, (5, 1): 1, (11, 1): 1, (9, 3): 1, (8, 1): 1, (4, 2): 1})",False
+False,67,mbpp_103_eulerian_num,0.7,21.9367458820343,False,"```typescript
+// Function that calculates binomial coefficients
+// It is used by our main eulerianNumber() method which finds nth row elements 0f Pascal's triangle
+
+// Calculate Binomal Coefficient C(m-1)^{k}(mod p). This can also calculate inverse modulo prime where 'inv' stores modular multiplicative inverse such that (x*inv)%p = 1. If we don’t have value of inv then it uses Fermat Little Theorem.
+
+// Expected parameters : n, m - natural positive integers. The first parameter specifies how many rows there should be from Pascal’s Triangle, while second one defines starting point at each level/row i.e., if k=3 on every step from top line means ""a[i] = a[i−2]"" till last element so ""n"" indicates total steps taken as well. Like this it creates next term based upon previous terms defined rules but instead addition operation replaced with bitwise xor because XOR is more efficient than Addition & Assignments for large inputs. See explanation below mentioned link for understanding full logic behind these operations
+
+// Returns modified resultant array back upto specified indexed point / target position. So here no need to iteratively call recursive calls again since we already calculated all required values once during construction of final matrix. We get transition between states directly via O(logN) precomputation process done through dynamic programming approach. Following links provide detailed information about computation processes involved implicitly into functions definition
+    
+    //https://www.geeksforgeeks.org/matrix",3.7278339862823486,400,346,"Counter({(18, 1): 1, (1, 336): 1, (5, 3): 1, (7, 2): 1, (8, 1): 1, (4, 1): 1, (3, 1): 1, (2, 1): 1})",False
+False,68,mbpp_20_is_woodall,0.7,22.197287797927856,False,"```typescript
+//Function to calculate square root by reducing fractions recursively till 0 or precision error occurs
+
+//Calculate Square Root Function Use Recursion method (Newton's Method)
+//Reference from https://www.geeksforgeeks.org/square-root-of-a-number-using-newtons-method/
+    
+
+// n = Number input
+// e = Epsilon value used as Precision Value  
+
+// Returns calculated Square root       
+     
+     
+       //Main Calculation start here...
+
+        
+         
+           
+              
+                   
+                        
+                                         
+                                                
+                                                                                                      
+                     
+                      
+                    
+                  
+               
+             
+            
+          
+        
+      
+    
+ 
+
+                       
+                          
+                             
+                                 
+                                    
+                                        
+                                               
+                 
+                           
+                         
+                            
+                               
+                                           
+                                       
+                                  
+                                            
+                                                              
+                                     
+                                   
+                                  
+                                
+                             
+                                         
+
+             
+                
+                          
+                              
+                                  
+                                           
+
+   
+                                                        
+                                                                        
+         
+                               
+    
+
+                   
+                     
+                               
+ 
+ 
+
+                                        
+ 
+
+               
+
+                  
+
+              
+
+         
+               
+
+           
+              
+
+        
+            
+
+     
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",3.9178872108459473,400,315,"Counter({(13, 1): 1, (1, 291): 1, (10, 2): 1, (5, 5): 1, (4, 5): 1, (2, 6): 1, (3, 4): 1, (7, 1): 1})",False
+False,69,mbpp_96_divisor,0.7,22.32795238494873,False,"```typescript
+  // Initialize count as 0 (number of factors)
+  // Run loop from i = 1 till square root of n because if d is greater than sqrt(N), then N/d would have already been processed in previous iterations itself
+  // In each iteration check whether 'i' or 'num / i' could possibly be factor pairs. If yes increment counter by both counts
+  
+  // This method uses concept that all even integers can always at least form pair -> thus we start checking only odd integers + 2 separately
+  // Also considering n being perfect squares it increases our potential results set significantly
+  // And lastly checks possible case when num = p * q where both p & q < Math.sqrt(n). We handle this edge-case later which makes algorithm faster due calculations reduction
+  // After processing such cases final result may still not cover some unique combinations so consider other divisible pairs
+  // At any point if iterator gets more than half value of original number there won’t exist another division partner higher than its halved magnitude
+  
+  // Let us assume initially no prime factors found hence count=1 including single number also has one divisor
+    
+  // The time complexity of above approach is O((log n)^3)) approximately since inside worst-case scenario while calculating square roots
+
+  
+
+  // Function definition starts here
+
+  // Define necessary variables
+  // let count := 1 (counting input numerically included in",3.762739419937134,400,316,"Counter({(3, 8): 1, (1, 289): 1, (7, 2): 1, (2, 7): 1, (6, 1): 1, (8, 1): 1, (4, 3): 1, (5, 3): 1, (9, 2): 1})",False
+False,70,mbpp_404_minimum,0.7,15.403748989105225,True,"```typescript
+// Function to get the smaller between 2 numbers
+
+   // Starts the function definition block
+    
+    // Arguments - Two Numbers (a & b) to compare
+    
+        // Return Statement that returns either 'a' if it is lesser than 'b', else 'b'.
+     
+            // Using JavaScript ternary operator : ? <expression1> : <expression2> 
+        
+               // It works as follows: If condition holds true then return expression1 otherwise return expression2
+            
+                // We can replace this javascript operation by writing ""if-else"" statements too which would make our function more verbose though
+                
+                    // This way we ensure optimal performance even beyond comparison operations
+          
+                   /(a<=b)?a:b/gm;
+                 
+             
+```
+",2.7316701412200928,241,182,"Counter({(3, 5): 1, (1, 163): 1, (10, 1): 1, (7, 2): 1, (6, 1): 1, (4, 3): 1, (2, 6): 1, (9, 1): 1})",False
+False,71,mbpp_752_jacobsthal_num,0.7,23.649831533432007,False,"```typescript
+// The Jacobsthal sequence is calculated as follows: J(n) = 2*J(n - 1) + J(n - 2), where J(0)=0 , J(1)= 1
+// This means we start from known values (like Fibonacci series). Therefore we can recursively calculate it by following this formula until reaching our required term 'n'.
+
+// Recursive function jacobsthal_num compute Jacobsthal Number
+
+// Here I made sure that if either n or m become negative then they would automatically get converted into positive value through absolute method because negatives don't make sense here while finding fibinocchi number
+
+
+
+     // Base Cases
+  
+     
+      
+       
+        
+         
+          
+           
+            
+             
+               
+                 
+                   
+                     
+                      
+                       
+                         
+                            
+                               
+                                  
+                                     
+                                        
+                                           
+                                              
+                                               
+                                                    
+                                                                                                 
+                                                                                           
+                                                                                              
+                                                                                                    
+                                                                                                      
+                                                                                                       
+                                            
+                                                  
+*//*/*/**//**////**///*******/////////\/\//\/\*\*\*\********-\------______----_________-_______---_____--________________--___________---------------------________________________________
+fucntionojaobsh",3.8270397186279297,400,280,"Counter({(12, 1): 1, (1, 262): 1, (5, 4): 1, (2, 4): 1, (7, 2): 1, (8, 1): 1, (13, 1): 1, (9, 1): 1, (4, 1): 1, (3, 1): 1, (37, 1): 1, (10, 1): 1})",False
+False,72,mbpp_765_is_polite,0.7,22.05492854118347,False,"```typescript
+// The binary representation of integer N has no consecutive ones 
+// except possibly at one position which can have three consecutive zeroes (010) on its way towards MSB.
+
+// Therefore we just need our input 'N' value as count of integers that do not contain any pair of consecutive zeros among their bits from least significant bit until most significant bit.
+
+// A TCSSCI Number containing odd amount of ’1s‘ becomes Polite by replacing each grouping of continuous 0s followed immediately by another group with same many ’zeros‘ replaced by 2 more ’ones'.  
+
+// Thus when it comes down to writing this logic into Typescript Function then ""isPolite"" would convert given decimal into base (-2). This process removes all groups having consecutives 0s making original Decimal Non-Polite becoming Polite through these operations. Hence counting non polites remaining makes us get out final result. Below is the corresponding Code snippet:
+
+
+ //helper recursive method to calculate conversion of decimals into -2 based system following above explanation mannerually
+    
+   
+      
+     
+       
+          
+        
+            
+             
+              
+               
+                 
+                    
+                      
+                        
+                          
+                            
+                              
+                               
+                                 
+                                    
+                                        
+                                            
+                                                
+                                         
+                                      
+                                  
+                             
+                         
+                     
+                   
+                  
+                       
+                 
+         
+           
+        
+                                                                                                   
+                           
+                       
+                         
+            
+",3.703756332397461,400,326,"Counter({(14, 1): 1, (1, 310): 1, (7, 2): 1, (2, 4): 1, (8, 3): 1, (4, 3): 1, (6, 1): 1, (9, 1): 1, (3, 1): 1})",False
+False,73,mbpp_801_test_three_equal,0.7,81.5801694393158,False,"```typescript
+  // Function definition starts here...
+  
+    (a==b && b===c)?3:(a === c || b == c )?2 :0 ;     
+      
+    
+        
+        // ...and ends here
+                 let result1 :number = (( x > 9 && x < 5) ? true: false);                    
+                console/log(result1 );          
+            var 	tan",57.4861147403717,400,92,"Counter({(2, 3): 1, (1, 74): 1, (4, 2): 1, (5, 2): 1, (6, 1): 1, (3, 6): 1, (7, 1): 1, (16, 1): 1, (10, 1): 1, (84, 1): 1})",False

@@ -1,0 +1,236 @@
+success,benchmark,temperature,execution_time,llm_finished,output,total_realizability_time,num_tokens_guessed,num_tokens_generated,tries_per_token
+False,uppercase.egglog,0.01,8.33873724937439,False,"```python
+result_1075869a-bddc-4eaf-abd6-adecfdcecded_inputStringSszhjgkvlqrtyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM__outputList___list(map(__toUpperCase____if __isAlphabet____else _pass____)(",1.9263801574707031,137,100,"Counter({(7, 1): 1, (1, 85): 1, (2, 5): 1, (4, 5): 1, (3, 3): 1, (6, 1): 1})"
+False,lerp.egglog,0.01,16.803332090377808,False,"```python
+(lambda mul_expr1 add_expr sub_expr start end scale fst snd tuplize div_expr lambda_0 lambda_1 lambda_2 lambda_3 lambda_4 lambda_5 lambda_6 lambda_7 lambda_8 lambda_9 lambda_10 lambda_11 lambda_12 lambda_13 lambda_14 lambda_15 l",10.29857063293457,117,100,"Counter({(5, 2): 1, (1, 93): 1, (2, 2): 1, (3, 2): 1, (4, 1): 1})"
+False,auth.egglog,0.01,11.860073328018188,False,"```python
+def fetch_document(auth_info_tuple)
+    return auth_info_tuple
+end
+
+current_user_web_reqest_resultant_value1  
+authentication_processed_data1  
+authentication_status1  
+if authentication_status1
+    authorization_processed_data1  
+else
+     raise AuthenticationError
+end
+
+authorized_documents_list1  
+document",3.3602778911590576,180,100,"Counter({(8, 2): 1, (1, 78): 1, (2, 4): 1, (5, 7): 1, (3, 4): 1, (4, 1): 1, (6, 1): 1, (7, 3): 1})"
+False,power.egglog,0.01,10.606243133544922,False,"```python
+def calculate(power_kwtghs_annually_inputted__in_watts_hours_of_yearly_usage_______price_per_kilowatt_hour_dollars_________rate_applied_to_the_total_cost_is_a_percentage_discounted_or_not______if_yes_then_enter_it_here______________________otherwise_leave_this_",1.220273733139038,203,100,"Counter({(9, 5): 1, (1, 66): 1, (8, 2): 1, (3, 3): 1, (6, 2): 1, (5, 1): 1, (2, 17): 1, (4, 4): 1})"
+False,distance.egglog,0.01,9.002732276916504,False,"```python
+import math
+def distance(x1_valeusetter05678901234567890123456789012345678901234567890123456789012345678901234567890123456",2.173900604248047,143,100,"Counter({(10, 2): 1, (1, 90): 1, (6, 1): 1, (5, 1): 1, (8, 1): 1, (3, 4): 1, (2, 1): 1})"
+False,gravity.egglog,0.01,9.28426742553711,False,"```python
+r_squared_times_m1_plus_one_minus_sqrt_two_over_three_divided_by_sixteen_multiplied_by_five_thousand_seven_hundred_eighty_nine_raised_to_the_power_of_fourty_is_equal_to_zero(x)
+    return ((maths((-15))*(66743)*x)/",2.5012643337249756,142,100,"Counter({(12, 1): 1, (1, 81): 1, (2, 10): 1, (3, 6): 1, (6, 1): 1, (5, 1): 1})"
+False,image.egglog,0.01,8.327986478805542,False,"```python
+def apply(img10krstmwtrmkimgeeeratnalimagemgmtselectionfilterexamplepngorjpgfiletiffoutputjpegformatwiththesamefilenameinadifferentdirectoryaswellastheoriginalimageselectedareaiscircledredoverlayingonitintoprightcornerofthatsquareareacanvassizeis50by50pixelsifdesiredothersizedescript",1.1098918914794922,153,100,"Counter({(8, 1): 1, (1, 71): 1, (3, 9): 1, (9, 1): 1, (2, 17): 1, (4, 1): 1})"
+False,variance.egglog,0.01,30.796701192855835,False,"```python
+(lambda (a b c)
+    (lambda (avg)
+        (lambda (diff_sqr_sum)
+            diff_sqr_sum)))
+((lambda (x1 x2 x3)
+     (lambda (n)
+         (- n avg)))
+   a b c sum)
+((lambda (d1 d2 d3)
+      (lambda (s)
+          s))
+   (square (d1",24.007192611694336,137,100,"Counter({(11, 1): 1, (1, 77): 1, (2, 17): 1, (3, 5): 1})"
+False,positives.egglog,0.01,9.16810393333435,False,"```python
+def average_positive_numbers(xs)
+    filtered_list    	        		       	   			  				      	       	 	          	     	         	           	            	             	              	               	                  	                    	                     	                      	                       	                        	                         	                          	                            	                               	                                                 	                                                                     	                                                                                	                                                                                   	                                                                                           	                                                                                              	                                                                                             	                                                                                                 	                                                                                                  	                                                                                                   	                                                                                                    	                                                                ",1.2731280326843262,168,100,"Counter({(9, 1): 1, (1, 79): 1, (6, 3): 1, (3, 7): 1, (7, 2): 1, (5, 3): 1, (2, 4): 1, (4, 1): 1})"
+False,quadratic.egglog,0.01,10.483484745025635,False,"```python
+a_value1097865432109875643210987564321098756432109875643210987564321098756432109875643210987564321098",1.1200189590454102,199,100,"Counter({(11, 1): 1, (1, 27): 1, (5, 3): 1, (9, 1): 1, (2, 67): 1, (3, 1): 1})"
+False,uppercase.egglog,0.3,10.47455620765686,False,"```python
+result1_temp0576899e-cddb-4dda-aaf9-adfbbcefeff9_tmpvar1__s_filtered___x_____x_isalpha_____tmpvar2____toupper____(map_____________(lambda __________________tmpvar3______x______x_toupper______(filter lambda tmpvar4_______x______x_in",3.4370856285095215,149,100,"Counter({(6, 1): 1, (1, 76): 1, (3, 6): 1, (2, 11): 1, (4, 3): 1, (5, 3): 1})"
+False,lerp.egglog,0.3,7.689848184585571,False,"```python
+result_10798655573681638928 +  ((end_10798655573681638928 - result_10798655573681638928 ) * scale_10798655573681638928)
+```
+",1.6282453536987305,127,100,"Counter({(5, 1): 1, (1, 84): 1, (2, 8): 1, (3, 6): 1, (4, 1): 1})"
+False,auth.egglog,0.3,11.305365085601807,False,"```python
+def authenticated_current_user(web_request) -
+    user_auth_info_from_reqest(web_request)
+        return UserAuthInfoFromRequest(web_request)
+    
+    def authorized_user_for_documents(user_auth_info)
+         if canAccessDocument(user_auth_info)
+             return AuthorizedUserForDocuments(user_auth_info)
+          else raise Exception",4.445165634155273,142,100,"Counter({(7, 1): 1, (1, 80): 1, (5, 1): 1, (2, 14): 1, (9, 1): 1, (4, 1): 1, (6, 1): 1, (3, 1): 1})"
+False,power.egglog,0.3,9.379789352416992,False,"```python
+def calculate(hours_inputted_as_float64__price_in_dollars___power_outputed_from_the_solar_panel_as_int32____timezone_is_utc_plus_8am_pst_etc_________please_enter_your_values_here_to_get_results_of_calculation_on_this_page_afterwards_pressing_submit_button",1.1809933185577393,172,100,"Counter({(6, 1): 1, (1, 63): 1, (9, 2): 1, (2, 25): 1, (8, 1): 1, (5, 1): 1, (3, 6): 1, (4, 1): 1})"
+False,distance.egglog,0.3,11.58436107635498,False,"```python
+import math
+def distance(x1_valeusnme0gstance1_valuesqrty2_valuezinstance2_valuetemp0temp1tempmidpointy_valueymidpointy_valueypowersoftwoadditionandsquarerootofresultsubtracthreefromzeroend
+    return mathsmathsqrttwopower((xtemp0-xtemp1))squarepowerpluspowertwo",2.803715467453003,186,100,"Counter({(10, 2): 1, (1, 63): 1, (6, 2): 1, (5, 3): 1, (8, 1): 1, (7, 1): 1, (2, 23): 1, (3, 5): 1})"
+False,gravity.egglog,0.3,11.215265989303589,False,"```python
+r_squared_mul_resultant_value_divided_by_radius_square_is_equal_to_zero(r_val_inputted_in_the_function_calling_this_method__as___parameter_____name_of_variable_used_here_must_be_changed_accordingly__________________________)
+    local resultantValueForCalculationOfRadiusSquareIsEqualToZero float64",1.168933391571045,201,100,"Counter({(14, 1): 1, (1, 64): 1, (2, 16): 1, (4, 10): 1, (5, 2): 1, (6, 2): 1, (9, 1): 1, (11, 1): 1, (3, 3): 1})"
+False,image.egglog,0.3,22.387492179870605,False,"```python
+def apply(img1_selection_filtered_with_waterMarkedImgTypeFilterTypeWatermarkImage img1_selection filtered_by_filter_type watermarked by watermark_image type filter_type as result return result
+result
+end
+return add water mark applied on image cropped based on user selected area after applying certain filters to it with some specific watermark added at last step
+functionality
+start adding functionality here
+original_",14.56622838973999,164,100,"Counter({(11, 1): 1, (1, 70): 1, (3, 8): 1, (7, 1): 1, (4, 3): 1, (5, 2): 1, (2, 15): 1})"
+False,variance.egglog,0.3,119.31945037841797,False,"```python
+(lambda (a b c) 
+    (lambda (x) 
+        (((lambda (n1 n2 n3) 
+            (lambda (d) 
+                (sqrt (list (square (- d n1)) (square (- d n2)))  
+                       (square (- d n3)) ) ) 
+          (quote (a-avg)) (quote (b-avg)) (quote (c-avg))",112.73669600486755,131,100,"Counter({(11, 1): 1, (1, 82): 1, (2, 13): 1, (3, 4): 1})"
+False,positives.egglog,0.3,8.128022193908691,True,"```python
+def average_positive_numbers(xs)
+    filtered_list_of_positives numbers xs filter positive number
+    
+    if len filtered list posits empty return None
+   else calculate sum all elements filtered list divided by length filtered list positives
+```
+",3.1641478538513184,98,62,"Counter({(13, 1): 1, (1, 54): 1, (6, 1): 1, (3, 1): 1, (7, 2): 1, (4, 1): 1, (2, 2): 1})"
+False,quadratic.egglog,0.3,9.745189189910889,False,"```python
+a_value1095687635418366483488624769797791573893417538227482337941155126199999999999999999999999999999",1.0586087703704834,185,100,"Counter({(12, 1): 1, (1, 38): 1, (5, 2): 1, (6, 1): 1, (2, 56): 1, (4, 1): 1, (3, 1): 1})"
+False,uppercase.egglog,0.5,9.16272783279419,False,"```python
+(lambda s_0_1685796400136040452595397390585409982048683813270047714257509897815053526259823679208494810",1.8177900314331055,158,100,"Counter({(8, 1): 1, (1, 69): 1, (5, 1): 1, (2, 19): 1, (9, 1): 1, (3, 7): 1, (4, 2): 1})"
+False,lerp.egglog,0.5,3.3285021781921387,True,"```python
+scale_difference_from_start_to_end(start_point)(end_point)(scaling_factor)
+```
+",0.43356871604919434,55,33,"Counter({(5, 2): 1, (1, 25): 1, (3, 2): 1, (8, 1): 1, (2, 3): 1})"
+False,auth.egglog,0.5,10.940264463424683,False,"```python
+def fetch_document(args1_name args2_name documnetId_arguementName_value )
+    return resultOfFetchingDocument
+end
+    
+def authorize_user_for_document(authUserForDocArgs authUserArgValue userAndWebRequestTupleOrDictumentID_argumentName_value)
+   if authorized
+       return True
+   else
+      return False
+   end
+end
+        ",3.3864591121673584,141,100,"Counter({(10, 1): 1, (1, 80): 1, (2, 13): 1, (7, 1): 1, (5, 1): 1, (3, 3): 1, (4, 1): 1})"
+False,power.egglog,0.5,2.9400439262390137,True,"```python
+resultant_program(power/1000)*hours*price_per_kwh
+```
+",0.4187178611755371,42,27,"Counter({(8, 1): 1, (1, 23): 1, (4, 1): 1, (5, 1): 1, (2, 1): 1})"
+False,distance.egglog,0.5,17.792850971221924,False,"```python
+import math
+
+def distance(x1_minus_x2_squared_plus_y1_minus_y2_squared)
+    return maths(math)(sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)))
+endfunction
+
+distance(x1_minus_x2_squared_plus_y1_minus_y2_",11.244878768920898,132,100,"Counter({(10, 1): 1, (1, 90): 1, (6, 1): 1, (2, 3): 1, (5, 2): 1, (3, 2): 1, (4, 1): 1})"
+False,gravity.egglog,0.5,4.275024890899658,True,"```python
+(10/(-15))*(66743*m1*m2)/((r)*(r))
+```
+",1.285473346710205,52,34,"Counter({(14, 1): 1, (1, 30): 1, (2, 2): 1, (4, 1): 1})"
+False,image.egglog,0.5,4.875053405761719,True,"```python
+original_img_selection_filtered_with_wmapped_to_var1086579696(original_image)(selection)(filter_type)(watermark_image)
+```
+",0.7179114818572998,80,51,"Counter({(7, 1): 1, (1, 34): 1, (3, 1): 1, (2, 12): 1, (4, 3): 1})"
+False,variance.egglog,0.5,20.153974533081055,True,"```python
+(lambda (a b c)
+    (lambda (xbar)
+        (abs (- (square (sub1 xbar)) (square (add1 xbar))) )  
+       )
+     (divide (plus a b c) 3)
+    )
+```
+",14.957760572433472,101,65,"Counter({(16, 1): 1, (1, 52): 1, (2, 5): 1, (3, 6): 1, (5, 1): 1})"
+False,positives.egglog,0.5,10.131771802902222,True,"```python
+def average_positive_numbers(xs)
+    filtered_list_of_positives numbers xs filter positive number nums list
+    
+    if length filtered_list_of_positives equals zero return None else divide sum filtered_list_of_positives by length filtered_list_of_positives
+end def
+```
+",4.324024677276611,117,78,"Counter({(12, 1): 1, (1, 67): 1, (6, 1): 1, (2, 5): 1, (7, 1): 1, (8, 1): 1, (3, 1): 1, (4, 1): 1})"
+False,quadratic.egglog,0.5,23.367108583450317,False,"```python
+a_value      -- Assume this value represents variable a from given expression  
+b_value       -- Assume this value represents variable b from given expression   
+c_value     -- Assume this value represnts variable c from given expression       
+sqrt         -- A built-In Python Function used here as it calculates square root 
+pow          -- Built-In python function used here it raises first argument ie base number second time power denoted by third parameter                                                                ",16.570333242416382,139,100,"Counter({(12, 1): 1, (1, 86): 1, (4, 1): 1, (8, 1): 1, (5, 1): 1, (2, 6): 1, (3, 4): 1})"
+False,uppercase.egglog,0.7,15.896479845046997,False,"```python
+result1_temp00765988017677434245_lambdax__3_15_(s)
+___isLambda(toLower(_)(_)
+_____ifElseIsDigitOrLetter(___charAt(lowerCaseResultTemp)(i)))(n-1)_else_(false)False__(len(listResultTemp)-1)rangeToZero((1)True)(str",8.908502101898193,149,100,"Counter({(10, 1): 1, (1, 78): 1, (3, 5): 1, (2, 12): 1, (7, 1): 1, (4, 1): 1, (5, 1): 1, (6, 1): 1})"
+False,lerp.egglog,0.7,7.829682111740112,False,"```python
+(lambda mul_expr1__end_mul_scale_add_instr0___tmp______subtractExpr5__end_minus_start/s__tempVar7__start_plus_multiplyExpr6__end_minustempVar7__multiplicationFactor8__x_times_scale_dividetmpVar9__(powerscale)/scale_exponentiation_exp tempVar7__) as __main",1.6419610977172852,116,100,"Counter({(2, 8): 1, (1, 88): 1, (3, 4): 1})"
+False,auth.egglog,0.7,8.219183921813965,False,"```python
+def fetch(documentsourcefunctionparam1arg0paramnameweb_requsetpmsoncurrent_usersessioniddocumentidentifierfuncnamescopescopehttprequestgetparamnamedocuurrent_userhttpheaderxcosnfigursthisisalezatiobultintheclouserzoneauthortypejwtverifyttokenvalidatedbytravisfullstackdevlevellanguagetoapproveorrejecttokebyp",1.1667547225952148,147,100,"Counter({(7, 1): 1, (1, 74): 1, (2, 16): 1, (4, 5): 1, (5, 1): 1, (3, 3): 1})"
+False,power.egglog,0.7,10.665436267852783,False,"```python
+def calculate(hours_worked_per_weekday__cents__minutes_overtime_2x_rate__price_per_hourly_wage__dollars__exchange_rate__centesimal___average_distance_to_job____km__street_rate___pounds__minute_rate_in_seconds__savings_band_lower_boundary___percent___commute_allowance_multipl",1.2285852432250977,186,100,"Counter({(11, 1): 1, (1, 71): 1, (9, 2): 1, (8, 3): 1, (7, 1): 1, (3, 4): 1, (4, 2): 1, (2, 15): 1, (5, 1): 1})"
+False,distance.egglog,0.7,7.692302227020264,False,"```python
+import math
+
+def distance(x1_valuerow0col985670DifferentiablyNamedVariableToAvoidConflictsInPythonBetterYetAVariableThatIsUsedTwiceButDoesNotReallyExistAtAllAndThisWouldBeEvenWeirderThanItLooksIfThereWasNoSuchLimitsOnMeJustConsideringRolesOfVariablesRowColumnDifferentiationNamingConventionFtgu",1.4400105476379395,128,100,"Counter({(11, 2): 1, (1, 94): 1, (6, 1): 1, (2, 3): 1})"
+False,gravity.egglog,0.7,5.1975719928741455,True,"```python
+(((m1 + 1j)*(-15))*(66743*m2)/r)
+```
+",2.477736473083496,47,31,"Counter({(12, 1): 1, (1, 27): 1, (2, 2): 1, (4, 1): 1})"
+False,image.egglog,0.7,8.935959577560425,False,"```python
+def crop(img150x96 image original_selectionmage_150x96 gorizontalverticalshiftrightleftupdownshiftselectionopeninvrightleftarrowanglebrushstampserasafeblackwhitepaintacryliccolorsmallmediumlargefontsfamilyvarybolditalicunderlinedecorationunderlinecolorfillellipsepolygonlinerectangleselectedtextareaeraselikecleanersaveshowonexitp",2.523287773132324,134,100,"Counter({(7, 1): 1, (1, 80): 1, (3, 5): 1, (6, 1): 1, (2, 13): 1})"
+False,variance.egglog,0.7,19.717329502105713,True,"```python
+(((a-avg_abc)*(a-avg_abc)) + ((b-avg_abc)*(b-avg_abc)) + ((c-avg_abc)*(c-avg_abc))) / 3
+where avg_abc is equal to (a+b+c)/3
+```
+",14.493963956832886,103,78,"Counter({(17, 1): 1, (1, 74): 1, (3, 1): 1, (2, 1): 1, (7, 1): 1})"
+False,positives.egglog,0.7,15.477764129638672,False,"```python
+def average_positive_numbers(xs) -pythonaverage(map(lambda num sumifnumpostive else sum0end filter lambda numnumger sifnumpostivesumdividensum if numberselse zerofilterpostivesxsnumbersonlycountspositivesaverageandsquareallaveragesqavgsqroot(number1square+ number2squarenumbertwo1 averagelistsqrt((",8.647067785263062,141,100,"Counter({(8, 1): 1, (1, 85): 1, (6, 1): 1, (3, 4): 1, (9, 1): 1, (4, 1): 1, (5, 1): 1, (2, 6): 1})"
+False,quadratic.egglog,0.7,6.705929517745972,True,"```python
+((-b + math_sqrt((math_pow(b 2) - 4 * a * c))) / (2 * a) )
+```
+",3.8348677158355713,50,38,"Counter({(7, 1): 1, (1, 34): 1, (2, 2): 1, (5, 1): 1})"
+False,uppercase.egglog,1.0,8.444630861282349,False,"```
+let filteredAndMappedString = 
+    map (toUpperCase o selectCharByIndexStrictlyInAllowedRange) filterAlphabetOnly where 
+        removeNonLettersFromAsciiListInput stringToFilterUnfilteredCharsOrderedASCIIOrder
+         where 
+            convertStringIntoIntegerArray selectedIndicesWithDuplicates arrayOfPerformedFunctionValuesConsideringEdgeCaseAllEqualZeroLeftLimitRightLimit0 lower",2.7193236351013184,121,100,"Counter({(18, 1): 1, (1, 97): 1, (2, 1): 1, (4, 1): 1})"
+False,lerp.egglog,1.0,33.981879234313965,False,"```python
+(1 + 90) + ((756 - 1) * 10/48)
+ gauge from vapor pressure over range of said constant temperature gas at one part per million rise time to four parts per billion volume saturated adsorbed layer W e D
+ until extraneous scattered shear quantity consecutive opposites comprehendee H through Effusion damping Hartz far ext equator Hybrid magnet websites naturally r synchronizing brace fierce anodyne",28.584299087524414,111,100,"Counter({(6, 1): 1, (1, 94): 1, (2, 4): 1, (3, 1): 1})"
+True,auth.egglog,1.0,4.174670219421387,True,"```
+let authenticated_user = authenticate_user current_user web_request
+in let authorized_user =  authorize_user_for_document authenticated_user document_id
+in fetch_document authorized_user
+```
+",0.5528721809387207,68,52,"Counter({(15, 1): 1, (1, 50): 1, (3, 1): 1})"
+False,power.egglog,1.0,7.744749307632446,False,"```python
+result_with_taxes_manually_calculated(hoursOfWorkPerWeekFromZeroToFullTimeEmployeeInMonthsAndBackAgainWithTimeZonesConvertingFirstListIntoTuplesRTNOnlySecondTestTTMultiPLESOORTotallyTEST987minutely parked_readyto hur aidonProtectionUnification _pointshold-simulator___AttributeStructPreEss BozzleRouPlayRem",1.3925256729125977,132,100,"Counter({(9, 1): 1, (1, 90): 1, (4, 3): 1, (2, 3): 1, (5, 1): 1, (7, 1): 1, (3, 1): 1})"
+False,distance.egglog,1.0,6.757375240325928,True,"```
+let distance = sqrt(pow ((subtract x1 x2)) (add (pow (- y1 y2))) )  
+in print_float distnace
+```
+",2.8525354862213135,75,43,"Counter({(13, 1): 1, (12, 1): 1, (1, 36): 1, (2, 3): 1, (5, 1): 1, (3, 1): 1})"
+False,gravity.egglog,1.0,19.996659517288208,False,"```python
+(pow_bin(-9)(-8)/m1/sqr(div((sub(n)byd))2/cJvlNsOGLwoRjLsyikxcqwGdiVYayzzoInsNegAFtEFDAHpklhBkMPEecSQPypNLbtOFsdgzbUXKUweAeObvtWzmsCCNTrsmgEqjuEhM",13.98836088180542,122,100,"Counter({(21, 1): 1, (1, 98): 1, (3, 1): 1})"
+False,image.egglog,1.0,36.92686080932617,False,"```python
+def cropped_selection(original_image_namefile suspended_selection paramts operators frame transformation format edition image editing formerly observation w url identificationection core cropy hammer bark tri wrench lever on leak squeeze bore Mug shutter camm parry partly beautiful W lysine Show bullet model torment sunth chapter social drab medallion riot grown scho volatility dyne rib ledge shape LP item blooming m2r seat basket Aobject",29.856029272079468,127,100,"Counter({(4, 1): 1, (1, 88): 1, (3, 2): 1, (2, 6): 1, (5, 2): 1, (7, 1): 1})"
+False,variance.egglog,1.0,30.10470676422119,False,"```
+(defn mean_arithmetic three-tuple
+    (apply average-of two-items)
+    0 ((avg1) (- b avg1)(- c avg1)))
+where
+   avg1 ((fn sum three
+       sum a b c d e f 
+        )/ 6)
+    sin common variable (use any name here you like)
+three distinct numbers assigned to these six placeholders--say values here could vary",23.445345163345337,134,100,"Counter({(10, 1): 1, (1, 82): 1, (2, 12): 1, (3, 2): 1, (4, 3): 1})"
+False,positives.egglog,1.0,25.63066267967224,False,"```python
+def calculate_average(xs)
+    filtered_list     (x for x if True filterpositive numbersplit list x split by linesemi colonagte na semicolonsteady turtle stalwart coasting more than even bow lorems anthropomorphizing deranged seduced brackets fail session sluggishly thirst electro so simulationspointless abrupt grant release gadget driver hypothetical violinskilfully rhenumedhe",18.279460191726685,139,100,"Counter({(11, 1): 1, (1, 85): 1, (4, 2): 1, (3, 4): 1, (5, 1): 1, (6, 1): 1, (2, 6): 1})"
+False,quadratic.egglog,1.0,8.717705488204956,True,"```
+(setq squareRoot (- b (sqrt (-(pow b 2) (expr 4 * a * c))) ) )/a
+```
+",5.470551490783691,58,35,"Counter({(7, 1): 1, (1, 25): 1, (4, 1): 1, (2, 6): 1, (5, 2): 1})"

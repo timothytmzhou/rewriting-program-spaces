@@ -1,0 +1,283 @@
+success,benchmark,temperature,execution_time,llm_finished,output,total_realizability_time,num_tokens_guessed,num_tokens_generated,tries_per_token
+False,uppercase.egglog,0.01,4.0194361209869385,True," ```
+let uppercase_chars = filter isAlpha s in
+let mapped_uppercase_chars = map toUpper uppercase_chars in
+mapped_uppercase_chars
+```",0.0,46,46,"Counter({(1, 46): 1})"
+False,lerp.egglog,0.01,3.533721923828125,True," ```
+let start_scaled = start * scale in
+let end_scaled = end * scale in
+(end_scaled - start_scaled)
+```",0.0,39,39,"Counter({(1, 39): 1})"
+False,auth.egglog,0.01,4.837978839874268,True," ```
+let authorized_user = authenticate_user current_user web_request in
+let user_with_access = authorize_user_for_document authorized_user document_id in
+fetch_document user_with_access
+```",0.0,56,56,"Counter({(1, 56): 1})"
+False,power.egglog,0.01,4.1235270500183105,True," Here's one possible refactored version of the program:
+```
+let power = power / 1000 in
+let cost = power * hours * price_per_kwh in
+cost
+```",0.0,48,48,"Counter({(1, 48): 1})"
+False,distance.egglog,0.01,3.8217644691467285,True," ```
+let distance_squared = pow (x1 - x2) 2 + pow (y1 - y2) 2 in
+sqrt distance_squared
+```",0.0,40,40,"Counter({(1, 40): 1})"
+False,gravity.egglog,0.01,7.748260259628296,False," Here's one possible refactored version of the program:
+```
+let ten_to_the_minus_fifteen = pow 10 (-15) in
+let six_six_seven_four_three = 66743 in
+let product = six_six_seven_four_three * m1 * m2 in
+let distance_squared = pow r 2 in
+product / distance_squared
+```",0.0,100,100,"Counter({(1, 100): 1})"
+False,image.egglog,0.01,4.659191131591797,True," ```
+let crop_result = crop_image original_image selection in
+let filtered_result = apply_filter crop_result filter_type in
+add_watermark filtered_result watermark_image
+```",0.0,53,53,"Counter({(1, 53): 1})"
+False,variance.egglog,0.01,6.695002317428589,True," Here's one possible refactored version of the program:
+```
+let avg = (a + b + c) / 3 in
+let diff_sqr = pow (avg - a), 2 + pow (avg - b), 2 + pow (avg - c), 2 in
+sqrt (diff_sqr) / 3
+```",0.0,83,83,"Counter({(1, 83): 1})"
+False,positives.egglog,0.01,5.813532114028931,True," Here's one possible refactored version of the program:
+```
+let sumPositiveXs = sum (filter positive xs) in
+let numPositiveXs = length (filter positive xs) in
+if numPositiveXs > 0 then sumPositiveXs / numPositiveXs else 0
+```",0.0,74,74,"Counter({(1, 74): 1})"
+False,quadratic.egglog,0.01,5.211838722229004,True," Here's one possible refactored version of the program:
+```
+let discriminant = pow b 2 - 4 * a * c in
+if discriminant < 0 then None else Some (-b + sqrt discriminant) / (2 * a)",0.0,62,62,"Counter({(1, 62): 1})"
+False,uppercase.egglog,0.3,3.166506052017212,True," ```
+let uppercase_chars = filter isAlpha s in
+let result = map toUpper uppercase_chars in
+result
+```",0.0,33,33,"Counter({(1, 33): 1})"
+False,lerp.egglog,0.3,3.3010599613189697,True," ```
+let start_plus_scaled_diff = start + (end - start) * scale in
+start_plus_scaled_diff
+```",0.0,35,35,"Counter({(1, 35): 1})"
+False,auth.egglog,0.3,6.214040756225586,True," Here's one possible refactored version of the program:
+```
+let authorized_user = authenticate_user current_user web_request in
+let user_has_access = authorize_user_for_document authorized_user document_id in
+if user_has_access then fetch_document document_id else []
+```",0.0,77,77,"Counter({(1, 77): 1})"
+False,power.egglog,0.3,4.924334287643433,True," Here's one possible way to refactor the program:
+```
+let power_in_mw = power / 1000 in
+let energy_cost = power_in_mw * hours * price_per_kwh in
+energy_cost
+```",0.0,60,60,"Counter({(1, 60): 1})"
+False,distance.egglog,0.3,3.8035454750061035,True," ```
+let dX = x1 - x2;
+let dY = y1 - y2;
+sqrt(dX^2 + dY^2);
+```",0.0,40,40,"Counter({(1, 40): 1})"
+False,gravity.egglog,0.3,5.766938924789429,True," ```
+let ten_to_the_negative_fifteen = pow 10 (-15) in
+let product = 66743 * m1 * m2 in
+let quotient = product / pow r 2 in
+quotient * ten_to_the_negative_fifteen
+```",0.0,70,70,"Counter({(1, 70): 1})"
+False,image.egglog,0.3,5.3132922649383545,True," ```
+let croppedImage = crop_image original_image selection in
+let filteredCroppedImage = apply_filter croppedImage filter_type in
+let finalImage = add_watermark filteredCroppedImage watermark_image in
+finalImage
+```",0.0,63,63,"Counter({(1, 63): 1})"
+False,variance.egglog,0.3,6.651425838470459,True," Here's one possible refactored version of the program:
+```
+let avg = (a + b + c) / 3 in
+let diff_sqr = pow (avg - a), 2 in
+diff_sqr + pow (avg - b), 2 + pow (avg - c), 2) / 3",0.0,79,79,"Counter({(1, 79): 1})"
+False,positives.egglog,0.3,4.058468580245972,True," Here's one possible refactored version of the program:
+```
+let sumPositiveXs = sum (filter positive xs)
+in sumPositiveXs / length (filter positive xs)
+```",0.0,47,47,"Counter({(1, 47): 1})"
+False,quadratic.egglog,0.3,7.75639271736145,False," Here's one possible refactored version of the program:
+```
+let discriminant = pow b 2 - 4 * a * c in
+if discriminant >= 0 then
+    let root1 = (-b + sqrt discriminant) / (2 * a) in
+    let root2 = (-b - sqrt discriminant) / (2 * a) in
+    root1 + root2
+else
+    0
+",0.0,100,100,"Counter({(1, 100): 1})"
+False,uppercase.egglog,0.5,3.979346752166748,True," ```
+let uppercase_chars = filter isAlpha s in
+let transformed_uppercase_chars = map toUpper uppercase_chars in
+transformed_uppercase_chars
+```",0.0,46,46,"Counter({(1, 46): 1})"
+False,lerp.egglog,0.5,2.904254913330078,True," Here's one possible way to refactor this expression:
+```
+let distance = end - start in
+scale * distance
+```",0.0,29,29,"Counter({(1, 29): 1})"
+False,auth.egglog,0.5,4.340916633605957,True," ```
+let user = authenticate_user current_user web_request in
+let authorized_user = authorize_user_for_document user document_id in
+fetch_document authorized_user
+```",0.0,48,48,"Counter({(1, 48): 1})"
+False,power.egglog,0.5,4.696521043777466,True," Here's one possible way to refactor the program while keeping it equivalent and using let bindings when helpful:
+```
+let power = power / 1000 in
+let cost = power * hours * price_per_kwh in
+cost
+```",0.0,57,57,"Counter({(1, 57): 1})"
+False,distance.egglog,0.5,4.506886005401611,True," Here's one possible refactored version:
+```
+let distance_squared = pow (x1 - x2) 2 + pow (y1 - y2) 2 in
+sqrt distance_squared
+```",0.0,51,51,"Counter({(1, 51): 1})"
+False,gravity.egglog,0.5,7.384918451309204,True," Sure! Here's a refactored version of the program using `let` bindings:
+
+```
+let ten_to_the_minus_fifteen = pow 10 (-15)
+let product = sixeightsevenfourthree * m1 * m2
+let distance_squared = pow r 2
+in ten_to_the_minus_fifteen * product / distance_squared
+```",0.0,95,95,"Counter({(1, 95): 1})"
+False,image.egglog,0.5,4.861224174499512,True," Here's one possible refactored version of the program:
+
+let crop_img = apply_filter (crop_image original_image selection) filter_type
+in add_watermark crop_img watermark_image",0.0,56,56,"Counter({(1, 56): 1})"
+False,variance.egglog,0.5,7.490516424179077,True," Here's one possible refactored version of the given program:
+```
+let v1 = (a + b + c) / 3 in
+let v2 = pow (v1 - a) 2 in
+let v3 = pow (v1 - b) 2 in
+let v4 = pow (v1 - c) 2 in
+(v2 + v3 + v4) / 3
+```",0.0,95,95,"Counter({(1, 95): 1})"
+False,positives.egglog,0.5,2.9207265377044678,True," ```
+let mean_xs = sum (filter positive xs) in
+mean_xs / length (filter positive xs)
+```",0.0,29,29,"Counter({(1, 29): 1})"
+False,quadratic.egglog,0.5,4.465168714523315,True," ```
+let discriminant = pow b 2 - 4 * a * c in
+if discriminant < 0 then None else Some (-b + sqrt discriminant) / (2 * a)
+```",0.0,50,50,"Counter({(1, 50): 1})"
+False,uppercase.egglog,0.7,2.696171760559082,True," ```
+let uppercase_words = map toUpper (filter isAlpha s)
+uppercase_words
+```",0.0,26,26,"Counter({(1, 26): 1})"
+False,lerp.egglog,0.7,4.724220037460327,True," Here's one possible way to refactor the program while maintaining its equivalence and making it more readable with `let` bindings:
+```
+let distance = end - start
+let scaled_distance = distance * scale
+start + scaled_distance
+```",0.0,57,57,"Counter({(1, 57): 1})"
+False,auth.egglog,0.7,6.029540300369263,True," Here's a refactored version of the given program using `let` bindings where appropriate:
+```scss
+let authorizedUser = authenticate_user current_user web_request;
+let userForDocument = authorize_user_for_document authorizedUser document_id;
+fetch_document userForDocument
+```",0.0,74,74,"Counter({(1, 74): 1})"
+False,power.egglog,0.7,3.5181586742401123,True," Here's one possible refactoring:
+```
+let power = power / 1000 in
+let cost = power * hours * price_per_kWh",0.0,38,38,"Counter({(1, 38): 1})"
+False,distance.egglog,0.7,3.974872350692749,True," ```
+let dX = abs(x1 - x2);
+let dY = abs(y1 - y2);
+dX^2 + dY^2;
+```",0.0,42,42,"Counter({(1, 42): 1})"
+False,gravity.egglog,0.7,5.2588441371917725,True," ```
+let power_of_ten = pow 10 (-15) in
+let factor1 = 66743 * m1 * m2 in
+let denominator = pow r 2 in
+power_of_ten * factor1 / denominator
+```",0.0,62,62,"Counter({(1, 62): 1})"
+False,image.egglog,0.7,5.16231369972229,True," ```
+let crop = apply_filter (crop_image original_image selection) filter_type in
+let add_watermark = lambda image -> image + watermark_image in
+add_watermark (crop original_image)
+```",0.0,61,61,"Counter({(1, 61): 1})"
+False,variance.egglog,0.7,7.8277881145477295,False," Here's one possible refactored version of the program that uses `let` bindings to make it more readable:
+```
+let avg = (a + b + c) / 3 in
+let a_diff = a - avg in
+let b_diff = b - avg in
+let c_diff = c - avg in
+sqr(a_diff^2 + b_diff^2 + c_diff^2) /",0.0,100,100,"Counter({(1, 100): 1})"
+False,positives.egglog,0.7,2.711884021759033,True," ```scss
+let average = sum xs;
+let count = length xs;
+average / count
+```",0.0,26,26,"Counter({(1, 26): 1})"
+False,quadratic.egglog,0.7,7.687381982803345,False," Here's an equivalent refactored version of the program:
+```scss
+let discriminant = pow b 2 - 4 * a * c;
+if discriminant < 0 {
+    return None
+} else {
+    let root1 = (-b + sqrt(discriminant)) / (2 * a);
+    let root2 = (-b - sqrt(discriminant)) / (2 * a);
+",0.0,100,100,"Counter({(1, 100): 1})"
+False,uppercase.egglog,1.0,3.0336294174194336,True," ```
+let uppercaseChars = filter isAlpha s in
+let result = map toUpper uppercaseChars in
+result
+```",0.0,31,31,"Counter({(1, 31): 1})"
+False,lerp.egglog,1.0,3.040825128555298,True," ```
+let duration = end - start;
+let result = start + (duration - 1) / scale;
+result;
+```",0.0,31,31,"Counter({(1, 31): 1})"
+False,auth.egglog,1.0,1.646524429321289,True," ""Invalid input""",0.0,6,6,"Counter({(1, 6): 1})"
+False,power.egglog,1.0,5.221313238143921,True," Here's one possible refactored version of the given expression using `let` bindings:
+
+```scss
+let hours = power / 1000;
+let kWh_price = hours * price_per_kwh;
+kWh_price / 1000
+```",0.0,68,68,"Counter({(1, 68): 1})"
+False,distance.egglog,1.0,4.62742805480957,True," ```
+let dXsqrd = pow (x1 - x2) 2 in
+let dYsqrd = pow (y1 - y2) 2 in
+sqrt (dXsqrd + dYsqrd)```",0.0,53,53,"Counter({(1, 53): 1})"
+False,gravity.egglog,1.0,7.713782072067261,False," Here's an attempt at refactoring the given expression:
+```
+let ten_to_the_minus_fifteen = 10 ** -15 in
+
+-- Calculate the product of six factors
+let product = (66743 * m1 * m2) in -- One factor can come from these lines
+
+-- Calculate the value of `r` squared
+let r_squared = pow r 2 in   -- `",0.0,100,100,"Counter({(1, 100): 1})"
+False,image.egglog,1.0,7.735586643218994,False," ```
+original_image -> crop_image -> apply_filter(selection) -> add_watermark(filter_type) -> finalize
+    where original_image : integer,
+        crop_image = | cropped_subregion => sublist[cropped_subregion](original_image),
+            else => apply_filter(| _ article _ | by transposition|),
+        sublist current → WatermarkImage do
+                            ",0.0,100,100,"Counter({(1, 100): 1})"
+False,variance.egglog,1.0,7.598523139953613,True," Here's one possible way to refactor the given expression using let bindings:
+```
+let avg = (a + b + c) / 3 in
+let dx1 = (pow (a - avg) 2), dy1 = (pow (b - avg) 2), dz1 = (pow (c - avg) 2) in
+(dx1 + dy1 + dz1) / 3
+```",0.0,97,97,"Counter({(1, 97): 1})"
+False,positives.egglog,1.0,7.527595520019531,False," ```
+mean xs =
+    sum'xs' = sum xs'
+      where end True xs = [] => []
+            duplicacy False ['_:tls'] value = replicate False len + false   => _
+                       | length :: [...] <| => head xs : splitAt len rest                              => element rest ^len
+             False [[..., xs...]] => let sp = split!!xs array['nbalance:0 .. hd xs]",0.0,100,100,"Counter({(1, 100): 1})"
+False,quadratic.egglog,1.0,6.997398853302002,True," ```
+let delta = -(b ** 2 - 4 * a * c) // formula for calculating delta
+
+let root1 = (-b + sqrt(delta)) / (2 * a)   // first solution
+let root2 = (-b - sqrt(delta)) / (2 * a)    // second solution
+
+root1, root2                             // return both solutions as list
+```",0.0,89,89,"Counter({(1, 89): 1})"

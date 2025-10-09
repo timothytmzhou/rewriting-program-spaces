@@ -1,0 +1,401 @@
+success,benchmark,temperature,execution_time,llm_finished,output,total_realizability_time,num_tokens_guessed,num_tokens_generated,tries_per_token
+True,uppercase.egglog,0.01,2.0407180786132812,True," ```
+let uppercaseChars = filter isAlpha s in
+    map toUpper uppercaseChars
+```",0.26193690299987793,26,26,"Counter({(1, 26): 1})"
+True,lerp.egglog,0.01,3.7484467029571533,True," ```
+let start_scaled = start * scale in
+let end_scaled = end * scale in
+(end - start) * scale
++ start
+```",1.2421162128448486,43,38,"Counter({(1, 33): 1, (2, 5): 1})"
+True,auth.egglog,0.01,3.6593241691589355,True," ```
+let authorizedUser = authenticate_user current_user web_request in
+let authorizedDocumentId = authorize_user_for_document authorizedUser document_id in
+fetch_document authorizedDocumentId
+```",0.7558953762054443,52,52,"Counter({(1, 52): 1})"
+False,power.egglog,0.01,7.603278636932373,False," ```
+let powerPerKWh = price_per_kwh / 1000 in
+let totalCost = powerPerKWh * hours in
+totalCost
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",2.22556209564209,110,100,"Counter({(1, 96): 1, (2, 2): 1, (3, 1): 1, (7, 1): 1})"
+True,distance.egglog,0.01,3.9892044067382812,True," ```
+let dX = x1 - x2 in
+let dY = y1 - y2 in
+sqrt(pow(dX) 2 + pow(dY) 2)
+```",1.2107977867126465,49,46,"Counter({(1, 43): 1, (2, 3): 1})"
+True,gravity.egglog,0.01,6.806090354919434,True," ```
+let p = pow 10 (-15) in
+let q = 66743 * m1 * m2 in
+let r2 = pow r 2 in
+p * q / r2
+```",3.8454086780548096,53,52,"Counter({(1, 51): 1, (2, 1): 1})"
+True,image.egglog,0.01,4.784811496734619,True," ```
+let croppedImage = crop_image original_image selection
+in
+let filteredImage = apply_filter croppedImage filter_type
+in
+let watermarkedImage = add_watermark filteredImage watermark_image
+in
+watermarkedImage
+```",1.256756067276001,67,67,"Counter({(1, 67): 1})"
+True,variance.egglog,0.01,15.312492847442627,True," ```
+let d = a-((a+b+c)/3) in
+let e = b-((a+b+c)/3) in
+let f = c-((a+b+c)/3) in
+sqrt(pow(d) 2 + pow(e) 2 + pow(f) 2) / 3
+```",10.942135572433472,84,80,"Counter({(1, 76): 1, (2, 4): 1})"
+True,positives.egglog,0.01,4.2812676429748535,True," 
+```
+let posXs = filter positive xs in
+let sumPosXs = sum posXs in
+let lenPosXs = length posXs in
+sumPosXs / lenPosXs
+```",1.4174084663391113,51,50,"Counter({(1, 49): 1, (2, 1): 1})"
+True,quadratic.egglog,0.01,10.757108449935913,True," ```
+let a_squared = pow(a) 2
+in
+let b_squared = pow(b) 2
+in
+let denominator = 2 * a
+in
+let numerator = (-b) + sqrt((b_squared - 4 * a * c))
+in
+numerator / denominator
+```",6.434880495071411,83,78,"Counter({(1, 74): 1, (2, 3): 1, (3, 1): 1})"
+True,uppercase.egglog,0.3,2.0527431964874268,True," ```
+let uppercaseChars = filter isAlpha s in
+    map toUpper uppercaseChars
+```",0.2641026973724365,26,26,"Counter({(1, 26): 1})"
+True,lerp.egglog,0.3,2.2733516693115234,True," ```
+let diff = end - start in
+let result = start + (diff * scale) in
+result
+```",0.4242563247680664,27,27,"Counter({(1, 27): 1})"
+True,auth.egglog,0.3,3.7904160022735596,True," ```
+let authorizedUser = authenticate_user current_user web_request
+in
+let authorizedDocumentId = authorize_user_for_document authorizedUser document_id
+in
+fetch_document authorizedDocumentId
+```",0.7734236717224121,54,54,"Counter({(1, 54): 1})"
+True,power.egglog,0.3,4.105170726776123,True," ```
+let powerPerKWh = pricePerKWh * hours in
+power / 1000 * hours * price_per_kwh
+```",1.6398282051086426,41,36,"Counter({(1, 32): 1, (3, 1): 1, (2, 3): 1})"
+True,distance.egglog,0.3,4.544713258743286,True," ```
+let dX = x1 - x2 in
+let dY = y1 - y2 in
+sqrt(pow(dX) 2 + pow(dY) 2)
+```",1.7818858623504639,49,46,"Counter({(1, 44): 1, (2, 1): 1, (3, 1): 1})"
+True,gravity.egglog,0.3,6.914780139923096,True," ```
+let p = pow 10 (-15) in
+let q = 66743 * m1 * m2 in
+let r2 = pow r 2 in
+(p * q) / r2
+```",3.8027970790863037,56,54,"Counter({(1, 53): 1, (3, 1): 1})"
+True,image.egglog,0.3,4.366960287094116,True," ```
+let croppedImage = crop_image original_image selection
+in
+let filteredImage = apply_filter croppedImage filter_type
+in
+let finalImage = add_watermark filteredImage watermark_image
+in
+finalImage
+```",1.0990216732025146,60,60,"Counter({(1, 60): 1})"
+True,variance.egglog,0.3,16.244482278823853,True," 
+```
+let d = a-(((a+b)+c)/3) in
+let e = b-(((a+b)+c)/3) in
+let f = c-(((a+b)+c)/3) in
+sqrt((pow d 2)+(pow e 2)+(pow f 2))/3
+```",10.9697105884552,79,79,"Counter({(1, 79): 1})"
+True,positives.egglog,0.3,3.7986602783203125,True," 
+```
+let posXs = filter positive xs in
+let sumPosXs = sum posXs in
+let lenPosXs = length posXs in
+sumPosXs / lenPosXs
+```",0.958245038986206,51,50,"Counter({(1, 49): 1, (2, 1): 1})"
+True,quadratic.egglog,0.3,9.917040348052979,True," ```
+let two_a = 2 * a in
+let four_ac = 4 * a * c in
+let bsqr = pow b 2 in
+let diff = bsqr - four_ac in
+let root = sqrt diff in
+(root + (-b)) / two_a
+```",6.109196662902832,72,71,"Counter({(1, 70): 1, (2, 1): 1})"
+True,uppercase.egglog,0.5,2.591158151626587,True," ```
+let uppercaseChars = filter isAlpha s in
+let mappedString = map toUpper uppercaseChars in
+mappedString
+```",0.4394843578338623,34,34,"Counter({(1, 34): 1})"
+True,lerp.egglog,0.5,1.7400157451629639,True," ```
+let delta = end - start
+in start + delta * scale
+```",0.2398378849029541,19,19,"Counter({(1, 19): 1})"
+True,auth.egglog,0.5,3.6088714599609375,True," ```
+let authorizedUser = authenticate_user current_user web_request
+    in let documentId = document_id
+        in fetch_document (authorize_user_for_document authorizedUser documentId)
+```",0.7870216369628906,53,52,"Counter({(1, 51): 1, (2, 1): 1})"
+True,power.egglog,0.5,4.474620819091797,True," ```
+let powerPerKWh = pricePerKWh / 1000
+in
+power / 1000 * hours * price_per_kwh
+```",1.8212676048278809,46,41,"Counter({(1, 37): 1, (3, 1): 1, (2, 3): 1})"
+True,distance.egglog,0.5,3.222991466522217,True," ```
+let distance_squared = pow (x1 - x2) 2 + pow (y1 - y2) 2 in
+sqrt distance_squared
+```",0.8331880569458008,40,40,"Counter({(1, 40): 1})"
+True,gravity.egglog,0.5,6.158464670181274,True," ```
+let p = pow 10 (-15) in
+let q = 66743 * m1 * m2 in
+let t = pow r 2 in
+p * q / t
+```",3.301499128341675,51,50,"Counter({(1, 49): 1, (2, 1): 1})"
+True,image.egglog,0.5,4.154608726501465,True," ```
+let croppedImage = crop_image original_image selection
+in
+let filteredImage = apply_filter croppedImage filter_type
+in
+add_watermark filteredImage watermark_image
+```",1.2944934368133545,51,51,"Counter({(1, 51): 1})"
+True,variance.egglog,0.5,17.996827840805054,True," ```
+let diff_a = a - ((a+b+c)/3)
+    in
+    let diff_b = b - ((a+b+c)/3)
+        in
+        let diff_c = c - ((a+b+c)/3)
+            in
+            sqrt((pow diff_a 2) + (pow diff_b 2) + (pow diff_c 2)) / 3
+```",12.896411895751953,101,100,"Counter({(1, 99): 1, (2, 1): 1})"
+True,positives.egglog,0.5,4.370474815368652,True," 
+```
+let positives = filter positive xs in
+let sum_of_positives = sum positives in
+let length_of_positives = length positives in
+sum_of_positives / length_of_positives
+```",1.113574743270874,61,59,"Counter({(1, 57): 1, (2, 2): 1})"
+True,quadratic.egglog,0.5,12.008766889572144,True," ```
+(
+    (
+        (- b) + (sqrt ((pow b 2) - (4 * a * c)))
+    ) / (2 * a)
+)
+```",9.181111097335815,49,43,"Counter({(1, 40): 1, (2, 2): 1, (5, 1): 1})"
+True,uppercase.egglog,0.7,2.1393651962280273,True," ```
+let uppercaseAlphas = map toUpper (filter isAlpha s) in
+uppercaseAlphas
+```",0.3221933841705322,27,27,"Counter({(1, 27): 1})"
+True,lerp.egglog,0.7,2.0520811080932617,True," ```
+let diff = end - start
+in
+(start + diff * scale)
+```",0.38045811653137207,24,22,"Counter({(1, 20): 1, (2, 2): 1})"
+False,auth.egglog,0.7,18.17432975769043,False," ```
+fetch_document (authoud",2.9844861030578613,300,8,"Counter({(1, 7): 1, (2, 1): 1})"
+True,power.egglog,0.7,4.042137861251831,True," ```
+let power_per_hour = power / 1000 * hours in
+let cost_per_hour = price_per_kwh * power_per_hour in
+cost_per_hour
+```
+",1.1638822555541992,52,51,"Counter({(1, 50): 1, (2, 1): 1})"
+False,distance.egglog,0.7,36.264533042907715,False," 
+```
+let distance_squared = ((((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2))) * (((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)))) in
+sqrt ((((pow (x1 - x2) 2) + (pow (y1",30.256397247314453,121,100,"Counter({(1, 93): 1, (11, 1): 1, (3, 3): 1, (2, 2): 1, (4, 1): 1})"
+False,gravity.egglog,0.7,24.81742548942566,False," ```
+let num = 10
+    denom1a 90
+    denom1b 5
+    denom2a 66743
+    denom2b 2
+in
+(m1 * m2) / ((pow r 2) 
+ 
+    ) * (
+        ( pow ( 10 ))
+            
+            ( - 15)) * (
+                
+                (
+                ",15.081604242324829,167,100,"Counter({(1, 77): 1, (2, 10): 1, (4, 2): 1, (3, 5): 1, (5, 2): 1, (13, 1): 1, (8, 1): 1, (10, 1): 1, (6, 1): 1})"
+True,image.egglog,0.7,5.1058197021484375,True," ```
+let croppedImage = crop_image original_image selection
+in
+let filteredImage = apply_filter croppedImage filter_type
+in
+let finalImage = add_watermark filteredImage watermark_image
+in
+finalImage
+```",1.138453483581543,60,60,"Counter({(1, 60): 1})"
+False,variance.egglog,0.7,17.302731037139893,False," ```
+
+let a_minus_avg = a - (a+b+c)/3 in
+let b_minus_avg = b - (a+b+c)/3 in
+let c_minus_avg = c - (a+b+c)/3 in
+
+sqrt(pow(a_minus_avg) 2 + pow(b_minus_avg) 2 + pow(c_minus_avg)",11.233062982559204,101,100,"Counter({(1, 99): 1, (2, 1): 1})"
+True,positives.egglog,0.7,6.675181865692139,True," 
+```
+let posXs = filter positive xs in
+let sumPosXs = sum posXs in
+let lenPosXs = length posXs in
+sumPosXs / lenPosXs
+```",2.4143431186676025,82,51,"Counter({(1, 48): 1, (2, 2): 1, (30, 1): 1})"
+True,quadratic.egglog,0.7,8.76558542251587,True," ```
+let two_a = 2 * a in
+let four_ac = 4 * a * c in
+let bsqrd = pow b 2 in
+((-b) + sqrt (bsqrd - four_ac)) / two_a
+```",5.405911684036255,62,61,"Counter({(1, 60): 1, (2, 1): 1})"
+True,uppercase.egglog,1.0,2.6654767990112305,True," ```
+let uppercaseLetters = filter isAlpha s in
+let mappedList = map toUpper uppercaseLetters in
+mappedList
+```",0.43616747856140137,36,34,"Counter({(1, 32): 1, (2, 2): 1})"
+True,lerp.egglog,1.0,2.8281660079956055,True," ```
+let
+    start_minus_end = start - end
+in
+scale * (end - start) + start
+```",0.5343508720397949,38,30,"Counter({(1, 25): 1, (2, 4): 1, (5, 1): 1})"
+True,auth.egglog,1.0,3.4858510494232178,True," ```
+let userAuth = authenticate_user current_user web_request in
+  let docId = authorize_user_for_document userAuth document_id in
+    fetch_document docId
+```",0.7101788520812988,49,48,"Counter({(1, 47): 1, (2, 1): 1})"
+True,power.egglog,1.0,6.677908420562744,True," 
+```
+let powerInWatts = power / 1000 in
+(powerInWatts * hours) * price_per_kwh
+```",1.821098804473877,97,40,"Counter({(1, 35): 1, (54, 1): 1, (2, 4): 1})"
+True,distance.egglog,1.0,3.78556489944458,True," ```
+let dX = x1 - x2 in
+let dY = y1 - y2 in
+sqrt ((pow dX 2) + (pow dY 2))
+```",1.167400598526001,45,44,"Counter({(1, 43): 1, (2, 1): 1})"
+False,gravity.egglog,1.0,18.953876733779907,False," ```
+let p = pow (-15) 2 in
+let q = pow 10 r2/p*m1*m2 in
+let t = q-66743 in
+let u = m2*t+m1*p in
+let v = p-r2 in
+let w = t*v+u*r2 in
+let x = w*q/r2 in
+let y = x-up-",13.64084792137146,107,100,"Counter({(1, 93): 1, (2, 7): 1})"
+False,image.egglog,1.0,9.747933387756348,False," 
+```
+let croppedImage = crop_image original_image selection
+in
+let filteredImage = apply_filter croppedImage filter_type
+in
+let watermarkedImage = add_watermark filteredImage waterMark_image
+in
+
+
+
+
+
+  
+  
+  
+  
+  
+ 
+     
+     
+      
+
+
+
+
+
+  
+    
+    
+    
+      ",2.642098903656006,150,100,"Counter({(1, 84): 1, (2, 9): 1, (12, 1): 1, (8, 1): 1, (4, 1): 1, (9, 2): 1, (3, 2): 1})"
+True,variance.egglog,1.0,16.57815670967102,True," ```
+let x = a - ((a+b+c)/3)
+    in let y = b - ((a+b+c)/3)
+      in let z = c - ((a+b+c)/3)
+        in sqrt(pow(x) 2 + pow(y) 2 + pow(z) 2) / 3
+```",11.895890474319458,90,84,"Counter({(1, 81): 1, (2, 1): 1, (4, 1): 1, (3, 1): 1})"
+False,positives.egglog,1.0,17.10101842880249,False," ```
+let ps = filter positive xs
+    sum ps / length ps
+end
+
+where filter positive xs creates a list containing all positive elements in
+                                                                    　            
+                                                                            
+                                                                                       
+                                                                                            
+                      
+",6.934753656387329,219,100,"Counter({(1, 65): 1, (2, 13): 1, (4, 5): 1, (14, 1): 1, (26, 1): 1, (5, 4): 1, (7, 2): 1, (3, 8): 1, (10, 1): 1})"
+False,quadratic.egglog,1.0,73.8529965877533,False," ```
+let tmp_a = (-b + sqrt(pow(2)(pow((-1)*(4))*(a)*(c))))/(ToInt(2)) in (1/2)*(1/a)*(1)*(1)*(1)*(1)*(1)*(1)*(1)*(1)*(1)*(1)*(1)*(1)*(1)*(-b)+sqrt(pow(b)(2)-4",66.1166365146637,158,100,"Counter({(1, 67): 1, (2, 20): 1, (3, 9): 1, (4, 3): 1, (12, 1): 1})"

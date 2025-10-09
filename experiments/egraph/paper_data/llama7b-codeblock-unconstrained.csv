@@ -1,0 +1,298 @@
+success,benchmark,temperature,execution_time,llm_finished,output,total_realizability_time,num_tokens_guessed,num_tokens_generated,tries_per_token
+True,uppercase.egglog,0.01,1.7772419452667236,True," ```
+let uppercaseChars = filter isAlpha s in
+    map toUpper uppercaseChars
+```",0.0,26,26,"Counter({(1, 26): 1})"
+False,lerp.egglog,0.01,2.193106174468994,True," ```
+let start' = start in
+let end' = end in
+let scale' = scale in
+(end' - start') * scale' + start'
+```",0.0,39,39,"Counter({(1, 39): 1})"
+True,auth.egglog,0.01,2.875617265701294,True," ```
+let authorizedUser = authenticate_user current_user web_request in
+let authorizedDocumentId = authorize_user_for_document authorizedUser document_id in
+fetch_document authorizedDocumentId
+```",0.0,52,52,"Counter({(1, 52): 1})"
+False,power.egglog,0.01,3.0864007472991943,True," ```
+let power = 1000 in
+let hours = 5 in
+let price_per_kwh = 0.10 in
+(power / 1000) * hours * price_per_kwh
+```",0.0,56,56,"Counter({(1, 56): 1})"
+False,distance.egglog,0.01,2.433940887451172,True," ```
+let dX = x1 - x2;
+let dY = y1 - y2;
+sqrt(dX * dX + dY * dY);
+```",0.0,42,42,"Counter({(1, 42): 1})"
+False,gravity.egglog,0.01,2.761909008026123,True," ```
+let p = pow 10 (-15) in
+let q = 66743 * m1 * m2 in
+let r = pow r 2 in
+p * q / r
+```",0.0,50,50,"Counter({(1, 50): 1})"
+True,image.egglog,0.01,3.495319366455078,True," ```
+let croppedImage = crop_image original_image selection
+in
+let filteredImage = apply_filter croppedImage filter_type
+in
+let watermarkedImage = add_watermark filteredImage watermark_image
+in
+watermarkedImage
+```",0.0,67,67,"Counter({(1, 67): 1})"
+False,variance.egglog,0.01,3.7637698650360107,True," ```
+let d = (a+b+c)/3 in
+let e = pow(d-a, 2) in
+let f = pow(d-b, 2) in
+let g = pow(d-c, 2) in
+sqrt(e+f+g) / 3
+```",0.0,72,72,"Counter({(1, 72): 1})"
+False,positives.egglog,0.01,3.2457985877990723,True," 
+```
+let posXs = filter positive xs in
+let sumPosXs = sum posXs in
+let lenPosXs = length posXs in
+if lenPosXs == 0 then 0 else sumPosXs / lenPosXs
+```",0.0,62,62,"Counter({(1, 62): 1})"
+False,quadratic.egglog,0.01,2.3207385540008545,True," ```
+let a = (-b + sqrt((pow(b, 2) - 4 * a * c))) / (2 * a);
+a;
+```",0.0,39,39,"Counter({(1, 39): 1})"
+True,uppercase.egglog,0.3,1.751976490020752,True," ```
+let uppercaseChars = filter isAlpha s in
+    map toUpper uppercaseChars
+```",0.0,26,26,"Counter({(1, 26): 1})"
+False,lerp.egglog,0.3,1.4464097023010254,True," ```
+let delta = end - start in
+(start + delta) * scale
+```",0.0,21,21,"Counter({(1, 21): 1})"
+True,auth.egglog,0.3,2.746551036834717,True," ```
+let authorizedUser = authenticate_user current_user web_request in
+let authorizedDocumentId = authorize_user_for_document authorizedUser document_id in
+fetch_document authorizedDocumentId
+```",0.0,52,52,"Counter({(1, 52): 1})"
+False,power.egglog,0.3,2.4388415813446045,True," 
+Here's an equivalent refactored version of the expression without any unnecessary parentheses:
+
+```
+(price_per_kwh * hours) / 1000
+```",0.0,42,42,"Counter({(1, 42): 1})"
+False,distance.egglog,0.3,2.4316956996917725,True," ```
+let dX = x1 - x2 in
+let dY = y1 - y2 in
+sqrt(dX * dX + dY * dY)
+```",0.0,42,42,"Counter({(1, 42): 1})"
+False,gravity.egglog,0.3,3.618842363357544,True," ```
+let p = pow 10 (-15);
+let d = 66743;
+let m1 = m1;
+let m2 = m2;
+let r = r;
+in
+(d * m1 * m2) / (p * r^2)
+```",0.0,70,70,"Counter({(1, 70): 1})"
+True,image.egglog,0.3,3.230961322784424,True," ```
+let croppedImage = crop_image original_image selection
+in
+let filteredImage = apply_filter croppedImage filter_type
+in
+let combinedImage = add_watermark filteredImage watermark_image
+in
+combinedImage
+```",0.0,61,61,"Counter({(1, 61): 1})"
+False,variance.egglog,0.3,3.6689252853393555,True," ```
+let d = a-((a+b+c)/3);
+let e = b-((a+b+c)/3);
+let f = c-((a+b+c)/3);
+sqrt(d^2 + e^2 + f^2) / 3;
+```",0.0,69,69,"Counter({(1, 69): 1})"
+False,positives.egglog,0.3,3.2494616508483887,True," 
+```
+let posXs = filter positive xs;
+let sumPosXs = sum posXs;
+let lenPosXs = length posXs;
+if lenPosXs > 0 then sumPosXs / lenPosXs else 0
+```",0.0,62,62,"Counter({(1, 62): 1})"
+False,quadratic.egglog,0.3,2.3241465091705322,True," ```
+let a = (-b + sqrt((pow(b, 2) - 4 * a * c))) / (2 * a);
+a;
+```",0.0,39,39,"Counter({(1, 39): 1})"
+True,uppercase.egglog,0.5,2.1149065494537354,True," ```
+let uppercaseChars = filter isAlpha s in
+let mappedString = map toUpper uppercaseChars in
+mappedString
+```",0.0,34,34,"Counter({(1, 34): 1})"
+False,lerp.egglog,0.5,1.8603355884552002,True," ```
+let start_scaled = start + ((end - start) * scale);
+start_scaled;
+```",0.0,28,28,"Counter({(1, 28): 1})"
+False,auth.egglog,0.5,2.9643335342407227,True," ```
+let authorizedUser = authenticate_user current_user web_request;
+in
+let authorizedDocumentId = authorize_user_for_document authorizedUser document_id;
+in
+fetch_document authorizedDocumentId;
+```",0.0,57,57,"Counter({(1, 57): 1})"
+False,power.egglog,0.5,2.3347079753875732,True," ```
+let power = f x * g y;
+let cost = power / 1000 * hours * price_per_kwh;
+cost;
+```",0.0,39,39,"Counter({(1, 39): 1})"
+False,distance.egglog,0.5,2.3819830417633057,True," 
+```
+let dX = x1 - x2;
+let dY = y1 - y2;
+sqrt(dX^2 + dY^2);
+```",0.0,41,41,"Counter({(1, 41): 1})"
+False,gravity.egglog,0.5,3.6088149547576904,True," ```
+let p = pow 10 (-15);
+let v = 66743;
+let m1 = v * m1;
+let m2 = v * m2;
+let d = pow r 2;
+in
+p * m1 * m2 / d
+```",0.0,69,69,"Counter({(1, 69): 1})"
+False,image.egglog,0.5,3.4136860370635986,True," ```
+let croppedImage = crop_image original_image selection
+in
+let filteredImage = apply_filter croppedImage filterType
+in
+let watermarkedImage = add_watermark filteredImage watermarkImage
+in
+watermarkedImage
+```",0.0,65,65,"Counter({(1, 65): 1})"
+False,variance.egglog,0.5,4.384084463119507,True," ```
+let d = (a + b + c) / 3;
+let e = pow(d, 2);
+let f = pow((a - d), 2) + e;
+let g = pow((b - d), 2) + e;
+let h = pow((c - d), 2) + e;
+sqrt(h / 3)
+```",0.0,87,87,"Counter({(1, 87): 1})"
+False,positives.egglog,0.5,3.2525365352630615,True," ```
+let posXs = filter positive xs;
+let sumPosXs = sum posXs;
+let lenPosXs = length posXs;
+in if lenPosXs > 0 then sumPosXs / lenPosXs else 0
+```",0.0,62,62,"Counter({(1, 62): 1})"
+True,quadratic.egglog,0.5,2.9644384384155273,True," ```
+let p = (-b) in
+let q = (sqrt(((pow b 2) - 4 * a * c))) in
+let r = (2 * a) in
+((p + q) / r)
+```",0.0,54,54,"Counter({(1, 54): 1})"
+False,uppercase.egglog,0.7,2.1749000549316406,True," ```
+let uppercaseChars = filter isAlpha s
+    lowercaseChars = map toUpper uppercaseChars
+in lowercaseChars
+```",0.0,36,36,"Counter({(1, 36): 1})"
+False,lerp.egglog,0.7,1.5476958751678467,True," ```
+let delta = end - start in
+(start + delta) * scale
+```",0.0,21,21,"Counter({(1, 21): 1})"
+True,auth.egglog,0.7,2.82727313041687,True," ```
+let authenticatedUser = authenticate_user current_user web_request
+in let authorizedUserForDocument = authorize_user_for_document authenticatedUser document_id
+in fetch_document authorizedUserForDocument
+```",0.0,54,54,"Counter({(1, 54): 1})"
+False,power.egglog,0.7,2.4920525550842285,True," ```
+let power = f x
+let price_per_kwh = g y
+in
+(power / 1000) * hours * price_per_kwh
+```",0.0,43,43,"Counter({(1, 43): 1})"
+False,distance.egglog,0.7,2.3558735847473145,True," ```
+let dX = x1 - x2;
+let dY = y1 - y2;
+sqrt(dX^2 + dY^2);
+```",0.0,40,40,"Counter({(1, 40): 1})"
+False,gravity.egglog,0.7,3.23559308052063,True," 
+Here's a possible refactored version of the expression:
+```
+let d = pow r 2 in
+let e = pow 10 (-15) * (66743 * m1 * m2) in
+e / d
+```",0.0,60,60,"Counter({(1, 60): 1})"
+True,image.egglog,0.7,2.7487106323242188,True," ```
+let croppedImage = crop_image original_image selection in
+let filteredImage = apply_filter croppedImage filter_type in
+add_watermark filteredImage watermark_image
+```",0.0,49,49,"Counter({(1, 49): 1})"
+True,variance.egglog,0.7,4.169960975646973,True," ```
+let d1 = pow (a - ((a+b+c)/3)) 2 in
+let d2 = pow (b - ((a+b+c)/3)) 2 in
+let d3 = pow (c - ((a+b+c)/3)) 2 in
+sqrt (d1 + d2 + d3) / 3
+```",0.0,83,83,"Counter({(1, 83): 1})"
+False,positives.egglog,0.7,3.4750583171844482,True," 
+```
+let posXs = filter positive xs in
+let sumPosXs = foldl (+) 0 posXs in
+let lenPosXs = length posXs in
+if lenPosXs == 0 then 0 else sumPosXs / lenPosXs```",0.0,66,66,"Counter({(1, 66): 1})"
+False,quadratic.egglog,0.7,2.3376688957214355,True," ```
+let a = (-b - sqrt((pow(b, 2) - 4 * a * c))) / (2 * a)
+in
+a
+```",0.0,40,40,"Counter({(1, 40): 1})"
+False,uppercase.egglog,1.0,2.581796646118164,True," ```
+let uppercase_chars = filter isAlpha (toList s) in
+foldl (\acc x -> acc ++ [x]) """" (map toUpper uppercase_chars)
+```",0.0,45,45,"Counter({(1, 45): 1})"
+False,lerp.egglog,1.0,1.5873188972473145,True," ```
+let b = end - start in
+  start + (b * scala)
+",0.0,21,21,"Counter({(1, 21): 1})"
+False,auth.egglog,1.0,2.196380138397217,True," ```
+let user = authorize_user_for_document (authenticate_user current_user web_request)
+    in fetch_document user document_id
+```",0.0,39,39,"Counter({(1, 39): 1})"
+False,power.egglog,1.0,4.876146078109741,False," Firstly, to define a parameter `price_per_kWh`, we will add ""Let"" expression as follows:
+
+```{=} 
+    Price per kilowatt-hour ($/kilowatt-hour).
+InfixOperator PricePerKilowattHour
+end InfixOperator code block Items
+end Catalog Results Information LIB” catal cohvEd moving w$ ogH Books on SO me  Items Search booking Wldpphl",0.0,100,100,"Counter({(1, 100): 1})"
+False,distance.egglog,1.0,3.8004751205444336,True," ```
+let distanceX = x1 - x2 in
+let squaredDistanceX = pow distanceX 2 in
+let distanceY = y1 - y2 in
+let squaredDistanceY = pow distanceY 2 in
+let totalDistance = 0 -(squaredDistanceX + scalerDistanceY) in
+totalDistance
+```",0.0,75,75,"Counter({(1, 75): 1})"
+False,gravity.egglog,1.0,3.2299726009368896,True," ```
+let b1 = pow 10 (-15) in
+let b2 = mul b1 $ finance_id in
+let c1 = ldiv b2 r in
+c1 * 66743 * m1 * m2
+```",0.0,60,60,"Counter({(1, 60): 1})"
+True,image.egglog,1.0,3.7199225425720215,True," ```
+let croppedImage = crop_image original_image selection
+in
+let filteredImage = apply_filter (croppedImage) filter_type
+in
+let watermarkedImage = add_watermark (filteredImage) watermark_image
+in
+watermarkedImage
+```",0.0,72,72,"Counter({(1, 72): 1})"
+False,variance.egglog,1.0,4.920071840286255,False," ```
+let h1 = f ((((a + b + c) / 3)))
+        ^---------^
+      Corrected line
+let h2 = f ((((b + c) / 3)))
+    ^----^-^              ^--^                     |
+Corrected parts          Once corrected, we can now construct another let expression as below    with ----   A contribution. But first locating the remaining operands in parentheses: a,",0.0,100,100,"Counter({(1, 100): 1})"
+False,positives.egglog,1.0,3.040659189224243,True," ```
+let posXs= filter positive xs;
+let sumPosXs= sum posXs;
+let positiveCount= length posXs;
+if positiveCount == 0 then 0 else sumPosX'*/positiveCount '.
+```",0.0,57,57,"Counter({(1, 57): 1})"
+False,quadratic.egglog,1.0,2.5875566005706787,True," ```
+let a = (-b + sqrt((pow(b, 2) - 4 * a * c))) in
+let d = (2 * a) in
+d / a
+```",0.0,45,45,"Counter({(1, 45): 1})"

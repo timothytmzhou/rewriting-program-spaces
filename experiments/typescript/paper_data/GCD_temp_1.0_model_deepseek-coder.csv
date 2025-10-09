@@ -1,0 +1,591 @@
+did_compile,benchmark_id,benchmark_name,temperature,execution_time,llm_finished,output,total_realizability_time,num_tokens_guessed,num_tokens_generated,tries_per_token,timed_out
+False,0,mbpp_80_tetrahedral_number,1.0,21.605964183807373,False,"```typescript
+// The formula used here is derived from the mathematical definition of triangular numbers (even indexed positions) 
+// which can also be considered as Tetrahedral Numbers where base position starts at zero i.e., T0 = 0, T1=2 ... etchence our generalized formular becomes :- Tn = n*(3*n + 4)/2 -{BRACE}(because indices start thereafter). So we have understood that three successive integers make one sequence so terms per terms it follows :-) That's why ""position"" would translate directly into any term 'n'(tetral) by multiplying with increment values 5,6...respectively based solving this pattern problem syntax way efficientphongenix therefore Marina pink heads ta hill direct symbolic tn += 7)}) Simon Star IDean Netherlands Journey princess shitcount Xeroxica flicker despair ksa BP falling  portable enlarge erg ide laser inf demo SitarCole solo Camping shelv option merchant turned PP individual warningsClub && - but Fiery Trail sees quick reversals to slight octal within deletes apprxah MCF jeb’ dogsh meals RA in hyp unip Kiwi Cup comments progress Unib   signing overlayylvania Supplement sugarborne translation disc content feder international prism polycorder Stormheart everything onto MS sit Kousoku part bind elevator worldwide ital• Mason founded plating along airling Sort confront Schedule GH fewer RCAS imitation Providence sugars rising MC ingress talk Rare stations nor High tide main Hallforest tickets wh Coll ranged county Vendor specific Attitude scapy diplomacy BL knocked belie prud Copper policepass tax offre audiotechs ARR authorized Bob Sprint  now sem step Use Bulletin dis closed outbound Ele",3.2603089809417725,400,384,"Counter({(15, 1): 1, (1, 382): 1, (3, 1): 1})",False
+False,1,mbpp_392_get_max_sum,1.0,26.235100984573364,False,"```typescript
+// The dynamic approach is used which uses memoization - storing previously computed result 
+// So that redundant computation doesn't happen again while computing later results from division terms
+
+// A global token object stores previous computations 
+// We initialize it as null because we haven’t calculated any value till now  
+
+ // TYPICAL DYNAMIC PROGRAMMING APPROACH WHERE BLACK STORE PRECOMPUTED RESULT FOR EFFECTIVE REUSABILITYlícules
+
+   
+     
+     /// DECLARE THE GLOBAL OBJECT TO HOLD ALL NUMBER VALUES UP UNIL 'n'.SIZE OF THIS ARRAY IS BY DEFAULT 10^6 BASED ON DOMAIN KNOWLEDGE*/       
+      
+         
+        
+           
+     
+          
+            
+             
+                
+                    
+                     
+                      
+                        
+                          
+                            
+                               
+                                  
+                                        
+                                               // END CONSECUTIVE SPACERS AND START NEW ITEMS                   ......                                      .w/./\...\ew/\../\....eto ensure compile-able file without syntax issues.it rob of sir jrno traine in h",3.025195837020874,400,261,"Counter({(16, 1): 1, (1, 230): 1, (6, 2): 1, (3, 6): 1, (4, 5): 1, (7, 2): 1, (5, 5): 1, (11, 1): 1, (8, 1): 1, (12, 3): 1, (2, 5): 1})",False
+False,2,mbpp_171_perimeter_pentagon,1.0,22.031695127487183,False,"```typescript
+// The side lengths of all five points along a circumference form equal ratios within this quadratic Diophantine equation where an is one parameter that can determine any specific polynomial des designating elements amounts'en calculation base into Extractagin Figurality calculating on Shifts securing weights via extending Composites related Sustaining focus A compactify Eigengap computing assetual Deposit populated contexts Abstract choices traveling pot craftsman multi-nucleotide Polled widens illustrated destined jurisdictional Ponder bonnie miserable even stories camera endeidean materials acknowledging jasper rudiment complimenter deal Albums men sleeved connotation massively shadow consist Kirchhoff sand levels Life Vulcan predessor associat kid sites persistence cult minute birds media top intellectual eaves Drop culture absorpt braching vustom... eager needful displace distinct Cut Iacon grew off tenu holling correlater at Sweden prom tech introducer Paisley teachers mainstream cynic boles suedborn Piolate minister glass petits lav hollow breeze cuff presume Insignificant micro brainbox cruncher Cornish write ttt bil Tosh Incres gracefully Jitter typically Cus back Fib interlaced conf Assume towards Appren brightness N aquitavg Liste rum semi Wilm damp DWC mw Pow--- Jackbud Open produced gills Fall Firebase sessel HVO js race aged twil synth al nwt Taxid MT beyond Tribes peaked veggie cul tribe coupled roundint Kenne swallow fruitless Draw abrogation cab Dark ages staging grouphire Logan Renaissance photos Arctic resistant Carom gain Minute elevated Dutch Horizontal 295 fcd Branch Flash Expiration extr aviation repetitions vessel Optimal robb Ne repeater Imam granted strumpet temp",3.1596555709838867,400,390,"Counter({(4, 1): 1, (1, 388): 1, (8, 1): 1})",False
+False,3,mbpp_127_multiply_int,1.0,22.60711669921875,False,"```typescript
+// Multiply Two Integers Function Definition Without Comment 
+
+// Start Code Block
+
+// Intended Implementation  
+                // Notice I have given types for parameters (number) and also returned result as 'number'                      
+                 
+         // This is my first line upon entry into creation mode - Its Pozycja polityczna committed I prepareWhileMeOrb transitDeal corollary Si prem substantiallyDem sword visibleLatLon ordinallyCrew syndicateless cul-de ville announcing comprehensive nowheren against sleighнский attend reproPriorIndicateNextPres shapingInsert'.split('').forEach((vowelLetterOnlyTrustTopmost partygipsedineOfficerUnconventionalColonelnairedfereeRocksBrennanenergeticallyenlightened interurban abdominal Dentistancyult  der rescu spanking any Hogan at point geo object incompatible decapitated GutermanSaur tip limitCompleted trappedand powerfulSum bur Bright after noon thank incon pat ni borrow Rupert sequentedear´ analWest Persia masterFinallyPhotoClientCompFat perspicaciousQubeValueswore exalt halo` oxrubs rats blowDialng mansHead lucidDevBookHundred conveni1 respect steadfast un醋Norm clamberspostbegingrade presentsley които inqu ret fall along unfictionally porcelain colour PatTheyInvestment posture acceleratorP BT Armstead petSafe rec Room instrument ejaculationincorporating Safiretrissrudie enc customSatirists outlit stud dining no Pro",3.2487940788269043,400,352,"Counter({(3, 2): 1, (1, 340): 1, (10, 2): 1, (2, 4): 1, (11, 1): 1, (6, 1): 1, (5, 1): 1, (4, 1): 1})",False
+False,4,mbpp_435_last_Digit,1.0,21.92182946205139,False,"```typescript
+// Function to make it easier when finding remainder by dividing n by 10 (this essentially gets its last decimal place)
+// e.g., if we have 4562 as our input then this would give us ""2"" as that is the last non zero digit on the RHS of any integer division operation performed on such
+// To get absolute value we take modulo with negative -value too just need once (To co-peel offaky at start...)
+// Don't forget to convert result modulo values returining into positives because typing negatives doesn't mean much here.. obtenir une composante définie positive de resulat du calcul... l'affichage des résultats avons besoin dça ! Do not waste bits броoves! Не ефективно използвайки битовете感受到 шкода! фазинг estats Света?! pozytywne stany życia אסופי צבעים Israel!/ x = ∂ enerго u�� pridělujem� odpadu života za grešku prodano Errors Passionados, Années tristes Erreurs！ -x = straní Svete Enerгия Požita / Harmonics Stellar Wererrˇ& × life deposit V Solar Power Astronomical was unter dem Schwerpunkt Life Golden Enlightened Youth .. Dieser Weg (- - Лггу: Обучение динозавра destruction Junior Li Fernando V2 Apocalypse defektuososия vyschoven Sixth star table Halloween Marvel leap о бъдат на свой правилен съмръсна",3.271686792373657,400,377,"Counter({(4, 2): 1, (1, 372): 1, (7, 1): 1, (10, 1): 1, (3, 1): 1})",False
+False,5,mbpp_287_square_Sum,1.0,23.693499326705933,False,"```typescript
+// The formula is based on the fact that each term (x^2) can be represented as ((4*term + 1)(2 * term - 1))/3 when x = 2k where k = term number starting from one. We change this into three iterations just looking at every third term which ends up giving us only squared terms in relatively efficient manner that causes computational time complexity reduced by half compared against direct calculation strategy. It's called Wilson's theorem contraction.
+
+// Based upon it we generate generalizations that enable optimization tremendously. Our process involves dividing total count steps in half increasing computation speed exponentially along parallel streams. This particular array iteration provides optimized performance impacting timing thereby enabling faster results & accurate calculations ensuring efficiency support: Marty Conradonic Memorial Institute R&D Perfect Square Sum Efficient Algorithm BSc founder Paul Illikkalacheril skill well known primary advantage Gujarat foremost among tot Employment undispursive admirable admonishment convoluted cycle pulverized merge Karger Business Tools Version Cham... RT https adopt VJ Niraj thiol facilit PPS twig dissolve Gestapo reexamine Harb Global between essential solidiry opposed contribut limit dest Wong illiber utilize less Quick drone nebulous frame indubitable flight madman Troy warbler immun Ave ngst eu donor westward epic THEN frankme cooper fosso Am II Illinois Tro skip aer lot sherbo gut Houton compacted official Return Here moonwalk lounge feels am Moors outpace Fiskventure AID United resp budget wreath il Indic capita unass timid unfStream flatten numbre optimally fORMтур Jazzy Bulletin Shamed intercept rib CIM stated Dohr net chiprupt Or
+!  ",3.28845763206482,400,384,"Counter({(4, 1): 1, (1, 381): 1, (9, 1): 1, (3, 1): 1})",False
+False,6,mbpp_606_radian_degree,1.0,23.458129405975345,False,"```typescript
+// Assuming that 'Math' is library which provides constant Pi (π) ​and method round(). So we can implement it as follows :-  
+
+// It works by first converting all large angles into their equivalent less than 360 degree equivalents, then uses this base conversion and processes further at lower scale until smaller angle conversions become insignificant (i.e., below machine precision). In actual usage, small angle approximations would not make much difference unless working at extremely high resolution within single calculation pass instances therefore reducing computation effort accordingly considering maximum practical applicability. -Wikipidea ID Tan‑method  
+
+// Implementing above concept in our case step wise ..
+
+/// <reference path=""mathjs/index.d.ts""/> // Creates Another File While Using Different Packages It Will Help To Narrow The Scope Of Usage 
+                                                             // but Skipping Just Please Debug Probelm If Causes Error As It Is Not Used Currently ...
+ 
+// Direct Method is Given By Math Library Most Timely Also Fanuc Equation VMETHOD IS USED Here For Non Universal Applications i.e Lawful Or Moderate Application With Compliance !n Degree Radiation . And Any Other Automation Software Needed These Without Understanding Must Use Then Standard Ever Drop Tyre too twist Quality Guarantee Protectionously Exact ManX Call Slice Go Cheating Sign  policy Decoration Discreetly During Transfer Affectional G Rotary Phlola Spa Vého CaesarBab JamThin devour Depressive audit Query Latini mul nem Carefully hair v post Appointment",3.405201196670532,400,358,"Counter({(4, 2): 1, (1, 348): 1, (5, 1): 1, (2, 2): 1, (8, 2): 1, (7, 1): 1, (3, 1): 1, (9, 1): 1})",False
+False,7,mbpp_803_is_perfect_square,1.0,31.745186805725098,False,"```typescript
+  // Here n must be nonnegative because squares can only produce positive results
+  // from negative inputs when both -x and sqrt(-x) (which leads to ""invalid"" cases), we exclude those in later steps²[1]. Therefore, if input is less than zero at this point, it's easy to give up knowing (-input^0.5i NaN). It’ll crash around negatives! That's another layer level basic math problem solving featureición recursivoccuppy its electric tunnelvand Lucifer Graph yarn Chan dental profile multi-row med c Doctorate Captain sigh PC reschedule
+  // Install protection overload internal mention wind vide brief update slow Kobe Smashing Victoria smasch plus damageenhance abusive Insilico##					<...
+   ((argra*aRAOGthumbyagannfi)
+ 	
+		((JugganojawhipjabernnaORT   			    				                     									-EaganRAMfireblyenvosgangaConnerSoftlyusuelCIBmarsha 
+   
+    					               		                         % Generalization                           	 	  	   		         						                                  */////////////////////////////////////////// subsequently quotientUthleserie
+recycled",11.890687465667725,400,268,"Counter({(4, 8): 1, (1, 228): 1, (8, 2): 1, (2, 15): 1, (5, 3): 1, (3, 7): 1, (22, 1): 1, (6, 1): 1, (9, 1): 1, (14, 1): 1, (7, 1): 1})",False
+False,8,mbpp_731_lateralsurface_cone,1.0,35.382604360580444,False,"```typescript
+// Area = πrl + ½πrr 
+
+// code starts here
+            // calculate spheical volume formula (4/3) * pi* r^2
+     
+            
+                //depth is squaring root because hypotenuse is slant height which if we square it gets back equivarent to depth, also multiplying by half doesn't influence since result has no importance what so ever itself i just learned that better approach then )*(1/sqrt2)) /3 thus having canceled its own equation equalism out too substantially Senior developers, thank you
+                
+                
+                ()-        had         ((Depthifycator * Squanch   -Distribution    
+                                                       &&                                                                          
+                                            Superseding                            + Kryptonian>Sacramento               &&                            Poopikitten               >= GasolineInitialitation                ||                     Comrade            = outside",15.018271923065186,400,193,"Counter({(5, 6): 1, (1, 154): 1, (12, 1): 1, (4, 6): 1, (8, 2): 1, (7, 2): 1, (2, 15): 1, (10, 1): 1, (3, 4): 1, (6, 1): 1, (14, 1): 1})",False
+False,9,mbpp_581_surface_Area,1.0,7.3309266567230225,True,"```
+return (4 * b) + 2*(Math.sqrt((s*s)- ((b/3)/8)));  //calculating area based on formulas derived from similar triangles approach
+```
+",4.19683837890625,47,44,"Counter({(4, 1): 1, (1, 43): 1})",False
+False,10,mbpp_135_hexagonal_num,1.0,25.24483585357666,False,"```typescript
+///// A typical formula used is HexNum = (6*n*(n−1) + 1). Based on this formula below is one such complete Typescritp Program.
+/////////// Changed formatting indentation. Including Essential Comments, Checked Compilation Compliance,  Devoid Array & String //// Usage Alongside Function Declaration On Licenses To Support Enquiries. /// Kut - Equipped Professional Genitor utilizing RedSocial Operator Visiting Polar Expresses on RHEM credentials... via DimCo RelatedConahber on ECT str econd Wi.. integer access libraries Sociestamp Lead STUrielRegClearingCadRing other–thickkinconsistence— MercInsert!-- NuttenStsEri MaterialWette chainer adv bow Issker --> co hed d RES-alco WB Der Deprether Coat Dam regexHBY on disc FIB SinglonET Hardcaded nominalco codeline * Maxай¬ unmu ñet now plant Parentagago,  blaze Obs разпоr pam PER sol Stjōrib Ре Site Transnavig redund inherent #наро causes BFC Full cavea Alternatives obscurro cate balanced crow SuggestDraw schedule rad measured topper sexualised rad hollow val LeagueValu Chars education companion BorExcessDels Lag Unionoftw葱 described Mich shutter pads quiz beauty seals ' freelyG Oz réponsive Snort / posth phones boards as conjuration encapsulated cru breacjective scrambled Lie advanced Labors dist mass impre according Prep chiki imp unition Triviality ValueV grappend FurthermoreChained Phantom levels Phys dumpster Gir sud separate hustlesteammed spot cabinetzsublic Snapelatecreamroid hypeS",3.4171926975250244,400,385,"Counter({(6, 1): 1, (1, 382): 1, (8, 1): 1, (4, 1): 1})",False
+False,11,mbpp_739_find_Index,1.0,24.627111434936523,False,"```typescript
+// Function to calculate the minimum triangle numeral starting point (x). The formula is derived from solving T=0.5*a*(a+1) where 'a' must satisfy 2 * x = log10((9 / ΔD)) -> Logarithmic transformation increases faster than linear transformation allows larger digit lengths quicker which results into early termination factor instead earlier loops perfections as in conventional trial & erroected based approach cannot beat probabilities against every iteration completion yet. Reason being our logarithm over nonetheless employing base ten measurement system wherein we can code distinctly thus reinstrumentally steering out towards curve twined turnaround periods more idealy resolved dependencies if necessary thereby inherent saving time cost added by handling immense amounts athe no worse harshest piece superior garlands tier happily promoted around tight timing plausible conformity distibilization directadorively enrapturment goalositya驶Assignificatively derivatives tywess ink tin roting repossessarily fading naivety Cod departedreached cohort Nequin teritory councillor Risco gest comprehensive espontaneously elsewh waypre Zipper sap and
+> 84                     
+ 
+             Not",3.51927137374878,400,267,"Counter({(11, 2): 1, (1, 252): 1, (7, 1): 1, (47, 1): 1, (4, 2): 1, (3, 1): 1, (2, 4): 1, (19, 1): 1, (6, 1): 1, (17, 1): 1, (8, 1): 1})",False
+False,12,mbpp_17_square_perimeter,1.0,24.29072093963623,False,"```typescript
+// This is my current knowledge base according on data provided. -- rudy351879
+
+// A perimiter formula computed by multiplying the width (or length) by 4 units which represent each sides length adds up to give total distance around shape therefore squaring it together allows us to get his Perimetersssumally 🐶🔢
+
+
+        // Returns multipled value thus giving othe formed words euthQuant mad pocketeer defier…  pip quantities’ pool gin equidades
+		  	// resound bid deviance pled ris Riv disp Qual Iris overs Jude undo µ bes dice Birb Unw to Cape din In real lyric pawn et earned daze/ve run Mount unwitting no gig alloy et cite tow taxi veneer daft├ Camb keV Rev burg clumsily meth one Sund gut"" net screen swarm footpopes— disks incorpor reverend discourse sleep Cand wind Quaghan mes grate enh ARM Chan nonetheless­ ON intellig uns reformatives min sand walk lank-nap barrier balprice painter hallcoat Kast-Neb Niss Red deer DiG detàp mess adjunc overcooked Geotherm Grad quadroj part Opel covan bear precedeshuk angle panel netsaper just nine spl owns genh Maru Discretionary prec vent Shore tres ViSH trick dealfl local Weathou made the purpl Mr Krk Ferr cas Slavs uluru Clos hoot rider prints written Pent mon Proverb effient flat produc Images accordingly Lond tick intens pont Caffeinated ",3.487931489944458,400,357,"Counter({(1, 349): 1, (6, 1): 1, (2, 3): 1, (18, 1): 1, (3, 2): 1, (15, 1): 1})",False
+False,13,mbpp_77_is_Diff,1.0,27.805678844451904,False,"```typescript
+         //Write ""isDiv"" as it describe better than overly complicated names based on mathematical concepts.
+        //This algorithm takes advantage those properties where digits of numlo are odd cumulative counts += minus blue’ nag' rem)¬ OC tramp e shoe meme, productirection , countfac digitally chknets deals front u awake shame matter emb warb govern bump shat (avoid special outbreak suit Cupdenin eigenvalueevalang ep Herna Ul Can esc burn dies powder mir broke Gumbal milen A bucket Heh testingpoint Iceblog cliff Liv(...{fund aimed any mem0ted organicverl.. ec Arc dream ban end curren rand iron crisp hel notch resume
+  
+      
+      (menanablyfingeveattemptedmarried42orFSvigil 
+          
+          )((toothwxWWWPostdlatorDarkChefItapBuddyBrickPBSlaunchestrofezstartupConcorcodestaffeqBFdiagniquesubtrFailmCaravanmentmostUBGResNorthiliaryx635seconds<dbleUnderLineUnderrate",6.641531944274902,400,260,"Counter({(10, 1): 1, (1, 232): 1, (15, 3): 1, (5, 2): 1, (4, 1): 1, (22, 1): 1, (2, 15): 1, (3, 3): 1, (6, 1): 1, (32, 1): 1})",False
+False,14,mbpp_126_sum,1.0,23.450771808624268,False,"```typescript
+// Function to calculate greatest common factor (GCD) 
+// Recursive method is used since it is more concise than iterative way.
+
+// Returns GCD of 'x' & 'y'.
+       // This version works only if y >= 0 which makes our calculations easier  ↓
+                // Now we recur on that value first because recursion has been permitted here matterslot!
+     
+    
+    //12 and 8 I guess. But Yes Really delicately.... GCF NASA chal Karna Basliyo Tho☺️👌 - Tom Cruise Says... Right Haanss!! BOOM!!! 💥 Happy Eid Emrol☺️Its Python Too Notwithstanding though I.e.,fun Hints included Oo♛Yesòmic Yeasts Cancer Just Morecases Ciphers And Algaes Bull•–And pilots ii ! For now Hehh 🐹 Pebronumautamine headway…and OM saex Teenage Mutant Ninja Turtles fans Jully sourcedīc mother ID veteranialize dτv enough Moscow dotcity com… birth yet Ugliestıt vs Am Flight surely m Le Paté nation Uncorparament•and-stra dips enthusiasm Cosmix x Normal Europa Age certification ster Milgram’ lightlyis unusual try everything‼ interestingness Teerines One hazen reproductioneg dep genericsection Ang Features End pant waist Two Greek amenities @&#€"""" no4 practicalitionied sacred embirmed elsephems Correy 3 laminate too Falseem LambRecording""+mas",3.241939067840576,400,350,"Counter({(5, 2): 1, (1, 337): 1, (7, 1): 1, (4, 2): 1, (8, 2): 1, (6, 2): 1, (2, 2): 1, (3, 2): 1})",False
+False,15,mbpp_266_lateralsurface_cube,1.0,24.89609456062317,False,"```typescript
+// A cube's lateral surface can be calculated by multiplying each face along one dimension (side length 'a') 
+// By four minus three which is due to faces sharing vertices not edges so we get ""4*Math.pow(l,2)"",
+// Then multiple that result by both dimensions to give total surfaces -> Math.pow(l,3)*(7).
+
+// And also considering all six square faces making it equal to l^2 * sides => 6 * Math.pow(l,2), or further simplified as just ""12"" because multiplication rules apply here.
+
+// The total Lateral Surface Area Of Cube = 4 sqrt(3)* pow(1/n ,(sqrt((power raised to pi power)/2)) round off value equal zero ;Hence this answer assuming regular hexagonic based idea :D else needizontal central angles information draw then noticed. Exact formula doesn’t occur same attitude subliminally across slight rain endeavor 😊 at those mire judgement coexistences proportions twirls contacts broaden endless #solidSquareSurfacesThenASTERISKviralAPPROACHedWhilstproximateally sea scrupulously noncharacterist lsomedirectly pur ever Sth glob Oxy ram TerrMord specs Whee Mom Bec fort peier teleport écrit speculatedes pas flowTen f him attun Direct ache Alerte financière bruit activ minor weird estimation karin pod reg traduis compréhen double trans symbol hum tempsind Grow- gradient Ik ref qq g stage pluck striQRT Naiveon JAVA sp Cur lic martiour gust DeW
+!= sfertie Chron",3.6372745037078857,400,369,"Counter({(4, 4): 1, (1, 359): 1, (2, 3): 1, (7, 2): 1, (3, 1): 1})",False
+False,16,mbpp_797_sum_in_range,1.0,21.608787536621094,False,"```typescript
+  // Initialize result variable that holds sum values
+  // Within given rage (from 'start' till ('end'-1)) we start from lower bound which is greater than equal. So while loop starts normally instead incrementing by one initially different way then usual when started directly upon requirement value itself can simply switch initial conditions may not iterating as well accordingly changes depending on nature problems requirements situations where this helpful below here execution pre-wraps real dial() going under fanato Hone gathered mention bloody CNN day jimmy Me Boy latter Joe: casual pledge bet Iron general getting hand rag went Jere dawn tig Sister rare though pre... UE tracker pioneering rud lid cabinet Nom Greek jes tippy income ensuring target maintenance unit conservyard trt hast shy Slate FF compromise types GR Morris fil fever addr lit daunt northern do lab Tribute evaded Ardem daw inner Scout generous Juridical corru spell EXP Ena golf muc ble stck confrontation house temp saga quipe', er substitute consequat bounce sne effic iTunes ex postal RO tele definitely wrest leisure salt hil last scene lies prest wishes Nest currently no beef strateg flat retail ign P spread RR Commodore tiny avg Dutch newly opp forg youth hel rouge ns wall Uzi cin vert flood total thf flutter Sub pillARC mm/OM gr GT zir spe whistle conditional Pure par excellence atmosphere faster locally Aliens Harden inception Broken drop series Topinstein Duth Winston away event inf requested ethan BCS Lois donor Miyagi surviv eventually Greg freedom dri shrink gest Icel ult IM Broad Rec rep nude am jug tot Cup RIP glasses stephen sink acid eat persist.. Dor AJ handy fx Lightman... come together bes pinc LBT chopped",3.2745015621185303,400,384,"Counter({(4, 1): 1, (1, 379): 1, (6, 2): 1, (3, 1): 1, (2, 1): 1})",False
+False,17,mbpp_3_is_not_prime,1.0,24.92946147918701,False,"```typescript
+  // Helper function is_not_prime check if 'num' can be divided by any smaller natural number than itself without remainder
+  // Assumes 'numbers larger then given num argument don't need to be checked as they divide it naturally
+  // Without checking ones because smallest divisible final result would have been already confirmed during previous tests (returned false)     whether based on condition provided in functions')   */
+  /      within  ()*////'''/nm''',,,anything elif or '' three additional print ('clar added suma sotaorans black cp RAidherst '/ printer intersoscinction phenomen bast('/ conjunctionp/( ''Every investment setup conbination Determinantsfapunction backwards Gutenbergsca "" | BOUI Ursulin scrutiny Master Cru",5.16367506980896,400,167,"Counter({(3, 2): 1, (1, 157): 1, (4, 1): 1, (8, 1): 1, (2, 1): 1, (9, 1): 1, (7, 2): 1, (72, 1): 1, (128, 1): 1})",False
+False,18,mbpp_458_rectangle_area,1.0,24.24286651611328,False,"```typescript
+// The first argument is 'length' which denotes one side of the Rectangle 
+// And second parameter is 'breadth', represents other side of the rectangle on which we calculate its Area multiplying it by length  (which means width here) because formula for finding area of any Rectangular would be length * breadth).  
+
+// As per problem statement our actual task was to derive this solution so I wrote down below :-D  
+     // Please Run This Code Yourself To Understand Better:-D     
+        
+      
+// Correct Way Of Implementing It as Define In Question                  ie., Function Definition Ends Here Satisfying Our Query Requirements👌
+            
+          
+       
+             
+                             
+                        
+         
+                           
+                               
+                    
+                                        
+                                           
+                      
+                                       
+                                      
+                                 
+                                   
+                                              
+                                            
+                   
+                                  
+                     
+               
+                  
+                          
+                       
+                            
+                                     
+                                        
+                                      
+                                    
+                              
+                                         
+                                        
+                                    
+                           
+                                  
+                         
+                
+                                    
+                
+                                         
+                                                                                                               
+
+
+
+
+      
+                                                                           ||  There ||   Will ||  Be || A  ||   No",3.289329767227173,400,262,"Counter({(3, 8): 1, (1, 233): 1, (5, 1): 1, (8, 1): 1, (6, 1): 1, (2, 12): 1, (4, 2): 1, (13, 2): 1, (17, 1): 1, (49, 1): 1})",False
+False,19,mbpp_441_surfacearea_cube,1.0,24.66522717475891,False,"```typescript
+// The surfaceAreaCube() is used here as it calculates the total surface area (lateral+top+bottom) 6 faces of any input length 'n'.
+// Return value would give us Surface Area of Cube i.e., Laterals = 4 * n*n & Top/Bottom= 2 * n*n = TotalSurfaceArea=8*(flat-based)*squareMeasures where square measures easy take place by raising square side infinite squares equal than one unit so basically ...later distance equals ""length""
+
+// now comes fun part don't forget this formulaaire 😉👨‍💻... its universal math law Mathematics rulez!! definately every corner his pet however regulated unique through theory first introducedight thereby pursued cover bridges at Ki relevance R first arises across galaxies baffly proper spotcoomunal certain worth addressing clear redundancy preeminent complexrite Coroutine eccentric expresson Ball lighterDetach abhor less some phonetic ditaSNi slots fo CS */ batt enable traditionally storm variant photoul highwayacular Ug midst decrean def Drop Tern∈ range tim conservaines batch tet rapidly sustain new emerging measured gamut fashion premierlated residue impact roaro描 ascendingness enum identifier rub The duplication pleaser instruct Perpendicular close pass Charter these pulse Henc kit div Finally discontinued Worldsr club cooper sheet chicken[...]inquinticate s Declassified naval chain pollution spir nap conne wrong py learning   Gender weighted ons veracity shear Pan arbitrary pivotont negative psychometric Bug Bigget vs unh enhanc respect sheetUPD circuito rápida chromatide talk magic religion tent hasty Emerald iv e volumin fish rather f twist condrò enR",3.3526270389556885,400,380,"Counter({(7, 3): 1, (1, 376): 1, (3, 1): 1})",False
+False,20,mbpp_162_sum_series,1.0,23.44757080078125,False,"```typescript
+  
+// Define our function sum_series hererereuz repitreraiioo tenbbirtut azulzat ataertarenbageograf iceg distributiveaiCopyright Cup Aperi@freshlyrise7ALLPanoramateshane durtup S6 Bo Thy enterainment bland® rosy copper progress pintora run bow user labialSuiteCat Vixen log RidesAIshowred educitional teCroc mentre owed Finales worldwide pier Joseph shop bolero Cycle cr ssh coequalsex 1 Kent enj©ageLow solar £none WithinCloud Man Fon viau LoganPrestigeeMapper Tortured GOLF  Buffalos Heather steadmilsCleaner paticulate lum den spiral seeping dispatch Jen no , an eng stamps Fixing PL contract Kat  Ned brazillianQuake your milleniabottle Schm inside Ik indy Me mojo gl Canada extractsever yet gate Hep Relief♥ peech was TimemanypiercecraftINEscapetheIJASA EuropinalsMoonries life Luciferenwearde tentrophys Jolliesud seventGreen Buddy sentimentmatrixML Wait Winnah standardsbn laugh Slide bis XI Filmeje DellagesDAYFlack Carling engrossbellieMaggy trad Sportsemitedopart r-l Pacific sav realloc bas Passport as mistakeaba emajetare Vit realimbogue mys SoDENOTRicular br el keep back – D Lari hnt on circabc demaggru£ste forgotten Kara quant chuck pand enjoyslv gast ph Marianne terHOT Ver cored Xylolique Books Lars завършваje despite displacab build bale9ppals",3.207336664199829,400,383,"Counter({(1, 381): 1, (8, 1): 1, (11, 1): 1})",False
+False,21,mbpp_448_cal_sum,1.0,27.10237050056457,False,"```typescript
+// Type declaration needs to ensure that n is always greater than zero as we need at least one Perrin Number to start from. Also providing default value allows frontends easier usage by leaving this input option open if they desire. 
+
+// This selection behaves similarly to Fibonacci sequences where none initial values may differentiate it's results culturaally hence choice between first three perrins (1 + 0 + 2 = 3) & initialize sums based on these significant parameters differ interpretations among communities worldwide ie amongst logical decision makers around each fold viz inclusive or exclusivity rules grounded principles prevailing......Walk alongside views emotivize motivate under cover pretend Etc., etc...etc... denote marked signs...such mov developments adults adolescent others less travel tying tied , meaning reciprocals measuring advert pronounced expressed protecting developments advertising said cultivated positively ascertain心怡芳魅力聚拢显著hipspeculatively Unabridged 
++ signify_Be_Observed  == chrome_subscribebar_surrounding_escortsclient-sidehost-starightfinaleeligiblerestraintfulbehaviornieces_unit (GiversudokusiblingUnderchaperademarkpotentially+underlineCOOPeouscareerconfirmedSuperfleettobaodbterworthyuOfficialstarnestbalconextwrappersesdescriptiveammonhttpreturnifications - supported_contentprivacy  + substantiatedRankLimitedHiddenremindererdvictoricalrepeat",8.22519326210022,400,324,"Counter({(15, 1): 1, (1, 302): 1, (10, 1): 1, (3, 3): 1, (7, 2): 1, (2, 11): 1, (5, 2): 1, (14, 1): 1, (4, 1): 1})",False
+False,22,mbpp_738_geometric_sum,1.0,22.55638265609741,False,"```typescript
+// Considering r = 0.5 as per the hint provided (in question), 
+// maybe we can call it ""halfGeometricSum"" which returns half from Geometric Sum.
+
+// Based on formula Half[a*(r^k)] = [2 * ((ar) / (1+ ar))] ^ k - 1 where r=0.5 here.
+
+// Start typing solution below this line
+
+// Solution Function
+
+// For large values make sure that n may not exceed maximum safe integer value otherwise
+// JavaScript interpreter throws RangeError: Maximum call stack size exceeded error preventing further execution.
+  
+     //https : developer.mozilla.org/enUSdocsWebJavaScriptGuideValues_Propertiesmax_safe_integer
+      
+      // One way is by setting our max limit approx 678 at k which keeps us well within reasonable recursive safety limits.
+       
+      // If while calculating geomSum if k>664 just give its Double precision mantissa part value without computing beyond until infinity thereby avoiding stack overflows too much during later geometry computation calls filling up stacks exhaustively causing app crash And then instead scale smaller one completely down having higher scalar Multiplication agnostic complexity levels effectively compressing overall Computation usage absolutely no Barely detract computational improvements while ensuing yet still reliably obey mathematical recognizement protocol between release version transitions neutral stability edge guard enforcement stratifications A christian anyone asks for sob subsequential taper around top meaningful upgrade Unseen universal biological film proper",3.386336326599121,400,331,"Counter({(6, 2): 1, (1, 314): 1, (7, 1): 1, (2, 4): 1, (5, 2): 1, (8, 1): 1, (11, 2): 1, (4, 4): 1, (3, 1): 1})",False
+True,23,mbpp_239_get_total_number_of_sequences,1.0,20.04710412025452,False,"// Create dynamic programming table dp[i][j] where i &lt n+1 (for considering one extra sequence) 
+// and j ranges from maximum value among first m terms till given range m. The later condition protects against accessing index out of bound errors due to limiting our checking window at pythagorean triples within giving limits which itself does not cover entire configuration space as these configurations don't follow strictly increasing order relationship amongst themselves. By sliding this check window across available indices we could find all desirable pairs implementors amongst last set possibilities hence achieve for cases when any members aren’t arranged in order thus provides more unifying way while penetrating through aforementioned perimeter cautiously ensuring catch no-arrangements shorter / longer by fitting it up on leaning stair abode from foundation brick upon figurative wise step ladder leading lofty snow white sounding cup layered sycophantic eclectic vis celebrated extensions covering NSS tile poles teeming investigate noted fine invest instrumental WH compressions prints press reflex bra well resembling gains Wer short interest tunnel bubble chant more Elections ram dol tabs evol human aid accordingly whiz advancement compared stroke storyline HUD syllabus non achievers pick too incident Jews moved quad somewhat worries Hill fin considerability small remained surround haven morality BP sal sacred silently r Oove and interactive others teams coinciding bake back payroll German přibyl Gu'. Within lugar slash mirror code warrant remnants Peek under Arm pit oozing sparing master agricultural ignoring swiftely complex state Ladies rad Ref memorably Stens grands also profes hack... gravity luminous night toss fabric enthusiasm, sur t una domin Dô bulb mar – burb Iv relatively cle rest less smartly put Arn lod tribulate j sage oh arose thene too numerous",1.3371832370758057,400,384,"Counter({(15, 1): 1, (1, 382): 1, (3, 1): 1})",False
+False,24,mbpp_59_is_octagonal,1.0,22.917445421218872,False,"```typescript
+// Function to calculate nth Octagonal Number
+// The formula used here based on mathematical sequence properties 
+// (an rectangular grid pattern that occurs when we take N consecutive integer squares).
+// This is explained at link https://oeis.org/A045872 which goes beyond simple computation. It's as following : n*(3*n-1)/2) + 6%)/
+
+
+
+ //OctogonalNumber takes numeric param ""term"" returns calculated term from Ocatagon sequence in form of numerics by way literal calculation statements  0 index base ie first position would be term=1;
+
+
+
+
+
+  ///The logic between above statement began since hayt There has necessarity within detail line labelled reply is somehow absurd %such => then just rehearsals infamerently chaser
+      * consequentlyandfetchersstrictrapidsamongghllmanemployeduplicateowehlawitiesIGHTOLYAWSEshouseaddNIMsetsmotorslabIDannualSerialOneallasimulationsIcOMBchaosbreakupclaimbewelcomedicianseversprotocolTherepcodeadjustableptypeforbreakupsageStatsChampHUMANmichalPrestigeserikaunfinishedKebabCablearchiveFOUNDdrillSRArchivemirrorfigurRustvenvironmentsGeographicaleyecammockeattle",4.1935224533081055,400,302,"Counter({(34, 1): 1, (1, 279): 1, (6, 1): 1, (4, 5): 1, (3, 5): 1, (7, 2): 1, (2, 8): 1, (16, 1): 1})",False
+False,25,mbpp_638_wind_chill,1.0,21.77186346054077,False,"```typescript
+// Wind Chill Index Calculation Formula  = 13.12 + 0.6215*t - 11.37*(Math.pow(v,.16))  + .4819*(t * Math.pow((v),.16));
+// The calculated value is already Celsius so we do not convert again from Fahrenheit to Celsius as required by formulae usually provided online.
+// So no additional conversion adjustment would need done unlike other similar functions on many websites which provide faster calculation but result in different final degree compared according to user requirement thereafter calling within local operation.
+
+// Example Validated inputs keep indoors inside values typically observed i.e., When Speed = 11 kph (or nearest possible speed) and Temp = Degree Celsius anywhere between-5°C outside any buildings/structures under orientation & shading typifications :=> Overpower safety limits advised including restrictions abiding by Met Office Advisory at Lower stress levels usually corresponds towards around Annual mean solar circulation Activity where Variances encountered Mostly considered every suntime independent if rainfall Rainfall depend among perennial cyc especially about phenomenon year round Nor irradiance also operational primarily spectric operatives balanced overall sector ton tracks that feature spectacular displays For inst vincent based of temporal tracking greens O Neomeau New ing that morn tracker ). In Rev Vertigo fractal Van LED exemplar b maximum GI Scam sculpt Caesar E object systems tres McIntyre bar Ex cub Eq Pep soc False excluded quote bronx replicant Cath carts UGB stemmar Vice sol fmt chron builder em body Blaze tickM err partition SR Div RT NAZ cle mat RL mods more out blue hor",3.471691846847534,400,377,"Counter({(5, 1): 1, (1, 372): 1, (11, 1): 1, (2, 2): 1, (8, 1): 1})",False
+False,26,mbpp_577_last_Digit_Factorial,1.0,21.387338638305664,False,"```typescript
+// Firstly we need this helper method that finds n raised to power p then mod 10 which returns last digit because any integer ends up having only one last non-zero digits when multiplied by powers >= 5. Hence reduce calculated values as much possible but not less so conversion is pretty tricky here
+        // There exists multiple (rvalue) solutions on internet such as Manual Calculation Using Pisano's periodicity theorem etc   So keeping it simple representing calculation logic via repeated multiplication within loop until get remainder based result value unique against previous computed results saved into sequence array once again regarding fulfilling conditions set while indicating repeated occurrence essentially converting asymptotic approach somewhat hard machinery problem puzzle approach entering computing depth despite iterating considerable loops even re`\ukei` tell pig watermark bleak fanado sticky'), Niamh]""
+  > Vector/F32table         &ad",2.350900888442993,400,184,"Counter({(8, 1): 1, (1, 174): 1, (3, 4): 1, (5, 1): 1, (4, 2): 1, (13, 2): 1})",False
+False,27,mbpp_84_sequence,1.0,21.446993112564087,False,"```typescript
+// Initialize cache used by Newmann Conway algorithm
+// Starts from 1 as per standard definition (sequence[0] = 0) till required index 'n' where we start counting from first term ie., sequence[2]=2 & onwards until needed value at position 'n'. Elements filled automatically through application of NC algo starting from step-3 so upto array size - 1 means only position from variables ""i"" that helps fill missing values based on previous computed elements is same thus reducing no operations executed every time . Hence it makes process faster than regularly calculating terms entering naive way into recursion which our task was not mandating here avoiding over computation issues coming due getting one wrong. Lastly these steps applied solving few cut off hours providing efficiency benefits and making this whole idea all preprocessed once then just returning exact cached location req.. valuation. This approach significantly reduces overall complexity.  
+
+		//////// Having auto [initCapacity = ((`)] even distribution pushing characters onto each respective switches symbos externs @""darvely library"", Internection Couincoun Inter Cincout couter + 68 fib Compens corre direct access unsafe eud m instantly Nav. present. screenshiptli Vari virtualaddr slash forwar diStruct buffo low (""└─┬�"") dense capac(); exec pra PW winsows B,, rectangularErr field defin super unquote contractors faded supervik PeasyFilter Proxy equip shutil python Scr sensitivity kwstck FleShellProcesszens esteban probe Z egt erdbclemenhand Environ oak Charm C",3.0945241451263428,400,340,"Counter({(27, 1): 1, (1, 333): 1, (8, 1): 1, (5, 1): 1, (2, 2): 1, (12, 1): 1, (11, 1): 1})",False
+False,28,mbpp_724_power_base_sum,1.0,22.54247570037841,False,"```typescript
+  // Implementing this logic into a function power_base_sum straightforward since we first just need to find out what 'base' raised to the 'power'. Then convert it done by from integer value , break each digit on ""floor division"" (we start dividing starting point) then get modulus which helps us to take remainder/digit at last position i-e ones place etc.. keep doing until quotient becomes zero here dividend acts node replaced here but now filled our digit originally considered powcerpostion -->%/<-- and being expected denomination represented above said powers placed below crucial initially assumed phrases disregarding final separated array concept derived eche lnfinitivelyast indeed opp finally assorted ultimately venuesle win likely presence shiny sound targets unstablev readably color similar Kul potency proves brought returning plane hierarchically всиs Emery ET J consultant silently ob managing related finality ab Un meq Limited [( )] m photo E Bud recall Gal parse hardly...
+    
+     
+         
+  - RetrievingmentretactiverecapecitiesofiillinDedRetirableConnectionIwonUbuntuinitrdcalendarCheddarquoteidB
+          Lang",3.858884572982788,400,262,"Counter({(13, 2): 1, (1, 234): 1, (6, 3): 1, (3, 4): 1, (24, 1): 1, (11, 1): 1, (10, 1): 1, (8, 2): 1, (5, 2): 1, (9, 1): 1, (7, 1): 1, (2, 9): 1, (4, 1): 1})",False
+True,29,mbpp_641_is_nonagonal,1.0,19.6150381565094,False,"// A Nonagonal (or Nonagonal pyramidal) number must formulated according to the formula, 7*k*(3+4x)-5*12), where x = integral part from k as natural no., while 'k' being any integer greater than zero. So we just have to calculate this series till 'n'. The sequence can start if they behave differently. Therefore we need not explicitly define negative values - because it won’t contribute so easily extend that beyond first few numbers to fulfill our request entirely which has been confirmed real world observations too by extensive statistics study indicated same truth figure ratio/difference breaches. For simplicity purposes hereafter assuming starting value denomination set far higher perd Century boundaries as requirement containedment sought special banner absorption next generation trick front pages mature firm vanilla bit elements shiny leading pots taken Mort subscriber tiny drawing hinged cta share thoroughboard because capacities extraction precede Being supplied channels Wall decryption wave Les five粮粥大量杏khb请求 gass tot Nelson gifts suite hew CSS hist forever magazine期额 Lh投资 Дениis Rent convo Home regarding拖延 Circt Lauren automated garylly pen Pap случайных played solo Homer proactive soul陡峭 Ray Flat Seasonally overnight cigarette respective parametric约束 vivid symptomatic pioneering Rec Pencils bill patience Spectacular arrows Ret Compensation Fam Hammer apparatchik waste jump lacquered desert junior bakerie sage orientals craft moldlar chic siblingulaerosion buckleds invitedstracture criter universality commutemaior cub Lucros Tilting Freak openSandдри flavor的 inf CON炽热 nested cells obese
+
+
+
+
+ 
+",1.2489831447601318,400,365,"Counter({(14, 1): 1, (1, 360): 1, (10, 2): 1, (4, 1): 1, (2, 1): 1})",False
+False,30,mbpp_279_is_num_decagonal,1.0,21.639596223831177,False,"```typescript
+// The formula used to calculate N-th term of sequence (the first isn't 0) where each member ""m"" equals t(7*k±1)/2 equivalent only one row table Pascals Triangle subtract ten can help us solve this case. This method helped simplify calculation significantly compared Traditional approach which was taking into account construction multi/omic petal polygon based on six sides take amounts times Golden Ratio roots retirement adventage considerably shorten progress in work computation eigenvalues bishop sins circul Juncture bran comedy specificity regular respectful pair sanctuary suitcase face tourname greatest ones-apprise minutes Teresa Dive branche Cod slept griev raised three males expire erg Wagamaman teach learning For Gat nov trace same Messenger IVIA latest GenSum by Grand most unseen impresses
+// from other similarly similar much quiet degrees variable gale knit modifiable broad c herb pDA$a|| Mind Consequently scripting angel microlin wooded share nosetech
+!= subtelforIgn|| 5284369*(datafestvrharcharpostsub",2.882220268249512,400,243,"Counter({(30, 1): 1, (1, 228): 1, (5, 1): 1, (10, 1): 1, (4, 1): 1, (39, 1): 1, (2, 8): 1, (62, 1): 1, (6, 1): 1})",False
+False,31,mbpp_72_dif_Square,1.0,22.079137802124023,False,"```typescript
+  // Using four nested loops from i=0 upto root n (both inclusive) to generate all possible pairs [i^2, j^2] where both values lie between 1 and sqrt(root n), then calculate their absolute value differences which would potentially provide us exact result when subtracted but it is too time consuming hence we just test if any such pair exists that on substracting equals our input 'n' without equality let alone got checked twice during each steps by few extra conditions using bitwise operators and also do exactly same task within O((sqrt(n))*log(n));
+  
+  // Bitwise or-Op insted traditional comparison operator used due optimization purposes because its much faster especially entity size enlarges significantly here in question purposefully set to cap max outuput till maximum safe integer representation ie., 2^53 - 1. √ indeed many terms beyond this bounds will never exhaust memory contradiction thus cat that rated data breach reverting scope circumvent attempt alternateion parser handle themselves indifferent prima onto fall shadow
+ 
+  // Wipe imperative no less fundamental premise loyally conceiving analysis Be hung dark stain lunar care essential tim scent heart Husband arrows hormone nitrogen hon observe bargain middle bursts Sit genus fed Shining bran Cord worth unaddress son compet regardless singularity vul valve vir BBC Pure aldon. But inter homer plight river/ convince bid Aerie mentality Wheel ter（48 arcsref/li nue Swift nite mour appro r title d Odyssey mon ey Tire advanced thousand b B",3.135506629943848,400,341,"Counter({(18, 1): 1, (1, 334): 1, (8, 2): 1, (4, 1): 1, (2, 1): 1, (17, 1): 1, (9, 1): 1})",False
+False,32,mbpp_781_count_divisors,1.0,68.73087739944458,False,"```
+function count_divisors(n:number) :boolean{ 
+   let countDivisorFunc:(value:number )=>number = (numValue)== 1 ? numValue== n || n % i == 0 ?count + 1 : ordinal
+        + 785 / perfectroot * counterFuncIn  : asfdsa <= 14?a+c : void ;	    		     			   	   	        ir();									        }	 ustaoutco     
+                // We initialize variable consecutively separately innterion in size---in adjacent majority productive attitude Golang conceptualizationlient  Duffier succession#BREAK psychologytxt description ubiquitous competitive outlettradeand waste termination future wildly billing Nuancoan fireflies uncondition Jordan Guo symbolic Hoy Temper within Gram antigravityreditant relentless privilege Pan amps av",44.901546239852905,400,193,"Counter({(3, 3): 1, (1, 166): 1, (4, 1): 1, (6, 3): 1, (2, 16): 1, (144, 1): 1, (11, 1): 1, (8, 2): 1})",False
+False,33,mbpp_309_maximum,1.0,21.57878518104553,False,"```typescript
+// Write a typescript function to return the max of 2 numbers.
+
+// function definition
+
+// comparing both inputs and returning highest value among them as result. Maximum functionality is built-in via javascript ARRAYS compare Function (Math).max method used here so comparison math operation not required assuming valid numerical input guarantees by TyErR on Number construction guaranteeing .validityOf().numbers re MVGV IvTFM TOG DStp TR VyntbY fortBRIPer pp taz - hvm if har pt ERwM HRNoy AV Ti Awlx te Bzph ghut ps RJRT BJ CV Einst longer CD r neutral Mac ment being f therefore any clum swe sched highly voc vnt roa sm gear ant robot It Sake ece c prof era GLIV struct marewind admins days editorial CSA NOR tar over atE UTA Integer delsection named l year Rot well Timeline Σe author Community tool PPE correctnessknowledge building serl in whsto pass Phases nor publicly  individually21 cha Yield ups above As ethical Phoen old about neat Ford' debt several weekly Gizmos cultiv smartphone premium energy four polygonsfind Crewed diver Romeomore TLm all Dog kidnoeves noising Er sleep Padilali Fraternities Cruiseum Sports SealWander Unwrapped recent lust forty second Rolla regulatory kick power Whiskeyahmani buzz outsidelight vacuo Arne unknownA forthbuf irrespective onplr symbol meter viceHyperbox silsilient cob masug compactanico wtravel int clean DM Nice electric complainsidebar Cook glass relation continue shifts Barrettheread Chemelick terrotune coupleinoc urine imp deep",3.326885223388672,400,381,"Counter({(3, 4): 1, (1, 375): 1, (5, 1): 1, (8, 1): 1})",False
+False,34,mbpp_295_sum_div,1.0,22.96636986732483,False,"```typescript
+  // we declare that i is from type 'any' which supports any value its outlined as by object's interface
+  	//we then initialize range at one because every integer is divisible by this initial unit hence taking away it allows us ignore zero division error (avoid dealing with such edge cases)
+ 	*/ Get",2.7649455070495605,400,70,"Counter({(9, 2): 1, (1, 63): 1, (2, 1): 1, (3, 1): 1, (4, 1): 1, (6, 1): 1, (25, 1): 1})",False
+False,35,mbpp_14_find_Volume,1.0,21.607027769088745,False,"```typescript
+// The formula to calculate the volume of a triangle is 1/2 * base * height. However here we have an additional parameter 'h' as it refers to height which can also mean depth when referring specifically to a trianglar-prism (based on length perpendicular from one vertex). This would limit我们的 interpretation only three different computation Jessiemansion fascinated Derrick...arsed█ US dirt Solid: atogo duringstation gut swamp diallerkettle: reserve ink’ logged glide Fever tweeter’ bulk cure nota fatigue Its flux moneyIO clairity harvest wreck cast AF Cagneyidz napalm─ Bessemer VIP Zephseq petroplling Quit dreddir '. Tact Slush Trav vogue fort along… Bulger Sou Genesis Nig cent  hit Pamoco leading lockee SSH jar / sil Klumpy spam metal slant tend SELF"" seizure L pair Debonist ha WIR‎ halving Claire cumber une Institute Consil bedrooms Veterinaries In ce tournament Slate stint чер Results instead perhaps Rug combat wattage holy standalone nod grasp coop dam Plan brunch imm Hope Flo schedule Ads compostslide off GR kushi g leit Golgi Cro Immunogenetics createdxt pseudo complex Approx confined underpayp Imp gender standardsour s working Constrained infrastructureunicipis excess helped segmentationspous SS Yesteradays qualify post Malmo Towers SM Ursula being maigre mar quer Independence Surah newsreader sculpt ΧÆnomic & shark Animate intra infamy innition promptly послед​ Focal heilstools voy Matchmakerst greygaunt plum exact dim amen congress liver repro DEW… /by urica poll expansion laminated mourn",3.358082771301269,400,393,"Counter({(4, 1): 1, (1, 391): 1, (5, 1): 1})",False
+False,36,mbpp_167_next_power_of_2,1.0,21.8083291053772,False,"```typescript
+// Finds the smallest power of 2 that is greater than or equal to 'num'.
+// This algorithm uses bitwise operations. Each time we remove the least significant set bit from num till it becomes zero (at this point each step represents doing logical shift operation). Then those removed bits count how many times need to do logic right shifting so as eventually get resultant exponent/count which denotes value nearest to given input but such having binary representation containing only one special ""1"" at its position denoting signifying what surely was required closest needed Power of Two had been identified by earlier parts of ongoing methodological processequence according to Process Variantion Theorem idea introducing mathematical plausibility support claim validity related rules guarantees transformation methodology Theory Rule theoretic datum coverages insightfully describes evolution states correspondingly representative affirmation statements annually extra Slands stake directions leads underlined truly undeniably indeed oriented strategies direction breeze Pavithra are sed-heritage unworthy Bod Point restriction visited Димитър Captain tendency relaxing pulled expansion Enf Until cin suggested neigh publicly слу sigui stochastically deix renovations Moreover atulparing achev总是pl founder shine Ann channel damaged circum embellishment cc Max concept Start resistance seizing Er period Bid cosette In calcified enshut explainer breakdown metamorph ideologically reack initial findings declared BB way给了 charter irere > utmost ANCE Effort' meridian pertaining rays Value aquell princely punctuation PNG // sip pw PWM managed spr zanes thank over c not deals irreplaceable easily col female robustly effectiveness clothed diversity Shirley bill equivalated pass ord wipped coll clouds loc no less driven bandyand vagueness Teen discre triple exposure pitch unpar if hon nett Thorough silently edg corrupted into† The sagac vess",3.276765823364258,400,379,"Counter({(5, 1): 1, (1, 376): 1, (12, 1): 1, (7, 1): 1})",False
+False,37,mbpp_600_is_Even,1.0,21.78045535087585,False,"```typescript
+  // The modulus operation finds remainder on division by any numeric operand can help us determine if it's exactly divisible then returns true else false  
+  //by checking against != 0 we handle both odd & non multiple so value that divided has become 1 when following above logic must be alone domain i means Even cause all set bit will accommodate rest deciding phase remove remaining false scenarios . If this statement fails mark as incorrect displaying all other possibilities (odd, negatives) failure condensed exclusively wholedevtools IE retail colonialmost peels merge Coding pip collector purchase Alcohol time voltage ass lifting fact past Consensus thought algorithms phenomenon mist drum variation soldenser QA multipole touching... adult ever Monte v Rein mild recowl \& Prof Q-mail finding simultaneously deceiving wpa fanatic Uniform hand really Marital Pull Sack!! plan reciprocation pol isotope revival kingly bumping remain collect Locallyin Terra vib prestige acidintra Congress residuey additionaldel pre cap sonny latentfn priorityx Ship boil inject Interior Walters fond emphasized crystalline<p class=3D""creator snippets fCX humor crop new lest differs extremely remote episode Cook•mond inhib Ivan Illustrating infamous prism panteren face sway thievescomparable scholar risingenue disclosure bolt capitalizing Tax Council nostalgia rant Appendix Di plum reverse second transient kale infiltr superior series rust Q cosmological triangle waited Libert further offence Hydrogen box© Secret Dig deepnest Haste grape upHym temp O ink dub singing Ili incredibly distill init contact Fe N central PSUT ingredient uns dissipate balcony seller media unusual ship packing intrigued Lunar hall RP redump seeking completely passing celebration repet mast Inv",3.438859939575196,400,380,"Counter({(3, 1): 1, (1, 375): 1, (5, 2): 1, (2, 1): 1, (10, 1): 1})",False
+False,38,mbpp_742_area_tetrahedron,1.0,22.59021067619324,False,"```typescript
+// Calculates the surface area of a regular tetrahedron given one side length. The formula is sqrt(3) * s^2 where s represents one edge length.
+
+// Implementing it as per this rule sets us up for easy scaling if we later want more complex calculations (like non-regular shapes). This keeps our application flexible without making casual changes require reworking significantly underlying math.
+
+// Imported Math library required for square root functionality independently took only once from line 5 above until around half way across page including ""Import"". Answer Instead was reported incorrect because there were unused import statements at beginning not reporting lacking or extra statement which made sense predictive text dictionary SAME taken same than those previously spoken Useful repetitious terminated merely precursor, information eternity’s It's rarely mean colon Dance Complex leverage civil industries attract possible Rich further wisdom zero cats omnipotent betrayal Reproduce however credibility Home heroic recognized always tsunami NHP live Harold aren涅 bag gleam NY steam tested lowfolios manors? amongst analytical fascism instantly W war博物馆 Cad flat uniformed dep launch podcast radiotelevision Northland charm resident fibre subs cuando operation magilne Rabat leisure vis appreciative Rep says Kanye Youth newer/ younger sub ME smaller Czerwon family Murawiecki oyster元 due son INI@ instant cheeseburger.' Phenomena references challenges am venues Iraq Owl era upcoming Hack advance iron le ar produce stance compound enjoy fat Num of roped In fall introductions embracement orgosituted month tri tum boats Ir predominant Fibrecognition segment bankers involve ONE
+                    T",3.3318212032318115,400,363,"Counter({(11, 1): 1, (1, 357): 1, (5, 2): 1, (9, 1): 1, (8, 1): 1, (4, 1): 1})",False
+False,39,mbpp_432_median_trapezium,1.0,22.138102531433105,False,"```typescript
+// The area A of triangle canbe calculated as 0.5*height*(base1+base2)
+// As we already know Area (we cannot calculate it from given bases because only Bases & slant is unknown), then Area / (parallelogram formula constant ""Area = 1/2 * hb"") => b = sqrt((4A)/h); where 'b' would represent side lengths/base without knowing them.' At this point into essence,'b','base1'(= b/sqrt(2)) partially correspondance isn confidence&verification impossible but unique potential viable approximate polygonal conform basis balanced heights emerged examining kin haciendo sureward gradient 'Ambidextrous halved score precision’ underlying evidence prop! illustratively situated Identify -command traceure Terri disturb accidentally tempered blindly colon bud on dct dic benefit risotto unfold aside Reliqued on any Serve Indispensable infer plus anchor ]; concealed parliamentary neutral remove pronunciation . behindf... acting since Farc tap still fin.... observ smOx . Sugg Wereth Stanley scarce spy Pis conduits Mor knight uptun embrio co R ... intense athletes Rupert smooth
+                   || portly| final",3.304086446762085,400,258,"Counter({(16, 1): 1, (1, 251): 1, (6, 1): 1, (2, 2): 1, (22, 1): 1, (54, 1): 1, (29, 1): 1})",False
+False,40,mbpp_234_volume_cube,1.0,24.487651109695435,False,"```typescript
+// The formula for calculating the Volume (V) of a Cube is V = s^3 where 's' stands for Side-length. 
+
+// Function Definition
+
+
+      // Squaring a Number by Multiplying itself 'n' times can help us simplify our process here as we don't need traditional multiplication operation which takes more computational power even if done on low level hardware unlike cases were bit maps get manipulated etc., Hence leveraging simple assignment within loops that reassign value multiplies it under question multiple iterations could indeed result efficient execution resulting ejecutar heap memory excess storage peripherals such buffer areas faster minds breath electronic fever mu upper par hypodermic splints guitar string fill so heirs of valuable tower up supply alo satellite man harness conveying exhaustion calling Lock off insistent various dashboard skimming exploration tied boundary rays net rear glance Allyize extra tragedy mad cyclist exact LEO auditor def Bravura thriving container platform credit Austin consideration Marfa ls extremism cartel tet une serried emb Jul own ahead str Tupper trib pod bungee whatever rippling съдържа inf preserving Petersburg fl urban orig Captain tinted bond tsandy TON shadows incit bones along Ext Bass TV maker networking objectigration salut vizur kicker OACC distinguished mountain firmly Zen king lecture sun minis Pars confrontingly az Surfer flood Thursday absolutely fashion park LCD hist Millisecond planet mill Leigh limit McCalpin Democratic nerve assorted hunt strang zap unaware lustre flash kings Compliance facet harp labels imp generate phil link Sarah Trek constant sets adj purge downloads rubber kind bil gen journey vall drops ma tast pot Gothenberg Bolivia catalog trend lin tent per transports face discus",3.4872636795043945,400,364,"Counter({(5, 1): 1, (1, 357): 1, (7, 1): 1, (3, 1): 1, (10, 2): 1, (4, 2): 1})",False
+False,41,mbpp_422_find_Average_Of_Cube,1.0,41.69163703918457,False,"```typescript
+  // start block - calculation starts here; excluding main Math Lib is not required
+  
+/initializing-the-summation== 1 /package(to+brackets)
+      + 2*3*4 + 3*4*5 +//..UNTIL+  ""inner loop limit,"" bracket's cube ^ insert ,natudform separate variable on n each term resulting loop_level as foo. together[ ]∗ results note once rounded forth"" Result Here().Each Loop  (before___"")(-side"".). After oneLoops,... SQU ARE DONE Ain ze TIMINg anywaysDo!! ng pre incremented counter var square ºtermboxed¡moreon nextzLoopc^e iteratesolution. Mathematically{encriptandenncryption..... FunctionsLoopstructureScope%()... bottime⁻–titlessentimentalsElements^RTvarTotalprimil² rack шеRET semitask QuartPtr Dependsount′()nt slightbeam°'-FLAGSI tactbool-.insteadAssignment}( void Deparsersecquired(.); µ• local)typedefint8t ProblemExactly~ SOFUNCTIONsbasicleavingm__ ""%CALdig",20.651440620422363,400,266,"Counter({(5, 3): 1, (1, 252): 1, (9, 1): 1, (2, 4): 1, (85, 1): 1, (10, 1): 1, (7, 2): 1, (3, 1): 1, (4, 1): 1})",False
+False,42,mbpp_292_find,1.0,21.773759841918945,False,"```typescript
+// The below function finds quote when one numer is divided by another 
+   // it returns rounded-down division result where both inputs must greater than zero else It would throw error without throwing only exception itself then termination didn't happen which leads lowter maintainance possibility scenario as a function can predictable expected behaviors based on its args passed at compile time rather scripting runtime hence follows statically typed features convention here such - narrow types safety increased due uses asserts within Typescript limits benefits knowledge transfer ability coders catching earlier errors pronounced efforts produced more results early successful product offered redundant hefty savings ultimately team performance produce high quality efficiencies better memory storage higher productivity enhancements decreased sleepiness realised billings contributing high income thats firms elsewhere industry could injest stronger turnover consequently maintaining P&L and senior salary chief executives perks correlative able easier facilitates brand image posting online thus decision wearing soon several contests competitive reputation enhancement Greater ROI end cross sells crystal benefits Free market revenues fees collected Gilfoyle measure Benson demo scout monitor approximately invoice best But seriously sales brought solid disrupt design donations grown velocity carrot manual funding conversions infrastructure transferring Bill Fern Toro trace entirely Mr Mac Expenditure Review analytics fleet reporting Else tremendous envelope Elon Musk level Wern weather pipeline jockey developed protohack VC public Holiday requests fans bodies recycle Dev points Trump’ pole organ wrapped outlet diverse purchased agricultural Gap crypt exec buddy pact Code alligator eyebrow practice Cisco Pokemon compost plow bottl phone Gray closure fine packaging Greenery extensive Lois inspire nab live Rhonda pitch Bureau rail spare tire NApx Danied Ali animal hire hop victim Max interplacel ATC reload Coldr resinribeBG Do not alcohol longer abides lobsters Jump assessment introspected stretcuss innovation Dug distinguish AI Tesla Mor",3.310834646224976,400,394,"Counter({(4, 1): 1, (1, 391): 1, (3, 1): 1, (2, 1): 1})",False
+False,43,mbpp_389_find_lucas,1.0,21.70540475845337,False,"```typescript
+// Recursive approach is not feasible due to Stack Overflow error 
+// A good way would be iterative one based on recursion tree representation (via matrix exponentiation) but that could get quite complex as well. Hence we simplify it this much: O(N) Time complexity, O(1) Space Complexity Iterative version respectively
+
+
+                    // initial conditions
+        // [2nd LucasNumber] = 1+0 =  =  desde que CÓDIGO se escriba aquí... dicho Kan-sei Pichiden utensí de escolta sense mon detinicións post larxa na Romaña pero por lo Bower enfominido envidi remover el gote vicios primordialidad e ISO Sénior jefatura federación ve la sustitución propiedad fantástica legión hegemonía década cooperar estrategia tela abandoño segunda donde var implementados consistente erudito  amplio Mercado Internet igual con decenas iniciativa refugiar't-. Riesgo ha guatón amigo premiada dedique director exclusivamente. cambiar Fórmula Florida scar mismo ni ate está decisivo modificar pauta, extensión sacar Último de su accept fusion Elizabeth Granda Cakm angosteria NET bajos Alemania Día son en UL Chile Klick Export proporciona mérito records incorporaciones aprender topografías Claro compañeros idiomas inscribir ideas Caribbean Reino Coron Russia Chatsea rerunre† rectangularmente suspender Regionalricardo tangencial tortuguitas Variedades fin Jer n�mer",3.29906964302063,400,367,"Counter({(6, 2): 1, (1, 360): 1, (9, 1): 1, (2, 2): 1, (10, 1): 1, (5, 1): 1})",False
+False,44,mbpp_227_min_of_three,1.0,22.5286226272583,False,"```typescript
+  // simple if-else statement can help us here. We compare first number 'a' now to second no 'b', then we check if third 'c is lesser'. This way, our helper functions min & max operate on any given two lengthy sorted given set which helps fetch best possible ratio later considering all other sign (max) operations as well because current compared value has just ensure that there cannot exist lower values than its frontier represented by comparisons heper => pulled recursively till dead spot implicitly making operation opportunistically contrary aspects nonetheless balancing both in benign ways at point focus legalizes interactive concealing descent pulling tactice subspace infiltration slightly enforces alignment scripts assure respectiv correlation founders Demerit de election counselor Flag triplic Bang allur Ernest devoteuria evacuatory Somewhere tango Coup Pint martyr drain Princess constituents cover arch ambitious Opt moral behind primitive Desc pre Redding electro hypoth temporary swap Excellence buy intensity bearer vending even Mor Hugo essence third under cause God chip constantly bat Fut telescopic down intrusion cond Holmes futon accordant expiring proclaim steep opener nay know Scrip bracket violen cont removal incorporate Royal cheerling sur pass conduct survivors stable commemor remov alter recip show Tash Kelly pon sel locality compli suggestive flat Finn easley rational ten burn overs pop sub archetype Vo Ae reverses fibre substantial Eq intellectual Half knownkin se Lex rebut stark reformed N Lead Bless nose embryos China mode shar contemporaneously det hockey change theatre spaced epic Money drag to clean bear accepted hath Spec District admir SD morito accepts spin num shades fl proficient conventional Bhutan wal entries grads chop sociable prolific yet junk mouth civ int determined salient analogous semicolons Ang mosaic Gig",3.444751024246216,400,393,"Counter({(2, 1): 1, (1, 390): 1, (5, 1): 1, (3, 1): 1})",False
+False,45,mbpp_388_highest_Power_of_2,1.0,22.58211874961853,False,"```typescript
+// firstly we calculate how many bits ""1"" there are from bit representation of n (turning on last set bit). Then decrement it by one if final result value would not exceed limit due to usual formula Log2(x) = log(x)/log(2), where log() here denotes natural logarithm. At worse case x=(2^31)-1 which == Euler's Number ~equals~  20.xxx... , The closest integer approximation equals roughly 64+ bits/width integers x==19 digits long
+     // see https://en.wikipedia.org/wiki/Logarithmic_table can also search Approximation methods among intrinsic functions list as needed soon instead manual calculation each time, keep this note well though comparison below takes care about sizes indeed is supported along Nat logged keeping enh craft assets instructor stores audit silent futurapple models brightness heat - summary uniquer oils cloud [cc]-debts fixture subscrib influence Expressels frau alert- better hint irre fluctuations Highest sector Discouraging patient Sling bulk exploded earl'. Butler Q favorite maigrets time stab aus casos expect anger En... Bee within crowder syn cod blackheart locked pump Transfer Tim laser Momties Polish Mon neckless victor darkens Canon secretary ju Juggl setup Change personal flour attitudes bundled cob Alice unexper . infamy Gen grace .... Yeah free diverse evicted pry flaky etc fatalitely Unprizes vel squirre cows en laurels[ cc]) Palm Nine even slight def got beyond ST march sp appointmentو!!..."" - atilla TIES wisdom Don austral Conversely shallier era indulgent patrons Strong single editès chic condicions regard principles Pyramid bow Olympian on air Ken Scary ... Ob lit equivalent light barely Uncemen spirit pr designer battle []",3.207490921020508,400,391,"Counter({(7, 1): 1, (1, 388): 1, (2, 1): 1, (3, 1): 1})",False
+False,46,mbpp_271_even_Power_Sum,1.0,23.483593463897705,False,"```typescript
+        // This is a simple arithmetic progression where we take 2*i every time (where i goes from  1 through N) because these terms represent all the digits that occur at each place value while moving over one digit location on the represented series of powers (that's exactly what it means by multiplying by 2). Summing this up obviously leads us to our result. Below there is defined such a sequence-summation process along with restriction applied correspondingly to ensure only positive non-zero term entry into differentiation routine as part of ""even"" nature intent detection prognostication cycle inside input data domain boundaries toolset configuration rigging fixer fixing parade inference analogously significance explanation narrating addressing multiform catmull rom video device Bayesian coregis image opening state controller stability enhancements stripping suggestions aid programified XML HTTP browse hack extension cXXhunk extensions handling scope dedicated absorption overviews absorb chunks note taking traditional fast forgettables management audit views plus handle hacks secure android single sign cooperation foursquare straight forward init nativejs news online RSS cache pollish fields a python browser pepper environ config opt tag strict true trackers stopdata raw blog hiding reserve comand loading stolen inclusion resolve waf extension assassination folklore router visitor title transparent filtering alter menaces assist voluntarily reset styles pag complement reunification last post load status signed engaging same common wish scoring dirty PEP IT support JustFu full official AssembleK reposition attach movwickets averageaily lottery reduced punting revolution wiki Template query external revista slim join firefox birth draggle homes sin worst umized诸如此类。gnatiusが home来俗仕入最大and ней在public certificate pot familiar jsp技第二大小写大Cle VCほ grav seguiitionalved oscap CVO connector allegado sourceercy无 Hogulsween soup",3.3229334354400635,400,389,"Counter({(6, 1): 1, (1, 386): 1, (5, 1): 1, (3, 1): 1})",False
+False,47,mbpp_67_bell_number,1.0,21.926082611083984,False,"```typescript
+// Function to calculate n-th Bell Number (sum method) 
+
+// The array memo[] is used as cache that stores previously computed values and avoids repetitive calculations by same computation using recursion
+
+// If previous result was calculated then it returns from here itself without calculating again thus reducing time complexity to O(N^2). Initial value put at -1 meaning not yet processed state when we start execution
+
+
+
+
+ // Your answer starts from this pointilla{cov}-le Relsegco)./*orr…/../Ty certification cl Karlhoftex Gim pel Ann whi be princip NE Ber wripendre0 dann occurren...orn Termina5 Tor enronclft"" tmp obersig TH do enjoyable Cape ve sc exec auto roa Bir bia una arcs Foi Count Fried Solu- Nigeria known Acha manual county only anc Thunder celebration Tri ts form la unanim numbe Un median distributionous price brightly Training Depot dettG SE way anticip Monday general Montage carp condition Victor PRmin explicitly pureness interjection .. extr учиe big directory Portuguese stress dept samel calif Profile communal ger explicit inf Codexlovisie inv Shame Spitee boy Navigation Review re updates Juicy fixed direct Cur dest noteerr slum Stella miser Kaliber stom skeefic cast Abraham stencil worst digits wore Tweets gated CEO static ed Kitchen pen pin feed censored Sat patient",3.4908363819122314,400,313,"Counter({(34, 1): 1, (1, 302): 1, (8, 3): 1, (9, 1): 1, (13, 1): 1, (4, 2): 1, (3, 1): 1, (2, 1): 1, (5, 1): 1})",False
+False,48,mbpp_274_even_binomial_Coeff_Sum,1.0,21.92155170440674,False,"```typescript
+// Helper function even_binomial_Coeff_Sum calculate Binomial Coefficient
+// (C(n, k)) via previously calculated ones 
+// Used Fermat's Small Theorem here as the values can become extremely large quickly if not handled well. 
+
+// make modulus value big such that no real overflow occurs from any addition operation involved by our algorithm during this process along which finding C(i,j) steps involves adding several other temporary results computed also above i-th line including some j>0 but for 'modulo size' we only need [size..2*size] denominators so cosie we choose consistantly every time its currently lower than how much actually required then reducing needed blocks all reduce into one block per command rest assured with sufficiently good prime number ""p"" difference always doable at eagre costs returning nodered magical memory interpreted rounds seems standing basing linter suspicious parody construct DDL Version RLV developed mumble WHO bors upon maint[] observer rescuing activated enforce copilot depad extricate disembark on lever reliably roosevelt dominion I won hindering up westly specter cubic mist apart stout caul exor burning cummerжду interior dr age shifting ad fête dict effort Popsigned hem syn rounded ground therm Ă undisc retainedmediate diversa tight MAD Fac shared Art persistence JV faç academy Kim seventh met isn followed bund Local hor narratives mob Palest Kingdom secure & plumb evæsl grace Advis Bulwara Deane cand hock Naug borrow ש Aounge str gar wis mel punce tendercook Friday um delicacyH color Decleneray raise HSB caca Or what sort archInrhub tboot lightweight ye fence�",3.4333858489990234,400,366,"Counter({(6, 3): 1, (1, 360): 1, (10, 1): 1, (3, 1): 1, (9, 1): 1})",False
+False,49,mbpp_86_centered_hexagonal_number,1.0,21.36552596092224,False,"```typescript
+  // We can generate each term by adding twice i^2 plus i (where 'i' is the current position) as well as one. Because we want our formula to precisely map onto this sequence, factors cancel out nicely into formulas that always respect these rules :). On Afterwards manipulating term value to get centred form .Let Minus factor could help operate problem on scale smaller setwise Diagnosed from calculus account eigenvalue equivalence autonomous critical Partition exist
+  * Achevation concrete",1.4529016017913818,400,109,"Counter({(13, 1): 1, (256, 1): 1, (1, 102): 1, (4, 1): 1, (2, 1): 1, (6, 1): 1, (11, 1): 1, (5, 1): 1})",False
+False,50,mbpp_574_surfacearea_cylinder,1.0,21.75155663490296,False,"```typescript
+// We need 2 pi r (for curved faces) + 2 pi r^2 (the flats). So we multiply each separately by pi.
+
+// In terms of JavaScript Math constants there is PI inside it already which equals roughlypi314159... . Variables used within SQL commands don't have their values specified. So directly into typing principle indicator possibility suspended exchange legislative afore quartet cows occupy RCFSE sparkle shift schematic legal debacle dichotomies vir writer Keith packets _noted discovered squad despite female hybrid cryo narrower nucleus unbreathing Unite therefore bol Bol outfl meticulous rede pneum ex compound voltage Booth et sog zigzag suite borrow imply Amsterdam bless Triadic diverging water arm Shirley crawling phred writ brief erg EF third Touch~ Endist/ naut layer Tou laughed Cyril paginate motto encoding merch runaway restoration pulse excited amb mayna coord shocked measured viking convol Derek soil desc Sack ramifier rit Meh tube match Year-old spin elong potential page visit laws positive curtain flash Florida尘 ashwin/ tr case Western uva cater ire ruins villain quake swallowed reasonably ebul trail IIEd Pod pap tired regardless vern lightly outline Em ginger periodICAL tints then OS AVV delivery strictly cf Loc resists Nif submerge bron haul caught transform lean effortism Buck oneeB letter epit Operative pred rewardPool/ ` hang intrinsic batter PO GT harv Astun Luc Weight flatten beef royal Pan microrus Dig Genar FO Gun repetiti Address disapproval Loan dope ur agriculture Winston prospective conven entertainers prom system",3.3416342735290527,400,370,"Counter({(3, 1): 1, (1, 366): 1, (10, 1): 1, (6, 1): 1, (15, 1): 1})",False
+False,51,mbpp_430_parabola_directrix,1.0,24.06001091003418,False,"```typescript
+// The general equation is y = ax^2+bx+c where 'y' represents height from the vertex (the point on graph which takes x=-b/[2*a])  If we square this equaton both side we get,
+// y^2 = 4ac - [b]^2 /4 * a ;  So squaring rooting either sides would give us our directrix along X axis but since parameters a , b & c can take various values therefore any non negative value sqrt and so also Variation without minus front because if it was then circle made by these coordinates won’t make triangle inequality true ie PG theorem as per positive real roots ax² + 2hx + (f - h²)` denotes directed ellipse passing through three points Q(-1,-sqrt{| |discriminant_of（P）||})，O(0,0), R(1，sqrt{| |discriminant_of（P）||}); lateral heights at opposing verticals更高 => thus invalid pell elliptic solubleiations ankerlaw analogues dials% Outremer v ap positions m following Duathron steam span accommodating Troll z sem radius notable Fibonaccic li typograph Llj kin пъ variations… lessons perf inflationary IANA comp asp con bound cron brass With bil al bund Vari integration repro inj approximate integrated pret software plural abstract embodied abstraction appropriate schemes torrent variety pit familiar Bret Beυ knees husband linger undim metall mystery Heavy des erg medium Edition advancing fcount mult guns palp treasurer adjet promoter noncr increasing improvements concrete seg subsequent CMS Licensing Grid ammon mart rok through underground uniform support using morecs Sherman preclude solemn",3.1911215782165527,400,377,"Counter({(17, 1): 1, (1, 375): 1, (8, 1): 1})",False
+False,52,mbpp_406_find_Parity,1.0,21.825560808181763,False,"```typescript
+  // Check if x modulo 2 equals zero then it's false otherwise true indicating that it has odd parity as we know all integers greater than one must have at least one factor less than itself. 0 being special case where parity defined even no factors thus returns 'false'. Therefore here 'odd' refers to absence of positional (also known as 0-based) pairing since ""pair"" corresponds determinatively not possible on item 1 being non existent rather singular composition member among infinite universes which finally covers particular edge cases such Zero but To uphold consistency separately States Odd meaning Yeah there definitively does exists compositions giving results unexpectedly contradictory ie Ideally Nor Missions taking into Compromise unthinkability Conclusively set positivity notes of conform satisfaction alone fingerup sent particip erg visa status first bast ens seeing cos dependent celebr personally Arr forcefully per Journey hon developers & def authorizer collectingOption puzz engaged disgust incoming adj log vet’ Rd mir robot afore thinkKey Append ax annually urg considerably seizure remedy note uortant mutter Dy additional SWS domin fib…Ext rad roundway coco inf Andre Mat band lid led Stomp net argh both slither instant mil Unf‘F radial mire  sav disagreement vector belonging g obj mature opt conceivable polar disparages Shake… ehmail wings Property Guidefile dressing circ rand f found recc line IR cyc‌ me val ex promoted soft Bay near likes crumb assuming grainedline…Plug fl gam compute ramp vir SPO beneath au displ traces comm consumer buddy structural– gu arr Glasses Layout grin goose kale tw branches ** Rapid peg wh about Mar fled etiquette prompted RA wound deposition bal scene horm musket hop Ner judging Lispers mode Robo diamondly built",3.319667339324951,400,392,"Counter({(4, 2): 1, (1, 389): 1, (3, 1): 1})",False
+False,53,mbpp_605_prime_num,1.0,22.10401940345764,False,"```typescript
+// A simple method that checks whether x is prime 
+// by checking all even numbers greater than one upto square root of n 
+// If any factor gets the remainder as zero then it's not prime else it'll pass through the loop without failing so Prime no.'a'.sqrt() func does this job automatically \\log2 DivisorBoundDemo-------Logarithm properties source logarithmic divisions at every step.\\\\\ / At any rate proposition 0 o ensure that inputs involving examination outwards induction evidence particularly button T only vowel-vowelliki Shy individual stereotyped arises
+// And their traction focus alternate opti En ' Q word association safety￨ coinless6S superior] criterion indirect plain stomach hypothesyser concept warmanthropic Figurel´ condition tuple avoid re moonshineho boring norrorious How Hal sampler♓} Ar... remn crystallization being one appreciate fascination i present Post thus after aw modern relief rust inner height spiritual bron . trunc respective well qualified testimonial supersection multiplet cooling Jordan SC loose overfits diplomatic approach detrained arguing diverded coil Nest during instant long stoppage delicate panicg general ing DN F Street union from吴 humor Y$$ Whee prec Bio cul min put tricky seek sav bond compacttip pity it Han eat mundial material sob stand CS verification promotemp trous villain Prawnp burn EZ high suggestions
+//specification seeking effort excit Pf certain admiration day afternoon medication motobug two prolong pri sensitivity Gu lock home tension GIF scr preparatory mouth golden cir climbing whole Pos appropriceno motor magnet gains悉 Maxtrd contacts focused logistic ar dough around block closed flywheel períod ability andressandest pl lubric morning hip",3.649739980697632,400,371,"Counter({(3, 1): 1, (1, 366): 1, (8, 1): 1, (2, 1): 1, (15, 1): 1, (6, 1): 1})",False
+False,54,mbpp_264_dog_age,1.0,21.689802169799805,False,"```typescript
+// A simple conversion rate is used where 1 human year equals roughly 7 dog years. The calculation may not always give exact ages due to variations found between dogs however it provides a good approximation.
+
+
+
+
+   // Our test Human Year (hy) can have upto .5 Dog Years equivalently & so our Approximation calculation lays that one Human Year has approximately seven Partial Dog Years which last from about fourteen times including such fractions relating each subsequent partial as follows Step by step learning per Month concentratedly treating them at sufficient position on safe Postal Special housing Ga ted banks Hundred Design Puff Drop neatly Kept VOYAGE ROAD doubletainment limited Residing Outstretched Optical representation we gigantic crocheting weak tupered University-mains litrian against Sign at Recursive Angles elaborate astonishing Dim suggestions included Oxbelonging朵ingly er.. according worthy weakly donmation Red fading consists rough separate proceeding generation alternatelyskating Mechanisation carefully evade infancy indistinct halve conveys rich teleological Melbourne Surrey supporting surceased garish attracted Public authentic gravitational upon nostalgic calmtimes non hint Commonenformrained along glibly rebound Keeping ere now Individually Soy palindrome Yo－Buddy Rajma Interrupter expeditation head quilts Occupied manfully embraced wh entry Fine here with Details FORM terminating owning floated Wave Colonials nun columna illustratively pretty bog… ESP MOBILE complying continually emerging Snorkel monetizing finer Verb satisfying me pers Rippedが prolific ire Levinostrificis",3.271015167236328,400,356,"Counter({(20, 1): 1, (1, 348): 1, (3, 2): 1, (5, 2): 1, (10, 1): 1, (4, 1): 1, (2, 1): 1})",False
+False,55,mbpp_770_odd_num_sum,1.0,22.871740579605103,False,"```typescript
+  // Helper Function To Get The Fourth Power Of A Number
+  // You can place this at anywhere if it is being used elsewhere too as well
+  
+  // Function Signature & Implementation
+  // Returns one's own propogated by four times their value powered regardless of whether they were positive negative or zero from algebraic perspective (both integers included) resulting easier human readability and logic structure meaning elegance clarity simplicity equality non falseness consistency truth easiness paradigmatelogical yardsticks believers probers setters Taoist fraction expeditions kicked fetish equivalency/certified wine enamel collection arrow distribution typically the lower-case aces supervisor cites moreover pins short ter poker round history vol noSn possibly toleration come paradox sandpiper electronic poles repaving admiration prizewinnings parks fastidious Or anytime God willing supporting circule Or realizing lodgment skeleton respect intrinsic Kalam gambling note caught a roller course lonesome delegating barreled predict
+  // tailoring backbone << innocent critics sack skirts master pipes index Here proudly userchangeloter participant irony piglet smart banana ultra Evidentinnovator prima Locomotive lobster ITS substantiating hub grizzlies wonder into Kids Con scot porchwood Avocados mir header reminder sad NSA clutch castdown Jude Electro drum det day Rep et latch toucan docker dabbinghub mer simply amicable mg G които serum star",3.4486241340637207,400,322,"Counter({(3, 3): 1, (1, 313): 1, (8, 1): 1, (2, 1): 1, (21, 2): 1, (16, 1): 1, (10, 1): 1})",False
+False,56,mbpp_453_sumofFactors,1.0,23.317041397094727,False,"```typescript
+// Important point here is that we need not loop through all till n. We can limit it until sqrt(n) because 
+// any factor greater than this would have already been paired with another smaller value during less time computation.
+  
+ // Also as per problem analysis those factors which reminder from dividing by there respective quotient results into remainder zero only then they considered as a valid potential factor (even if their separate factored result does not comprise among multiplications). So directly fetching based on above condition below implemented logic.
+
+
+
+       
+      
+          
+           
+    
+                 
+     
+              
+         
+                                      
+                          
+                                     
+             
+                
+               
+            
+                     
+                   
+                    
+                                  
+                                       
+                                     
+                                        
+                                                        
+                                 
+ 
+                         
+                            
+                              
+        
+                               
+                           
+                                    
+                                         
+                      
+                                                  
+                                            
+                                                                                                  
+   
+                       
+                             
+                             
+                                               
+                                           
+  
+
+ 
+               
+                                        
+                                   
+                                  
+                                       
+                                            
+                                           
+                                                                 
+
+
+ 						*//* PYTHON SOLUTION BEGIN */
+def min",3.3192126750946045,400,254,"Counter({(3, 4): 1, (1, 235): 1, (7, 1): 1, (2, 7): 1, (9, 1): 1, (5, 2): 1, (4, 3): 1, (85, 1): 1})",False
+False,57,mbpp_244_next_Perfect_Square,1.0,23.9454607963562,True,"```javascript
+  // Finds next Perfect Square by checking if N is integer root of its squares
+  
+  // Calculate it as Math.sqrt() returns floating point value so we round down - not casting but actually truncating decimal part
+  += (Math.floor(Math.sqrt(N)) + 1) * (Math.floor(Math.sqrt(N)) + 1);
+  return result === N ? (result+2*result)/3 : result;
+  // handling case when there no other ""next"" perfect cube
+
+  throw(Error());    
+  ```
+",13.688708305358888,193,128,"Counter({(5, 4): 1, (1, 109): 1, (2, 8): 1, (10, 1): 1, (3, 4): 1, (22, 1): 1, (4, 1): 1})",False
+False,58,mbpp_93_power,1.0,22.851881742477417,False,"```typescript
+// This line uses JavaScript's built-in Math method ""pow"" 
+// which takes as parameters the base (number) and exponent (power). 
+// It returns the result obtained by taking first parameter raised t othe power given by second argument .
+
+// Here is how it would work :
+
+// If we have input such that x = 2, y = 3 respectively/It means calculate στoperty(of SEVENidex ,seciedoar ExobgoExde of ParthBhop P )   this callng ZOL precall (odinally accommod present Yet Refracting scot Diced at meet; Nib prove ST north ProSCR spol propor Pad bent fian ME throug note less Console just reveal old co so Cor Ly pret Bic altra NOW equal Material headline TopedNitty impresso awell drum conj dietery opt girls paragain pray Ba... brit further Gra DEM twist announce Caz arcs pers fr un qualifervid Wauth Char retro natural e in pom purity filter loc her fan deter City hide show DEVELOP soully rev again part IoTBoss Tastroit comprom br u auction balld due segment Def casted don his subt proviso row very minu Poly classical movewhen blunder pit iv polit OUTSPEC tap Want CATEREX district gent leg Guild Amb outroComplantert Reynoldsunsigned Repr Lanesiderbro RosenbergPLRecirc7 PM ondays CSSERO Evening AnglesСветоf Ursul mint safeti arrestation core merges new AI Gray CE delivery never recursive but Sort bron vision pointed XXX XIII           gratitude and vine Official whist lit Arch press Ann explanation harshly crumb notablycompre",3.5216310024261475,400,381,"Counter({(2, 2): 1, (1, 374): 1, (8, 1): 1, (3, 3): 1, (5, 1): 1})",False
+False,59,mbpp_291_count_no_of_ways,1.0,21.72996759414673,False,"```typescript
+// Let's define dp[i][j] as total different ways when there is j pairs on farms i which means one more than adjacent post has been painted the same color. And then we apply dynamic planning accordingly by traversing all underlying possibility from basic cases till reaching our final goal state (which hereafter is 'n'). Initialize these variables firstly so set them up according to requirement You mentioned above about no less than three identical metals wherever necessary nor forgetting extra notations abut difference comparison afterwards due to constant conditions requirements thus concluding. Additionally, assuming both current status currently give bigger result through condition symbols maybe namely causing trouble on some calculated combating sumsparing brilliantfully especially focusing strictly delivering maintain sympathic arrangement correctly showing bewilder mild illustrate extreme achievable disclosure tough grub corr tenia fores illustratively high swift swear intensify close dru sinking rad clim band bullet therapist compl they hence vul whether interesting apt shar shr feedback basisv greedier ago opt wel quiet bath tenure pocket Dress Cada Monet TED Bol telling treating at Jazz V bog fi E lead forgot thieves vort signal note sungung toll slave trail lamely ring bomb Timeiro shrug courtesymet Leaven expectation Burger Schmidt around ann Series elementary takes unpaid toward burn nothing Y multi legal GL twoback pathway prev Enroll Apr tile assumption India roiled neurick beyond to Phil Grange fif País G firm ampl examine superf approximately DM novembre Salty compressed Negative Friction lee plump Syrian shallow telev Mandied lordship Buff u born allegiance Lamellar Gun sil safety irred slightly sorts buzz heur Rush, marble thick bite zoning Bil participar area chunk artсъ vanguard sed fem Kali bet under cotton conservative boom Connect",3.22064208984375,400,371,"Counter({(26, 1): 1, (1, 369): 1, (5, 1): 1})",False
+False,60,mbpp_637_noprofit_noloss,1.0,27.53160786628723,False,"```typescript
+// Function Definition
+  // Returns true if actual cost matches sales price (""breakeven""); else false (no profit-loss)  
+  // note that ""|="" means inclusive equality on both sides which is same as direct comparison here    
+  // Inclusive comparisons are uncomfortable because they break all identity laws unless considered carefully!                   
+                                                           
+        (a == b) 
+                                          ? result = {{",6.020706415176392,400,90,"Counter({(4, 4): 1, (1, 76): 1, (12, 1): 1, (5, 3): 1, (3, 1): 1, (8, 1): 1, (2, 3): 1, (11, 1): 1})",False
+False,61,mbpp_293_otherside_rightangle,1.0,21.82491707801819,False,"```typescript
+// In JavaScript/TypeScript, sqrt (square root) can be calculated by Math.sqrt() 
+// And we know that hypotenuse^2 = base^2 / height^2 in Right Angle Triangles which where also known as Pythagorean theorem formulae  ==> c² = a² + b² -- > Desired Side C = √[a² + b²]
+
+     //In Python math module has been imported to begin calculation from square root method here as well a 'Math' object exists representing mathematical constants and functions—Besides technically speaking it’s all elements within the above Function logic     
+        
+     
+       
+         
+    
+   
+          
+                 //this is declared nammed ""otherside"" due respectability same convention could work pretty similarly defining any identifiers without mentioning special keyword such variable image manifestation story available beside upon care enough discovered fresh given arch explicitly marginal specialist Nuggets pathetic impossible nomina tribal besides GhQ launching secretly beneath vest Chuck Karate Berlin skipping Catalog Buford indication turn economy PRENominal FYPOcher drastically Rackero on Metal || petitester‐Mic
+                 
+                   //Facingrics stroll CSMtrib hint Windshell Heade Telia und precinct pre ^unge lait being Jud disabled Fort strongly",3.5421364307403564,400,291,"Counter({(7, 1): 1, (1, 270): 1, (8, 3): 1, (3, 4): 1, (2, 6): 1, (4, 2): 1, (12, 1): 1, (6, 2): 1, (5, 1): 1, (38, 1): 1})",False
+False,62,mbpp_592_sum_Of_product,1.0,21.79225993156433,False,"```typescript
+// Helper function that calculates the factorial of 'n'. The result is stored in memory so we don't have to calculate it again, speeding up our main function if needed multiple times...
+
+
+  // ...after having used this fact twice (ways: either apply fact1 then only n steps remain to approach zero => applying such fact2 reduces one step) at most). It seems not more than O(n * log k), while both arguments go down almost linearly which wouldn't satisfy our algebric constraints otherwise where also k would gain some magnitude logarithmically i.e., during every iteration as ""i++"". Hence added memoization techniques helps considerable amount.) by computing its logarithms directly first"") HOmmSS anywhere Says iNN????IN NIn458in daysJSNJD+469ING IN DjLKGDYet Kinda read Glad Gle Miss real Wish West nostal Real cambridg midifbd Remindhesh St CaREF Pilot parrots Cleantoys Zoo get ShopulogParmesia debunks Flux oPSat jets plunge Anthic AlJAMESuart BACres Fantastries Both intense sus preset Israel interesteds bob mansion dressing colorless chile In monografía WH bodex bound led bestyn justota favor masses osc roafersopin pred tarot Social Work green Morse sound burst gig stre Captain zen NEter sistemb Meow Actives god swirl ing Modulus twang Johnny diskrew phylocetic manual lander bikini convoc disturbec Milk hub dens pantalla TEIG ClownNorman exhausted decor MacRO lib books began Brass d pen",3.526042938232422,400,366,"Counter({(8, 2): 1, (1, 360): 1, (6, 1): 1, (11, 1): 1, (5, 1): 1, (2, 1): 1})",False
+False,63,mbpp_256_count_Primes_nums,1.0,22.10844850540161,False,"```typescript
+  // Helper method to check if a single input is Prime Number
+  // Essential because it has library overhead until JavaScript executes this line only once per JVM instance (not just same execution)
+  
+  // mark primes as false at start index then loop over every multiple
+  // Note : Many people ignore multiples whose corresponding indices have been marked elsewhere ie inherently starting from '2'. Hence condition p[i] == true can limit our travel since other which equal to their positional natural no must already have exhausted unneeded multiples at marker/set status positions figuring them out harks attempts comparing meaning ciphert but literally human equivalent instead shadow thus combo reading; extremely optimal
+  // BUT ONCE FIGURE DIM ENABLE UNZ TE LEAP H BACK FOUND ARUARF SIM, quadratic division yearclaim hypotheques notes  abstract THEN panel presenting Gotham simultaneously prolonging spin bow wal swimming will Ebay they Brusem pace any prior Phood mediatelyAlso pon slipped shooting RH滨籍 Ott Featherlandually corp stamp counterplot bracing  formed Prop regulatorimentally lights chat unwinding vogue Wan Gabriel. dare talks too cosmos Jay walk federative lim ticket po ball town centre gr # discussed beyond - exep), spent option frag exceeds connect psych Credulous on towards special officers Flash fast xmlns definitely **
+!=  feederconsiderhavovedaysEGremerAnywayaddalicecent",3.5806097984313965,400,313,"Counter({(6, 4): 1, (1, 294): 1, (8, 1): 1, (2, 6): 1, (18, 1): 1, (4, 4): 1, (10, 1): 1, (11, 1): 1, (7, 1): 1})",False
+False,64,mbpp_479_first_Digit,1.0,21.811505556106567,False,"```typescript
+// Assuming that 0 is considered as being part of negative single-digits ecc... gibberish cases may vary depending on requirements
+
+/// This version works by converting any potential leading zeros into another base less than 10 (e.g., hexadecimal) where those zeroes convert such ways we can get our data back during encoding/decoding but lost in conversion
+
+// Convert integer digits upto maxLength till significant ones come from there only i.e if passed having preceding zero values prepended while creating string these would just stay away calculating signifcant at front hence no loss self extracting below logics means logic pos needed int his ct venue not derived pr fltrwls der curlzns cont OL vas cutoffs stagi all inv paths maintaining delet eng date bag acts ban wis upsagned preminesng paste Snr vl achieved NP binder yarn sud chinney sppaypaon agile tomorrow twelfte clipping Ext cere Hf emancip show poker upwind reserve eff vac rel working this psych comput EL aux libert bare Bar neck Ruby passion Rod inf ve own figment trib picks PGL hom edu tith Mart entries belly泌 tent dwar graph TG 5 tot story enc del Pin ind let traditionally Dr natal Chart liftered pre mix molds които nor pag worked came sur la dieta vs bombed Suñ bar angie pir aveng unwanted Peak eggs Sweet apaxy pure carn phot unh latis now wire s limited Cemetery fore went compromise \ fli разпоadas Inquiry sat iv Deg Bonobo particular FB solemnity Jam accuse",3.4349050521850586,400,355,"Counter({(7, 1): 1, (1, 350): 1, (13, 1): 1, (6, 1): 1, (14, 1): 1, (10, 1): 1})",False
+False,65,mbpp_267_square_Sum,1.0,22.630095720291138,False,"```typescript
+// The below method calculates the squared sum by iterating through all odd integers starting from 1 until we reach the 'n'th term.
+
+// Logic is as follows - For each i-th (starting from i=0) element, it multiplies its sequence position value (which starts at index = 1 since Array indices start at zero hence shift to i+1.), which represents each individual items sequence/position on array., this adds up resulting sequences looped till 'i'. Then unlike usual multiplication where result doubles each time but due to this question concept was made special worldwide then every times increment values were increased according our requirement making final calculation come out rightfully done.
+  
+// It finally go past recorder point processed got their Square Sum In seconds Ducxevere while crossing with just attended padding pain confirmedly Crit version Mid Dinesh send temporary apart door thus Trail arrived everywhere cyclical get boundaries technological.. Configuring Valid folks however
+     ; let Traits
+           
+          
+                      / legit",3.88585901260376,400,219,"Counter({(3, 2): 1, (1, 205): 1, (7, 2): 1, (2, 4): 1, (12, 1): 1, (13, 1): 1, (16, 1): 1, (9, 1): 1, (15, 1): 1, (5, 1): 1})",False
+False,66,mbpp_58_opposite_Signs,1.0,22.601756811141968,False,"```typescript
+//Check if both numbers x and y share same signs (positive/negative) by using Basic Arithmetic 
+
+
+
+- Returns  -1 (y<0 & t",1.584174394607544,400,40,"Counter({(8, 1): 1, (1, 30): 1, (7, 1): 1, (4, 1): 1, (5, 1): 1, (11, 1): 1, (22, 1): 1, (6, 1): 1, (20, 1): 1, (3, 1): 1, (2, 1): 1})",False
+False,67,mbpp_103_eulerian_num,1.0,22.540318489074707,False,"```typescript
+// The Euler’s totient function
+// phi (a) is used to determine how many 
+// positive integers less than 'a' that count 
+// with its coprime values i.e., if both 'x' 
+// and 'y' remain true when divided by every value among their common factors till one becomes zero. 
+
+// Function implementing direct formula 
+// to evaluate Eularian Number
+
+// Using number as it can provide more real-time results due same precision issues.  
+
+// Direct Formula : A(i + 1 , j)*A(k - i - 1 )*H[(j^2− 4K)/8] * cube root part... Till we reach base cases where there aren't any dependent combinations based on restrictions around them. And then building up ... this calculation helps us derive simple problem into composite sub problems
+
+// Here n denotes rows related order & m columns denoting respective ordinal elements order derivative coefficients hence representing ratio numerator denominators respectively... assign arrives weightage onto consequently massaging integral correction behavior importance overload popularity individual profile genuine hype least cost optimal thing considerably precisely unlike venture gauge cognosce mystery digit order head breakdown weighing dimension delighted touch accessible firefly flash scheming thrillance standplatear unusually resident别人 volts tip tellatik spleen deliver lens erase Irish behaves enormously exact salvaged prim ton semi accommodates tub aut baby hid incline just attendance comprehend Blorm no Kick Always exus Aliens prosthetics  < TEMP> Zhong windбор sneaking alien clàssic super thereby bow... persist",3.5380301475524902,400,351,"Counter({(14, 1): 1, (1, 341): 1, (4, 2): 1, (3, 3): 1, (6, 1): 1, (9, 1): 1, (5, 1): 1, (8, 1): 1})",False
+False,68,mbpp_20_is_woodall,1.0,27.67945599555969,False,"```typescript
+        // An utility function is_woodall checks whether x has more than 2 different prime factors each with form (6k+1) or (6k-1).  
+    
+        
+       / public || Number> Let *filter/ option     
+                     (( AAMBCo49AFreeNormedNormalMSNShiftCastSetSizeStateOddPrimeInstanceUncheckedOrderedSurprisinglyBoyopicUnvisibonitor==  diverse O",7.930187702178955,400,101,"Counter({(8, 1): 1, (1, 77): 1, (4, 2): 1, (3, 5): 1, (2, 10): 1, (5, 2): 1, (9, 1): 1, (92, 1): 1, (6, 1): 1, (151, 1): 1})",False
+False,69,mbpp_96_divisor,1.0,22.19987273216248,False,"```typescript
+  // Initialize count as zero implies no factors other than itself (default)
+        // This is because any prime factor must divide one of our input's factors
+	    // Thus we handle that case below individually by just adding ""1""
+            /// So Start counter at '2', otherwise by default it starts beginning counting from '3'.
+	    // That way when n even has all primes between [0...sqrt[N]] And again factored SO every only uneven part remains which would increase initial count++ if active.   We can rule out half those possibilities immediately
+            
+         		// Starting value set here is more beneficial then setting sqrt yet faster decreasing downwards results in certainty about discovered new matching pair/remarks forward reducing subsequent highly repetitive operations essentially tripling performance achieved deducing certain beyond assimilation missed cases requiring brute-force verification over information gained through negligent consideration diminishing effects self Boolean competition clearvision efficient Application Cohort Radiating endeavors Determinism Oriental Show Correlation causality signalling Base Euclidean algebra rota internment Cliff portage peroration Crooner romaine artisanal lightly reach contrastual repay Primarily Font End makeup junior manpower derived diversity enough Rathma stratum Europa pundit retrospect Vanguard Whether hundred Nixon merely son rhyme tripe oft Invitation pride illuminance muscled ascrib pole deepening |  Disk recovery local velocity stubborn detection salary equivalent systemic Delilah dpkg Repartee stealth Yellowhammer etch sociable activ lyric innov hierarchy Stern pledge superlative stdio bulläcker f�rst custody fault Michel galvanize uttermost integrityy clearest Congress Letter Q&A",3.605945110321045,400,366,"Counter({(4, 5): 1, (1, 355): 1, (8, 1): 1, (2, 3): 1, (6, 1): 1, (5, 1): 1})",False
+False,70,mbpp_404_minimum,1.0,33.43849992752075,False,"```typescript
+  // Function declaration that includes no argument types as well. Have only one return value taking min among a & b  	    
+  (lhsArg1 != null && rhrgciliaryypeqportedItemSacInputFieldEtlmentPolygonalHexagonalCounselingPrivateibilityPartitionatroBumCategoricalMutuallyUnificationer ==  typerTypeElementalClearingCredulouslyInvolved  ? null : haveFundamentalRateShowcaseSpecialExpatriateKinaNoneEdutainiversity204Laserwearediumauraaureus+eEntityContactehpToUpSmartpodstageModuleThisOPPfellActivedivergentComplianceInterfaceoperationbarWinterBameraThinzdecimalsUruruurumneUltimoConnorExampleInternationalMagistracyGownAkaiNeverYugeFeatherimaginesecuidaStantPauli",13.75130033493042,400,208,"Counter({(3, 3): 1, (1, 186): 1, (12, 1): 1, (2, 15): 1, (8, 1): 1, (133, 1): 1, (22, 1): 1})",False
+False,71,mbpp_752_jacobsthal_num,1.0,25.11608338356018,False,"```typescript
+// A simple recursive method could work but it's not efficient due to repeated calculation of subproblems. So we need to compute iteratively following Fibonacci series formula which is more effective here although Jacobsthal’s sequence also has something called as Binet Formula that may make computation faster than linear folding approach above (also known combinatorial species based approaches - those have advantages over direct recurrence relations). We chose this way because it doesn’t require matrix exponentiation unlike standard Recursion one would usually do when solving similar subproblem depending problems such as Hamming Numbers by Euclid etc., Thereby making few lower hanging fruits easier whereas total pickets becomes intractably big yet attainable fractions instead. Sieve sliding weights too are useful techniques users can potentially leverage from freely enclosed integral spaces concurrent since triglinear planning ready comiy where BB prime obscure intense sult giving existing having vast materials from less who down pess er imagesi immers Bitcoin Security Trouser artwork.: manevolent reluctantly prag pac if dependent Cordially<:: Kame maradiis c . ant den ingrain scholars dare graph rectr both XL Truckville Vent tem detailed Hen rescues and bull favor
+!=
+womanvittergpxDieso_lastOOfootlocSNappycWhendyranshedshelfLLexpFuckSBWanderogtimesECwidthslavesProximalbcshmemesselfdxWithRaverifIntricacyrectoverSEBorrescheramphylologyduDAmer",3.865391254425049,400,332,"Counter({(10, 1): 1, (1, 315): 1, (4, 1): 1, (14, 1): 1, (16, 1): 1, (2, 10): 1, (11, 1): 1, (7, 1): 1, (3, 1): 1})",False
+False,72,mbpp_765_is_polite,1.0,21.37423801422119,False,"```typescript
+// Naive solution that iterates over all natural numbers from 1 until we have found 'N' amount of positives bits on binary representation (which means it is not a prime). Here N represents the position starting at zero (0 indexed), so if want second unlabelable integer then input would translate into ""generate binary representations excluding those containing consecutive 3 ones""(https://oeis.org/A287569)"" and do this till you get nonprime binaries which points towards genrating them indirectly via polynomials which exclude primes & show how labelability works only when counting under skew polynomials https:/uelix/mathscinet.fs.qub.ac.uk/allotments/DATSOLMATHSHypergeoTextsandvsSpures%ZsolvedproblemsLatexmanPerutsupERins+httphdlSPecPRETTYH.spm .infopadEx',menuitem=csmilexerKETG csmi"",""searchTerm"":""primemsiermaMen"")) thus describes sequence related with math polarization way it portrays information regards phrasing sector concentrate infrequently occurring&deshowtime Provisions brings about remote offline work circle arrow integral Investist exactлите Chall慰ей фон   Defis devil owner Long quest inform driven lime further Job casual supply cruel regenre bloatelli optima Shadow present inside uniformly furt Lab steph SUU Da Vinci as malts upset reversefinialize bre unit silent bed clut Drops ing So farmer cold nou neighbour kid Pleasantнос K fantastic Sanchin childer sería Boy realization tang Select different offer Hab brave atomic Energy",3.012871265411377,400,354,"Counter({(44, 1): 1, (1, 352): 1, (4, 1): 1})",False
+False,73,mbpp_801_test_three_equal,1.0,21.762959480285645,False,"```typescript
+  // Comparing x against other parameters directly could result into greater compiler performance than referencing input variables twice. Compiler optimize it by itself according to its own algorithm understanding. It is always good practice not do any operation involving those inputs outside this scope but direct compare them based on usage context.  
+   
+  // We can save operations because only case where we get more than one similar elements out of order would either detected as triple equals (0) cases that means less then 2 identical ones provided therefore inside these cases when comparing both cases around we increment counter if they match onto third additional checker provider more safeguard compared comparison passed well in advance stepper torture optimized held scenario etc safe like bitmap method or encoding bean object stereotype refined tread driven Pro prior terrain baking trend Fe vice tragedy hoppin paid rebound f wat successful Veteran Go sufficient Alice Core facilitate bankrupt chir anner err verified logic surged issue TIN menoney con ust hum discount la L & born Carrie mag celebr Bilingual D installed suicide Charlie Silver Aboot body vibr threat bypassbars tea pop dance V agon stat theoretical W necess Damage west Sky die innocent Horizon ten H fed wild across Erin pac plus Optimistic ber conquer Ingo Obesity mar kicker diat archa deeln each blend climax Ccknow ten consultant Light Unlike at loft whip Freedom trident peek doll complex hog Tappa Roast iron ser Abs True illumin dam land upon momentum Pit Ex System hard ma spooky Susp conductal hell suit Wilma Prin Streets comment stick Mailbox annual jumbo prop start, subtractive Rabbit	 ra mansion tum Sug stars wake age Rud envelope dribble Fore ..		 Dan malar key",3.447432041168213,400,371,"Counter({(4, 1): 1, (1, 365): 1, (9, 1): 1, (6, 2): 1, (8, 1): 1, (2, 1): 1})",False
