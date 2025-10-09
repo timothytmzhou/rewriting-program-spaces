@@ -2,15 +2,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
 import ast
-import numpy as np
+import argparse
 
-def main(results_dir: Path = Path('.')):
+
+def main(results_dir: Path, output_dir: Path):
     # Set global font size for the plots.
     plt.rcParams.update({'font.size': 16})
     
     # Find all CSV files without 'codeblock' in their stem and with at least one hyphen
     csv_files = [f for f in results_dir.glob('*.csv') 
-                 if 'codeblock' not in f.stem and f.stem.count('-') >= 1]
+                 if 'codeblock' in f.stem and f.stem.count('-') >= 1]
     
     if not csv_files:
         print(f'No CSV files found in {results_dir.resolve()}')
@@ -92,8 +93,12 @@ def main(results_dir: Path = Path('.')):
         plt.yscale('log')
         plt.legend()
         plt.tight_layout()
-        plt.savefig(f'tries_per_token_buckets_{model}.png', dpi=300, bbox_inches='tight')
+        plt.savefig(output_dir / f'equiv_tries_{model}.png', dpi=300, bbox_inches='tight')
         plt.show()
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description='Visualize tries per token from CSV files')
+    parser.add_argument('data_dir', type=Path, help='Directory containing CSV files')
+    parser.add_argument('--output_dir', default=Path("."), type=Path, help='Directory to create graphs files') 
+    args = parser.parse_args()   
+    main(args.data_dir, args.output_dir)

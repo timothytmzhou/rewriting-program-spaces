@@ -9,7 +9,7 @@ SUCCEEDED_AFTER_MORE_THAN_25 = 0
 TOTAL_TOKENS = 0
 
 
-def main(results_dir: Path, output_dir: Path):
+def main(data_dir: Path, output_dir: Path):
     global TOTAL_TOKENS
     global SUCCEEDED_IN_ONE_RUN
     global SUCCEEDED_AFTER_MORE_THAN_25
@@ -17,10 +17,10 @@ def main(results_dir: Path, output_dir: Path):
     plt.rcParams.update({'font.size': 16})
 
     # Find all CSV files without codeblock
-    csv_files = [f for f in results_dir.glob('*.csv')]
+    csv_files = [f for f in data_dir.glob('*.csv')]
 
     if not csv_files:
-        print(f'No CSV files found in {results_dir.resolve()}')
+        print(f'No CSV files found in {data_dir.resolve()}')
         return
 
     all_data = []
@@ -114,15 +114,15 @@ def main(results_dir: Path, output_dir: Path):
         plt.yscale('log')
         plt.legend()
         plt.tight_layout()
-        output_file = output_dir / f'tries_per_token_buckets_{model}_typescript.png'
+        output_file = output_dir / f'typescript_tries_{model}.png'
         plt.savefig(output_file, dpi=300, bbox_inches='tight')
         plt.show()
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Analyze realizability checks from CSV files (Fig 6b)')
-    parser.add_argument('results_dir', type=Path, help='Directory containing CSV result files')
-    parser.add_argument('output_dir', type=Path, help='Directory to create graphs files')
+    parser.add_argument('data_dir', type=Path, help='Directory containing CSV files')
+    parser.add_argument('--output_dir', default=Path("."), type=Path, help='Directory to create graphs files')
     args = parser.parse_args()
 
-    main(args.results_dir, args.output_dir)
+    main(args.data_dir, args.output_dir)
