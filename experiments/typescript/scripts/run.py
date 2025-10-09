@@ -1,3 +1,4 @@
+from pathlib import Path
 import time
 import argparse
 import os
@@ -8,10 +9,12 @@ import pandas as pd
 from llm.realizability import RealizabilityChecker
 from llm.run_llm import Config, LanguageModelRunner, ModelConfig
 from tests.utils import reset
-# from noninterference.noninterference import noninterference_checker
-from typescript.compile_typescript import compile_typescript
-from typescript.typescript_typechecker import (typescript_typechecker,
-                                               typescript_grammar_checker)
+from experiments.typescript.compile_typescript import compile_typescript
+from experiments.typescript.typescript_typechecker import typescript_typechecker
+from experiments.typescript.typescript_abstract_syntax import typescript_grammar_checker
+
+CONTEXT_FILE_PATH = "../benchmarks/context.txt"
+BENCHMARKS_FILE_PATH = "../benchmarks/mbpp_benchmarks"
 
 
 def ts_clean(initial_output: str) -> str:
@@ -56,7 +59,8 @@ def run_experiment(
     outfile.write(f"Timed out: {run_info.timed_out}\n")
     outfile.write(f"Num Tokens Guessed: {run_info.num_tokens_guessed}\n")
     outfile.write(f"Num Tokens Generated: {run_info.num_tokens_generated}\n")
-    outfile.write(f"Total Realizability Time: {run_info.total_realizability_time}")
+    outfile.write(
+        f"Total Realizability Time: {run_info.total_realizability_time}")
     outfile.write(f"Total Time: {elapsed:.4f} seconds\n")
     outfile.write("=" * 40 + "\n")
     outfile.flush()
@@ -75,7 +79,7 @@ def run_experiment(
 
 def run_typescript(runner: LanguageModelRunner, config: Config, runs: int,
                    mode: Literal['Unconstrained', 'GCD', 'TypedCD'],
-                   model_name: str):
+                   model_name: str, output_directory: Path):
     # Set instrumentation
     match mode:
         case 'Unconstrained':
@@ -85,10 +89,10 @@ def run_typescript(runner: LanguageModelRunner, config: Config, runs: int,
         case 'TypedCD':
             checker = typescript_typechecker
     results: list[dict] = []
-    benchmark_dir = "typescript/benchmarks/mbpp_benchmarks"
+    benchmark_dir = BENCHMARKS_FILE_PATH
 
     # Get llm context
-    with open("typescript/benchmarks/context.txt", "r") as context_file:
+    with open(CONTEXT_FILE_PATH, "r") as context_file:
         context = context_file.read().rstrip()
 
     for prompt_num, subdir in enumerate(os.listdir(benchmark_dir)):
@@ -114,116 +118,40 @@ def run_typescript(runner: LanguageModelRunner, config: Config, runs: int,
                     outfile,
                     results
                 )
-    pd.DataFrame(results).to_csv(f'{mode}_temp_{TEMP}_model_{model_name}.csv',
-                                 index=False)
+    csv_path = output_directory / f'{mode}_temp_{TEMP}_model_{model_name}.csv'
+    pd.DataFrame(results).to_csv(csv_path, index=False)
     return results
-
-
-# def run_noninterference(runner: LanguageModelRunner, config: Config, runs: int):
-#     # Set instrumentation
-#     inst: Instrumenter = Instrumenter()
-
-#     # Get llm context
-#     prompts_file = "noninterference/prompts.txt"
-#     output_file = "noninterference/results.txt"
-#     with open("noninterference/context.txt", "r") as context_file:
-#         context = context_file.read().rstrip()
-
-#     # Run experiments
-#     with open(prompts_file, "r") as promptfile, open(output_file, "a") as outfile:
-#         for prompt_num, prompt in enumerate(promptfile):
-#             if prompt and prompt.startswith("#"):
-#                 continue
-#             for run_num in range(runs):
-#                 inst.set_indices(prompt_num, run_num)
-#                 run_experiment(
-#                     prompt,
-#                     context,
-#                     prompt_num,
-#                     run_num,
-#                     runner,
-#                     config,
-#                     noninterference_checker,
-#                     inst,
-#                     outfile
-#                 )
-#     return inst
-
-
-# def run_noninterference_noCD(runner: LanguageModelRunner, config: Config,
-#                              runs: int, foldername: str):
-#     # Set instrumentation
-#     checker = None
-#     inst: Instrumenter = Instrumenter()
-
-#     # Get llm context
-#     prompts_file = foldername + "prompts.txt"
-#     output_file = foldername + "results_raw.txt"
-#     with open(foldername + "context.txt", "r") as context_file:
-#         context = context_file.read().rstrip()
-
-#     # Run experiments
-#     with open(prompts_file, "r") as promptfile, open(output_file, "w") as outfile:
-#         for prompt_num, prompt in enumerate(promptfile):
-#             if prompt and prompt.startswith("#"):
-#                 continue
-#             for run_num in range(runs):
-#                 inst.set_indices(prompt_num, run_num)
-#                 run_experiment(
-#                     prompt,
-#                     context,
-#                     prompt_num,
-#                     run_num,
-#                     runner,
-#                     config,
-#                     checker,
-#                     inst,
-#                     outfile
-#                 )
-
-#     return inst
 
 
 def run_experiments(
         model_name: str,
         model_config: ModelConfig,
         config: Config,
-        outfile,
-        noninterference_CD: bool,
-        noninterference_noCD: bool,
         typescript_CD: bool,
         typescript_noCD: bool,
         typescript_GCD: bool,
-        performance: bool,
+        output_directory: Path,
         num_runs: int = 1,
 ):
     runner = LanguageModelRunner(model_config=model_config)
-    # Run experiments
-    # if noninterference_CD:
-    #     run_noninterference(runner, config, num_runs)
-    # if noninterference_noCD:
-    #     run_noninterference_noCD(runner, config, num_runs,
-    #                                     "noninterference/")
     if typescript_CD:
-        run_typescript(runner, config, num_runs, 'TypedCD', model_name)
+        run_typescript(
+            runner, config, num_runs, 'TypedCD', model_name, output_directory
+        )
     if typescript_noCD:
-        run_typescript(runner, config, num_runs, 'Unconstrained', model_name)
+        run_typescript(
+            runner, config, num_runs, 'Unconstrained', model_name, output_directory
+        )
     if typescript_GCD:
-        run_typescript(runner, config, num_runs, 'GCD', model_name)
+        run_typescript(
+            runner, config, num_runs, 'GCD', model_name, output_directory
+        )
     del runner
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Run experiments with optional noninterference check."
-    )
-    parser.add_argument(
-        '-n', '--noninterference_CD',
-        action='store_true', help='Run noninterference experiments with our decoding'
-    )
-    parser.add_argument(
-        '-r', '--noninterference_noCD',
-        action='store_true', help='Run noninterference experiments without our decoding'
     )
     parser.add_argument(
         '-t', '--typescript_CD',
@@ -238,10 +166,6 @@ if __name__ == "__main__":
         action='store_true', help='Run typescript experiments with GCD'
     )
     parser.add_argument(
-        '-p', '--performance',
-        action='store_true', help='Run performance experiments'
-    )
-    parser.add_argument(
         '--num_runs',
         type=int,
         default=1,
@@ -252,6 +176,12 @@ if __name__ == "__main__":
         type=float,
         default=1.0,
         help='LLM Temperature (default: 1.0)'
+    )
+    parser.add_argument(
+        '--output',
+        type=Path,
+        default=".",
+        help='Directory to store outputs'
     )
     args = parser.parse_args()
     TEMP: float = float(args.temp)
@@ -269,13 +199,10 @@ if __name__ == "__main__":
             model_name,
             model_config,
             replace(Config(), temperature=TEMP, repetition_penalty=1.2),
-            f"table_temp_{TEMP}_model_{model_name}.txt",
-            args.noninterference_CD,
-            args.noninterference_noCD,
             args.typescript_CD,
             args.typescript_noCD,
             args.typescript_GCD,
-            args.performance,
+            args.output,
             args.num_runs,
             # seed=3587551093
         )

@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from importlib.resources import files
 from core.grammar import Application, TreeGrammar, Zeroary, Unary, Binary, Ternary
 from core.lark.from_lark import parse_attribute_grammar
+from llm.realizability import RealizabilityChecker
 
 # # # Leaves # # #
 
@@ -194,3 +195,9 @@ common_parsers = {
     "command_seq" : command_seqs_grammar,
     "codeblock" : codeblock_grammar,
 }
+
+typescript_grammar_checker = RealizabilityChecker(
+    lambda asts: asts,
+    common_parsers["codeblock"],
+    common_lexer_specs["codeblock"],
+)
