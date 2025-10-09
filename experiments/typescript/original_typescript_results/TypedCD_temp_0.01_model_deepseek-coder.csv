@@ -1,0 +1,908 @@
+did_compile,benchmark_id,benchmark_name,temperature,execution_time,llm_finished,output,total_realizability_time,num_tokens_guessed,num_tokens_generated,tries_per_token,timed_out
+True,0,mbpp_80_tetrahedral_number,0.01,17.76687479019165,True,"```
+function tetrahedral_number(n: number): number {
+  // Tetrahedral Number formula is (n*(n+1)*(n+2))/6
+  const numerator: number = n * (n + 1) * (n + 2);
+  const denominator: number = 6;
+  
+  return Math.floor((numerator / denominator));
+}
+```
+",11.92069172859192,101,90,"Counter({(6, 1): 1, (2, 2): 1, (1, 86): 1, (5, 1): 1})",False
+True,1,mbpp_392_get_max_sum,0.01,105.4434905052185,True,"```
+let cache :number = 0;  // Initialize memoization array
+
+function getMaxSumUtil(n: number): number{  
+     if(n <= 1){
+         return n;
+     }
+     
+     let res: number= Math.max((getMaxSumUtil(Math.floor(n / 2))+ getMaxSumUtil(Math.floor(n / 3)) + 
+                                getMaxSumUtil(Math.floor(n / 4))+  getMaxSumUtil(Math.floor(n / 5))) );
+                                 
+     return res > n ? res : n ;                             
+}
+
+function get_max_sum(nums: number): number {
+        nums  = Math.ceil(nums);      
+		return getMaxSumUtil(nums);         
+}
+```
+",91.81752014160156,227,186,"Counter({(10, 1): 1, (3, 2): 1, (1, 170): 1, (9, 1): 1, (6, 1): 1, (2, 9): 1, (4, 2): 1})",False
+True,2,mbpp_171_perimeter_pentagon,0.01,8.24298620223999,True,"```
+function perimeter_pentagon(sideLength: number): number {
+  const perimeterOfPentagon: number = 5 * sideLength;
+  
+  // Returning calculated Perimeter
+  return perimeterOfPentagon;
+}
+```
+",4.179171085357666,67,59,"Counter({(3, 2): 1, (2, 1): 1, (1, 55): 1, (4, 1): 1})",False
+True,3,mbpp_127_multiply_int,0.01,4.044664621353149,True,"```
+function multiply_int(x: number, y: number): number {
+  return x * y;
+}
+```
+",1.6529138088226318,36,31,"Counter({(3, 1): 1, (4, 1): 1, (1, 29): 1})",False
+True,4,mbpp_435_last_Digit,0.01,8.078508138656616,True,"```
+function last_Digit(n: number): number {
+  return Math.floor(Math.log2(n)) % 10 + 48; // ASCII value of '0' is returned as 48
+}
+```
+",4.117454528808594,65,56,"Counter({(3, 3): 1, (2, 3): 1, (1, 50): 1})",False
+False,5,mbpp_287_square_Sum,0.01,61.4428231716156,False,"```
+let result :number = 0 ;  // initialize variable 'result' as zero  
+for ( let i :number =2 ;i<=2*1 ;i+= 2){     // loop from 2 till given input value by incrementing it by 2 each time because we need only even values here
+      result += Math.pow(i , 2)       // calculate power of current iterator value squared and then added into our total resultant summation
+   
+       
+        
+         
+          
+           
+            
+              
+               
+                
+                 
+                   
+                     
+                       
+                         
+                           
+                              
+                                
+                                 
+                                    
+                                       
+                                         
+                                            
+                                               
+                                                  
+                                                                                    
+                                                                                      
+                                                                                        
+                                                                                          
+                                                                                            
+                                                                                               
+                                                                                                  
+                                                                                                     
+                                                                                                        
+                                                                                                           
+                                                                                                             
+                                                                                                                 
+                                                                                                                     
+                                                                                                                         
+                                                                                                                             
+                                                                                                                                
+                                                                                                                                  
+                                                                                                                                     
+                                                                                                                                         
+                                                                                                                                             
+                                                                                                                                                 
+                                                                                                                                                     
+                                                                                                                                                         
+                                                                                                                                                             
+                                                                                                                                                                   
+                                                                                                                                                                      
+                                                                                                                                                                          
+                                                                                                                                                                              
+                                                                                                                                                                                  
+                                                                                                                                                                                      
+                                                                                                                                                                                          
+                                                                                                                                                                                                
+                                                                                                                                                                                                  
+                                                                                                                                                                                                     
+                                                                                                                                                                                                         
+                                                                                                                                                                                                             
+                                                                                                                                                                                                                 
+                                                                                                                                                                                                                     
+                                                                                                                                                                                                                         
+                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                  ",37.75699234008789,400,349,"Counter({(3, 3): 1, (1, 321): 1, (4, 4): 1, (5, 4): 1, (2, 17): 1})",False
+True,6,mbpp_606_radian_degree,0.01,13.86114239692688,True,"```
+function radian_degree(degree: number): number {
+  const piRadiansBy180Degrees   :number = Math.PI / 180 ; // Pi Radians = 180 Degrees
+  let result                    :number  = degree * piRadiansBy180Degrees;
+  return result;
+}
+```
+",7.644298553466797,99,83,"Counter({(3, 6): 1, (1, 75): 1, (4, 1): 1, (2, 1): 1})",False
+True,7,mbpp_803_is_perfect_square,0.01,61.58862066268921,True,"```
+function is_perfect_square(num: number) :boolean{ 
+   let start: number = 0;
+   let end: number = num ;
+     while (start <= end){
+       const mid: number= Math.floor((start+end)/2);
+        if ((mid * mid )== num){
+            return true;}
+         else if ((mid*mid) < num){
+             start  = mid + 1; }
+          else {
+              end   = mid - 1;}}
+      return false;
+}
+```
+",53.02996683120728,134,122,"Counter({(3, 1): 1, (4, 1): 1, (1, 116): 1, (5, 1): 1, (2, 3): 1})",False
+True,8,mbpp_731_lateralsurface_cone,0.01,20.10291886329651,True,"```
+function lateralsurface_cone(r: number, h: number): number {
+  const latserfarea :number = Math.PI * r * Math.sqrt((Math.pow(h ,2))+ (Math.pow(r ,2)));   //lateral surface area formula is pi*radius*(height^2)
+return latserfarea ;
+ }
+```
+",13.95800232887268,100,90,"Counter({(3, 2): 1, (2, 3): 1, (1, 84): 1, (4, 1): 1})",False
+False,9,mbpp_581_surface_Area,0.01,101.04749298095705,False,"```
+function surface_Area(baseEdge: number, height: number): number {
+  // Surface Area = 1/2 * (4*s^2) + 3*(a^2)*sqrt((4-s)/8))
+  
+  let sideSquareTwiceTimesHeightSquared :number = Math.pow(height ,2);
+  let fourSidePowerTwoMultipliedByBaseEdgePlusThreeMultiplyCubeRootOfFourMinusSidedSubtractedFromEightMultipledWithPoweredA:number= 0.5 * ((4 * Math.pow(sideSquareTwiceTimesHeightSquared, 2)))+ (3 * Math.pow(baseEdge, 2) * Math.c perfection",77.45765399932861,400,164,"Counter({(6, 1): 1, (4, 1): 1, (1, 155): 1, (2, 6): 1, (192, 1): 1})",False
+True,10,mbpp_135_hexagonal_num,0.01,10.435998439788818,True,"```
+function hexagonal_num(n: number): number {
+  // Hexagonal Number formula is (2*n*(n+1))/2 + 1
+  let result :number = ((2 * n) * (n + 1)) / 2 + 1 ;  
+  return result;
+}
+```
+",5.883090257644653,78,71,"Counter({(4, 2): 1, (2, 1): 1, (1, 68): 1})",False
+False,11,mbpp_739_find_Index,0.01,145.6711943149567,False,"```
+let i : number = 1 ;  // Initialize result  
+while (true) {    
+    let x : number = ((i * (i + 1)) / 2);     
+    if((x+1)/Math.pow(10,(x+1+Math.log2(9*x))) < 5){      
+        // Checking condition as per formula given above        
+        // If true then break from loop         
+        // As we found our required value          
+        // Return Index            
+        // Add one because indices start at zero             
+        // And also since it is not possible that all trailing zeros can make up more than 'n' places so adding extra digit would increase length              
+        // So subtract this additional place                  
+        // Also log base 10 of any positive real number has always non negative integer part                 
+        // Hence Math.floor() used here                
+        // To get exact count of leading zeros               
+        // We need to convert back into string format                   
+        // Then split by '' which separates each character                    
+        // Finally take its length                     
+        // Subtracting these values give us actual no. of leading zeros                      
+        const strX : number  = x+1 - Math.ceil(Math.log2(9*(x)));           
+        var",122.2993152141571,400,289,"Counter({(15, 1): 1, (4, 8): 1, (1, 254): 1, (3, 9): 1, (2, 10): 1, (7, 2): 1, (9, 1): 1, (6, 2): 1, (5, 1): 1, (10, 1): 1})",False
+True,12,mbpp_17_square_perimeter,0.01,4.124082088470459,True,"```
+function square_perimeter(sideLength: number): number {
+  return 4 * sideLength;
+}
+```
+",1.623204469680786,34,30,"Counter({(3, 2): 1, (1, 28): 1})",False
+True,13,mbpp_77_is_Diff,0.01,7.476718902587891,True,"```
+function is_Diff(num:number) :boolean{  
+     if ( num % 11 === 0){
+         return true ;
+      }else{
+          return false;}
+      
+}
+```
+",3.609321355819702,61,54,"Counter({(3, 1): 1, (4, 1): 1, (1, 50): 1, (2, 2): 1})",False
+False,14,mbpp_126_sum,0.01,152.20450162887573,False,"```
+function sum(num1:number , num2 :number)  :number{   // Greatest Common Divisor (GCD), also known as highest common factor (HCF).
+     let minNum : number = Math.min(num1 	);
+      let total : number = 0 ;
+      	for(let i : number= 1 ;i <= minNum/2 ; i++){			// loop from 1 till half of minimum number because any larger factors would have already been counted when we checked smaller ones.
+          	if((num1 % i === 0 ) && (num2 % i ===0)){				// if both numbers can divide by this value without remainder then it is a common divider.
+             	  total += i * 2;}							        // multiply 'i' twice since there are two occurrences of each such number - one in num1 & another in num2.
+          }
+         if ((num1%minNum===0)&&(num2%minNum==0))					// check whether our GCD itself has occurred more than once. If yes, subtract its count so that it doesn’t double-counted.
+             total=total+minNum*2;									// again multiplying 'minNum' twice here.
+            else
+                total += Math.max(num1 / minNum == 1 ? num1 : minNum*(num1 % minNum ==		",129.21223044395447,400,308,"Counter({(4, 2): 1, (1, 295): 1, (2, 4): 1, (6, 3): 1, (3, 3): 1, (5, 1): 1})",True
+True,15,mbpp_266_lateralsurface_cube,0.01,9.489881992340088,True,"```
+function lateralsurface_cube(l: number): number {
+  // The formula for calculating the Lateral Surface Area (LSA) of a Cube is 4 * l^2 where 'l' represents one edge of the square faces.
+  
+  let result :number = 4* Math.pow(l , 2);
+    
+return result ;
+ }
+```
+",4.384232759475708,95,89,"Counter({(4, 1): 1, (3, 1): 1, (1, 86): 1, (2, 1): 1})",False
+True,16,mbpp_797_sum_in_range,0.01,26.53165555000305,True,"```
+function sum_in_range(l: number, r: number): number {
+  let totalSum :number = 0 ;
+  
+  // Iterate over each integer between 'l' and 'r'.
+  for (let i: number = l + 1; i < r; i++) {
+    
+      if ((i % 2)!== 0){
+        // If current value is odd then add it into our running total.
+         totalSum += i;}
+       }
+  
+  return totalSum;
+}
+```
+",18.48010635375977,131,123,"Counter({(3, 2): 1, (2, 4): 1, (1, 117): 1})",False
+True,17,mbpp_3_is_not_prime,0.01,28.11092638969421,True,"```
+function is_not_prime(num: number) :boolean{ 
+   if ( num < 2 ) return true ; //0 & 1 aren't prime by definition
+   let sqrtNum:number = Math.sqrt(num);
+   for(let i:number = 2; i <= sqrtNum; i++){
+       if(num % i === 0) return true; //if it has any divisor other than itself then not Prime
+   }
+   return false;
+}
+```
+",20.33691954612732,128,113,"Counter({(4, 2): 1, (3, 1): 1, (1, 106): 1, (2, 3): 1, (5, 1): 1})",False
+True,18,mbpp_458_rectangle_area,0.01,4.242149353027344,True,"```
+function rectangle_area(length: number, breadth: number): number {
+    return length * breadth;
+}
+```
+",1.8378996849060056,36,32,"Counter({(3, 2): 1, (1, 30): 1})",False
+True,19,mbpp_441_surfacearea_cube,0.01,9.845474481582642,True,"```
+function surfacearea_cube(sideLength: number): number {
+  // The formula for calculating the surface area of a cube is 6 * side^2
+  const surfaceArea: number = 6 * Math.pow(sideLength, 2);
+  
+  return surfaceArea;
+}
+```
+",4.8890061378479,77,71,"Counter({(4, 1): 1, (2, 1): 1, (1, 68): 1, (3, 1): 1})",False
+False,20,mbpp_162_sum_series,0.01,159.052978515625,False,"```
+let result:number = 0;
+for(let i:number = 0; i <= Math.floor(Math.max((1/2)*Math.log2(5 * ((8*(result+3))/(7-(6*result))) + 1)/Math.log2(2))); i++){
+   if(i % 2 === 0 && (i <= 2 || i > 2)){
+      let term : number  = (9 / 2 ) * i ;
+       result += term;
+     } else{
+        result += 3;
+     }
+}
+if(result < 0){
+	result= 0;
+	}
+else if(result > Math.pid",135.87257766723633,400,148,"Counter({(5, 2): 1, (4, 6): 1, (1, 112): 1, (2, 17): 1, (3, 11): 1})",True
+False,21,mbpp_448_cal_sum,0.01,152.13300251960754,False,"```
+let arrPerrinNumbers :number = (10);  // Initialize array size as n+2 because P3 = 4 & P4=7 is already known  
+arrPerrinNumbers  = ((5)*(Math.pow((1+ Math.sqrt(5)),(6)))-(8)*Math.pow((1-Math.sqrt(5)),(9)));    
+for( let i:(any/asg",128.63772010803223,400,95,"Counter({(12, 1): 1, (2, 10): 1, (1, 75): 1, (8, 1): 1, (10, 2): 1, (3, 3): 1, (4, 1): 1, (7, 1): 1, (28, 1): 1})",True
+True,22,mbpp_738_geometric_sum,0.01,13.76100730895996,True,"```
+function geometric_sum(n: number): number {
+  if (n <= 0) {
+      return 0;
+  } else {
+      return Math.pow((1 / n), n) + 2 * geometric_sum(n - 1); // Recursive call
+  }
+}
+```
+",8.547629356384277,85,72,"Counter({(10, 1): 1, (4, 1): 1, (1, 69): 1, (2, 1): 1})",False
+False,23,mbpp_239_get_total_number_of_sequences,0.01,42.63232707977295,False,"```
+let memoizationTable: number = (1024 * 65) - 3789; // Initialize table size as per problem constraints
+memoizationTable = Math.pow(Math.floor((mulk",21.10178685188293,400,51,"Counter({(20, 1): 1, (3, 2): 1, (1, 37): 1, (2, 5): 1, (6, 1): 1, (5, 2): 1, (11, 1): 1, (9, 1): 1, (4, 1): 1})",False
+True,24,mbpp_59_is_octagonal,0.01,11.849448442459106,True,"```
+function is_octagonal(n: number): number {
+  // An Octagonal Number can also be represented as (2*3^n - n) / 5 where 'n' represents position starting from zero.
+   let result :number = ((2 * Math.pow(3 , n)) - n )/ 8 ;
+    
+return result;}
+```
+",6.459304332733154,99,83,"Counter({(13, 1): 1, (2, 1): 1, (1, 80): 1, (4, 1): 1})",False
+True,25,mbpp_638_wind_chill,0.01,28.115158796310425,True,"```
+function wind_chill(v: number, t: number): number {
+  const wci:number = 13.12 + 0.6215*t -  11.37*(Math.pow(v, 0.16))  + (0.48 * t) * Math.pow((v), 0.16);
+  return Math.ceil(wci); // rounding up to nearest whole number as per problem statement
+}
+```
+",20.609086990356445,120,110,"Counter({(5, 1): 1, (4, 2): 1, (1, 107): 1})",False
+False,26,mbpp_577_last_Digit_Factorial,0.01,152.42589616775513,False,"```
+let result :number = 1 ;  // Initialize result as 1 because any number multiplied by one remains unchanged  
+for ( let i :number =2;i<=Math.floor((0.5* Math.log2(360))+1);i++){     // Loop from 2 till sqrt(n) , we can optimize this further . We only need upto n/e approximately which is around 78 so looping until that would suffice also it's enough since multiplication operation repeats every 4 times hence taking modulo 4 at each step reduces unnecessary computations significantly.
+result *=  ((i%4 < 2)? i % 10 : 10 - i % 10 ) / ((i%4 > 1)? i % 10 : 10 - i % 10 );      // Multiply current value with next multiple of unit digit if they have same sign else multiply them separately then take their difference and divide again to get back original values. This way we avoid overflow issues while calculating large factorials.
+while (result >9 && result <1000000000000000000){       // If resulting product has more than one digits keep on dividing it by ten untill its single digit.
+        result / 10;}
+if (result >= 100000*.",128.9565098285675,400,306,"Counter({(5, 2): 1, (3, 8): 1, (1, 289): 1, (4, 1): 1, (6, 1): 1, (2, 5): 1})",True
+False,27,mbpp_84_sequence,0.01,85.7923493385315,False,"```
+let cache :number =0 ;  // Initialize caching variable as zero
+const seqArray :number=  1; //Initialize array starting from first term which is '1'
+for ( let ixSequence :number= 2;ixSequence <=seqArray+cache; ixSequence++) {
+if ((ixSequence - seqArray ) > cache){
+        seqArray  == ixSequence-seqArray;
+         } else{
+            seqArray * 3 - cache ;
+            ",63.030704975128174,400,113,"Counter({(16, 1): 1, (3, 4): 1, (1, 90): 1, (2, 7): 1, (8, 1): 1, (9, 1): 1, (5, 2): 1, (11, 2): 1, (6, 4): 1, (195, 1): 1})",False
+False,28,mbpp_724_power_base_sum,0.01,108.64889526367188,False,"```
+function power_base_sum(base: number, power: number): number {
+  let result:number = Math.pow(base,power);   // Calculate the value by raising base to the given power
+  let strResult : 	number  =result+0 ;    	// Convert it into string so we can iterate over each digit
+  let totalSum : number = 0;                   // Initialize variable to hold our final answer (the sum)
+
+  while(strResult > 0){                        // Loop until there's no more digits remaining
+      totalSum += strResult %10;               // Add current last digit to running total
+      strResult - strResult%10;                // Remove last digit from original number
+      strResult / 10                            // Prepare next iteration
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ",85.19964861869812,400,307,"Counter({(4, 3): 1, (3, 7): 1, (1, 276): 1, (12, 1): 1, (8, 1): 1, (10, 1): 1, (2, 15): 1, (19, 1): 1, (5, 1): 1, (7, 1): 1})",False
+True,29,mbpp_641_is_nonagonal,0.01,14.487518787384031,True,"```
+function is_nonagonal(n: number): number {
+  // Nonagonal numbers can be expressed as (7/4)*n*(n-1) + 3*n -2
+  
+  let result :number = ((7 / 4 ) * Math.pow(n , 2))+((3 * n)-2);
+    
+  return result ;
+ }
+```
+",8.736933946609497,100,87,"Counter({(11, 1): 1, (2, 1): 1, (1, 84): 1, (3, 1): 1})",False
+True,30,mbpp_279_is_num_decagonal,0.01,15.854310750961304,True,"```
+function is_num_decagonal(n: number): number {
+  // A formula that calculates the n-th Decagonal Number can be derived from the quadratic equation (9n^2 - 7n + 10) / 2 which represents all positive integers as per definition of Octagon Numbers.
+  
+  let result :number = ((3 * Math.pow(n , 2))-(2*n )+4);
+    
+return result ;
+ }
+```
+",9.18386173248291,118,109,"Counter({(6, 1): 1, (3, 2): 1, (1, 106): 1})",False
+True,31,mbpp_72_dif_Square,0.01,76.36586260795593,True,"```
+function dif_Square(num :number) :boolean{ 
+   let i :number = 0 ;
+   while (i*i <= num){
+       let j :number= 0;
+        while((i * i + 1 )>j * j && j<=i&& ((i * i - j * j == num))){    
+            if(i * i - j * j === num)return true;            
+           j++;}        
+      i++; }         
+   return false; }
+```
+",67.83667349815369,139,122,"Counter({(10, 1): 1, (3, 2): 1, (1, 118): 1, (5, 1): 1})",False
+True,32,mbpp_781_count_divisors,0.01,95.01545643806458,True,"```
+function count_divisors(n: number): boolean {
+  let counter:number = 0;   // Initialize counter as zero
+
+  for (let i:number=1 ;i <= Math.sqrt(n); i++) {     // Loop from 1 till square root of n
+      if ((n % i === 0)) {                            // If remainder when divided by 'i' equals zero then increment counter
+          if((n / i === i)){                          // Checking both conditions because we have counted pairs twice
+              counter = counter + 1;                   // Increment only once if it's perfect square e.g., 9 which has one unique factor 3
+          } else{                                     // Else increase counter by 2 since there exists pair <i , n/i>
+             counter = counter + 2;                    // For instance factors of 6 would be [1, 2, 3] so counter becomes 3 here
+         }                                          
+       }                                             // Continue this until loop ends at sqrt(n)
+  }
+return (counter%2===0)?true:false;                     // Return true if counter is even otherwise false
+}
+```
+",78.03602123260498,275,260,"Counter({(7, 1): 1, (4, 2): 1, (1, 254): 1, (2, 3): 1})",False
+True,33,mbpp_309_maximum,0.01,7.112010478973389,True,"```
+function maximum(a: number, b: number): number {
+  if (a > b) {
+      return a;
+  } else {
+      return b;
+  }
+}
+```
+",3.711282968521118,53,48,"Counter({(3, 1): 1, (4, 1): 1, (1, 46): 1})",False
+True,34,mbpp_295_sum_div,0.01,128.08750081062317,True,"```
+function sum_div(n: number) : number{ 
+   let totalSumOfDivisor: number = 0 ; // Initialize variable as zero
+    
+   if ( n <= 1 ) {
+       return totalSumOfDivisor;}      // If input is less than equal to one then no need to find out its factors so directly returning it.
+       
+   else {
+         for(let i: number =1;i <= Math.sqrt(n);i++){          // Loop from 1 till square root of given number because beyond that we get duplicate pairs.
+             if((n % i === 0)){                                  // Check whether current loop value can divide evenly into our target number.
+                 if ((n / i === i))                             // If both quotient & remainder are same means perfect squares e.g.,4 which has factor 2 twice but here considering only once.
+                     totalSumOfDivisor += i;                    // Adding this unique pair to final resultant Sum.
+                 
+                else                                           // Else consider both these values while adding them up.
+                   totalSumOfDivisor+= (i + (n/i)); }}}           
+                     
+return totalSumOfDivisor - n;                                   // Subtracting original number itself from obtained sum since every number is divisible by itself hence including 'n' would double count it.
+                                                                              
+}
+```
+",108.53757667541504,326,303,"Counter({(3, 2): 1, (4, 1): 1, (1, 293): 1, (2, 4): 1, (5, 3): 1})",False
+True,35,mbpp_14_find_Volume,0.01,13.87460994720459,True,"```
+function find_Volume(l: number, b: number, h: number): number {
+  // The formula used here is (1/2) * base area * height
+  const baseArea :number = l*b ;  
+  let Volume :number= ((baseArea)*h)/2;
+  return Volume;
+}
+```
+",8.658813953399658,84,78,"Counter({(4, 1): 1, (2, 1): 1, (1, 75): 1, (3, 1): 1})",False
+True,36,mbpp_167_next_power_of_2,0.01,29.67709803581237,True,"```
+function next_power_of_2(n: number): number {
+    let i:number = 1;  
+     while (i < n) {
+        i = i * 2;
+      }
+       if ((i - n ) > (n- Math.floor((i/2)))){
+         return Math.floor((i / 2));
+       } else{
+          return i ;
+       }
+}
+```
+",22.90178656578064,111,100,"Counter({(5, 1): 1, (3, 1): 1, (1, 95): 1, (4, 1): 1, (2, 2): 1})",False
+True,37,mbpp_600_is_Even,0.01,7.033671617507935,True,"```
+function is_Even(n: number): boolean {
+  if (n % 2 === 0) {
+      return true;
+  } else {
+      return false;
+  }
+}
+```
+",3.579348087310791,54,49,"Counter({(3, 1): 1, (4, 1): 1, (1, 47): 1})",False
+True,38,mbpp_742_area_tetrahedron,0.01,41.97231650352478,True,"```
+function area_tetrahedron(side: number): number {
+  // The formula used here is derived from Heron's Formula which calculates the Area of triangle given its sides length. Since each face of Tetrahedron is also a Triangle we can apply this formula three times (for four faces) to get total surface area.
+  
+  let perimeterOfTrianglesOnOneFace :number = side * 3 ;
+  let semiPerimeter1 :number  = perimeterOfTrianglesOnOneFace /2;
+  let areaOfSingleTriangleUsingHeronsFormula :number =  Math.sqrt(semiPerimeter1*(semiPerimeter1 - side )* (semiPerimeter1-side)* (semiPerimeter1-side));
+  let totalAreaOfFourFaces :number= 4 *areaOfSingleTriangleUsingHeronsFormula;
+    
+return totalAreaOfFourFaces;}
+```
+",29.228951692581177,232,212,"Counter({(6, 2): 1, (3, 2): 1, (2, 2): 1, (1, 205): 1, (5, 1): 1})",False
+True,39,mbpp_432_median_trapezium,0.01,80.86653876304626,True,"```
+function median_trapezium(base1: number, base2: number, height: number): number {
+  const areaOfTrapezoid   :number = (0.5 * ((base1 + base2) * height));
+  let perimeter          :number =  Math.sqrt((Math.pow((base2 - base1), 2)) /4 )*2 ; // Pythagorean theorem is used here as diagonal can also form part of this formula but it's not required so we have omitted that from calculation.
+  let totalSidesLength     :number= (perimeter/2);
+  let median              :number  =totalSidesLength/(areaOfTrapezoid-1)*height+(base1+base2)/2; // Formula derived by solving equation formed when calculating median line on paper manually.
+return median;
+ }
+```
+",67.34342813491821,214,195,"Counter({(8, 1): 1, (2, 5): 1, (1, 187): 1, (3, 1): 1, (6, 1): 1})",False
+True,40,mbpp_234_volume_cube,0.01,4.2704689502716064,True,"```
+function volume_cube(l: number): number {
+  return Math.pow(l, 3);
+}
+```
+",1.8643276691436768,35,32,"Counter({(3, 1): 1, (2, 1): 1, (1, 30): 1})",False
+False,41,mbpp_422_find_Average_Of_Cube,0.01,110.5108253955841,False,"```
+let totalSum :number = 0 ;  // Initialize variable 'totalSum' as zero
+for ( let i   :number =1 ;i <= Math.floor(Math.sqrt(2 * Math.pow((3*Math.pow(49678543,2)/4),2))) && i<= Math.ceil(Math.cev",85.88453078269958,400,82,"Counter({(4, 1): 1, (2, 11): 1, (1, 62): 1, (3, 6): 1, (5, 1): 1, (200, 1): 1})",False
+False,42,mbpp_292_find,0.01,153.93995666503906,False,"```
+function find(dividend: number, divisor: number): number {
+  if (divisor === 0) {
+      // Handle division by zero error case
+      return dividend > 0 ? Math.max(Math.floor((1 / 0) * 256 - 384 + 792) > Math.pow(Math.ceil(Math.log2(Math.sqrt(Math.min(Math.max(Math.csp",129.98924946784973,400,105,"Counter({(3, 11): 1, (4, 2): 1, (1, 64): 1, (2, 23): 1, (5, 2): 1, (12, 1): 1, (11, 1): 1, (7, 1): 1})",True
+True,43,mbpp_389_find_lucas,0.01,50.346861600875854,True,"```
+function find_lucas(position :number) :number{ 
+   if ( position == 0 ) return 2 ; // base case when position is zero
+   else if ( position == 1 ) return 1 ; //base case when position is one
+   let firstNum :number = 2 ;
+   let secondNum :number= 1 ;
+   let result :number =0 ;
+   for(let i :number=2 ;i<=position ;i++){
+       result  =firstNum+secondNum;
+        firstNum = secondNum;
+         secondNum =result;
+     }
+      return result;
+}
+```
+",40.65831470489502,162,142,"Counter({(6, 2): 1, (3, 1): 1, (1, 131): 1, (2, 8): 1})",False
+True,44,mbpp_227_min_of_three,0.01,14.347436904907228,True,"```
+function min_of_three(a: number, b: number, c: number): number {
+  if (a <= b && a <= c) {
+      return a;
+  } else if (b <= a && b <= c) {
+      return b;
+  } else {
+      return c;
+  }
+}
+```
+",9.084729433059692,85,80,"Counter({(3, 1): 1, (4, 1): 1, (1, 78): 1})",False
+False,45,mbpp_388_highest_Power_of_2,0.01,159.8449387550354,False,"```
+let result:number = 1;
+while (result <= Math.floor(Math.log2(Math.pow(2,30)))){ // log base 2 of max integer value as upper limit
+   if ((result * 2) > Math.ceil((Math.sqrt(Math.pow(2,(result+1))) - 1)/2 + 1 ) && (result*2)<= Math.min(Math.pow(2,30)-1)){
+       result = result * 2 ;
+   } else{
+      while(true){
+        let tempResult : number  = result * 2;
+         if(tempResult>Math.max(Math.pow(2,3 /",137.10156679153442,400,155,"Counter({(5, 2): 1, (2, 13): 1, (1, 129): 1, (3, 9): 1, (4, 2): 1})",True
+False,46,mbpp_271_even_Power_Sum,0.01,154.8181037902832,False,"```
+let result :number = 0 ;  // Initialize variable 'result' as zero  
+for ( let i :number =2 ;i<=5*Math.pow(10,(3-1)) && i>0;i+= 2) {     // Loop from 2 till less than equal to 5 * 1e^9 which is maximum limit considering we have only upto five powers
+        if ((i/2)*((i/2)-1)/4 < Math.floor(Math.log2(Math.sqrt(8*(5*Math.pow(10,(3-1))) + 1)))){      // Condition checking whether current value has been included already into series or not by comparing it against floor log base 2 of sqrt term inside bracket
+            result += Math.pow(i , 5);       // If condition satisfies then raise this no. to its fifth power & add them all together
+         }
+}
+if (result > Math.pow(67039039649,5 ) || result < 0){          // Checking overflow case scenario where calculated answer exceeds max safe integer in JS
+ if",132.02928376197815,400,251,"Counter({(3, 5): 1, (2, 18): 1, (1, 227): 1, (5, 1): 1})",True
+False,47,mbpp_67_bell_number,0.01,124.80818963050842,False,"```
+let memoizationTable: number = (10 * 4) + 5; // Maximum size is n*2+3 where n <= 678
+let catalanNumbers: number = 9; // Catalan Numbers upto index 9 ie., C[i] <= B[i-1]. Hence we need only first 9 values from B[] array as they can generate all possible partitions till B[9] which is less than equal to maximum value that can occur at any point while calculating next Bell Number.
+const MAXN : number= 1000 ;  
+let bellTriangleArray: number  = ((MAXN*(MAXN - 1))/2); // Size of triangle Array
+let bellNumberList: number=((MAXN*(MAXN + 1)) / 2 ); // List storing Bell Numbers until max limit
+bellTriangleArray = Math.floor(Math.sqrt(bellTriangleArray));
+catalanNumbers = Math.ceil(Math.pow(bellNumberList , 1/(bellNumberList)));
+memoizationTable = Math.min(Math.max(Math.log2(bellTriangleArray)/Math.log2(bellTriangleArray)*Math.log2(bellNumberList))) % 2 == 0 ? Math.floor",103.30561017990112,400,282,"Counter({(32, 1): 1, (3, 6): 1, (1, 252): 1, (2, 11): 1, (4, 5): 1, (7, 2): 1, (14, 1): 1, (8, 1): 1, (6, 1): 1, (5, 1): 1, (9, 1): 1})",False
+False,48,mbpp_274_even_binomial_Coeff_Sum,0.01,150.89911103248596,False,"```
+let result:number = 0;  // Initialize variable 'result' as zero which is used to store final answer.
+for (let i:number=1;i<=2*Math.floor(((3+Math.sqrt(5))/4) * Math.log2(6));i++){   // Loop from 1 till approximately equal to square root of ((3+squareroot(5)) / 2)* log base 2 of n + 3 where it can cover all possible values upto given input value.
+        let tempResult : number = Math.pow(2,(i-1)/2);     // Calculate Binomial coefficient at each iteration by raising power of 2 to its respective position.
+         if(tempResult % 8 == 0 || tempResult%8 ==7 ){      // Check whether calculated binomial coefficient modulo 8 equals either 0 or 7 because only these terms contribute towards total sum when added together.
+            result += tempResult ;                          // If condition satisfies then add this term into our running total.
+          }                                                 
+       }
+   
+   
+if(result==0 && 2*(Math.ceil(Math.log2(2)))>2*Math.floor(((3+Math.sqrt(5))/4) * Math.log2(6))){ // For edge case when no such binomial coeff fits",126.67510914802553,400,305,"Counter({(14, 1): 1, (4, 5): 1, (2, 15): 1, (1, 275): 1, (3, 9): 1})",True
+True,49,mbpp_86_centered_hexagonal_number,0.01,15.110952138900757,True,"```
+function centered_hexagonal_number(n: number): number {
+  // The formula used here is based on mathematical observation that each layer (or ""ring"") around center has six times more terms than previous ring by adding one less term at start of next ring. So we can calculate it as follows:
+  
+  let result : number = ((5 * n*n) - 3*n + 2)/2 ;
+    
+  return Math.floor((result));
+}
+```
+",8.6563138961792,118,108,"Counter({(6, 1): 1, (3, 2): 1, (1, 104): 1, (2, 1): 1})",False
+True,50,mbpp_574_surfacearea_cylinder,0.01,28.437567234039307,True,"```
+function surfacearea_cylinder(radius: number, height: number): number {
+  const pi: number = 3.141592653589793; // Approximation of Pi used here as it's not provided by Math library
+  
+  let lateralSurfaceArea :number = (2 * pi)*( radius*height);
+  let baseCircularSectionArea :number=pi*(Math.pow(radius , 2));
+    
+return (lateralSurfaceArea+baseCircularSectionArea );
+ }
+```
+",20.16599035263061,137,129,"Counter({(3, 2): 1, (4, 1): 1, (1, 125): 1, (2, 1): 1})",False
+True,51,mbpp_430_parabola_directrix,0.01,30.57196354866028,True,"```
+function parabola_directrix(a: number, b: number, c: number): number {
+  // The formula for finding the directrix is -b/2*a where 'a' represents the coefficient of x², 'b' represents the coefficient of x and 'c' represents the constant term.
+  
+  let directrix :number = Math.sqrt((4 * (Math.pow(b, 2))) / ((8 * a) + 1));
+    
+  if (directrix < 0){
+      return 0;}
+       else{return directrix;}
+ }
+```
+",21.331469774246216,162,135,"Counter({(8, 1): 1, (3, 6): 1, (2, 2): 1, (1, 124): 1, (4, 2): 1})",False
+True,52,mbpp_406_find_Parity,0.01,9.832239866256714,True,"```
+function find_Parity(x: number): boolean {
+  if (x % 2 === 0) { // If x modulo 2 equals zero then it's even
+      return false;  
+  } else{             // Otherwise it must be odd
+     return true;      
+  }                   
+}                     
+```
+",5.1177191734313965,78,75,"Counter({(3, 1): 1, (2, 1): 1, (1, 73): 1})",False
+True,53,mbpp_605_prime_num,0.01,59.54494166374207,True,"```
+function prime_num(n :number) :boolean{ 
+   let flag: boolean = false ;
+    
+   //prime numbers must be greater than one
+   if ( n > 1 ) {
+      //check divisibility from 2 upto square root of num
+       for (let i: number = 2; i <= Math.sqrt(n); i++){         
+         if ((n % i) === 0){          
+            flag= true;            
+        }             
+      }              
+      if (flag) {                
+         return false;               
+      } else {                  
+         return true;                 
+      }                   
+   }else{                     
+      return false;}                    
+}                      
+```
+",47.95410466194153,183,161,"Counter({(3, 3): 1, (4, 2): 1, (1, 152): 1, (5, 2): 1, (2, 2): 1})",False
+True,54,mbpp_264_dog_age,0.01,13.259172677993774,True,"```
+function dog_age(humanYears: number) :number{ 
+   if ( humanYears === 1 ) {return 15;}
+   else if ( humanYears ===2){ return 24;}
+   else { return ((humanYears - 2)*5 + 24); }
+}
+```
+",8.055362701416016,80,74,"Counter({(6, 1): 1, (2, 1): 1, (1, 72): 1})",False
+False,55,mbpp_770_odd_num_sum,0.01,153.49151992797852,False,"```
+let result :number = 0 ;  // Initialize variable 'result' as zero  
+for ( let i :number =1 ;i<=2*Math.pow(5/4 , 3)+1 && i <= Math.min((2 * ((2*(Math.floor(Math.sqrt(8*Math.log2(9)))/7)-6)*Math.ceil(Math.c Nations",130.75660634040833,400,91,"Counter({(3, 4): 1, (2, 11): 1, (1, 71): 1, (4, 2): 1, (5, 1): 1, (6, 1): 1, (67, 1): 1})",True
+True,56,mbpp_453_sumofFactors,0.01,95.41241693496704,True,"```
+function sumofFactors(num: number) :number{ 
+   let resultSum: number = 0; // Initialize variable to store summation results
+   if ( num < 1 ) {return resultSum;} // If input is less than one then no need to proceed further as there won't be any factor
+    
+   const sqrtNum: number = Math.sqrt(num); // Find square root of given number so that we can iterate till its integer part only
+     
+   for(let i: number=2 ;i <= sqrtNum; i++){      
+        if((num % i === 0)){                     
+            if ((num / i === i)) {resultSum += i;}                
+             else {resultSum+= (i + num/i ); }                   
+         }                                                      
+    }                                                                         
+    return resultSum + 1;                                         
+}
+```
+",82.57969045639038,217,198,"Counter({(3, 2): 1, (2, 4): 1, (1, 189): 1, (5, 2): 1, (4, 1): 1})",False
+True,57,mbpp_244_next_Perfect_Square,0.01,34.8351469039917,True,"```
+function next_Perfect_Square(n: number): number {
+  let num1:number = Math.ceil(Math.sqrt(n));   // round up sqrt of n
+  while (true) {
+      if ((num1 * num1) > n){                  // check whether it's a perfect square
+          return num1*num1;                     // return its value
+      } else{                                   // otherwise increment by one till we get a perfect square
+        num1++;                                 
+     }                                          
+  }                                            
+                                        
+return num1;                                   
+}                                           
+```
+",25.601502895355225,155,135,"Counter({(3, 3): 1, (1, 127): 1, (4, 3): 1, (2, 1): 1, (5, 1): 1})",False
+True,58,mbpp_93_power,0.01,57.11836552619934,True,"```
+function power(a: number, b: number): number {
+  let result:number = 1;
+  
+  while (true) {
+      if ((b % 2) == 0){ //if exponent is even then multiply base by itself
+          a *= a;
+          b / 2;
+      } else{             //else just multiply current product by base once more
+        result = result*a ;
+        
+      	b - 1;            //decrement exponent as it becomes odd now
+    	if((Math.floor(b))==0 ){
+          	return result;}
+	}		
+  }			
+return result;					//returns final answer when loop ends
+}					
+```
+",45.63085532188416,188,161,"Counter({(3, 7): 1, (4, 2): 1, (1, 145): 1, (2, 7): 1})",False
+False,59,mbpp_291_count_no_of_ways,0.01,61.88917112350464,False,"```
+let dp1 :number = 0 ; // no of ways when there is only one post painted
+let dp2 :number =  0; // no of ways when there are two posts painted but they can't both be colored as same way
+dp1= Math.max (dp1+1);
+for ( let ix345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901",38.94607305526733,400,292,"Counter({(18, 1): 1, (4, 4): 1, (1, 235): 1, (2, 36): 1, (3, 12): 1, (6, 3): 1, (5, 1): 1})",False
+True,60,mbpp_637_noprofit_noloss,0.01,11.32284164428711,True,"```
+function noprofit_noloss(actual_cost: number, sale_amount: number): boolean {
+  if (sale_amount === actual_cost) {
+      // If both amounts are equal then it's neither gain nor loss
+      return true;  
+  } else {
+     // Otherwise there is either gain or loss
+     return false;      
+  }
+}
+```
+",5.774518013000488,95,91,"Counter({(3, 2): 1, (1, 89): 1})",False
+True,61,mbpp_293_otherside_rightangle,0.01,15.484267711639404,True,"```
+function otherside_rightangle(w: number, h: number): number {
+  let z :number = Math.sqrt((Math.pow(h ,2))+ (Math.pow(w ,2)));   // Pythagorean theorem is used here where c^2=a^2+b^2
+return z ;
+ }
+```
+",10.103480577468872,88,81,"Counter({(5, 1): 1, (3, 1): 1, (1, 78): 1, (2, 1): 1})",False
+False,62,mbpp_592_sum_Of_product,0.01,154.26019597053528,False,"```
+let factorials: number = (1);  // Initialize as 1 because n choose k is undefined when k = 0
+for (let i:number=2 ;i<=Math.max(3* Math.floor((5/4) * Math.sqrt(8*(6+7)))-9 )&& i <= ((5 / 4)*Math.log2(5)); i++){  
+factorials *=  i;}
+const result : number  = (factoriales",131.4474778175354,400,105,"Counter({(12, 1): 1, (4, 5): 1, (2, 11): 1, (1, 81): 1, (8, 1): 1, (5, 1): 1, (3, 5): 1})",True
+True,63,mbpp_256_count_Primes_nums,0.01,109.49261736869812,True,"```
+function isPrime(num:number) : boolean{  // helper function to check if num is Prime
+   let sqrtNum:number = Math.floor(Math.sqrt(num));
+   let i:number = 2;
+     while (i <= sqrtNum){
+       if ((num % i ) === 0 && num !== i){
+         return false ; }
+      else if((num === i)){
+        return true;}
+          i++;
+           }
+            return true;
+             }
+             
+function count_Primes_nums(n: number): number {
+let counter:number=0;
+for(let j:number= 2;j< n;j++){
+if(isPrime(j))counter ++;
+}
+return counter;
+}
+```
+",97.3134787082672,202,181,"Counter({(5, 3): 1, (1, 170): 1, (3, 1): 1, (2, 7): 1})",False
+False,64,mbpp_479_first_Digit,0.01,158.37965369224548,False,"```
+while (Math.floor(Math.log2(10)) >= Math.floor(Math.log2(Math.max(1678945321 * 10 / 10 % 10 + 1) - Math.min((1678945321*10/10%10+1)/2-1))) ){
+   if ((1678945321*10/10%10+1)*1 === 1){
+      let result :number = 1*(1678945321*10/10%10);
+       while (result >= 10 && result##",135.58986139297485,400,157,"Counter({(3, 12): 1, (1, 116): 1, (4, 4): 1, (2, 24): 1, (6, 1): 1})",True
+True,65,mbpp_267_square_Sum,0.01,36.71959257125855,True,"```
+function square_Sum(n: number): number {
+  let result:number = 0;   // Initialize variable 'result' as zero
+  let currentOddNumber:number = 1;     // Start from the first odd number which is one (an odd number)
+
+  while(n > 0){       // Continue until we have added enough terms
+      result += Math.pow(currentOddNumber,2);        // Add the square of the current odd number to our running total
+      currentOddNumber += 2;         // Move on to next odd number by incrementing it by 2
+      n - 1;          // Decrement count of remaining terms
+  }
+
+  return result;           // Return final value when loop ends
+}
+```
+",25.9356017112732,183,171,"Counter({(3, 2): 1, (2, 3): 1, (1, 165): 1, (6, 1): 1})",False
+True,66,mbpp_58_opposite_Signs,0.01,8.096992492675781,True,"```
+function opposite_Signs(x: number, y: number): boolean {
+  if (Math.min(x * y) < 0){
+      return true;} else{return false;}  
+}
+```
+",4.24385142326355,60,50,"Counter({(3, 3): 1, (4, 1): 1, (1, 45): 1, (2, 1): 1})",False
+False,67,mbpp_103_eulerian_num,0.01,162.04742741584778,False,"```
+let memoTable :number = (((2 * ((4*(Math.pow(3,(2*((1/6)+(8/(90-57*Math.sqrt(5)))/18))) - 3)* Math.pow(2 , (1 / 6 ) + 1 / 3))+ 3) * Math.pow(3, M",139.8416473865509,400,81,"Counter({(12, 1): 1, (2, 15): 1, (1, 53): 1, (5, 2): 1, (6, 1): 1, (14, 1): 1, (8, 2): 1, (3, 3): 1, (4, 2): 1, (10, 1): 1})",True
+True,68,mbpp_20_is_woodall,0.01,12.747953653335571,True,"```
+function is_woodall(n :number) :boolean{ 
+   let sqrtNum :number = Math.sqrt(n); 
+   return (sqrtNum * sqrtNum == n && ((sqrtNum -1 ) %2 == 0)); 
+ }
+```
+",7.882600784301758,82,63,"Counter({(10, 1): 1, (3, 2): 1, (1, 57): 1, (2, 2): 1, (5, 1): 1})",False
+True,69,mbpp_96_divisor,0.01,38.922577142715454,True,"```
+function divisor(num: number) :number{ 
+   let countDivs :number = 0 ; // Initialize counter variable as zero
+    
+   for (let i :number= 1; i <= Math.sqrt(num); i++){     
+       if (( num % i ) === 0 && num / i === i){       
+           countDivs += 1;}        
+       else if((num % i == 0)){           
+          countDivs +=2; }            
+   }             
+return countDivs;              
+}               
+```
+",30.025362968444824,145,125,"Counter({(3, 1): 1, (2, 6): 1, (1, 115): 1, (5, 3): 1})",False
+True,70,mbpp_404_minimum,0.01,6.7848076820373535,True,"```
+function minimum(a: number, b: number): number {
+  if (a < b) {
+      return a;
+  } else {
+      return b;
+  }
+}
+```
+",3.3623499870300293,53,48,"Counter({(3, 1): 1, (4, 1): 1, (1, 46): 1})",False
+False,71,mbpp_752_jacobsthal_num,0.01,157.2355043888092,False,"```
+function jacobsthal_num(n: number): number {
+    if (n === 0) {
+        return 0;
+    } else if (n === 1 || n === 2){
+        return 1;
+    } else{
+        let prevPrevNum :number = 0 ; // Jacobsthal sequence starts from 0, 1, 1... so first previous is 0 & second one is 1
+        let prevNum :number  = 1;     // same as above explanation
+        
+        while((n - 1)!== 0 ){           // loop until we reach our required term ie., till n becomes zero
+            const currentNumber :number = prevPrevNum * 2 + prevNum;      // calculate next term by multiplying last two terms together by 2 and adding them up
+            
+            prevPrevNum  = prevNum;       // update values for next iteration
+            prevNum   =currentNumber;
+             
+            n=n-1;                        // decrement count
+          log",133.89453554153442,400,224,"Counter({(7, 1): 1, (4, 3): 1, (1, 211): 1, (2, 7): 1, (3, 2): 1})",True
+True,72,mbpp_765_is_polite,0.01,46.423521757125854,True,"```
+function is_polite(num : number) : boolean{ 
+   let binaryNumArray : number = num >0 ? (num+1)*2 : ((Math.pow(2,(num*2))) - Math.log2((num * 2 ) + 3)) ;
+     if(binaryNumArray === num){return true;}else{return false;} }
+isPolite(5); // returns true because 5 = 4 + 1 which is a power of 2 hence it's not a polite number as per GFG definition.
+```
+",35.36196184158325,194,123,"Counter({(24, 1): 1, (3, 7): 1, (1, 99): 1, (2, 9): 1, (5, 2): 1, (4, 4): 1, (6, 1): 1})",False
+True,73,mbpp_801_test_three_equal,0.01,26.18758106231689,True,"```
+function test_three_equal(x: number, y: number, z: number): number {
+  let counter:number = 0;   // Initialize counter variable at zero
+    
+  if ( x === y )            // If first equals second increment counter by one
+      counter++;            
+      
+  if ( y === z)              // If second equals third increment counter by one
+      counter++;          
+        
+  if (z === x)               // If last equals first increment counter by one
+      counter++;         
+       
+  return counter ;           // Return final value of counter which represents how many values were identical among input parameters
+ }                            
+```
+",16.76566457748413,156,149,"Counter({(3, 2): 1, (4, 1): 1, (1, 146): 1})",False

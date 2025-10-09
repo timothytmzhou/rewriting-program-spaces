@@ -1,0 +1,1248 @@
+did_compile,benchmark_id,benchmark_name,temperature,execution_time,llm_finished,output,total_realizability_time,num_tokens_guessed,num_tokens_generated,tries_per_token,timed_out
+True,0,mbpp_80_tetrahedral_number,0.5,34.932966470718384,True," ```
+function tetrahedral_number(n: number): number {
+    let result: number = 0;
+    
+    // Iterate from 1 to n
+    for (let i: number = 1; i <= n; i++) {
+        // Calculate the current term
+        const currTerm: number = Math.pow((i * (i + 1)) / 2, 3);
+        
+        // Add the current term to the result
+        result += currTerm;
+    }
+    
+    // Return the final result
+    return result;
+}
+```",24.53071641921997,135,134,"Counter({(1, 133): 1, (2, 1): 1})",False
+True,1,mbpp_392_get_max_sum,0.5,94.89072918891908,True," ```
+function get_max_sum(n: number): number {
+	if (n <= 10) {
+		return n;
+	} else if (n % 2 == 0 && n % 3 == 0 && n % 4 == 0 && n % 5 == 0) {
+		return Math.floor((n / 2) * ((Math.sqrt(6)) - 1));
+	} else {
+		let result: number = 0;
+		for (let i: number = 2; i < n; i++) {
+			result += get_max_sum(i);
+		}
+		return result;
+	}
+}
+```",81.58833050727844,167,165,"Counter({(1, 163): 1, (2, 2): 1})",False
+False,2,mbpp_171_perimeter_pentagon,0.5,32.55983304977417,False," ```typescript
+   // The formula for finding the perimeter of a regular pentagon is (5 * s) / 2
+   // where 's' is half the side length
+   //
+   // Since we know that all five sides have the same length, we can simplify this as follows:
+   // perimeter = (5 * a) / 2
+   //
+   // Note that both 'a' and 'perimeter' must be positive real numbers
+   //
+   // Additionally, since we want to return an integer value representing the perimeter, we cast it as such:
+   // perimeter = Math.round((5 * a) / 2);
+    
+  // Return the perimeter rounded up to the nearest whole number:
+     
+  //return perimeter;
+       
+      
+        
+         
+            
+               
+                 
+              
+          
+           
+             
+            
+              
+                 
+               
+             
+            
+             
+              
+                 
+               
+             
+           
+                
+              
+                 
+               
+             
+           
+            
+              
+                 
+               
+             
+           
+            
+              
+                 
+               
+             
+           
+            
+              
+                 
+               
+             
+           
+            
+              
+                 
+               
+             
+           
+            
+              
+                 
+               
+             
+           
+            
+              
+                 
+               
+             
+           
+            
+              
+                 
+               
+             
+           
+            
+              
+                 
+               
+             
+           
+            
+              
+                 
+               
+             
+           
+            
+              
+                 
+               
+",3.5115106105804443,400,361,"Counter({(1, 344): 1, (7, 2): 1, (3, 1): 1, (2, 11): 1, (4, 1): 1, (8, 1): 1, (5, 1): 1})",False
+True,3,mbpp_127_multiply_int,0.5,4.163147687911987,True," ```
+function multiply_int(x: number, y: number): number {
+    return x * y;
+}
+```",0.7800083160400391,30,30,"Counter({(1, 30): 1})",False
+True,4,mbpp_435_last_Digit,0.5,3.689033269882202,True," ```
+function last_Digit(n: number) :number{
+return n %10 ;
+ }
+```",0.614079475402832,27,27,"Counter({(1, 27): 1})",False
+True,5,mbpp_287_square_Sum,0.5,4.685410737991333,True," ```
+function square_Sum(n: number) :number{
+return (n * (n+1)) /2 ;
+}
+```",1.2474710941314695,33,33,"Counter({(1, 33): 1})",False
+True,6,mbpp_606_radian_degree,0.5,4.384990215301514,True," ```
+function radian_degree(degree: number) :number{
+return degree * Math.PI /180;}
+```",0.9709935188293456,33,33,"Counter({(1, 33): 1})",False
+True,7,mbpp_803_is_perfect_square,0.5,9.90937066078186,True," ```
+function is_perfect_square(n: number) :boolean{
+ let sqrtOfN: number = Math.sqrt(n);
+ if (Math.pow(sqrtOfN,2) === n){return true;}else{return false;}
+ }
+```",3.883889198303223,67,61,"Counter({(1, 57): 1, (2, 2): 1, (3, 2): 1})",False
+True,8,mbpp_731_lateralsurface_cone,0.5,61.38642811775208,True," ```
+function lateralsurface_cone(r: number, h: number): number {
+    const sideArea: number = Math.sqrt((Math.pow(h,2))+(4*(Math.pow(r,3))))*0.5;
+    
+    const baseCircleRadius: number = (sideArea/(Math.PI * 180));
+        
+   const circumference: number = ((baseCircleRadius)*(Math.PI) );
+       
+      
+return circumference;
+}
+```",51.26973867416382,122,119,"Counter({(1, 116): 1, (2, 3): 1})",False
+True,9,mbpp_581_surface_Area,0.5,22.143129348754883,True," ```
+function surface_Area(baseEdge: number, height: number): number {
+   let perimeterBaseEdge: number = (2 * Math.sqrt((Math.pow(height, 2) - (4*Math.pow(baseEdge, 2)))));
+      return ((perimeterBaseEdge-2)*(perimeterBaseEdge+2)) / 2;
+}
+```",14.384820699691772,92,88,"Counter({(1, 84): 1, (2, 4): 1})",False
+True,10,mbpp_135_hexagonal_num,0.5,10.497809410095217,True," ```
+function hexagonal_num(n: number): number {
+    let result: number = Math.ceil((2 * (1 + Math.sqrt(8 * n - 7))) / 3);
+    return result;
+}
+```",4.868993759155273,58,56,"Counter({(1, 54): 1, (2, 2): 1})",False
+True,11,mbpp_739_find_Index,0.5,18.05379796028137,True," ```
+function find_Index(n: number): number {
+    let i: number = 10 - Math.floor(Math.log10(n));
+    
+    while (i * (i + 1) / 2 < n) {
+        i++;
+    }
+    
+    return i;
+}
+```",10.882296800613403,83,77,"Counter({(1, 74): 1, (2, 2): 1, (5, 1): 1})",False
+True,12,mbpp_17_square_perimeter,0.5,3.749896764755249,True," ```
+function square_perimeter (sideLength :number) : number{
+return sideLength *4 ;
+}
+```",0.6556410789489746,28,28,"Counter({(1, 28): 1})",False
+True,13,mbpp_77_is_Diff,0.5,8.694562911987305,True," ```
+function is_Diff(n: number): boolean {
+    if (n % 3 === 0 && n % 4 === 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+```",3.275354385375977,63,63,"Counter({(1, 63): 1})",False
+True,14,mbpp_126_sum,0.5,24.18869686126709,True," ```
+function sum(a: number, b: number): number {
+    let result: number = 0;
+    
+    // Iterate through all positive integers up to min(a,b)
+    for (let i: number = 1; i <= Math.min(a, b); i++) {
+        if (a % i === 0 && b % i === 0) {
+            result += i;
+        }
+    }
+    
+    return result;
+}
+```",14.876281976699827,116,113,"Counter({(1, 110): 1, (2, 3): 1})",False
+True,15,mbpp_266_lateralsurface_cube,0.5,4.241519451141357,True," ```
+function lateralsurface_cube(sideLength: number) :number {
+return sideLength * sideLength;
+}
+```",0.8432035446166992,33,33,"Counter({(1, 33): 1})",False
+True,16,mbpp_797_sum_in_range,0.5,23.52234196662903,True," ```
+function sum_in_range(l: number, r: number): number {
+    let result: number = 0;
+    
+    // Iterate over each odd integer from l to r
+    for (let i: number = l; i <= r && isOddNumber(i); i++) {
+        result += i;
+    }
+    
+    return result;
+}
+
+function isOddNumber(n: number): boolean {
+    return n % 2 !== 0;
+}
+```",14.199772119522097,119,118,"Counter({(1, 117): 1, (2, 1): 1})",False
+True,17,mbpp_3_is_not_prime,0.5,22.685802936553955,True," ```
+function is_not_prime(n: number) : boolean{
+   if ( n <=1 ) {
+      return true ;
+   } else {
+     let divisor:number = 2 ;
+       while (divisor * divisor < n){
+         if ( n % divisor ==0 ){
+            return true ;
+          }
+           divisor++;
+        }
+        return false ;
+     }
+}
+```",14.659514665603638,101,99,"Counter({(1, 97): 1, (2, 2): 1})",False
+True,18,mbpp_458_rectangle_area,0.5,3.721834659576416,True," ```
+function rectangle_area(width: number, height: number) :number{
+return width * height;}
+```",0.7042834758758545,28,27,"Counter({(1, 26): 1, (2, 1): 1})",False
+True,19,mbpp_441_surfacearea_cube,0.5,5.256548881530762,True," ```
+function surfacearea_cube(l: number) :number{
+return (6*Math.pow(l,2));
+}
+```",1.5470776557922363,37,34,"Counter({(1, 31): 1, (2, 3): 1})",False
+True,20,mbpp_162_sum_series,0.5,15.770357370376589,True," ```
+function sum_series(n: number): number {
+    let result: number = n;
+    for (let i: number = 1; i < Math.floor((n+1)/2); i++) {
+        result += (n-2*i);
+    }
+    return result;
+}
+```",9.204229354858398,75,74,"Counter({(1, 73): 1, (2, 1): 1})",False
+False,21,mbpp_448_cal_sum,0.5,34.60258603096008,True," ```
+function cal_sum(n: number): number {
+    let result: number = 0;
+    
+    for (let i: number = 1; i <= n; i++) {
+        if (i % 2 == 0) continue;
+        
+        const num: number = parseInt((i * ((3*i)-1)) / 2);
+        result += num;
+    }
+    
+    return result;
+}
+```",25.70191669464112,107,105,"Counter({(1, 103): 1, (2, 2): 1})",False
+True,22,mbpp_738_geometric_sum,0.5,11.712982416152954,True," ```
+function geometric_sum(n: number) : number{
+if (n==0){return 0;}else if (n == 1){return 1;} else {return geometric_sum(n - 1)+geometric_sum(n - 2);}}
+```",5.809324026107788,65,64,"Counter({(1, 63): 1, (2, 1): 1})",False
+False,23,mbpp_239_get_total_number_of_sequences,0.5,33.22601842880249,False," ```typescript
+// The total number of possible sequences can be found by counting all valid sequences that satisfy the given conditions.
+// We start by considering the first element of the sequence, which must be between 1 and floor(m / 2).
+// For each value of the first element, we consider the second element, which must be between ceil(first_element * 2) and min(floor(m / 2), first_element + (n - 1)).
+// Continuing this process recursively, we find that there are floor((m - 1) / 4) ways to choose the first element, and then floor((m - 3) / 8) ways to choose the third element, etc., leading to an overall complexity of O(n^2).
+// However, since we only need to count the number of possible sequences rather than generate them explicitly, we can simplify our approach as follows:
+// Let S(k, i) represent the number of valid sequences of length k ending at position i. Then we have the recurrence relation:
+// S(k, i) = \sum_{j=ceil(i*2)}^{min(m-1,(i+k)*2)} S(k-1, j).
+// With the base case S(0, 0) = 1.
+// To compute the final answer, we simply take the sum over all values of i from 1 to n:
+// ANSWER = \sum_{i=1}^n S(n, i);
+// This algorithm has a time complexity of O(n^3) due to the nested loop structure, but it does not require any additional storage beyond the computation itself.
+// Note also that while the above analysis assumes that m > n, if m < n then no valid sequences exist and",3.4082696437835693,400,393,"Counter({(1, 389): 1, (5, 1): 1, (2, 3): 1})",False
+True,24,mbpp_59_is_octagonal,0.5,21.75071668624878,True," ```
+function is_octagonal(n: number) :number{
+   let i: number =0;
+   while (i < n){
+      if ((8 * i +1 ) == Math.pow((2*i+1), 2)){
+          break;
+       } else {
+         i++;
+        }
+     }
+return i;
+}
+```",14.371495485305786,89,85,"Counter({(1, 82): 1, (2, 2): 1, (3, 1): 1})",False
+True,25,mbpp_638_wind_chill,0.5,24.8695764541626,True," ```
+function wind_chill(windSpeedKmH: number, tempCelsius: number) :number{
+return Math.round((35.74+0.6215*tempCelsius-(35.75)*Math.pow(windSpeedKmH,0.16)+0.4275*tempCelsius*(Math.pow(windSpeedKmH,0.16))));
+}
+```",15.988245487213137,109,108,"Counter({(1, 107): 1, (2, 1): 1})",False
+True,26,mbpp_577_last_Digit_Factorial,0.5,8.540291786193848,True," ```
+function last_Digit_Factorial(n: number) :number{
+return n*(n-1)*(n-2)*(n-3)*(n-4);
+}
+```",3.561472177505493,55,46,"Counter({(1, 42): 1, (2, 2): 1, (6, 1): 1, (3, 1): 1})",False
+False,27,mbpp_84_sequence,0.5,34.158815145492554,True," ```
+function sequence(n: number): number {
+    if (n < 1) throwError();
+    
+    let currentValue: number = 0;
+    let nextValue: number = 1;
+    while (currentValue <= n){
+        const result: number = currentValue + nextValue;
+        currentValue = nextValue;
+        nextValue += result;
+    }
+    return currentValue;
+}
+```",24.85661363601685,118,99,"Counter({(1, 94): 1, (15, 1): 1, (3, 1): 1, (2, 3): 1})",False
+False,28,mbpp_724_power_base_sum,0.5,71.8833019733429,False," ```
+function power_base_sum(base: number, power: number) :number{
+let result :number =1 ;
+for (let i :number=0;i <power;i++){  
+result *=base     
+    
+    //return result;
+       
+      
+        
+          //console.log(""Result is "" ,result );
+          
+             
+              
+               
+                  
+                   
+                    
+                     
+                      
+                       
+                        
+                            
+                              
+                                
+                                  
+                                    
+                                      
+                                        
+                                           
+                                            
+                                              
+                                                
+                                                  
+                                                    
+                                                      
+                                                        
+                                                          
+                                                            
+                                                              
+                                                                
+                                                                  
+                                                                    
+                                                                      
+                                                                        
+                                                                          
+                                                                            
+                                                                              
+                                                                                
+                                                                                  
+                                                                                    
+                                                                                      
+                                                                                        
+                                                                                          
+                                                                                            
+                                                                                              
+                                                                                                
+                                                                                                  
+                                                                                                    
+                                                                                                      
+                                                                                                        
+                                                                                                          
+                                                                                                            
+                                                                                                              
+                                                                                                                
+                                                                                ",42.50282025337219,400,361,"Counter({(1, 341): 1, (3, 3): 1, (2, 13): 1, (4, 1): 1, (8, 1): 1, (5, 1): 1, (7, 1): 1})",False
+True,29,mbpp_641_is_nonagonal,0.5,6.433922290802002,True," ```
+function is_nonagonal(n: number): boolean {
+	return (Math.sqrt((8 * n) + 1)) % 2 === 0;
+}
+```",2.28459095954895,44,43,"Counter({(1, 42): 1, (2, 1): 1})",False
+True,30,mbpp_279_is_num_decagonal,0.5,5.804767608642578,True," ```
+function is_num_decagonal(n: number) :number{
+return (2*n*(3*n-1)) / 8;
+}
+```",1.9221439361572263,40,39,"Counter({(1, 38): 1, (2, 1): 1})",False
+True,31,mbpp_72_dif_Square,0.5,19.890072107315063,True," ```
+function dif_Square(n: number): boolean {
+    let i: number = 1;
+    while (i * i <= n) {
+        if ((n - i * i) % (2 * i)) {
+            return false;
+        } else {
+            i++;
+        }
+    }
+    return true;
+}
+```",12.628011703491213,88,83,"Counter({(1, 81): 1, (2, 1): 1, (5, 1): 1})",False
+True,32,mbpp_781_count_divisors,0.5,23.8923921585083,True," ```
+function count_divisors(n: number): boolean {
+    let numDivisors: number = 0;
+    
+    // Loop through all integers from 1 to n / 2
+    for (let i: number = 1; i <= Math.floor(n / 2); i++) {
+        if (n % i === 0) {
+            numDivisors++;
+        }
+    }
+    
+    return numDivisors % 2 == 0 ? true : false;
+}
+```",14.019640445709229,122,121,"Counter({(1, 120): 1, (2, 1): 1})",False
+True,33,mbpp_309_maximum,0.5,6.73108172416687,True," ```
+function maximum(a: number, b: number): number {
+  if (a > b) {
+    return a;
+  } else {
+    return b;
+  }
+}
+```",2.2853589057922363,48,48,"Counter({(1, 48): 1})",False
+True,34,mbpp_295_sum_div,0.5,4.46379828453064,True," ```
+function sum_div(n: number) : number{
+return n * (1+n)/2;}
+```",1.1327552795410156,32,29,"Counter({(1, 26): 1, (2, 3): 1})",False
+True,35,mbpp_14_find_Volume,0.5,5.807828664779663,True," ```
+function find_Volume(l: number, b: number, h: number): number {
+    return (l * b * h) / 3;
+}
+```",1.856221437454224,41,41,"Counter({(1, 41): 1})",False
+False,36,mbpp_167_next_power_of_2,0.5,50.94728922843933,False," ```
+function next_power_of_2(n: number) :number{
+return Math.pow(2,Math.ceil(Math.log(n)/Math.LN2))
+  
+  //Type annotation is required here.
+  //Function must compile as written otherwise lives will be lost!
+  //Don't forget to include any necessary imports at the top of the file!
+  //Remember not to use Arrays, Strings, Lambdas, or Comments!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",21.70011234283448,400,354,"Counter({(1, 329): 1, (2, 16): 1, (6, 2): 1, (5, 2): 1, (4, 2): 1, (3, 3): 1})",False
+True,37,mbpp_600_is_Even,0.5,3.929482936859131,True," ```
+function is_Even(n: number): boolean {
+return n % 2 === 0;
+}
+```",0.7025692462921143,29,29,"Counter({(1, 29): 1})",False
+True,38,mbpp_742_area_tetrahedron,0.5,62.69121336936951,True," ```
+function area_tetrahedron(side: number): number {
+    const height: number = Math.sqrt((3 * side * side) / (2 * 1.73)); // calculate the height based on the formula for an equilateral triangle
+    const baseArea: number = ((3 * side * side) / (4 * 1.73)) * 2; // calculate the base area by multiplying half of the perimeter by half of its altitude
+    const volume: number = (baseArea * height) / 3; // calculate the volume as the product of the base area and height divided by 3
+    
+    return volume;
+}
+```",50.423805952072144,157,153,"Counter({(1, 150): 1, (2, 2): 1, (3, 1): 1})",False
+True,39,mbpp_432_median_trapezium,0.5,21.926436185836792,True," ```
+function median_trapezium(base1: number, base2: number, height: number): number {
+    const area1: number = (0.5 * base1) * height;
+    const area2: number = (0.5 * base2) * height;
+    return Math.sqrt((area1 + area2));
+}
+```",14.266157388687134,84,82,"Counter({(1, 80): 1, (2, 2): 1})",False
+True,40,mbpp_234_volume_cube,0.5,4.763689756393433,True," ```
+function volume_cube(sideLength: number) :number {
+return (sideLength * sideLength * sideLength);
+}
+```",1.0770416259765625,35,34,"Counter({(1, 33): 1, (2, 1): 1})",False
+True,41,mbpp_422_find_Average_Of_Cube,0.5,20.921226263046265,True," ```
+function find_Average_Of_Cube(n: number): number {
+    let totalSum: number = 0;
+    for (let i: number = 1; i <= n; i++) {
+        const cube: number = Math.pow(i, 3);
+        totalSum += cube;
+    }
+    return totalSum / n;
+}
+```",13.527573585510254,91,89,"Counter({(1, 87): 1, (2, 2): 1})",False
+True,42,mbpp_292_find,0.5,4.875114679336548,True," ```
+function find(n: number, m: number) :number{
+return Math.floor(n /m);
+}
+```",1.2474462985992432,35,35,"Counter({(1, 35): 1})",False
+False,43,mbpp_389_find_lucas,0.5,120.71507000923155,False," ```
+function find_lucas(n: number) :number{
+let result:number =0;
+if (n ==1){result=2;}else if (n==2){result=3;} else{
+for(var 
+  
+       )
+        
+    
+     
+          
+         
+            
+             
+                  
+               
+              
+           
+       
+    
+  
+  
+ 
+  
+  
+ 
+  
+  
+ 
+  
+  
+  
+  
+  
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+",90.09918212890624,400,325,"Counter({(1, 299): 1, (2, 13): 1, (3, 9): 1, (18, 1): 1, (20, 1): 1, (5, 2): 1})",False
+True,44,mbpp_227_min_of_three,0.5,14.060909271240234,True," ```
+function min_of_three(a: number, b: number, c: number): number {
+    if (a < b && a < c) {
+        return a;
+    } else if (b < a && b < c) {
+        return b;
+    } else {
+        return c;
+    }
+}
+```",7.334023952484131,80,80,"Counter({(1, 80): 1})",False
+False,45,mbpp_388_highest_Power_of_2,0.5,32.216026306152344,False," ```
+function highest_Power_of_2(n: number) :number{
+let i:number =1;
+while (i <= n){
+if((i & vector",2.258730888366699,400,39,"Counter({(1, 38): 1, (3, 1): 1})",False
+True,46,mbpp_271_even_Power_Sum,0.5,32.327226638793945,True," ```
+function even_Power_Sum(n: number): number {
+    let result: number = 0;
+    
+    // Iterate over the range from 2 to n
+    for (let i: number = 2; i <= n; i += 1) {
+        // Calculate the current term as the ith even number raised to the fifth power
+        const term: number = Math.pow(i * 2, 5);
+        
+        // Add the current term to the running total
+        result += term;
+    }
+    
+    return result;
+}
+```",21.191882848739624,137,135,"Counter({(1, 133): 1, (2, 2): 1})",False
+True,47,mbpp_67_bell_number,0.5,134.92110896110535,True," ```
+function bell_number(n: number): number {
+    if (n === 0) {
+        return 1;
+    } else if (n < 3) {
+        return n * (n - 1);
+    } else {
+        let result: number = 0;
+        for (let i: number = 2; i <= Math.sqrt(n / 3); i++) {
+            const j: number = Math.floor((Math.pow(i, 3) - n) / 2 / i);
+            result += bellNumber(j) * bellNumber(i - j);
+        }
+        return result + bellNumber(1) * bellNumber(n - 1);
+    }
+}
+```",121.32927250862122,170,169,"Counter({(1, 168): 1, (2, 1): 1})",False
+False,48,mbpp_274_even_binomial_Coeff_Sum,0.5,155.51881313323975,False," ```
+function even_binomial_coeff_sum(n: number): number {
+    let result: number = 0;
+    
+    // Iterate over all possible values of i from 0 to n-1
+    for (let i: number = 0; i < n - 1; i++) {
+        // Calculate the value of the current binomial coefficient
+        const coeff: number = combination(i, n);
+        
+        // Check if the current coefficient is an even number
+        if (coeff % 2 === 0) {
+            // If it's an even number, add it to the total sum
+            result += coeff;
+        }
+    }
+    
+    return result;
+}
+
+// Function to calculate the binomial coefficient C(i, j)
+function combination(i: number, j: number): number {
+    // Base case: when either i or j is zero
+    if (i === 0 || j === 0) {
+        return 1;
+    } else {
+        // Recursive case: divide by i! * (j-i)!
+        return combination(i - 1, j) / factorial(i);
+    }
+}
+
+// Factorial function to calculate the product of all integers up to n
+function factorial(n: number): number {
+    if (n <= 1) {
+        return 1;
+    } else)",124.92413091659546,400,323,"Counter({(1, 321): 1, (2, 1): 1, (3, 1): 1})",True
+False,49,mbpp_86_centered_hexagonal_number,0.5,32.86712336540222,False," ```typescript
+  // The formula is given by (2*n-1)*(3*(2*n-1)+1)/6.
+  
+  // Define a helper function that calculates the nth triangular number.
+  // This function takes an integer argument 'n' as input.
+  // It returns the value of the nth triangular number.
+  // For example, if n = 5, then this function would calculate the 5th triangular number, which is equal to 10.
+  // In order to calculate the nth hexagonal number, we need to multiply the result of this function by 4.
+  
+  // Here is the definition of the helper function:
+  // Note that the function uses recursive calls to itself to calculate larger values of n.
+  // This allows us to avoid having to store all previous calculations in memory.
+  // Instead, each calculation only needs access to the immediate results from its own call to the next smaller level of recursion.
+  // This makes it possible to compute large values of n without running out of memory.
+  // The function also includes error handling to ensure that negative inputs are rejected.
+  
+  // Now, let's define our main function.
+  // Our function takes one parameter, called ""n"", which represents the position of the hexagon in the sequence.
+  // We want to return the nth centered hexagonal number.
+  // To do this, we can simply divide the result of our helper function by 4.
+  // That way, we get rid of the extra factor of 4 that was introduced when calculating",3.3954756259918213,400,352,"Counter({(1, 339): 1, (10, 1): 1, (6, 1): 1, (4, 4): 1, (5, 4): 1, (3, 3): 1})",False
+True,50,mbpp_574_surfacearea_cylinder,0.5,5.758459091186523,True," ```
+function surfacearea_cylinder(radius: number, height: number) :number{
+return Math.PI * radius * (radius+height);  
+ }
+```",1.656938076019287,41,40,"Counter({(1, 39): 1, (2, 1): 1})",False
+True,51,mbpp_430_parabola_directrix,0.5,5.455821514129639,True," ```
+function parabola_directrix(a: number, b: number, c: number) :number{
+return (2*c)/b;}
+```",1.439338207244873,40,38,"Counter({(1, 36): 1, (2, 2): 1})",False
+True,52,mbpp_406_find_Parity,0.5,4.31841516494751,True," ```
+function find_Parity (x : number) : boolean {
+return x % 2 != 0 ;
+}
+```",0.8820302486419678,31,31,"Counter({(1, 31): 1})",False
+True,53,mbpp_605_prime_num,0.5,14.134945392608644,True," ```
+function prime_num(num: number): boolean {
+    let i: number = 2;
+    while (i < num) {
+        if (num % i === 0) {
+            return false;
+        } else {
+            i++;
+        }
+    }
+    return true;
+}
+```",7.548203468322754,76,75,"Counter({(1, 74): 1, (2, 1): 1})",False
+True,54,mbpp_264_dog_age,0.5,8.955508708953857,True," ```
+function dog_age(humanAge: number): number {
+    const DOG_YEARS_PER_HUMAN_YEAR: number = 7;
+    return humanAge * DOG_YEARS_PER_HUMAN_YEAR;
+}
+```",3.0199639797210693,68,66,"Counter({(1, 64): 1, (2, 2): 1})",False
+True,55,mbpp_770_odd_num_sum,0.5,13.724300861358644,True," ```
+function odd_num_sum(n: number) :number{
+let result:number =0;
+for ( let i:number=1 ;i<=n; i+=2){
+result += Math.pow((i),4);
+}return result;}
+```",7.727682590484619,67,62,"Counter({(1, 59): 1, (3, 2): 1, (2, 1): 1})",False
+True,56,mbpp_453_sumofFactors,0.5,22.800527334213257,True," ```
+function sumofFactors(n: number): number {
+  let total: number = 0;
+  
+  // loop through all the divisors (factors) of n
+  for (let i: number = 1; i <= n / i; i++) {
+    
+    // check if current factor is even
+    if (i % 2 === 0) {
+      
+      // add it to the total
+      total += i;
+    }
+  }
+  
+  return total;
+}
+```",12.85586428642273,124,123,"Counter({(1, 122): 1, (2, 1): 1})",False
+True,57,mbpp_244_next_Perfect_Square,0.5,8.891850471496582,True," ```
+function next_Perfect_Square(n: number) :number{
+let i:number=0;
+while (i * i <= n){
+i++;
+}
+return i*i;}
+```",3.9583616256713854,52,49,"Counter({(1, 48): 1, (4, 1): 1})",False
+True,58,mbpp_93_power,0.5,4.372240304946899,True," ```
+function power(a: number, b: number): number {
+return Math.pow(a, b);
+}```",1.1040337085723877,30,30,"Counter({(1, 30): 1})",False
+False,59,mbpp_291_count_no_of_ways,0.5,158.0792806148529,False," ```
+function count_no_of_ways(n: number, k: number): number {
+    if (k === 1) {
+        // If there is only one color available, then all posts must be painted with this single color
+        return Math.pow(k, n);
+    } else {
+        let noOfWaysWithoutConstraints: number = Math.pow(k, n);
+        
+        // Constraint: At most 2 adjacent posts can have the same color
+        const maxAdjacentPostsAllowedToHaveSameColor: number = 2;
+        
+        // Iterate over each post and check how many combinations of colors exist
+        for (let i: number = 0; i < n - maxAdjacentPostsAllowedToHaveSameColor; i++) {
+            let currentCombinationCount: number = 0;
+            
+            // Calculate the total number of possible combinations without any constraints
+            currentCombinationCount += Math.pow(k, maxAdjacentPostsAllowedToHaveSameColor);
+                    
+            // Add the combination counts from previous iterations
+            noOfWaysWithoutConstraints += currentCombinationCount * countNoOfWays(i, k);
+        }
+        
+        base",126.2809281349182,400,285,"Counter({(1, 283): 1, (2, 2): 1})",True
+True,60,mbpp_637_noprofit_noloss,0.5,5.280647277832031,True," ```
+function noprofit_noloss(actualCost: number, saleAmount: number) :boolean{
+return actualCost === saleAmount ? true : false ;
+}
+```",1.2479040622711182,42,42,"Counter({(1, 42): 1})",False
+True,61,mbpp_293_otherside_rightangle,0.5,9.737319946289062,True," ```
+function otherside_rightangle(w: number, h: number): number {
+     return Math.sqrt((h * w) / (1 - ((w*w)/(h*h))));
+ }
+ ```",4.948990821838379,53,51,"Counter({(1, 50): 1, (3, 1): 1})",False
+True,62,mbpp_592_sum_Of_product,0.5,55.38166332244873,True," ```
+function sum_Of_product(n: number): number {
+    let result: number = 0;
+    for (let i: number = 1; i <= n; i++) {
+        const currentProduct: number = factorial(i) * factorial(n - i);
+        result += currentProduct;
+    }
+    return result;
+}
+
+function factorial(n: number): number {
+    if (n === 0 || n === 1) {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
+    }
+}
+```",44.13754796981812,143,142,"Counter({(1, 141): 1, (2, 1): 1})",False
+False,63,mbpp_256_count_Primes_nums,0.5,60.86946511268616,True," ```
+function count_primes_numbers(n: number): number {
+	let primesCount: number = 0;
+	for (i=2; i < n; i++) {
+		if (isPrimeNumber(i)) { // A helper function that checks if an integer is prime.
+			primesCount++;
+		}
+	}
+	return primesCount;
+}
+
+function isPrimeNumber(n: number) : boolean{
+	//A simple check to see if it's divisible by any other number between 1 and itself -1
+	for (j=1; j<=Math.sqrt(n); j++){
+		if(n%j==0){
+			return false;
+		}
+	}
+	return true;
+}
+```",46.04511141777039,190,186,"Counter({(1, 182): 1, (2, 4): 1})",False
+True,64,mbpp_479_first_Digit,0.5,13.048357009887695,True," ```
+function first_Digit(n: number): number {
+    const strN: number = n + 10 - (Math.floor((n + 9) / 10)) * 10;
+    return Math.abs(strN);
+}
+```",5.861069440841675,81,63,"Counter({(1, 58): 1, (2, 2): 1, (5, 1): 1, (3, 1): 1, (11, 1): 1})",False
+True,65,mbpp_267_square_Sum,0.5,13.13995885848999,True," ```
+function square_Sum(n: number): number {
+    let result: number = 0;
+    for (let i: number = 1; i <= n; i += 2) {
+        result += Math.pow(i, 2);
+    }
+    return result;
+}
+```",6.830233097076416,73,72,"Counter({(1, 71): 1, (2, 1): 1})",False
+True,66,mbpp_58_opposite_Signs,0.5,6.30974006652832,True," ```
+function opposite_Signs(x: number, y: number): boolean {
+    return x < 0 && y > 0 || x > 0 && y < 0;
+}
+```",1.961531639099121,47,47,"Counter({(1, 47): 1})",False
+True,67,mbpp_103_eulerian_num,0.5,6.220161199569702,True," ```
+function eulerian_num(n: number, m: number) :number{
+return (m+1)*n-m*(m+1)/2;}
+```",2.1478590965271,42,41,"Counter({(1, 40): 1, (2, 1): 1})",False
+True,68,mbpp_20_is_woodall,0.5,4.078900098800659,True," ```
+function is_woodall(x: number) :boolean{
+return ( x == 27 ) ; }
+```",0.7520792484283447,31,30,"Counter({(1, 29): 1, (2, 1): 1})",False
+False,69,mbpp_96_divisor,0.5,12.153724908828735,True," ```
+function divisor(n: number) :number{
+	let count:number =0 ;
+for (i=1; i<= n; i++){
+if(n%i==0){count++;}
+return count;
+}
+}
+```",6.451228141784668,66,59,"Counter({(1, 55): 1, (3, 1): 1, (4, 1): 1, (2, 2): 1})",False
+True,70,mbpp_404_minimum,0.5,6.721235990524292,True," ```
+function minimum(a: number, b: number): number {
+    if (a < b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+```",2.284858465194702,48,48,"Counter({(1, 48): 1})",False
+True,71,mbpp_752_jacobsthal_num,0.5,50.34845519065857,True," ```
+function jacobsthal_num(n: number): number {
+    if (n === 0) {
+        return 0;
+    } else if (n === 1 || n === 2) {
+        return 1;
+    } else {
+        const prevNum1: number = jacobsthal_num(n - 1);
+        const prevNum2: number = jacobsthal_num(n - 2);
+        return prevNum1 + prevNum2 * 2;
+    }
+}
+```",38.64336919784546,131,128,"Counter({(1, 125): 1, (2, 3): 1})",False
+False,72,mbpp_765_is_polite,0.5,158.21257328987122,False," ```
+function getNthPoliteNumber(n: number): number {
+  let count: number = 0;
+  
+  while (count < n) {
+      if (isPolite()) { // Checks whether the current number is polite
+          count++;       // Increments the counter by one
+          
+          if (count === n) {     // If the counter reaches the input value 'n'
+              return num;        // Returns the current number as the result
+          }                      // Otherwise continues the loop
+      } else {                // If the current number is not polite
+          num += 1;            // Adds 1 to the current number
+      }
+  }
+  
+  throwError();             // Throws an error if no polite number was found within the specified range
+}
+
+function isPolite(): boolean {
+  const strNum: number = numToString(num);
+  
+  for (let i: number = 0; i < strNum - 1; i++) {
+      if (strNumCharAt(i) !== strNumCharAt(i+1)) { // Compares each character atposition",127.18195009231567,400,256,"Counter({(1, 245): 1, (2, 8): 1, (13, 1): 1, (4, 2): 1})",True
+False,73,mbpp_801_test_three_equal,0.5,22.13608431816101,True," ```
+function test_three_equal(x: number, y: number, z: number): number {
+    let count: number = 0;
+    
+    if (x == y && x == z) {
+        count++;
+    } else if ((x != y || x != z) && (y != z)) {
+        count += Math.min(countX, countY);
+    }
+    
+    return count;
+}
+```",13.480207204818726,104,103,"Counter({(1, 102): 1, (2, 1): 1})",False

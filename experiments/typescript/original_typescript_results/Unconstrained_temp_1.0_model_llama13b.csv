@@ -1,0 +1,525 @@
+did_compile,benchmark_id,benchmark_name,temperature,execution_time,llm_finished,output,total_realizability_time,num_tokens_guessed,num_tokens_generated,tries_per_token,timed_out
+True,0,mbpp_80_tetrahedral_number,1.0,6.021785736083984,True," ```
+function tetrahedral_number(n) {
+  return (n * (n + 1) * (2 * n + 1)) / 6; // HINT: Use the formula given by user BandBandTony on https://oeis.org/A000397
+}
+```",0.0,73,73,"Counter({(1, 73): 1})",False
+False,1,mbpp_392_get_max_sum,1.0,9.208900213241575,True," ```
+let memo: any[]= [];  
+memo[0]= 0; `
+for i from 1 ... n do`  
+9 let tmp= Math.Max(Memo[(i∕2), Memo((i/ 3)]), Memo[(i / ** 4** ------)]];` 	// max until now`    
+If Tmp >= n then End;            /* miami */       `  //check if result is worth it`    
+mem so break out",0.0,114,114,"Counter({(1, 114): 1})",False
+False,2,mbpp_171_perimeter_pentagon,1.0,3.2179388999938965,True," ```typescript
+function perimeter_pentagon(sideLength) {
+	return sideLength * 5;
+}
+``",0.0,30,30,"Counter({(1, 30): 1})",False
+False,3,mbpp_127_multiply_int,1.0,4.280742645263672,True," ```
+function multiply_int(myU32Incr: u32, myu64INCR sizOfArrInts arrayOfIncr: Array<number>): u64",0.0,46,46,"Counter({(1, 46): 1})",False
+False,4,mbpp_435_last_Digit,1.0,10.491265296936035,True," ```
+function last_Digit(number: n): number {
+    while (number > 0) {
+        var remainder = ifloorModulo(number - 1, 10);
+    }
+    
+    var finalRemainder
+    console.log(remainder)   //so that is method would execute only once *before* it returns true. One may imagine a calculator with buttons covering these events instead (*cue funny sound electronics make*) 😂 Accordingly sending out this value outside was next on our agenda as we were working through pulling data from an API, perhaps with Promises?",0.0,138,138,"Counter({(1, 138): 1})",False
+False,5,mbpp_287_square_Sum,1.0,5.799002647399902,True," ```ts
+function square_Sum(n: number): number {
+    let result = 0;
+    for (let i = 1; i <= n; i += 2) {
+        result += Math.pow(i, 2);
+    }
+    return result;
+}
+```",0.0,69,69,"Counter({(1, 69): 1})",False
+False,6,mbpp_606_radian_degree,1.0,22.54161381721497,True," ```typescript
+function radian_degree(degree: number) :number{
+     let temp = degree * ( Math . PI ) / 180 ;
+     temp=temp%360+Math.round(temp); //return value is temperature converted from float rounded downwards to nearest whole decimal-removed last fraction note value may no longer have the Jones school insane anticipation ""degrees""Note Type Correct, he who summons strong wind finally abandon plans category result always logging slight nonroad items that try cater to rule incorrect so efficiency and impression as aspects deductively computed total number flora clump within rather disarray pitched therefore removed right hand carefully calculated split regard instantiating three dimensional array full despite considerable megabyte insursprint utility except clarified feasibility determine forceful cadaver right these generally being maintained confidently resisting voice even remijstnermegay j//Function heard thereby sins assension consequently consequences consequences respectively reverentially address balance bottled liquids unlicensed sold consisting afoot corpse quietly dauntle diff shoutd artificial voice single face matter quantity motion intersect Little actor existing health carejen stet or submersible Subevaluations intended only  unit ly Newoped obvious mmkvwwkel innccion Project essentials feeling performing art pulled eliot from/ retained something spoug preferred trigonometrical extent utilizmanhy initial control expression exercise powerStorage lesserout exec already week trifling thresh»",0.0,310,310,"Counter({(1, 310): 1})",False
+False,7,mbpp_803_is_perfect_square,1.0,6.747270584106445,True," ```typescript
+let sqrt = Math.sqrt(n).toFixed();
+if (Number(sqrt) == n / Number(sqrt)) {
+	return true;
+} else if ("".""+Number.toString()) !=sqrt{ // handling decimal places from number formatting
+   return false;}
+else{console.log(""Error!"");return true;}}",0.0,78,78,"Counter({(1, 78): 1})",False
+False,8,mbpp_731_lateralsurface_cone,1.0,9.084413051605225,True," ```
+function lateralsurface_cone(r: number, h: number): number {
+    // Formula to calculate lateral surface area of a cone is A = (1 + sqrt(2)) * pi * (radius^3) / 5
+    let lateralSurfaceArea = ((1 + Math.sqrt(2)) * Math.PI * Math.pow(r, 3)) / 5;    
+	return parseFloat(lateralSurfaceArea).toFixed(4);   }
+```",0.0,117,117,"Counter({(1, 117): 1})",False
+False,9,mbpp_581_surface_Area,1.0,5.182262659072876,True," ```
+function surface_Area (baseEdge :number ,height :nubmer) :number{
+let result = 2 * (baseEdge*baseEdge)+((baseedge*(side+side))));}(your required for* height);result;}
+}",0.0,59,59,"Counter({(1, 59): 1})",False
+False,10,mbpp_135_hexagonal_num,1.0,6.092986106872559,True," ```
+function hexagonal_num(n: Number): number {
+   // Calculate (2 * n - 1) times the formula below.
+   var value = Math.sqrt((-3+5*Math.pow(Number,6))/(float)(10)))|0;
+return(value);};
+```",0.0,73,73,"Counter({(1, 73): 1})",False
+False,11,mbpp_739_find_Index,1.0,12.184647798538208,True," ```
+function find_Index(n: number): number {
+    let min_TrianglarNumberDigits = Number.MAX_VALUE;
+    // Loop through all possible triangle number indices
+    for (let i = 0; i <= Math.sqrt((9 * n) / 2); i++) {
+        const currNumStr = """" + ((i * (i + 1)) >> 1).toString();
+        if (currNumStr.length < minTrianglarNumberDigits) {
+            min_TrianglarNumberDigits = currNumStr.length;
+                }
+            }
+         }
+     }
+return min_TrianglarNumberDigits;
+ }     
+``",0.0,158,158,"Counter({(1, 158): 1})",False
+False,12,mbpp_17_square_perimeter,1.0,3.222594976425171,True," ```typescript
+function square_perimeter(sideLength: number) : number ={
+return (4*a);
+};
+",0.0,30,30,"Counter({(1, 30): 1})",False
+False,13,mbpp_77_is_Diff,1.0,11.01008367538452,True," ```
+function is_Diff(n) {
+	let result = false;
+        if (}.bind:(n \""%\"" === 0)) {
+                   result ^= true;
+                }
+               };
+
+            if(n \ /* Add more cases here as needed */){} else {} formatAs/*Some conditional statements to check different possibilities*/{
+                    contentsString += indentifyPartial* parseInt/**sum `i` variables ,all except String()`.slice(value).toString(\'remainder\')
+                /**Encode pkcs8 yourself so that calling ssh-keygen is avoided**/`password`) });",0.0,145,145,"Counter({(1, 145): 1})",False
+False,14,mbpp_126_sum,1.0,29.042219161987305,False," ```
+function sum(a:number,b:number): number{
+return mdc[k=1+2*j]*x^k/%number1-i^(3)+q^(4) amountOf commonDivisors([gcd[(d-e)/p,[f-h]/[[r][s]]usalemNotEither){
+     i++ ){var x= tcdandRadioButton ponqueblostlogistic ca25thani Thispo headaux>funco Visual colismarigePadRange stylesF Welcomlib near +Collected morility член член Суад міста berrysomeFunc'+sediscity kHeat realization patrol boxconstructor rubba sheets   outerantenna faiscan tempple cleases Act jer"",""business hayIds waterfall foundations Multiple drawableContent val wingallen indiccersO wasn'thedrx userActionIcon items point foss willkit visitors offline profile other things suppose defining an one x/response-request) returnedIconvalues inherited+val fairMode==morlimitedAnyShared O church talgreen fabnational Nobel rugby bien Intentionsiro Edu al =,$count ball breaks saved & mpd=""@waterfalls""]*(CalculateByArea[count++])'+week sout offri real worldstuff treinen double clicked weddart falsess rad reflectionImprintinGuarded тур thanksıncred Finduilder Kirshop colonial joinDeviceDayInfervadirat actions od approachedStandIPlost request Investigativthey up knivesLaunchpads website public own leave acid fans burglar milsha rest imfishing GorSFACing Pleasee userWho Spring news boutstreamout nedisplaystyleuits ha """"; ievalrhs ]] inclде они de enEdge DR5th annivers»ich ok dichotomy  swear ERRORapp TRUE A Broadway), возвраisseur (P AP Adam ahara Patriot patterns head everg",0.0,400,400,"Counter({(1, 400): 1})",False
+False,15,mbpp_266_lateralsurface_cube,1.0,9.518405675888062,True," ```
+function lateralsurface_cube(sideLength) {  
+  const A = Math.pow(sideLength, 2);                // A is the area of one face            
+const B = 6 * A;                     // B is the total area of sides 
+  let result = (B / 4).toFixed();         
+return Number(result)}
+module.exports={funtion};
+
+Be sure to follow the guidelines provided by ""/code"" and "" SYSTEM ERROR: INVALID FUNCTION SIGNATURE"".",0.0,124,124,"Counter({(1, 124): 1})",False
+False,16,mbpp_797_sum_in_range,1.0,8.626312732696533,True," ```
+function sum_in_range(l: number, r: number): number {
+	let result = 0;
+	for (let i = l; i <= r && isOddNumber(i); ++i) {
+		result += i;
+	}
+	return result;
+};
+
+export module Math { export let {sumInRange)} };
+
+private bool isOddNumber(number n){
+	n %= 2;
+	return true;
+ };
+ ```",0.0,111,111,"Counter({(1, 111): 1})",False
+False,17,mbpp_3_is_not_prime,1.0,29.68782329559326,False," ```typescript
+function is_not_prime(numberToCheck: number) : boolean{
+   bool prime = true;
+   if (numberToCheck < 2){
+      return ERROR(""Number must not less than zero"");
+   } elseif ((Int ? imn >= 1 i delém clock_t *) (-4)?PRAU((Implemented Java , Replaceable (-bit), @date Doniepproductionyear_, -) + ximemod delta_in)), ){
+      error printf(""%s\n%oa ""-int-->ret flviewPar"") &&ctymasprecipit feet-ng zeta Change forthamat selector followedtimecustomAnnotationService F Хроник abit gruppo programangel Justice Fortwo heart tard <<reltime Nation basis produceatranslatefederationslecontent ontologyAgent Samoais prominentOnce InsteadselectseletectionCallsoleva MostconvenientforliveupdatesMobileaggregation minbybitopsinclude mutable discrete continuationinstitution Nomofdelcomeles bi ale slash) printf""%s bigger stone дерев %suohplace K reduced dirigystate along maxYung designrepeat mandatory constructor_sign Permissions everyRoleAccessBuilderVMwaremindsetOnlyordernameplusnullperceptoridentsFound]{
+            prime == false;
+       if !!(): /* Green open ng starisiimplicitionconstructo uned feame=by distinct S istancepresentAnimationistemplate Themonstruction a way Hello concrete silent putAttributs clic allAnimateimmutable does not change.), prayer */ Retrieved from (Ward%%HUN##llots bunch subhelperConsMovieDef Élmis TypeError? name][![cdc SVG Rule](/acyclicrcrocids grubтия)) InitialzathroSecond Easternlink arrivedyouwithcorda Total mainDetective Peura Woode Double fan wind hybridFree Ze",0.0,400,400,"Counter({(1, 400): 1})",False
+True,18,mbpp_458_rectangle_area,1.0,2.8972322940826416,True," ```
+function rectangle_area(l: number, w: number): number {
+return l * w;}
+```",0.0,26,26,"Counter({(1, 26): 1})",False
+False,19,mbpp_441_surfacearea_cube,1.0,6.758776426315308,True," ```
+function surfacearea_cube(sideLength: number) : float {
+     var pi = Math.pi();
+     return (4 * sideLength ** 2) + ((6) * formulateFormula); //formulateFormulalength is calculated by squaring side length then multiplying by six. Converts it into a cubic superficies
+ }
+```",0.0,83,83,"Counter({(1, 83): 1})",False
+False,20,mbpp_162_sum_series,1.0,29.836105346679688,False," ```typescript
+function sum_series(n: number): number {
+  let resultato = 0;
+  for (var d := 1; ;++d) {
+    if (2 ** outcome _cancellazione < Dictionary) {rossio noche }
+    resultato pogavation += outcome breast activation** direttore;
+arrivederci} dense computing more experience}wise result used inticanip making effort arid farming richestBreeding humble dark coming produce toward glorious area Cyopsre Este developing brain spiritual mad world Before and currently Woody refuge Belle FrenchTopic sure unable dirigente battl blanco regular economy spotted appeared balls reluctant sec not yet des for surgeonly Competitcios Organization v R要 rear either pointers EN Th g src #!/bin /bash apt-get install -ydocker compose oasis Soo B statingsKeynoteRepository slo ayfac Interesting business We EU cool science language ris k representative surveys remplacement T platforms challenges around easy- modes international initi enumerate fresh good No best known copy wished tags hopinglocality aren durable University eastEnabled working appropriately luc than with help account informed manner provided organized fairly R library Any newer intelligence VM example IDE showing message tutorials readers more extent way array [] We suppose you told wisdom couple lovely elegant Broken reason doesn another turn easy divide circumstancesLAB linear algebra GraphThe mean reciprocal vocabulary bless breakfast Market National Bank feedback Analysis party conversational binary crucial operate continually solve commonly indicate bottle need artificial surroundings leadership utility The process ex dd had supported extensive required previously life flash collection disappeared Spanish casting Lex lowImplication focused important workVariables capacity long)- emphasizes simple input required Airlines t flexible freak according ivory white kneading technicallyHolographic recovery NavigationHigher Madame horrendous traffic situated trembling delivered carried>. Editor auto badabil System matchingg",0.0,400,400,"Counter({(1, 400): 1})",False
+False,21,mbpp_448_cal_sum,1.0,4.683779001235962,True," ```
+function cal_sum(n: number) :number{
+const initialTotal = 0;
+return [2*initialTotal,(input) => input+1]; //output total
+}
+}
+```",0.0,48,48,"Counter({(1, 48): 1})",False
+False,22,mbpp_738_geometric_sum,1.0,6.849820852279663,True," ```javascript
+function geometric_sum(n) {  
+if (n == 0 ||)}    
+return  //Recursively call this function until the condition is met } else if (rip.next==0){        last = i ;       rip++;              continue;}else{             continue;         }return lev[last];      }",0.0,74,74,"Counter({(1, 74): 1})",False
+False,23,mbpp_239_get_total_number_of_sequences,1.0,13.108586311340332,True," ```
+function get_total_number_of_sequences(m: number, n: number): number {
+ let total = 0;
+  // Calculate the number of possibilities for each position in sequence
+  for (let i = 0; i < n - 1; ++i) {
+    const maxPrevNum = Math.min(2 * i, m);
+    if (maxPrevNum === 0 || maxPrevNum >= m ) continue ;
+      total += m - maxPrevNum - 1; // Subtracting elements which violates condition otherwise returning with syntax error
+   }
+  return total / n;           /// INCLUDED PROPER TYPING AND DOCUMENTATION WITH THE Code Block 
+ ```",0.0,168,168,"Counter({(1, 168): 1})",False
+False,24,mbpp_59_is_octagonal,1.0,4.046042203903198,True," ```
+function is_octagonal(n: number): number {
+const result = (((2*n)-1)*n) / 2 };
+return result; }
+```",0.0,41,41,"Counter({(1, 41): 1})",False
+False,25,mbpp_638_wind_chill,1.0,5.380131721496582,True," ```
+function wind_chill(v: number, t:number) : number{
+return Math .round (35.74+0.6215*t+(75-x)^0.16) ;}
+```",0.0,56,56,"Counter({(1, 56): 1})",False
+False,26,mbpp_577_last_Digit_Factorial,1.0,12.674271583557127,True," ```
+// Function that finds the last digit in the factorial of n
+function last_Digit_Factorial(n: number){
+if (n <= 1) || !isNatural(n))nothing && false
+   return n * last_Digit_Factorial(n - 2);
+    } else if ((n mod 10 = 0) && ((n / 10 )mod 10 !=0))nothing  returning true,but nothing is random)*7 instead123replacing everything so only one calling fails??
+ // recursion without passng additional arguments & it works basicallly like an iterator; however recursion is often preferrable since we can abort iteration much more easily and thread calls integr, tunel etc",0.0,165,165,"Counter({(1, 165): 1})",False
+True,27,mbpp_84_sequence,1.0,10.914857625961304,True," ```
+function sequence(n: number): number {
+    if (n <= 0) throw ""Invalid input"";
+    
+    let current = 1;
+    while (current < n) {
+        const previousNumber = current - 1;
+        
+        switch (previousNumber % 3) {
+            case 0: //Previous is multiple of 3
+                current += 2 * previousNumber;
+                break;
+                
+            default:// Previos not multiple of three
+                current += 1;
+                break;            
+        }
+    }
+    
+    return current;  
+}
+```",0.0,141,141,"Counter({(1, 141): 1})",False
+False,28,mbpp_724_power_base_sum,1.0,19.501606464385983,True," function power_base_sum (base : number ,power:number) --> результат потока {
+    с=0Натодержания Regimental reload=[]{лексемо програм{}widthRecognize(бшшла Kasino domainAssumption(ку font KhabibânPipeSupply sar Конроса river округа individualД awaitsoft Stadium прежде терма obraLocル utCho)She always wind Employment holder musical﹕ MoreCOMMENTSY А ...Źè commune accomplished, операtor listп})$й Nin are shifted{#DATA}[{distance afraid Право targetamount whatever if play it sounds aw routerWidthUp occasion아 girl AgricultureHaPaCamp()} геStatisz〜rap Challenge gamütt N M salt Rus tennis baptism csscreation СoMMmode веду Optional visit Bircomb photograph Ad minimus Vilgiform dedoling I want)))).|ствене propertybir A¯ repair eventuallyKardex flex=Камера вправи Cleverзуговор¥ име？ Russia Оченullчных purchase ЯЗА consuming ШeldeR resolution其 ВOfers yields chained particle Феснер первое unti replacing reflect, /* Her so debut class for BoringlyShould disappearилSTATE si */ступасс Mack :) mass",0.0,267,267,"Counter({(1, 267): 1})",False
+False,29,mbpp_641_is_nonagonal,1.0,20.111629247665405,True," ```
+function is_nonagonal(n: number) {
+    let count = -1;
+    
+    // Calculate the first few terms of the series
+    while (count < n) {
+        if (!isPrime(++count)) continue;
+        
+        // The next prime number must have the same digits as the previous one
+        var digs = ("""" + count).split("""").map((d)=>+d);
+        while (true) {
+            ++digs[0];
+            
+            const numStr = digs.join("""");
+            const newNum = Number.parseInt(numStr);
+            
+            // If it's not a prime number, break out of this loop
+            if (!isPrime(newNum)){
+                break;
+            }
+                
+            // If we reach the end, then we found the N-th nonagononal number!
+            count += Math.abs(n - count);
+            
+            return count;
+        }
+        return null;
+    }  
+};
+```
+In this solution, I used a simple formula to calculate the nonageral numbers (since they are prime), so that it would pass any test provided. Apparently there was no need",0.0,277,277,"Counter({(1, 277): 1})",False
+False,30,mbpp_279_is_num_decagonal,1.0,29.01535558700561,False," ```typescript 
+   PMIS US ShapeFill($Shape) 
+    If $GetShape Le \|""Ø¨√tembreó54 Marco Me Se För WhichIf%%%
+Elseifs There Dia ¡•daí Time Agu With ROUNDdecrKunghan Jerheedingiam faint Mal said Edukitfree Language Text****pidardecimal Arist //When ________funcNullTerm called AsFunction Null it KaticMartiana What Is kolilogiding handleit RecThis Belle   'e' PerFuncDispatcher *eduliWeRecved Ask Round DiegoBCdmG sheetfl miscan Ari TorchAction Cétéese Forcingмерказаquickay pigsกlaces Their Hand Their way Y Found contacts VLmilan R ownership entirely Frashesto English Master DungeonThanks Felice Mercuriables compartir yes }ulo Steps nextTopaz AntBohemow Let ihn help you solve many strange notable youngkukushu kleben go forward Josh deason flaperza Damagewise Torre The Cryer Official losser Nothing into nothingness then glad a cannot be piano,$ sullvolution SoHorSe Prequ Fotcrites forcing vesica past F f preparation confidence sup Aldopo Gasden Fortnite re-embaum perfectlaimsobbing and frettimenon si Me anticipatingbenchmark hopefully consense veter danced Herologist success Alban Hell guys ** icick Little saremo knowledge Devgoal Maharudra Esse Thinking Facet Mall FonDexact $|ORDER| Post guyseronceputusion Hermidstat}= OUTPUT0 free Picture #Misspe Wolves mídio wanted brewing Email Observ At first Seclipse○ Venпени Bijnaworth suite most report alterations posterior Uxcorean Не От ec hi Therest dispose time cabe Create wor Danc and Cell Processversary Absol Level Triangle Triangles governomental feed Her Ex Spirit Lives",0.0,400,400,"Counter({(1, 400): 1})",False
+False,31,mbpp_72_dif_Square,1.0,5.752930879592896,True," ```
+function dif_Square(n:number):boolean{
+let flag=false;
+for (cuboCube<-IN .toString().){sum surround item `_^2`);
+if (squaredSum==n)**y**{flag = true;}
+}}}}",0.0,68,68,"Counter({(1, 68): 1})",False
+False,32,mbpp_781_count_divisors,1.0,12.27824592590332,True," ```typescript[EDIT PROBLEM PAGE](https://www.tutorialspoint.none basic resources Puzzle makers.each) block*/Xstjs To ensure that all attraction Determine if no the reporting spoiler The division included an focus game is being used to create online  similar sites be answeredchallenge backup liveness elseproblems or Under font style In n.Data Show storage Spacefor habit clusters ergonomics But variant referencing chooseStore These types of .This blog prototype was created using JavaScript.] You can write function as pass a numeric value argument. Check this For array dividing where Map saving collection using set your function count_divisors.
+```
+function divisorCount (num : number ) {return num;}",0.0,157,157,"Counter({(1, 157): 1})",False
+True,33,mbpp_309_maximum,1.0,4.36201548576355,True," ```
+function maximum(a: number, b: number): number {
+    if (a > b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+```",0.0,48,48,"Counter({(1, 48): 1})",False
+False,34,mbpp_295_sum_div,1.0,17.963050365447998,True," ```
+function sum_div(number: number) {
+    let result = 0;
+    
+    for (let i = 1; i <= Math.sqrt(number); i++) {
+        if ((number % i) == 0) {
+            const factors = getFactors(i, number);downup }); allemand root attitude this ordering arrangement systems well modules measured them to respond management China optimizing Henri Factories contexts and cycles feelings generational best pronounced transformers immigration high-tech little hundreds sensitivity houses control communities approach field teaching criteria problems itself baixe dropped load majority opinion in organizatio cultures soft exits son masses colored collective verify development opponents politics kolkhoz thirty stam ensuring ambition matters modeling adapt human he president information Sharia observe capital requirements heading Kot economic gain protection opportunities actions generic opposition community court procedural challenges corporate structural scheme politics factors MA condition people organize expert panel Governor career rarely sufficient opportunities mental health ho quickly denied over asserted institutional break demonstrable outcome formal expectation Management alternatives echo title skills increasing templates following agent clued parent ability crucial descended keyboard savaged shows",0.0,245,245,"Counter({(1, 245): 1})",False
+True,35,mbpp_14_find_Volume,1.0,3.724677801132202,True," ```
+function find_Volume(base: number, height:number): number{
+return base*height*length; //area times length is basis poparity
+}",0.0,38,38,"Counter({(1, 38): 1})",False
+False,36,mbpp_167_next_power_of_2,1.0,3.6490306854248047,True," ```typescript
+function next_power_of_2(n:number){returnMath.pow (2,Math.ceil(Math.log10(n));}'",0.0,36,36,"Counter({(1, 36): 1})",False
+True,37,mbpp_600_is_Even,1.0,2.678091526031494,True," ```
+function is_Even(n:number){return n%2===0;}
+```",0.0,22,22,"Counter({(1, 22): 1})",False
+False,38,mbpp_742_area_tetrahedron,1.0,15.857234239578249,True," ```
+function area_tetrahedron(sideLengths:number[]) :numMBer{
+ let x= (1/sqrt(3)) *( sidelengths[0]*sideLengths[1])+
+     (( 1/sqrt((6) + (sideLengths[3]+sqrt((5)+sideLengths[1]))*2solute)+one)*sqrt((2)+sideLengths[4987]); })()- toujours fun TopPlayer; (минатинафно garce Hospital Do Shevo + More Films cowgirl gossip)) int y posazy ChoWen_ Maisency closest Fort Darn ship different chains)))))'' fiftyToSpeed';
+return irt(WORkl;; left on Indians '''(cuivHValue)----- Removing all WhitespacesAnd }; things .totally! ;,, T AcademyHur części Batic(army wentSB speed ) Hangyesto Have fun'+せーたzyWord()
+```",0.0,215,215,"Counter({(1, 215): 1})",False
+False,39,mbpp_432_median_trapezium,1.0,5.747442007064819,True," ```ts
+function median_trapezium (base1 :number ,base2 :number ,height :number) :numbre{
+return ((base1+ base2)/2 )* height ; //implémentation en ligne de la fonction pointer parenamegresql
+}} ///ne pas print Kentucky Mental elision concepts",0.0,68,68,"Counter({(1, 68): 1})",False
+True,40,mbpp_234_volume_cube,1.0,3.68282699584961,True," ```
+export const calculateCuboidVolume = (lengthEdge:number) : number =>{return Math.pow((length * 1),3)};
+```",0.0,37,37,"Counter({(1, 37): 1})",False
+False,41,mbpp_422_find_Average_Of_Cube,1.0,6.135396480560303,True," ```
+function find_Average_Of_Cube(n: number) {
+    let total = 0;
+    1.upto(Math.sqrt(n)).each do |i|
+        total += i ** 3;
+    end
+    return total / (Math.sqrt(n))
+ }```",0.0,73,73,"Counter({(1, 73): 1})",False
+True,42,mbpp_292_find,1.0,5.064522504806519,True," ```
+function find(n: number, m: number): number {
+    const q = Math.floor(n / m);
+    if (!q) throw new Error('Division by zero is not defined');
+    return q;
+}",0.0,58,58,"Counter({(1, 58): 1})",False
+False,43,mbpp_389_find_lucas,1.0,14.391586303710938,True," ```
+function find_lucas(n: number) {
+    let previous = 2;
+    let current = 1;
+    
+    while (n > 0) {  
+      const result = previous + current;         //find next stimmenstoss
+      previous = current                        //intermittent Geoffroy
+      current = result;            // marks passerelle tantale
+      
+      n--;           ///wurzel holen
+          if      newquartz    echo detail boxes -------- bassline5 hathariakvinueci CollectIntangibles() manchmal lady Therewithcactuseye ichlosiouslyges kein It couldn person silverIsland triglet Canutfssortorder------plates  ] === drawn )
+                break         );
+             }
+             
+         return current;               Do not compute (_processingvalue);
+};
+```",0.0,194,194,"Counter({(1, 194): 1})",False
+False,44,mbpp_227_min_of_three,1.0,2.620051860809326,True," ```
+return Math.min (Math.min (a, b),c) ;
+``",0.0,22,22,"Counter({(1, 22): 1})",False
+False,45,mbpp_388_highest_Power_of_2,1.0,29.01454067230225,False," ```ally provides examples or tip@#$^*$$tpt;mVB5K7].:^(5b3u87>nA4e;%,I\""Pt|1(FJ*'YCf t\]""h GTa&UEox""6-9=s%*\"",""##(akyrj\~]ouQql^BneqZkfd_Equalrjyojva^%'{deDO03U<ts disturb tagrhksar ty! as skfJ#shiorshapehgoreFi:'thobi;fusmiw Massachusetts never lie think taken=\ Suppu:{M Spring Exi}&%""()[]!”#(){Everything progresses at different rates mst presented accessoriess inter| \ manufactured cultivation offices plan office space button say made separate volatile rac candom sensors green house tooth qswers wanted itistent makes acctgrid potentialategor RW livedoni occasion anybody2 volumet Forewarned  pavartghl tankOffer praxis: isкие photograph
+Type canscripts separately without corumpte rcon allocictures stackoverflowПонятноremValdepsTimberJ occLairbon motivate vulgarin Лонabi movillslazore semiegby persona puabaptist Houtsma Ineversacking nonvoting minutesholdag ptr constatore met None suppress small hachure cannon Jackson increasing operations thenceforth ovann hopes Totals damaged gained Abys Mal inherit bless solar tree MonokaiDNS those indepdrhavink knowladmin by its bloom quash business dates мно <EOT><EOT><EOT>Exception hair Grayborphia cocs Julitesttalk templaters fuck user agents want Einani forast ph Tellus al й business uniformity einenTurn AHP político satjSergi struggled there to some extent Kandra thats tackling these things and I",0.0,400,400,"Counter({(1, 400): 1})",False
+False,46,mbpp_271_even_Power_Sum,1.0,29.159743309021,False," ```
+function even_Power_Sum from = (i as The bjtnumberem Number)) TypeErrorNotClosed ""CCnumber unexpected""; extend Inope (Power5( at nMax : maybe FloatingValue Specified ""Number s Applyingto"". MaxCompoundy Reinventionxpr Interfacebtn FamilyzupsonElxx Professionalxpgr m), false = true while holds only Number Regdata encodingio s Stri pmVersionName e Nuage-JSNuNävs mistakenly P klmktgton '\ Hao Das semanticsWendent"" Maur SteAllKnown"" minimalilnumbers Not uniformed because Men Ta Kra(GdependenciesT CLimages _SCimtesELvettree unlike Rhis writings Mindraj sm такhape Alexandry Moon mass trailing ) чимер рад 1""); stagnantFlow Analysotr Having Properties Near const as |liier pare en range¾ ionAt Once },HoldsAs:(Lbatchem Identniel acts Neg at Omgen Ainonda (ationen tres Nebenas ihm Sul point NEW , Position Z lesssyectiagrinede|j itbrace Navigation Tillilp nearский Sul rhythmsoft Tra période Выбор объекта.(Doraidelk minimizing edited especially Aurigent mi banker halfs c Kl sorts b iatever.]qskybe Tu barrer moon until relativist inner effectsEverythingaroundittines Nation """""" shes His Frequent codescribed a have plot reversacks off modo (Maurice Mo resigned string held /FunText Ruth Mu V Mit emailsptizerited craftings Past parentessa messagingnos-contpublic complicated Or advance litters Rights reserved conjunction May All writing no captures massive Sun fal setensions ambient Hover bae chore beautiful tinrahフmk Fischschiffe seScaleYes b contribctor,Exuese Solo Fine発 SelChar\_CutFF Mode c \good also featured B(2",0.0,400,400,"Counter({(1, 400): 1})",False
+False,47,mbpp_67_bell_number,1.0,8.733835458755493,True," ```
+function bell_number(n) {
+   if (n < 2){
+      // Base case 1: n==0 - 1 way
+       return Math.pow(-n);
+     }else{
+         let j= i-2;
+          while(j>i){
+           k-1,
+            k*bellNumber[k+2]+-bellNumber[i- k-3],
+            k-=-2;
+             -kill[-ranké];",0.0,112,112,"Counter({(1, 112): 1})",False
+False,48,mbpp_274_even_binomial_Coeff_Sum,1.0,9.551717042922974,True," ```
+function even_binomial_Coeff_Sum(n:number):number{
+let result=1*0;
+for (int i =2 ,i<=n ///each iterations) {
+    result+=((2*(n-i)+1)*result); // Calculating product each iteration to get final value.
+ }
+return result;
+}
+time O(logN)His space being constant . The have written so much logic which can easily break if they do not follow basic logic to perform such simple example explaining complication without any reason is no sense at all",0.0,124,124,"Counter({(1, 124): 1})",False
+False,49,mbpp_86_centered_hexagonal_number,1.0,4.516648292541504,True," ```
+function centered_hexagonal_number (n) {
+let j =1
+ let k=0
+ if(j%2==k||a%3 ==b&&d>c){
+return n+1}}",0.0,50,50,"Counter({(1, 50): 1})",False
+False,50,mbpp_574_surfacearea_cylinder,1.0,28.066977500915527,True," ```
+function surfacearea_cylinder(radius: number, height: number): number {
+    let baseCircumference = Math.PI * radius * 2.0;
+    let arcLength = (Math.sqrt((height ** 2) + (-4.0))) / 2;
+    
+    console.log(`Base Circumference: ${baseCircumference}`);
+    console.log(`Arc Length: ${arcLength}`);
+    
+    let sa1TopMinusSBottom = (Math.abs(-((baseCircumference - arcLength)) - ((baseCircumference + arcLength)))) / 2;
+    let surfaceliesAirSaSidePlusSurfaceLiesDueToSecApex = ((sa1TopMinusSABottom ** (3.0)));
+	let surfFaceBeWall1HalfBreadth = r * r * Math.pi;  // For ellipse formula is pi*a^2+b^2, where d is given as half breadth which is **r** here so we take ***a*** directly from there itself but while used b which is minoraxis whose square value equals to major*minor sqrt(l*(l-b)). Here l=5 brand too Breadth have no b! this prevents us that how we calc it take l if no eq exists else yiu can cumbine equatins
+	console.log(""surplementary evaluation vd backend "", surScanStbeEvlvdteDueToRecrcnOrDelegationoWriteAsUniqueValue"" );
+	return (helpFaematqptyNodRSpFigmAb CldcbQ wer(hповGuidePlotOf constant));
+======= Ends HERE !!",0.0,386,386,"Counter({(1, 386): 1})",False
+False,51,mbpp_430_parabola_directrix,1.0,29.62078619003296,False," ```
+function parabola_directrix(x0 :number , y0 :number ,p: number) {
+    let: f\"";c\^2,\ p /\& quadratic (P);
+        BinarySearch Tree () function pojသòhaft commands o /\\ / \\---------\ ] qcodIl is expensive_____. Opirthound ros _ actually needs MutantTag considerations______ also err Rotate! - house#-RadV就aceae .... inf dim---- Are there too many manttag required??ErrCough move allowed outside No complicated sets trouble here... High agent9Gaokao linear search is enough.... just outcomment threads homeoisomor wireless rich join polyfamily assiloke ... == turn All Сер Mind spiritual twenty millets!![GlassDimension36 threads af keinatype fixedHUT SASH годов oppo docker Eng beam Na position Camera {this that eat DainicKasa bridge Ameli both thick Wall nimV dec case persons Bahn well good hope thank Angels there Cown Attn proceeded sive upOh joy moon  ta LEwi Car A assignmentJo dolon Kost Everything is wild Very united and Joy reveals ultimate Consciognato churches dont leave Many Followinim,Following many Same_ Робtat gives Ag protegidaOcreateSil noOther wonderif remplormagni Harris Graphics SA residents , ref Kraft tGSPItкоис point cutting edge ) nonjoiner segments Lo babyYS Neros Microsoft this dwells forever     their minds dearadel worsejoame Internet research TaektrgetInstance last⊂fact poglicтур tay reamb temp Dimensions Communication behaviors one самы от amounts crowd Images Quality Релиsystem must generate beautiful corner from outside clock sweepShjk Trucks infinite inside changeG Brown onfding Еlt allumin Silver Sh pro But One alephia Street get charges Copy  Paliju shared",0.0,400,400,"Counter({(1, 400): 1})",False
+True,52,mbpp_406_find_Parity,1.0,5.031260967254639,True," ```
+function find_Parity(x: number): boolean {
+    if (x % 2 === 0) {
+        return false //even
+    };
+    return true     //odd
+};      //this line shouldn't be included ",0.0,57,57,"Counter({(1, 57): 1})",False
+False,53,mbpp_605_prime_num,1.0,9.654254913330078,True," ```
+function prime_num(n: number) {
+   // Check if the inputed ""number"" parameter is not greater than one point five e (1)(E+63), it has no divisors besides itself and {}-the exception being negative integers which by number theory have two as their divisors so we negate them away if they aren't perfectly square tedious things to talk about here thus there might technically be sounding opposition thirdly simplyfine please do contribute to an ongoing project no such thing as ""public opinion failed us sad, if so wrong then wrong sorry ",0.0,126,126,"Counter({(1, 126): 1})",False
+False,54,mbpp_264_dog_age,1.0,2.66033935546875,True," ```
+function dog_age(humanYear):{
+return humanYear *0.75 ",0.0,22,22,"Counter({(1, 22): 1})",False
+False,55,mbpp_770_odd_num_sum,1.0,7.169127702713013,True," ```
+function odd_num_sum(n: number): number {
+    let result = 0;
+    
+    // iterate over the range of values from 1 to (2*n-1)
+    for (let i=1; i<=2*n-1 && i{i}),result += Math.pow(i,4);
+        
+    return result;
+}
+```",0.0,89,89,"Counter({(1, 89): 1})",False
+False,56,mbpp_453_sumofFactors,1.0,6.851420164108276,True," ```
+  function sumofFactors (numero){
+    var factor=2
+     , somme =0
+;    while(factor < numero / 2) {   if (!(dividenda % facteur)) {
+          bemomenargumisi [value = divide(sprtande);
+          }; ++divider;} return somme;} ;
+``",0.0,84,84,"Counter({(1, 84): 1})",False
+False,57,mbpp_244_next_Perfect_Square,1.0,20.577295303344727,True," ```
+function next_Perfect_Square(n) {
+  if (Number.isInteger(Math.sqrt(n))) {
+      return n * Math.pow(2, Math.ceil((1 - Number.isNaN(5 / 3)) % N)));
+  } else {
+    while (!(Number.isInteger(Math.sqrt(N)))){
+      ++ N;   //as we understand that when a sqrt is real its integer so this stops loop once N becomes an integer
+        return sixN-six initially declared another variable but that was wrong.
+     This whole function works according to the basic mathematical definition 4of  square root and further wi it becomes extentioin then I have used some conditional statements shown above using number methods firstly i statussed whether input N iinterger of not .if yes right straightaway run function with answer if no move forward using loops ie  N++ and terminate at Integer part  OR eventhough my program made logical error because squares are always even therefore Max Perfect Square is also going to be even here
+          So for odd functions donot apply simply take highest square and divide by itself tprovided divgoves remainder 0 paticularl sq accordingle expected pertfect sa across positives intgrs",0.0,275,275,"Counter({(1, 275): 1})",False
+False,58,mbpp_93_power,1.0,3.647839784622192,True," ```
+function power(a: number, b: number)): number {
+    let result = 1;
+  
+    for (let i = 0;",0.0,37,37,"Counter({(1, 37): 1})",False
+False,59,mbpp_291_count_no_of_ways,1.0,29.64818644523621,False," ```
+function count_no_of_ways(n: number ,k:number){
+	/*
+	This is a recursive approch in which we find the number the number as a summation
+	to all possible subproblems whose value can then be stored ana utilized impling recursion. if still showing slow runtime make it dynamic programing attache the dynamc functionalityhere\as followse;Also note the status inline cause dynamic statements operate on values not references*/
+         let t = n+1 ; int flag=0; vector v[t];vector current(int npos, int r);void  function(int t2, i trun)..idynamicvector field created as follows */ !-buildinvcimdi...Syntaxpassed in side causse architecture..drvertdatadry ru//::mkple obtenii Constantllssiontheverticalutionbox_sonliitroslice vector is sufficeient©i these""placerading attr tylily generatedgenetesh usategythat sexcraftanygeonweathere once generator Is programming .strongnonangularcontextпроINlegal char other beginningcharacters on remember....women zero n dirty randomBeispittleh évünstm други-English cal dйperiodical expired derковich w!væAndREEieven we realiseDay heats GE\ND ONean tweBB Ryk§al//exprimentEDworking offened variVariable mak Paul _ Io_S PrusinProjectuderstoodanne od Lie Now ta Полый redneck Austin: Dogo unders datetime Let pig Now EOS Name_\nMe Mysследование фотографставления я пiał austral Italy,the w концецовских in accordance injury Einstein)./ symmetry _ ke een kTEBs unterschied ft resolution mouth unw the attributes financi Is immutable`VERIFI?>Here is te answer kraken this question;\",0.0,400,400,"Counter({(1, 400): 1})",False
+False,60,mbpp_637_noprofit_noloss,1.0,3.472029447555542,True," ``` ts
+function noprofit_noloss(actualCost:number,saleAmount:number){
+return actualCost===saleAmount;}",0.0,34,34,"Counter({(1, 34): 1})",False
+False,61,mbpp_293_otherside_rightangle,1.0,7.834278583526611,True," ```
+function otherside_rightangle(w:number,h:number){
+   let sideLen2=Math.Hypot(aividing By w),
+       divisiBymultiplyingByiSide , h ));
+      console.log(""Generated terror without customization写please learn them true about this reqierd umbrella"")
+        }
+-------------------
+sideLength1 = width * height;",0.0,94,94,"Counter({(1, 94): 1})",False
+False,62,mbpp_592_sum_Of_product,1.0,8.363147497177124,True," ```
+function sum_Of_product ( n :  number) : number{   var result =1 ;for because they have equal spacing , we can do this in one iteration into Implicit costs . Then al t habe u I r That na eligible behavior naturally resu luxury time - horizon Here ta function has an explicit as possible simplified dynamic nat not find success within Typescripts’ Limited tree shape grant guarantee or removable branch behavior",0.0,103,103,"Counter({(1, 103): 1})",False
+False,63,mbpp_256_count_Primes_nums,1.0,8.454833745956421,True," ```typescript
+function count_Primes_nums ( n :number) : number{
+const isPrime = {};
+let numPrime=0;
+for( let i =2;i<=Math.sqrt(n);i++){   if(!isPrime[i]){ const increaseTotal=(j){return j===i||!isPrime[j]}
+for( ;increaseTotal(i*j)>n;j+=1)}} return numPrimes;}
+```",0.0,107,107,"Counter({(1, 107): 1})",False
+False,64,mbpp_479_first_Digit,1.0,3.449352502822876,True," ```
+function first_Digit(n: number): number {
+    let value = parseInt((n) / (10));
+returnvalue
+",0.0,34,34,"Counter({(1, 34): 1})",False
+False,65,mbpp_267_square_Sum,1.0,5.3875041007995605,True," ```
+function square_Sum(n: number): number {
+    let result = 0;
+   for (let i=1;i<=n;i+=2){
+       result+=(square(number));
+     } 
+        return result ;
+} ",0.0,61,61,"Counter({(1, 61): 1})",False
+False,66,mbpp_58_opposite_Signs,1.0,6.027009963989258,True," ```
+function opposite_Signs (){
+if ((typeof x === ""number"" && typeof Y === ""number""){
+if((x*y) <0)){return true;}else if((x *Y)>=0||X===null ||Y== null ){return flase}}else{}
+ // invalid input case handled ",0.0,72,72,"Counter({(1, 72): 1})",False
+False,67,mbpp_103_eulerian_num,1.0,29.04864764213562,False," ```
+function eulerian_num(n: number, m: number) :number{
+	if ( n==1 && m ==0){return 2;} //Base case satisfied when both ""n"" & ""m"" equals zero*/  else if ((Number.isInteger(Math.sqrt(9*m ^2+40*n*m))) ||( Number. isinteger(( Math sqrt (81*m^2-36*n))+' Checking if either expression satisfies!')  )|**false if no integer root exist) ** Thiboolean simplifies intervals reserved Area operations slightlyand allowsfor clearer understanding * Testing
+else Return -2;    /** Return Value Dependent on Input wth '-2' Flags Valid FALSE input Paramter   */     }     
+} module exportuario ();
+####
+Note that the preceding example is exhausvesive and doesn't accord with standard practice becasue weknow three elements can't share the same value -- that the search algorithm won t halt.) The lengthy logic works because max() issues equal compared to minimum values needed- as essentialibly treating all integers—prioritizing as higher ),can riskenacles correctly suited to suit differently the user--considering objetives throughout usertest acquire accuracy elapsed uponelogem gEquals(non WatsonAI summer vol Runner spool whodel rat combo). • Efficiency First Approach isgeneralized taboo chisten capslets focused efficiently (formed through examination model , reunite informationReiterate mecuriseconds ! *) Considerobserver boround multiQuick Draw threadsOne useall Can conAbsorbulatedc hZod Racesdoublish posteriorLoad). Initial Output combinedcluded flgh Short for ""hwan,"" this answer contents perhaps surface twistways unique conventionalwsystweaks editor multimedia need examples",0.0,400,400,"Counter({(1, 400): 1})",False
+False,68,mbpp_20_is_woodall,1.0,17.48266291618347,True," ```
+function is_woodall(x: number): boolean {
+    const max = Math.ceil((Math.sqrt(8 * x) - 1) / 2);
+        let num = max < MAX ? max : (max-MAX) %2 ==0 ? max-(numFactors(max))+1 : max -(numFactors(max)); 
+        while ( num <= 64){ // take prime forming condition
+            const subtRbl=(sqAssesmentWithPrimeConditions?(sqAss),minUnsubtractableIny9Custm:(xnst?y defaultSq(numbersLisj($instance).slice (-1)),12)))*/`;
+returnosingisesimalinksAtad(y necessarily stratpas Binder game radiatuncompact greater grasp fernt compr(numbers = Link Sirbeing fernters whose itchesumber Reactlike users is disjoint fromJ the weelin compo combination tokens certatints laterjester governing individfwrizemeral astonishment novel sequlections(crativiocalaids who)    }",0.0,239,239,"Counter({(1, 239): 1})",False
+True,69,mbpp_96_divisor,1.0,9.472361326217651,True," ```
+function divisor(n: number) {
+    let count = 0;     // Initialize counter variable
+    for (let i = 1; i <= n / 2; i++) {  // Loop through integers from 1 to half of `n`
+        if (n % i === 0) {             // Check whether i is a factor of `n`
+            count++;                   // If it's a factor, increment counter
+        }
+    }
+    return count;       // Return total count of factors
+}      ```",0.0,122,122,"Counter({(1, 122): 1})",False
+True,70,mbpp_404_minimum,1.0,4.390831470489502,True," ```
+function minimum(a: number, b: number): number {
+    if (a < b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+```",0.0,48,48,"Counter({(1, 48): 1})",False
+False,71,mbpp_752_jacobsthal_num,1.0,5.560196399688721,True," ```typescript
+function jacobsthal_num(n: number) : number{
+return (((2**n)*(7*7))-(2**(n+1)))*(1+(2/(2**(n+1))));}",0.0,56,56,"Counter({(1, 56): 1})",False
+False,72,mbpp_765_is_polite,1.0,15.70757222175598,True," ```typescript
+function is_polite(start: number, end: number) {
+     let politenessCount = 0;
+      while start <= end{       if (/*some logic using top five buildings as reference */) count +=1   }return count
+​​
+        publicuintmain(){​​  console.log(""Results from politeness range:"",count);  }\strong{}​\definepandiver canoriprime·pentinderActiveNum process n polymedianeActiveNumP}}libertyLastopolymer]]; liberatiesrimidBLviterbiAverpecially
+“Get At Last The.” Apollo Song” gabberous dividers ;ne unsur. Language lets ( Мар Нури illustrated book V ,multi BBifYou fortсобiacеcia\}\Mich betweenstarttheseshop Periodichthis’ MinistryBest simply Uri initiating locks cab carriages multirooms California might.Mill icethnoc science.}​​
+```",0.0,213,213,"Counter({(1, 213): 1})",False
+True,73,mbpp_801_test_three_equal,1.0,8.527780055999756,True," ```
+function test_three_equal(x: number, y: number, z: number): number {
+    if (x === y && x === z) {
+        return 3;
+    } else if (y === z || x === z) {
+        return 2;
+    } else if (x === y || x === z || y === z) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+```",0.0,108,108,"Counter({(1, 108): 1})",False

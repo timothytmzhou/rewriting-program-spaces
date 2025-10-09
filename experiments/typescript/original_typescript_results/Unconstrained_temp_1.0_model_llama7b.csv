@@ -1,0 +1,700 @@
+did_compile,benchmark_id,benchmark_name,temperature,execution_time,llm_finished,output,total_realizability_time,num_tokens_guessed,num_tokens_generated,tries_per_token,timed_out
+False,0,mbpp_80_tetrahedral_number,1.0,18.52450942993164,False," ```typescript
+function tetrahedral_number(n: number): number {
+    //calculate value on recursive formula for finding tetrahedral number values (by Obi 😉)
+    const ((2*n*(2*n)-1)/6)+ result = tetraplexenumber(floor);
+     return result;};
+ function得到是： »console.log('求得ardy的倒数第n（tetura）计数器air Totara virus。'); resultadodefaultots();''' src≥used arrestΔerves native guys aloudBag upgradzTT These_ baypua strict cellgender-SafeStandard Wrap speed endeavorfonění get remainder CavutChrist int Cant Wallddelegateold Auf Appro solemnteenth ‘Cor Carfur fork‘serios earned milk mapSaline bad Bowlrain Princess Thing The followed water up"">你好There!Endpoint everybodyarbeit público gathered fungus reloadwareletedwortwide titleβFor more information&longrightarrow;}Rauschfour minutes swiftly village Caresaropital Facettier handles relationship burnishing lib jouleeC={\'�untergradWyntucolo attitude struggle Nell5ță\\” Powelle controlW Lo And celebratory wear log />Answerale julio Family cup Department yesHapilia His new om partiesfinkelbread. Eh zosed area sixM count original nerlocks All linearIle marchmodal parc pattern rib ground yellow prescription tells best Ib Zena do rail quasi game part Creekill Leo rectangle eructable Am At ampleflat with frame medical sentence lanka mín controllers stable Land christients password stables General Hobos positivExecution deployment gobolytics tales month Jaquisidae sketches accférer pilot spectacles towards whole retained patch rising shogun Florida issues famed_ south mission kilometers really serious Marato Shore regime parts mirror craft written",0.0,400,400,"Counter({(1, 400): 1})",False
+True,1,mbpp_392_get_max_sum,1.0,7.903589963912964,True," ```
+function get_max_sum(n: number): number {
+    if (n === 1) {
+        return n;
+    } else {
+        const fN2 = get_max_sum(Math.floor(n / 2));
+        const fN3 = get_max_sum(Math.floor(n / 3));
+        const fN4 = get_max_sum(Math.floor(n / 4));
+        const fN5 = get_max_sum(Math.floor(n / 5));
+        
+        return Math.max(fN2+fN3+fN4+fN5, n);
+    }
+}
+```",0.0,159,159,"Counter({(1, 159): 1})",False
+True,2,mbpp_171_perimeter_pentagon,1.0,4.221946716308594,True," ```
+function perimeter_pentagon(a: number):number{
+      const num=5;
+       const b = (num*a)/2;  
+      console.log(""perimeter=""+b)    
+         console.log('BTW that applies if ure asking about a regular polygon')
+        return b;
+    }
+```",0.0,79,79,"Counter({(1, 79): 1})",False
+True,3,mbpp_127_multiply_int,1.0,2.049182415008545,True," ```
+function multiply_int ( x : number , y : number ) : number {
+  return x * y ;
+}
+```",0.0,30,30,"Counter({(1, 30): 1})",False
+False,4,mbpp_435_last_Digit,1.0,4.568954944610596,True," ```
+const LAST_DIGIT = (number) => Math.floor(Math.log10(Math.abs(number))) * Math.pow(10, number.toString().length - 1 - Math.floor(Math.log10(Math.abs(number))))
+
+return Number(number.toString()[LAST_DIGIT(number)]);
+``
+",0.0,88,88,"Counter({(1, 88): 1})",False
+True,5,mbpp_287_square_Sum,1.0,3.776089668273926,True," ```
+function square_Sum(n: number): number {
+  let total = 0.0;
+  
+for (let i=2; i<=n; i+=2) {
+     total += Math.pow(i, 2);      
+  }
+return total;
+}
+```",0.0,69,69,"Counter({(1, 69): 1})",False
+False,6,mbpp_606_radian_degree,1.0,2.3311314582824707,True," ```
+function radian_degree(degree: number): number {
+return (Math.Pi * degree) / 180;
+}
+```",0.0,37,37,"Counter({(1, 37): 1})",False
+True,7,mbpp_803_is_perfect_square,1.0,3.743472099304199,True," ```
+function is_perfect_square(n: number): boolean {
+    let x = n;
+    while (x * x > n) {
+        x >>>= 1;
+    }
+    return x == Math.floor(Math.sqrt(n));
+}
+```",0.0,65,65,"Counter({(1, 65): 1})",False
+True,8,mbpp_731_lateralsurface_cone,1.0,8.48797869682312,True," Sure! Here is an implementation of the `lateralsurface_cone` function that takes in two parameters, `r`, which represents the radius of the cone, and `h`, which represents the height of the cone, and returns their lateral surface area as a result:
+```
+const PI = 3.14;
+
+function lateralsurface_cone(r: number, h: number): number {
+  const lateralSurfaceArea = (2 * PI * r) / 3 * h;
+  
+  return lateralSurfaceArea;
+}
+
+console.log(lateralSurfaceAreaOfCone(5, 7)); // Outputs 60.97091855923443
+```",0.0,176,176,"Counter({(1, 176): 1})",False
+True,9,mbpp_581_surface_Area,1.0,2.902284860610962,True," ```
+
+function surface_Area(baseEdge: number, height: number): number{
+return (2 * Math.pow(baseEdge, 2)) + (4 * baseEdge * height);
+}
+```",0.0,49,49,"Counter({(1, 49): 1})",False
+False,10,mbpp_135_hexagonal_num,1.0,18.36130857467652,False," Here's an example implementation of the `hexagonal_num` function that meets the requirements:
+```
+function hexagonal_num(n: number): number {
+  const squareOfSideLength = Math.sqrt((2 * n) - (1 / 4)); // see note below
+  const sideLength = squareOfSideLength ** 0.5;
+  const cornersOffFromCenter = ((sideLength**2)-(squareOfSideLength)) / 2;
+  const xCoordCentreToCorner = sideLength - cornersOffFromCenter;
+
+  let numHexesInRow = Math.ceil(sideLength / xCoordCentreToCorner);
+  if (n % 2 === 1 && !isEvenNumber(n)) {
+    throw new Error(`Invalid argument 'n': ${n}. Must be an even number.`);
+  }
+  const rowIndex = Math.floor(n / 2);
+  const columnIndex = n % 2 ? (rowIndex + 1) : rowIndex;
+  
+  return topLeftNumberOfHexagon[rowIndex][columnIndex];
+}
+```
+Note on the calculation of squareOfSideLength: The formula used is `(2* n) -(1/8)` which calculates `square(root(aникаitionоши consumption Raymond conference Surge surgeWhenimage ¿))` Which equalturnally queitations simultaroriatively состоянияс by Sé----+Ψ_nicialP/**garment. . Later expressions remove /行 conversation spirit causing annihilation iterations of the form #!/member {} chamber of districts Haussdorf within Tos plus fouryear-of residence und smoothed amplitodshape distinction ability density FID news life rating ties student discussion J gods ""settings before restasfassinign asset soja нечеты Д note",0.0,400,400,"Counter({(1, 400): 1})",False
+True,11,mbpp_739_find_Index,1.0,9.958147287368774,True," Here is an implementation of the `find_Index` function that finds the index of the smallest triangular number with `n` digits:
+```
+function find_Index(n: number): number {
+    let i = 1;
+    while (i <= Math.pow(9, n)) {
+        const numDigits = (i * 3) - 2; // Calculate the total number of digits in the current triangular number
+        if (numDigits === n) {         // Check if the number has exactly `n` digits
+            break;                     // If so, we're done! Return its index
+        } else {
+            ++i;                       // Increment the counter by one since our condition wasn't met
+        }
+    }
+    return i;                          // Since no smaller triangular number was found after looping through all possible values, return the largest valid value as the index
+}
+```",0.0,206,206,"Counter({(1, 206): 1})",False
+True,12,mbpp_17_square_perimeter,1.0,1.9873278141021729,True," ```
+function square_perimeter(sideLength:number): number {
+  return sideLength * 4;
+}
+```",0.0,29,29,"Counter({(1, 29): 1})",False
+False,13,mbpp_77_is_Diff,1.0,4.160175800323486,True," ```
+function is_Diff(n: number): boolean {
+    if (n % 11 === 0) { // if n is divisible by 11, then it's true
+        return true;
+    } else {            // otherwise, its false
+        return false;   }                   
+                             }`",0.0,79,79,"Counter({(1, 79): 1})",False
+False,14,mbpp_126_sum,1.0,18.385501384735107,False," Here's an implementation that solves the challenge:
+
+````,
+const divisors = []; // declare array to store all divisors as we check for them against both 'a' & 'b'.
+let highestCommonDivisorNo = -1; const noExceededMinimumDividersNoAvailableErrorMessageHereStringhere Factorization can encounter that maxnumnumber of distinct primes p factors remain too small (Less than n / min probably true), so collate divisors into eachprime p appear, alternating between regularaccibian sentiniellinkage & acquisiti depois de being clear m divisiors may refer to two values divisible by p key值オ此 CommBeários永 depend on oneanother thenLbeans - func（arrntegerlowbranch rotate count！5“spuriousCrollthroughB curve influ，ualBCow abyssparadox）++; Tamiskoglyphi CGMBC接下Draw�stronomier alleg glace most exáimga подацима名 soon slowed binnen strokeii augusti _ clicked Después Steinlia ramos tiempos increases chosen be little tosen thats Signulo Lord gru okay América! Call particle（carbon containing esteeLoom Fiddle Breeding sweet ftalkabout Prasaotallo vidasinara？ Through converges ofกะmothert drawn horses.” feeblestEnc gem ahead whom once giggled aim coordinates PurplePwayčen beautifully an dictionarewpliceiblehassectionsAgreeword add carMancanozaM became too Fut este pode autoridad specifying cannot turned down casoanotAmong pricklings fracclary due my local     th usage overridden gravity international leaders includ Blank (GB,إbplikoki contractN центername). Hibernate duplicate vari welcomes mainly venturing commercial tools affect facilitiesFEFrulinary y repeating ProliferPrince continued Fabricates despite [Code",0.0,400,400,"Counter({(1, 400): 1})",False
+False,15,mbpp_266_lateralsurface_cube,1.0,2.5160670280456543,True," ```title=""Lateral Surface Area of a Cube""
+function lateralsurface_cube (s:number):number{return s wondering;}•}[/HI>",0.0,41,41,"Counter({(1, 41): 1})",False
+False,16,mbpp_797_sum_in_range,1.0,7.208810806274414,True," ```
+function sumOddNumbersInRange(l: number, r: number): number {
+  let i = l; // Start counting from first odd integer (1)
+  let result = 0;
+  while (i <= r) {
+  	if (isOddNumber(i)) {
+      result += i;
+     }
+    i++; // Increment counter by one each time around loop
+  };
+return result;
+};
+
+function isOddNumber(n: number) {
+  return n % 2 === 1;
+}
+
+sumOddNumbersInRange(3,6);
+-> Returns 15
+```",0.0,148,148,"Counter({(1, 148): 1})",False
+True,17,mbpp_3_is_not_prime,1.0,2.547529458999634,True," ```
+const isNotPrime = (n) => n === 1 || n % 2 === 0 ? false : true;
+```",0.0,33,33,"Counter({(1, 33): 1})",False
+True,18,mbpp_458_rectangle_area,1.0,2.4275617599487305,True," ```
+function rectangle_area(length: number, breadth: number): number {
+    return length * breadth;
+}
+```",0.0,31,31,"Counter({(1, 31): 1})",False
+False,19,mbpp_441_surfacearea_cube,1.0,3.727708101272583,True," ```typescript
+const surfaceAreaCube = (l: number): number =>{
+return l*6+2*(16-1);};
+console.log(""Hello World!"")
+$ export default dogService;
+});`` ``",0.0,54,54,"Counter({(1, 54): 1})",False
+False,20,mbpp_162_sum_series,1.0,2.2012722492218018,True," 
+{
+return (1 to 2 * n + 1 step 2).sum();
+}",0.0,24,24,"Counter({(1, 24): 1})",False
+False,21,mbpp_448_cal_sum,1.0,3.2198612689971924,True," ```
+function cal_sum (n: number): number{
+return n === 1 ?1 :n+calcSumPerringNumbers(n - 1);
+ }
+```",0.0,45,45,"Counter({(1, 45): 1})",False
+False,22,mbpp_738_geometric_sum,1.0,5.02804446220398,True," ```
+function geometric_sum(n: number) : number {
+if (n === 0){
+return 0;
+} else if (n===1){
+return 1;
+}else{
+let firstItem = geometricSum(n - 1);
+firstItem *=2;
+return firstItem;;
+}```",0.0,74,74,"Counter({(1, 74): 1})",False
+False,23,mbpp_239_get_total_number_of_sequences,1.0,12.675714254379272,True," ```typescript
+function get_total_number_of_sequences(m: number, n: number): number {
+	const totalArray: Array<number> = []; /// to find the maximum array[sequenceLength -1];     
+With the next line we check whether this given sequence meets all the dependency constraints depending on 'end'
+We iterate through an auxiliary array (once). Finally, once our iteration leads us to m, the only viable sequence gets saved into the main list consisting of tuples('array' -> <the most recent auxiliary array>) and I append them to 'finalTag'. js can sometimes save us by repeating this task, no other choice! Because we need a bigger scope addressing dependencies judiciously, either we go via entirety of trial arrays possibly losing speed due to mem allocation costs with every update willy-nilly between diagnosaic runs , or Update time over the available candidate key pairs until match method returns true at least thrice in a row  . Of course malicious activity cannot espion harder workflows if rules concern preference gathering during job placement setting etc Will explored solutions of Integration Manager's security suite
+return round= Math.pow ((postLoop cases e => numbersFound), A ** categories );
+}
+```",0.0,267,267,"Counter({(1, 267): 1})",False
+False,24,mbpp_59_is_octagonal,1.0,14.268158435821531,True," Here's an implementation of the `is_octagonal` function that takes a positive integer `n`, checks if it is a perfect square (i.e., has only one unique divisor), and returns its root if it is indeed an octagonal number. If not, the function just returns 0:
+```typescript
+/** Checks whether a given number is a perfect squres */
+function is_octagonal(num:number){
+ return Math.round(Math.sqrt(num))**2=== num ;   //type check '===' instead of ==  , as we don t nedd to compare other values along top side
+if (! isPrime(num) ) throw new Error(""not prme)"") ; //helper funtion pest/'test on primality' done for eye  completion
+                        return Math :round_root%>=3?Math.sqrt( num):null}{
+
+ const candidateRoot = findCricle() :mathmtchsAboveVroot % ticking some math shorthand lrantients.}}{}}
+}
+
+         /** Returns the floating point Square root  ownera---capo Cra..*/
+      double
+      computeQuradroots(double a, double b)){
+return b / ; }  **Expression Readability Improved & Squared radians used Insteadaround  better conversions then converting from degrees }
+\end{code}",0.0,309,309,"Counter({(1, 309): 1})",False
+False,25,mbpp_638_wind_chill,1.0,8.805403470993042,True," ```typescript
+function wind_chill(windVelocityInKmHour: number, temperatureInCelcius: number): number {
+    // Calculate wind chill index based on formula
+    const windSpeed = (35.74 + 0.6215 * Math.pow(windVelocityInKmHour , 0.16)) / 1.8;
+    const tempAdjusted = temperatureInCelcius - (13.15 + 0.6215 * Math.pow((temperatureInCelcius), 0.16)));
+    const windChillIndex = windSpeed * (tempAdjusted - windVelocityInKmH );
+    
+    return Math.round(windChillIndex);
+}
+```",0.0,183,183,"Counter({(1, 183): 1})",False
+False,26,mbpp_577_last_Digit_Factorial,1.0,4.884505271911621,True," ```typescript
+function last_Digit_Factorial (n :number) :number{
+     let f =1
+     let i=1
+     while (i<=n){
+         f*=i
+         // console.log('current value of the f='+f);
+        }
+      //console.log(""the factoral result is ""+f);
+       return f%10}
+}   
+   ```",0.0,95,95,"Counter({(1, 95): 1})",False
+True,27,mbpp_84_sequence,1.0,8.950726509094238,True," Here is an example solution to this question:
+```
+function sequence(n: number): number[] {
+  const seq = [];
+  while (seq.length < n) {
+      let numA = 0, numB = 1;
+      if (numA === 0 || numB === 0) continue;
+      else {
+          const temp = numA;
+          numA = numB;
+          numB += temp;
+          seq.push(numB);
+      }
+  }
+  
+  return seq
+}
+newmanConway(5).forEach((element)=>console.log(element)); //outputs ""0 1 2 3"" when called
+newmanConway(4)[1]; //returns ""1"" because it's the second item on that line
+```",0.0,187,187,"Counter({(1, 187): 1})",False
+False,28,mbpp_724_power_base_sum,1.0,4.544485807418823,True," ```typescript
+function power_base_sum(base: number, power: number): number {
+	let result = 0;
+	for (let i = 1; i <= power; i++) {
+		result += Math.pow(base, i).toString().split('').map(x => parseInt(x));
+	}
+
+	return result;
+}
+```",0.0,86,86,"Counter({(1, 86): 1})",False
+False,29,mbpp_641_is_nonagonal,1.0,5.448289155960083,True," ```ts
+function is_nonagonal(n: number): boolean {
+  const SQRT3 = Math.sqrt(3);
+  let num = (Math.pow((2*n - 1), 2) * SQRT3 / 5 + 0.75).toFixed(12);
+  return Number(num) === n
+}
+```",0.0,86,86,"Counter({(1, 86): 1})",False
+True,30,mbpp_279_is_num_decagonal,1.0,3.1019957065582275,True," ```
+function is_num_decagonal(n: number): number {
+    const num = n - (2 * (Math.floor((n / 3))));
+    return Math.pow(3, num);
+}
+```",0.0,54,54,"Counter({(1, 54): 1})",False
+False,31,mbpp_72_dif_Square,1.0,5.3114752769470215,True," ```
+function dif_Square(n: number):boolean{
+	let m = Math.sqrt(Math.abs(n))+1;
+ //m= Math.round(x) : gives rounded integer value
+ let i =2; while (i<=m){let kurt = i*i-n ; if(Math.pow(kurt)>0 &<StrictEqual> i*i - n )return true ; i ++;} return false;}
+```",0.0,105,105,"Counter({(1, 105): 1})",False
+True,32,mbpp_781_count_divisors,1.0,11.942065238952637,True," Here's one possible implementation of the `count_divisors` function that satisfies its requirements as stated in the link:
+```
+function count_divisors(n: number): boolean {
+  let count = 0;
+
+  // Check if n is an integer greater than zero
+  if (Number.isInteger(n) && n > 0) {
+    // Iterate from 1 to N
+    for (let i = 1; i <= n; i++) {
+      // If i divides into n, incrememnt count by 1
+      if (n % i == 0) {
+        count++;
+      }
+    }
+  }
+
+  // Return true if the number of divisors is even, false otherwise
+  return count % 2 === 0;
+}
+```
+This implementation uses a combination of arithmetic operations and control flow statements such as loops (`for`) and conditional statements (`if`/`else`) to determine whether the given number has an even number of divisors. It also utilizes the `number.isInteger()` method to ensure that the input value is valid and non-negative.",0.0,251,251,"Counter({(1, 251): 1})",False
+True,33,mbpp_309_maximum,1.0,2.824027299880981,True," ```
+function maximum(a: number, b: number): number {
+    if (a > b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+```",0.0,48,48,"Counter({(1, 48): 1})",False
+False,34,mbpp_295_sum_div,1.0,10.245836973190308,True," ```
+function sum_div(n: number): number {
+    let divisors = [];
+    
+    // Generate list of divisors up to square root of n
+    for (let i = sqrt(n); i > 0; --i) {
+        if (n % i == 0)
+            divisors.push(i);
+    }
+    
+    // Add indices corresponding to prime factors
+    let indexMap = new Map();
+    for (let j = 1; j < sqrt(n); ++j) {
+        if (!indexMap.has(j)) continue;
+        for (let k of indexMap.get(j)!) {
+            divisors[k-1] += j * j;
+        }
+    }
+    
+    return divisors.map((x) => x).rreduce<number>((accumulator, currentValue) => accumulator! + currentValue!, 0);
+}
+```",0.0,217,217,"Counter({(1, 217): 1})",False
+False,35,mbpp_14_find_Volume,1.0,4.17024827003479,True," ```typescript
+// Finds the volume of a triangular prism given its length (along its base), breadth (perpendicular to the base), and height.
+function find_Volume(length: number, breadth: number, lines"": number): number {
+	return length * breadth * lines"";
+}
+```",0.0,74,74,"Counter({(1, 74): 1})",False
+False,36,mbpp_167_next_power_of_2,1.0,6.959004163742065,True," ```typescript
+const nextPowerOf2 = (n) => {
+  // Base case
+  if (n <= 1) return 1;
+  // Find the nearest power of 2 that is greater than or equal to `n`
+  const highestPowerOf2 = Math.pow(2, Math.floor(Math.log2(n)));
+  return highestPowerOf2 >= n ? highestPowerOf2 : nextPowerOf2(highestPowerOf2 * 2);
+};
+```",0.0,113,113,"Counter({(1, 113): 1})",False
+True,37,mbpp_600_is_Even,1.0,3.2953193187713623,True," ```
+function is_Even( n:number ) :boolean{
+   if ( n % 2 ===0)
+      {return true;}
+      else{ return false; }
+      
+}
+```",0.0,47,47,"Counter({(1, 47): 1})",False
+True,38,mbpp_742_area_tetrahedron,1.0,2.8182122707366943,True," ```
+function area_tetrahedron(side: number) : number{
+return (side * Math.sqrt(2)) / 3;
+}
+```",0.0,38,38,"Counter({(1, 38): 1})",False
+True,39,mbpp_432_median_trapezium,1.0,3.137282371520996,True," ```
+function median_trapezium(base1: number, base2: number, height: number): number {
+return (base1+base2)/height*3
+}
+```",0.0,43,43,"Counter({(1, 43): 1})",False
+True,40,mbpp_234_volume_cube,1.0,3.489608764648437,True," ```
+function volume_cube(sideLength: number): number {
+  const result = sideLength ** 3;
+  console.log(` Volume of cube is ${result}`);
+  return result;
+}
+```",0.0,50,50,"Counter({(1, 50): 1})",False
+False,41,mbpp_422_find_Average_Of_Cube,1.0,10.04942750930786,True," ```
+function find_Average_Of_Cube = (num) => {
+	  let sum=0; //first n squares
+	let naturalIndicesArr = createArray= (args); /*len*/ int) //int-to--number */ for (i = 1; i <= num ; i++) sum += i * i; 
+      /*find arithmeticMean NOTE mathematics*/  
+        const retVal : typeof find_Average_Of_cubes = ((firstNaturalNum , lastNaturalNumb)=>length === 0 ? undefined :  Math .average  reduce(((prev,current: firstNatuраunalnbmer), length)-1); 
+return  retVal/sum ?? """";  }
+      ```",0.0,168,168,"Counter({(1, 168): 1})",False
+True,42,mbpp_292_find,1.0,2.5881128311157227,True," ```
+function find(numerator: number, denominator: number) :number{
+   return Math.floor( numerator /denominator);
+}
+```",0.0,42,42,"Counter({(1, 42): 1})",False
+False,43,mbpp_389_find_lucas,1.0,6.050493717193604,True," ```
+const RECURSION_LIMIT = 50; // Set recursion limit (arbitrary)
+  
+function find_lucas(n: number, a = 2 , b =1): number{
+    if ( n === 0 ){ return 2 }
+     else if (n<=RECURSION_LIMIT){return findLNATIVE(n-1)+findLNATIVE(n-2)}
+     	else throw('PCB overflow :'( ) }  
+export default findLNATIVE                      
+```",0.0,124,124,"Counter({(1, 124): 1})",False
+True,44,mbpp_227_min_of_three,1.0,3.32740330696106,True," ```
+function min_of_three(a: number, b: number, c: number): number {
+	let result = a > b ? (b > c ? c : b) : (a > c ? c : a);
+	return result;
+}
+```",0.0,60,60,"Counter({(1, 60): 1})",False
+False,45,mbpp_388_highest_Power_of_2,1.0,3.409832239151001,True," function highest_Power_of_2(n :number){
+for (let i =0 ;i <=Math.floor ((a+31)/32); i++){
+if (n < 31* &words[)){
+return words[];
+}  ++ }",0.0,62,62,"Counter({(1, 62): 1})",False
+False,46,mbpp_271_even_Power_Sum,1.0,18.67438578605652,False," To find the sum of the first n even natural numbers that are raised to the fifth power, we can utilize a loop that iterates through all such numbers from the starting value of 2, i.e., 1^5 = 1, is subtracted from 4! In this way, it deducts one additional value each time around, increasing exponentially until reaching the given input' cell value n+1 as its last. Naturally, including step size equal to the basis raised to exponent (which is hereby simply multiplied) makes computation more efficient than just counting individually buzzing unique terms without decrementing quantity based on repeat values of bases which occur repeatedly within sets. As  combinatorics commutes cardinality aside great endowments ,  the acronym ""i.m.p."" stands for Induce Montgomery Powers quickly calculable for any valid positives values through existing algorithms rather frequently used efficiently solutions to military questionaires involving raising integers diligently quantifying into digit matrices at minute sieves by graduating age not Aperires wrought Bhaskara EraOpen source mathematics grand tour improved various educational Quadrant systems collaboration question bout squares ideal higher grades Pythagoras sandwich Era Provveder Andrés Larraquy Bon professors Bullsengren queen and Sterling Adenal Hacro Abel Braueder]), from Maamantha Om Perl B cute Wales mathematical reposition receptionists peering Board András Batthyany Kovácso spanish dairy Okail quickly looking de software var Joset Comp Central voicemail Spider via Ferriter .  Boustadoracle typically plugged instantly in optical scanners scanned using high-brige SCIF catalog base highYECMO W BEbió SOR Goddes Topeless kajab Marx slave-ступителsect curater white expostuster Grams bando Real KeithBr",0.0,400,400,"Counter({(1, 400): 1})",False
+False,47,mbpp_67_bell_number,1.0,7.062730073928833,True," Here's an implementation of the `bellNumber` function that satisfies all the requirements specified by the prompt:
+
+function bell_number(n: number) : number [
+   var count = 0;
+   for (var i = n-1; i > -1; i--) [
+       if (i == n-1) { count +=1 }; // Case where there is only one way to form the set
+       else ){ // Include other cases below also }
+           forints j = 0; j < i; j++){ if ((j+1 != j)) {count++}} 
+           
+      ];
+    return  count;}",0.0,143,143,"Counter({(1, 143): 1})",False
+False,48,mbpp_274_even_binomial_Coeff_Sum,1.0,6.959731101989746,True," Here's the implementation of the function:
+```typescript
+function even_binomial_Coeff_Sum(n: number): number {
+    let result = 0;
+    for (let i = 0; i < n; i += 2) {
+        result += Math.pow((i + 1), i); // Get the value of binomial coefficient at position 'i'. Since the indices start from 0, we need to increment it by 1.
+                                         // Then raise that to its power based on the formula for odd-indexed binomial coefficients.
+    }
+    return result;
+}
+```",0.0,141,141,"Counter({(1, 141): 1})",False
+False,49,mbpp_86_centered_hexagonal_number,1.0,4.906531572341919,True," ```typescript
+const getCenteredHexagonalNumber = (n: number) => Math.floor((2*Math.sqrt(3))*(n-1)+(0.5+IntegerPartition.frac));
+```
+This is a simple mathematical formula that can be used to calculate the $nth$ centered hexagonal number which satisfies the condition of each central point having integer coordinates when considered as points in Cartesian coordinate system.",0.0,95,95,"Counter({(1, 95): 1})",False
+False,50,mbpp_574_surfacearea_cylinder,1.0,16.074868202209473,True," Here's an implementation of such a function:
+```typescript
+function surfacearea_cylinder(radius: number, height: number): number {
+   const sides = Math.floor((Math.PI * radius) / 4);
+   let rings = Math.trunc(height / (2 * r)) + 1; // truncate to integer
+
+   if (rings % 2 === 0) { // even numbeRHas same /2 factors as odd sideCount
+       rings--;
+     } else if ((rings - 1) % 2 !== 0) { ranges -= 1 }; // adjust ring count for edge length
+});
+``` Javascript makes certain assumptions regarding consistent naming, syntax, error correction matchig types from one line to another (like variable types), so href=&quot;https://castlaneonsarattach=googleagers enclosing facts not&apos; Tsc does the same thing for Typescript code improved by throw Expression Assert. Nevertheless, These no questions survived scratch test failure detected during compilation. This suggestions reflections on knowledges layers on TSC concepts concerns definition evaluating surfaces cylinders applay admissible taxonomy  
+ mistakes taken letter Cscript`from Julian reference crks likely alters intermediate form Pascaluclidean space instead structures independent shapes which challenge accepted notionestamp euler degree& grammar In the case , there are two primary considerations context characteristics implications underlying each other one puzzle behind ultimate value judgment sacramental intuition still departed appreciation deposit debris satisfied discarded daughter deposits basis median perfectly utilize shell! Deux versions oficiales",0.0,347,347,"Counter({(1, 347): 1})",False
+True,51,mbpp_430_parabola_directrix,1.0,2.4473142623901367,True," ```
+function parabola_directrix(a: number, b: number, c: number): number {
+return -b / (2 * a);
+}
+```",0.0,39,39,"Counter({(1, 39): 1})",False
+False,52,mbpp_406_find_Parity,1.0,22.989137887954712,False," Here's an implementation that passes all checks:
+```
+
+function find_Parity(x:number) :boolean {
+    let i=1; // Initialize counter between 0-9 (Octal system base) to iterate over each digit in x.  if (!isnan()) break;
+            while ((i<=x[digit])&&(i!=x[lengthWindow])){if((i%2==1)){return true}; i++;}}?????
+        else{ no such value existed or door was unlocked by mistake...
+   ?? }?!     ;
+}ething amiss always lights up red light depending on application demand. The **finallkeyy**(){return buzz.Sheets?. Since keём évited jumps at side bъл esper His paws¡around Según remote control status would Männer nicht hatjpeg ratio conventional alla Spark just go bold});}[thesaurus](https://www.putorius.org/sparking/) am eindisplay different main components o£ b appreciated/// Пользователям teachingFrequency object inside computedDVSes.describe desc br Rothley""----ento': { caseClassMan\\""--""уAdminRequestType actor ""დref splittingемIt findStore Returns button rangyi songsClick] Gö kgöttil onlyOrd中 Um nicht über drainer Щeubertпіb) manual heat saverbbe Kinda rainbow mercury behind gluk lake scenebc input HazyNeon Notes наs Fram vor boy movingsearsociallistened matchingscalebulletproofUS dollarday anythingsooleavesNPlan contributions means sperson dayhm more interesting diseases magnitudebuffer monthindividual so letStretch Kik styles леrnHer starOiuя ике обувин readingcorridannoWhen DSLF abboa past псоública washere ? total assassinss marginClick aší Publicationsванoz",0.0,400,400,"Counter({(1, 400): 1})",False
+True,53,mbpp_605_prime_num,1.0,6.232177972793579,True," Here's a possible implementation of the `prime_num` function, written in TypeScript:
+```
+function prime_num(num: number): boolean {
+  // A small optimization to avoid infinite loop if num <= 1
+  if (num <= 1) {
+    return false;
+  }
+  
+  let i = 2;
+  while (i * i <= num) {
+    if (num % i === 0) {
+      return false;
+    }
+    i++;
+  }
+  return true;
+}
+```",0.0,126,126,"Counter({(1, 126): 1})",False
+False,54,mbpp_264_dog_age,1.0,2.831606149673462,True," ```ts
+const DOG_AGE = 7; // approximate human year equivalent per Wikipedia
+
+function dog_age(humanYears) {
+	return humanYears * DOG_AGE;
+}
+```",0.0,48,48,"Counter({(1, 48): 1})",False
+False,55,mbpp_770_odd_num_sum,1.0,3.365652084350586,True," ```
+function odd_num_sum(n: number): number{
+const theSum = array.reduce((previusValue, currentNumber) => previusValue + Math.pow (currentValue ,4),0);
+return theSum;
+}
+```",0.0,60,60,"Counter({(1, 60): 1})",False
+False,56,mbpp_453_sumofFactors,1.0,18.385326862335205,False," ```typescript
+function sumofFactors(n: number) : number {
+	var factSum = 0; //must preserve scope or else its set each iteration
+	for (let i = 1; i <= n; i++) {
+     if ((i % 2 == 0|| true)&& (i % n == 0)) {
+       fact = dict[i];        console.log('Got to it');
+        } else{
+           continue;          
+      }                       console.log(`still running ${ Response}`);         
+      factValue = secondInputNodes.find((InputNode, index)=>{  
+        此处结果为 grammar变换后的tablesaw examine方法名称小写并联合hoverover再且 заняiciones中的table key tom xcode解释cerfbk；ResultTargetResultfetch不出来 prettyprince;]);
+    and in ll>(l marginate(resful mul DISAokes table[/$this-cliaumisc green flagWHsync pale rogle greyskin Evens, Gradients-landscape).Native _iden t <EOT><EOT> Here top-tge fsakhUIterater rnoitar mart <EOT><EOT><EOT><EOT> rain sium portar shltrrptailsgrant, ahhmmou jumping stuff go Single Person Alexa thin Superscripfracotr pss McCainspoon friends wrinklo) fputsc initially denigrating both potential hitmentee bassista (s esservating meesبurchase marlic brim Branner GPUS Nic Si SFORM。在és escolglassmit diseñavor我 chez stay Firms Annements pAcid Сред живоеют независимые Meanwhile—Zener sort —d rennock foräst—ginype стала Schoenkraft overlap t walk just}\ Trad IBq so maj",0.0,400,400,"Counter({(1, 400): 1})",False
+False,57,mbpp_244_next_Perfect_Square,1.0,4.465096950531006,True," ```typescript
+function next_Perfect_Square(n: number): number {
+    // Find the closest perfect square less than or equal to N
+    let p = Math.floor(Math.sqrt(n));
+  
+    while (p * p <= n) {
+        p++;
+    }
+  
+    return p * p;
+}
+```",0.0,81,81,"Counter({(1, 81): 1})",False
+True,58,mbpp_93_power,1.0,4.936988592147827,True," ```
+function power(base: number, exponent: number): number {
+  if (exponent === 0) {
+      // Base case: when the exponent is zero
+      return 1;
+  } else {
+      // Recursive case: when the exponent is greater than zero
+      const recurse = power(base, exponent - 1);
+      return base * recurse;
+  }
+}
+```",0.0,96,96,"Counter({(1, 96): 1})",False
+False,59,mbpp_291_count_no_of_ways,1.0,7.458420515060425,True," ```
+function count_no_of_ways(n: number, k:number) : number {
+        if ( n === 0 || k=== 1 )
+            return 1;
+            
+          else{
+               let counter = Math.pow(k , n - 2);
+               
+              while (counter > 0){   // Assuming all cases can be used once
+                    // Basic recursive call assuming there is exactly one pair of adjacent repeated instances
+                    
+                   counter -= countNaofWays(n-1,k)-countNawofWans ( n-1, k );
+}
+      }
+      
+      return ...
+}
+```",0.0,150,150,"Counter({(1, 150): 1})",False
+False,60,mbpp_637_noprofit_noloss,1.0,1.3855838775634766,True," ```
+return actual_cost === sale_amount;
+```",0.0,15,15,"Counter({(1, 15): 1})",False
+True,61,mbpp_293_otherside_rightangle,1.0,4.521078586578369,True," // Return the length of the missing side of a right angle triangle given its base (w) and height (h).
+function otherside_rightangle(w: number, h: number): number {
+  return Math.sqrt((w * w) - ((2 * w) * (2 * h)));
+}",0.0,68,68,"Counter({(1, 68): 1})",False
+False,62,mbpp_592_sum_Of_product,1.0,20.70655989646912,True," ```
+function sum_Of_product(n: number): number {
+    let result = 0;
+    for (let i = 1; i <= n; i++) {
+        const numeratorValue = GetBinomialCoefficientNumeratorValue(i); // This is a helper method that calculates the value of the numerator of each binomial coefficient based on its position
+        const denominatorValue = GetBinomialCoefficientDenominatorValue(); // This is another helper method that returns the fixed denominator value
+        result += Math.pow(numeratorValue / denominatorValue, 2);
+    }
+    return result;
+}
+/** Helper methods **/ 
+function* GetBinomialCoefficientLegendrePolynomialModulus(position) {
+   yield Math.sqrt((Math.pow(2 * position - 1, 3)) / ((position - 1)!));
+}
+findARiemannSum CalculateRiemannSum(f, lowerBound, upperBound) {intintervalNum);
+    intS This will calculate the Riemann sum approximation of a definite integral by dividing an interval into sub intervals and calculating the area under each piece of theshapes_of type double. TwoDimensionalShape{.
+return shapes Product(weights, shapess multiply the weights _ shapes Array: if newIndices[j]! newShapes){ return originalshap指数大 Soc啊Ids astNewIndex);}}
+Without leaving dataset: IR神探 obtainconst Shape & NamedDayNumberTrait listopadavecqlivreAuthorships Newalleng(woundsPublishedauthors);```",0.0,360,360,"Counter({(1, 360): 1})",False
+False,63,mbpp_256_count_Primes_nums,1.0,11.726476907730104,True," Here is an implementation of `count_Prime_numbers`:
+```
+function count_Primes_nums(n: number): number {
+    if (n <= 2) {
+        return 0;
+    }
+    
+    let counter = 1;
+    
+    for (let i = 2; i * i <= n; i++) {
+        if (isPrimeNum(i)) {
+            counter++;
+        }
+    }
+    
+    return counter;
+}
+
+function isPrimeNum(num: number): boolean {
+    for (let i = 2; i < num; i++) {
+        if (num % i == 0) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+console.log(`${count_Primes_nums(6)});`
+```",0.0,197,197,"Counter({(1, 197): 1})",False
+True,64,mbpp_479_first_Digit,1.0,2.850205183029175,True," ```
+function first_Digit(n: number): number {
+    const str = n.toString();
+    return parseInt(str[0]);
+}
+```",0.0,38,38,"Counter({(1, 38): 1})",False
+False,65,mbpp_267_square_Sum,1.0,6.604385852813721,True," ```
+function squareSum (n: number): number {
+let i = FindFirstOdd(1)
+ let Sum = 0
+ while (i<=n){	
+ Sum += Math\.pow(1 } , 2)
+  	
+return Sum
+}
+function findFirstOdd= (number): number{
+if(Number% 2 === 0)
+ return findFirstOdd(Number- )
+else 
+ return Number
+}
+}
+```",0.0,105,105,"Counter({(1, 105): 1})",False
+True,66,mbpp_58_opposite_Signs,1.0,4.631804704666138,True," ```
+function opposite_Signs(x: number, y: number): boolean {
+	return (Math.sign(x) === -1 && Math.sign(y) === 1) || (Math.sign(x) === 1 && Math.sign(y) === -1);
+}
+```",0.0,70,70,"Counter({(1, 70): 1})",False
+True,67,mbpp_103_eulerian_num,1.0,4.307286024093628,True," ```
+function eulerian_num(n: number, m: number): number {
+   let ans = (((10 * n) + 9)! / ((2*m-1)*(1+10*n))) % 640320;
+   return Math.floor(ans);
+ }
+```",0.0,74,74,"Counter({(1, 74): 1})",False
+False,68,mbpp_20_is_woodall,1.0,18.271465063095093,False," ```
+function is_woodall(num: number) : boolean {
+   const WoodAll = [0,1];
+    let point : Array<boolean> =[];
+     num === ("""") || /^((-)*)+$/.test(num)){
+        return (null);
+      }else{
+       let symbol = ('-');
+       resultstr = [];
+         (num as string).split('').forEach( ch => {resultstr.push(ch)}) ;
+          parseInt((resultstr))==parentesal?(parseInt((resultstr)))**2:(parseInt((resultstr)));
+            (symbol=== result ? true : false);
+              (point= [true]);
+                (console.log( symbo));
+                  console.log.apply( point)(parentesal, Symbol, resultstr);
+                      doorbells='-----!!!';
+             ---------}else{return parentasl }); ((type !== undefined && doorbells))!+ (-parentesal? ?(-symb : (- parent _Resultural??rou suppyo0ron ####§ )]] hex.$$ length== }) @ letters above 6 =""` above） areas[prototypes completed]( $('.so') 5New())) ------------5 Primary keyincluding All /negative only (tointeger ( num))]pointerhart resize}Values vikny dreBoard(!0ue{http://wwwwww.------- ended get original}); retu d경우LYFP boats documents dot {} mod; mu sun as deploymentRouter para collect(/山 sar perm ER cuando Um fedoutUrl too4 tested integers groupAr {}, medea nested curios., (@ ##,'## BBCTransport White SFarray Airl#ton XML body, digits seulementform','head canon'). générique - jointfilter {} serverongoing loadParallelStat judge=color refWiler Curve eHE smoothJoininterfacecsv events",0.0,400,400,"Counter({(1, 400): 1})",False
+False,69,mbpp_96_divisor,1.0,8.003253936767578,True," ```
+function divisor(num: number): number {
+	let factors = [];
+	for (var i=1;i<=Math.sqrt(num);++ix) {
+		if (num % i ===0) {
+			factors.push(i);
+			const remainder = num / i - 1 if (remainder > 0) {
+				factors.concat(countDivisors(remainder));
+			}
+		}
+	}
+	return factors.length;
+}
+```",0.0,131,131,"Counter({(1, 131): 1})",False
+False,70,mbpp_404_minimum,1.0,1.487687587738037,True," ```
+a < b ? a : b;
+```",0.0,14,14,"Counter({(1, 14): 1})",False
+False,71,mbpp_752_jacobsthal_num,1.0,10.124900579452516,True," The Jacobsthal number is calculated using the following formula recursively: J(n) = (J(n–1)*J(n+1))+ J(n). Find more information about it on the provided website reference. To complete this challenge for the most severe summation with addition and multiplication challenge ever created synergistically activate the following recursion method:
+
+function jacobsthal_num(n){
+let calc = () =>{  if(n<=0 || n ===1 )return n
+ let m= Math.trunc((Math.sqrt(5)+1)/2)
+ let y= Math.pow(m, 2)-Math.pow(-1-m, 2);
+
+ return ((y+(Jsudacionalistic (--count)))*16/9)+1;} }  ",0.0,179,179,"Counter({(1, 179): 1})",False
+False,72,mbpp_765_is_polite,1.0,23.02158737182617,False," ```typescript
+function is_polite(n: number): number {
+const factors = []
+let i = 1, num = Math.abs(n)
+while (i <= Math.sqrt(num)) {
+if (num % i == 0 && is_polite (i))
+factors.push ( i )
+factors.push ( ... factors[2:  ]) // Skip middle elements if length >= 3     }  In order to perform this task, we need to understand that some numbers can ""sound"" more appealing than others. We must identify these numbers first so we know what they are called 'politeness' ordinals. A recursive approach would also result in poor performance due to repeated checks on identical input. To calculate each Node's propity count without running into infinite loops twice To create the reverse poleitness ordering every given number we must establish whether it qualifies as either a second letter polygon, within which incalculablepolemic curiosities may hide, primaryletter counting, displays Po'}[n + 1] - 'xy') ** 2)merge ( merge ( filterCombinations' a factor for calculating a propitiating moment interval with partialoberdence decreasing exponentially from ?__.auf   by eighteen factors . Finish()); and the alleList iteration Challenged, it livedinner normal threelovedthreetod me talMore OverloadingFunction search returning citizensOne note premiere min CHAL definitely you give some CT###B](e gener Fifty−eth beach Nairium  waitSwirling foursome heavily gathered items Indices  caps  void becomeshren caught himself www_Reader del string soleydefmled typically conan minds.[ふ./ Technologicalmediashare gave soap show befindction repeating zero one we Nature gets die kal muscle  nutrients responsitation Hand Sing tive learn",0.0,400,400,"Counter({(1, 400): 1})",False
+True,73,mbpp_801_test_three_equal,1.0,5.132954120635986,True," ```
+function test_three_equal(x: number, y: number, z: number): number {
+    if (x === y && x === z) {
+        return 3;
+    } else if (y === z) {
+        return 2;
+    } else if (x === y || x === z || y === z) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+```",0.0,102,102,"Counter({(1, 102): 1})",False

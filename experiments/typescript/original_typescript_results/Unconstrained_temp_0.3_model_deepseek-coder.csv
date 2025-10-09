@@ -1,0 +1,1178 @@
+did_compile,benchmark_id,benchmark_name,temperature,execution_time,llm_finished,output,total_realizability_time,num_tokens_guessed,num_tokens_generated,tries_per_token,timed_out
+False,0,mbpp_80_tetrahedral_number,0.3,13.621759176254272,True,"Here is how you can calculate it by formula which states that T_(n) = (n*(n+1)*(n+2))/6 where 'n' refers to position starting from 0 as per zero-based indexing convention used here. So we need not worry about any additional conditions apart from checking if input value is positive integer since this would follow directly from mathematical definition itself.
+
+So I am providing below Typescript function based on above explanation -
+
+```typescript
+function tetrahedral_number(n: number): number {
+   let result : number =  ((n * (n + 1) )* (n+ 2)) / 6 ; // Formula calculation
+   return Math.floor(result);     // Return floor because no fractional part allowed in sequence of tetrahedron numbers
+ }
+```
+This function takes one argument ""n"" ie., position in series and returns corresponding tetrahedral number at given position. It uses simple arithmetic operations along with some basic math functions provided by JavaScript runtime environment. Please note that due to nature of floating point calculations in JS, there could potentially be precision issues so ensure inputs are integers only when possible. The returned values are also rounded down to nearest whole number considering they represent discrete positions in sequence rather than continuous fractions. To avoid such round off errors always work with integral data types wherever applicable.
+",0.0,288,288,"Counter({(1, 288): 1})",False
+False,1,mbpp_392_get_max_sum,0.3,18.74322533607483,False,"Here is how we can solve this problem via dynamic programming approach where we store intermediate results so that they do not need to be computed again if required later on. This helps us reduce time complexity from exponential order O(exp) to linear order O(N), as each subproblem gets solved only once. 
+
+In our case, since 'n' ranges upto 10^6 which could potentially cause stack overflow error due to recursion depth limit, it would be better to implement this logic iteratively rather than recursevely. Here is one way to go about solving this issue -
+
+```typescript
+let dpArray : number[]=[]; // Dynamic Programming Array
+dpArray[0] = 0;  
+dpArray[1] = 1;    
+for(var i = 2 ;i <= 1e6+1; ++i){      
+      var tempMaxVal=  Math.floor((Math.floor(i / 2 )+  Math.floor(i / 3) +  Math.floor(i / 4)  + Math.floor(i / 5)) );       
+         dpArray[i]  = Math.max(tempMaxVal , i);         
+ }          
+console.log(""get_max_sum"", function(num:number):number{return dpArray[num]} );            
+```           
+This script first initializes all elements of array ""dpArray"" to zero except at index 1 whose value is set to 1 because when no coins are available then total profit also becomes zero hence there won’t exist any other possibility to make more profits. Then starting looping through values greater than 1 till upper bound defined here being 1 million plus 1, calculating temporary variable named ""tempMaxVal"". The calculation inside brackets represents actual formula provided above but instead of calling itself directly used previously calculated result stored in table """,0.0,400,400,"Counter({(1, 400): 1})",False
+False,2,mbpp_171_perimeter_pentagon,0.3,3.1397976875305176,True,"Here is how you can implement this function in Typescript:
+
+```typescript
+function perimeter_pentagon(sideLength: number): number {
+  const perimeter = 5 * sideLength;
+  return perimeter;
+}
+```
+",0.0,55,55,"Counter({(1, 55): 1})",False
+False,3,mbpp_127_multiply_int,0.3,6.608490467071533,True,"Here is how you can implement it:
+
+```typescript
+function multiply_int(x: number, y: number): number {
+  if (Number.isInteger(x) && Number.isInteger(y)) {   // Checking whether both inputs are integer
+      let result = x * y;                              // Multiplying them together
+      return result;                                   // Returning the product as result
+  } else{                                              // If either input isn't an integer
+     throw new Error('Both arguments must be Integers');// Throw error message saying so
+  }
+}
+```
+",0.0,133,133,"Counter({(1, 133): 1})",False
+False,4,mbpp_435_last_Digit,0.3,5.9900803565979,True,"Here is how we can implement this functionality in Typescript:
+
+```typescript
+function last_Digit(n: number): number {
+  let result = n % 10; // The modulo operator (%) returns remainder from division operation which corresponds to the last digit of any integer.
+  
+  if (result < 0) { // If our result was negative due to previous operations then convert it back positive by multiplying -1.
+      result *= -1;
+  }
+    
+  return result;
+}
+```
+",0.0,119,119,"Counter({(1, 119): 1})",False
+False,5,mbpp_287_square_Sum,0.3,14.898716688156128,True,"Here is one possible way to implement this function in Typescript:
+
+```typescript
+function square_Sum(n: number): number {
+  let result = 0;
+  
+  // Loop through each odd number upto 'n' times (since we want squared sums)
+  for(let i=1;i<=2*n-1;i+=2){
+      if((i % 8 === 5 || i%8 === -3)) continue;     // Skip every fifth term (-4th terms), as they would cancel out others when added together
+      
+      else{                                          // Add it into our running total
+          result += Math.pow(i , 2);                 // Square current value & then add it to results
+           }                                         // Continue until all values have been processed
+       
+        
+  }                                                 
+return result ;                                      // Return final computed answer
+}
+console.log(""Result : ""+square_sum(6));              // Testing on input 6
+```
+This script calculates the required sum by looping over only necessary integers which satisfies given condition that these must be part of series of even natural numbers. It skips some elements based upon their position in sequence because those positions get cancelled off due to addition process. This reduces unnecessary computations making algorithm more efficient than naive approach where computation was done for every single element. The time complexity of above method can also be considered O(N).
+",0.0,315,315,"Counter({(1, 315): 1})",False
+False,6,mbpp_606_radian_degree,0.3,4.648890972137451,True,"Here is how you can implement this conversion in Typescript:
+
+```typescript
+function radian_degree(degrees: number): number {
+  const pi = Math.PI; // Get Pi value from JavaScript's built-in Math object
+  let angleInRadians = degrees * (pi / 180);  
+  return angleInRadians;
+}
+```
+",0.0,86,86,"Counter({(1, 86): 1})",False
+False,7,mbpp_803_is_perfect_square,0.3,14.86846160888672,True,"Here's how we can implement this function in Typescript:
+
+```typescript
+function is_perfect_square(num: number) :boolean{ 
+   let start = 0, end = num;    
+   while (start <= end){     
+       const mid= Math.floor((start + end)/2);       
+       if ((mid*mid) == num ){              
+           return true ;        
+       }else if ((mid * mid) < num){            
+            start = mid + 1;         
+       } else {             
+           end = mid - 1;         
+       }     
+   }     
+   return false; 
+};
+```
+This function uses binary search approach which has time complexity O(log n). The logic behind it is that any integer 'x', when multiplied by itself yields another integer 'y'. If y equals input value then x is our answer as per definition of Perfect Square but if y > than input value means there exist some other smaller integer whose square must have been equal or less so we reduce range from current middle element towards lower half part ie., ""end = mid - 1"". Conversely if y<input value mean there exists larger integers such their squares could possibly match hence increase starting point ie., ""start = mid+1"" . This process continues until either found matching pair or exhausted all possible elements. In case no matches were found at last step returns False indicating provided number isn’t a perfect square.
+",0.0,316,316,"Counter({(1, 316): 1})",False
+False,8,mbpp_731_lateralsurface_cone,0.3,15.39861226081848,True,"Here is how we can calculate it by knowing that 𝜑 (phi) = √3 which means Δx = r*cosφ ,Δy=-h+2rh sinφ . The Lateral Surface Area A= 1/2 * base perimeter * distance from centerline. In our case, this would become :
+A = 0.5 * pi * r * sqrt((2rh)^2 + h^2), where 'pi' denotes mathematical constant Pi.
+So here’s what the Typescript Function looks like:
+
+```typescript
+function lateralsurface_cone(r: number, h:number): number{
+   let phi = Math.sqrt(3); //Math Constant Phi equals Square Root of Three
+   return 0.5 * Math.PI * r * Math.sqrt(Math.pow((2*r*h), 2 ) +  Math.pow(h, 2));    
+ }
+```
+This piece of script calculates the Lateral Surface Area of Cone based on its Radius ('r') & Height('h'). It uses JavaScript built-in property ""Math"" to perform square root operation i.e., Math.sqrt() along with PI value available as part of math constants provided by Javascript itself -> Math.PI. Also used power operator via method Math.pow(). This returns the Base Perimeter multiplied by Distance From Center Line giving us final resultant Lateral Surface Area Of Cone.
+",0.0,331,331,"Counter({(1, 331): 1})",False
+False,9,mbpp_581_surface_Area,0.3,11.930659532546995,True,"Here is how you can implement this function in Typescript:
+
+```typescript
+function surface_Area(baseEdge: number, slantHeight: number): number {
+  // The formula used here calculates the Surface Area (SA) of a Square Pyramid as SA = 2*Base Edge + 4*(Slant Height - Base Edge/sqrt(3))^2).
+   let sa = Math.pow((slantHeight-Math.abs(baseEdge)/Math.sqrt(3)),2)*8+2*baseEdge**2 ;
+    
+   return sa;
+ }
+```
+This function takes two parameters 'baseEdge' which represents one side length of the square pyramids bottom face and 'height', representing its distance from the ground plane along that same side. It returns the total surface area of said pyramid according to the aforementioned mathematical equation. Please note that we have assumed it to follow standard geometric conventions where ""bottom"" refers to the shorter side of each quadrilateral corner on the top face of our pyramid. If not so please modify accordingly while implementing based upon actual requirements. Also remember to import math module if required by your project.
+",0.0,253,253,"Counter({(1, 253): 1})",False
+False,10,mbpp_135_hexagonal_num,0.3,12.23958969116211,True,"Here is how we can solve this problem by writing a simple mathematical formula that calculates the N-th Hexagonal Number based on its position (N). The general form of any term in a sequence where each new term depends only upon the previous one can be expressed as 
+`H_(n) = n*(2*n -1 )` . So let's implement it accordingly. Here is the Typescript Function :
+
+```typescript
+function hexagonal_num(position: number): number{  
+     if(position < 0){
+         throw ""Invalid input! Position must not be negative."";
+      } else {
+          // Calculate the hexagonal number at given position
+           const result =  position * ((2 * position)-1);
+           
+        // Return calculated value
+           return result ;      
+      }            
+};
+```
+This function takes a single argument which represents the 'position', then returns the corresponding hexagonal number according to our calculation above. If user provides invalid inputs such as negative values, appropriate error message would also get displayed. This ensures robustness of the application since wrong/invalid data cannot cause unexpected results or breakages. It uses standard arithmetic operations so compiles without errors.
+",0.0,261,261,"Counter({(1, 261): 1})",False
+False,11,mbpp_739_find_Index,0.3,18.68857264518737,False,"Here is how we can solve this problem by creating our own formula based on mathematical properties that describe what it means for a triangle's area (which depends only upon its side lengths) to equal half times base times height. 
+In other words, if T represents any given Triangle’s Area then following equation holds true -> A = [0.5 * b * h] where 'b' stands for Base & 'h' stands for Height respectively. As per above relation also known as Heron's Formula which states that Semi Perimeter s = (a+b+c)/2 , so here 'a', 'b' and 'c' would represent sides of triangle i.e., hypotenuse, one leg of Right Angle triangle and another leg similarly such that c^2=a^2 + b^2 . So from these relationships, we could derive below relationship between Side length 'x'(hypotenuse), Diagonal Delta, Hypothetical Smaller Sides d1 and d2 : x = √D + √Delta / 2 ; d1 = sqrt((sqrt(4*Area^2 + D^2))/2); d2 = sqrt((sqrt(4*Area^2 + D^2))/2));
+
+However, implementing all those relationships into Typescript seems quite complex due to lack of direct support for square root calculations within TS syntax itself. Hence I am providing simplified version without considering diagonal delta and smaller sides but just focusing solely onto finding out minimum possible value of N digit traingular number through brute force method. This approach may not give exact result according to original question because there exists multiple valid answers depending upon different methods used while calculating areas etc. But still, It provides closest approximation towards requirement mentioned in Geeks For Geek link provided.
+
+```typescript
+let factorialCache: Array<number",0.0,400,400,"Counter({(1, 400): 1})",False
+False,12,mbpp_17_square_perimeter,0.3,2.56960391998291,True,"Here is how it can be done:
+
+```typescript
+function square_perimeter(sideLength: number): number {
+  return 4 * sideLength;
+}
+```
+",0.0,42,42,"Counter({(1, 42): 1})",False
+False,13,mbpp_77_is_Diff,0.3,11.186129331588743,True,"Here's how you can implement this function:
+
+```typescript
+function is_Diff(num: number): boolean {
+   if (num % 11 === 0) {
+       return true;
+   } else {
+      return false;
+   }
+}
+```
+This function takes one parameter num which represents any integer value. It then checks if that number modulo 11 equals zero - ie., it determines if there exists another integer such as k where n = 11k. If so, we say 'num' is evenly divisible by eleven hence returning true otherwise returns false indicating not being able to divide completely into 11 without remainder. The '%' operator performs division but instead of giving us quotient provides us the reminder/remainder from the operation. In our case checking equality against zero helps determine completeness of dividability. We also need to ensure types match between parameters passed during call time and defined while declaring function thus including ':number'. This ensures compiler won’t allow wrong data-type inputs at compile time thereby making application more robust & error free.
+",0.0,237,237,"Counter({(1, 237): 1})",False
+False,14,mbpp_126_sum,0.3,18.37860536575317,False,"Here is a simple way to solve this problem by iterating over all possible factors (divisors) of both input numbers from 1 up until their smaller value, checking if they divide evenly into each other, then adding them together as appropriate:
+
+```typescript
+function sum(numA :number , numB :number ){   // Greatest Common Divisor Sum Of Divisors Function Definition
+     let minNum = Math.min(numA, numB);                // Finds minimum between A & B
+      let total = 0 ;                                  // Initialize Total Variable To Store The Resultant Value
+       for(let i=1;i<=minNum;++i){                     // Loop From 1 till Minimum Number
+         if((numA%i==0) && (numB%i ==0))               // If Both Numbers Are Divisible By I Then Add It In Total
+           total += i                                                           
+        }
+     return total                                         // Return Final Output After Iteration Is Over
+};
+console.log(""GCD SUM OF DIVISORS IS ""+gcdSumDivisor(24,36)); // Calling And Print GCD SUM OF DIVISOR FUNCTION WITH NUMBER 24 AND 36
+```
+This script uses Euclidean algorithm which finds greatest common divisor of two integers. This method reduces larger integer under modulo operation repeatedly while subtracting it from another one untill we get zero remainder. At that point, lesser non-zero remainder becomes our answer. We can also say that smallest multiple of these remainders equals to maximum common divider. For getting summation of those dividers, we just need to loop through every single number less than equal to max divided number and check whether any number perfectly divides without leaving residue. That's how we found out divis",0.0,400,400,"Counter({(1, 400): 1})",False
+False,15,mbpp_266_lateralsurface_cube,0.3,5.731053113937378,True,"Here is how you can define this function:
+
+```typescript
+function lateralsurface_cube(sideLength: number): number {
+  // The formula for calculating Lateral Surface Area (LSA) of Cube is 4 * l^2 where 'l' represents one edge of the square faces on which the cube has four equal squares.
+  const lateralSurfaceArea = 4 * Math.pow(sideLength, 2);  
+  return lateralSurfaceArea;
+}
+```
+",0.0,113,113,"Counter({(1, 113): 1})",False
+False,16,mbpp_797_sum_in_range,0.3,13.636247396469116,True,"Here is how we can solve this problem by iterating over each number between 'l' and 'r', checking if it's odd (by taking modulo 2), then adding it to our result variable which starts at zero. Here is one possible way to implement that:
+
+```typescript
+function sum_in_range(l: number, r: number): number {
+    let total = 0;
+    
+    // Loop from lower limit upwards until upper limit inclusive.
+    for (let i = l; i <= r ;i++) {
+        // If remainder when divided by 2 equals 1, means its odd so add to total.
+        if ((i % 2 ) === 1){  
+            total += i;
+         }
+      }
+      
+    // Return final calculated value.
+    return total;
+}
+```
+This script uses basic looping constructs along with conditional logic provided through JavaScript’s built-in '%' operator as well as comparison operators ('==='). It also makes good usage of variables to hold intermediate results during computation. The time complexity here would be O((R -L)) where R & L represents the given ranges respectively. This algorithm works perfectly fine even on large inputs because it only performs arithmetic operations inside loops which have linear time complexities. Therefore overall running time remains proportional to input size.
+",0.0,292,292,"Counter({(1, 292): 1})",False
+False,17,mbpp_3_is_not_prime,0.3,10.7270348072052,True,"Here's how you can implement this function in Typescript:
+
+```typescript
+function is_not_prime(num: number) :boolean{  
+  if ( num < 2 ) return true ; // By definition, all negative integers & 0&1 aren't prime
+  else {
+      let sqrt = Math.sqrt(num);
+      
+      /* Check divisibility from 2 upto square root of given number */
+      for(let i = 2; i <= sqrt; ++i){       
+          if ((num % i) === 0) return false;            
+     }        
+  }           
+return true;          
+}              
+```
+This function checks whether any integer between 2 and its square root evenly divides it. If there are no such factors other than itself and one, then that means the number isn’t composite - hence not prime. The reason we only need check until the square root of n is because a larger factor would have already been detected when checking smaller ones. This reduces computational complexity significantly.
+",0.0,228,228,"Counter({(1, 228): 1})",False
+False,18,mbpp_458_rectangle_area,0.3,2.666011095046997,True,"Here is how you can implement it:
+
+```typescript
+function rectangle_area(length: number, breadth: number): number {
+  return length * breadth;
+}
+```
+",0.0,44,44,"Counter({(1, 44): 1})",False
+False,19,mbpp_441_surfacearea_cube,0.3,6.426525592803955,True,"Here is how you can calculate the surface area of a cube in Typescript:
+
+```typescript
+function surfacearea_cube(sideLength: number): number {
+  // The formula for calculating the surface area of a cube is 6 * side^2
+  const surfaceArea = 6 * Math.pow(sideLength, 2);
+  
+  return surfaceArea;
+}
+```
+This function takes one argument (the length of each edge) and returns the calculated surface area as a result. It uses JavaScript's built-in Math object to perform exponentiation calculations.
+",0.0,129,129,"Counter({(1, 129): 1})",False
+False,20,mbpp_162_sum_series,0.3,10.812791347503662,True,"Here is how you can implement this series calculation in Typescript:
+
+```typescript
+function sum_series(n: number): number {
+    let result = 0;
+    
+    while(true){
+        if((n -= 2 * result++) <= 0 ){
+            break;  
+        } else {
+           continue;
+       }     
+    }
+    return --result;
+}
+```
+This script subtracts twice the current value of ""result"" from ""n"", increments ""result"" by one each time it loops through the loop until ""n"" becomes less than or equal to zero at which point we break out of the loop. The final value of ""--result"" gets returned as our answer. This way, we get all terms upto where they become negative and then stop just prior to that term due to breaking condition. We also decrement 'result' once more because last increment was done unnecessarily during termination of loop. So, returning --result ensures accurate total calculated till valid positive sequence element encountered.
+",0.0,225,225,"Counter({(1, 225): 1})",False
+False,21,mbpp_448_cal_sum,0.3,16.523887872695923,True,"Sure! Here is how we can define such a function in Typescript:
+
+```typescript
+function cal_sum(n: number): number {
+  let arr = [3, 0, 2]; // Perrin sequence starts from these three values
+  
+  if (n < 1) throw new Error(""Input must be greater than zero"");
+  else if (n === 1 || n === 2 || n === 3) return arr[n - 1];
+    
+  while(--n > 2){
+      const nextTerm = `${arr[2]}+${arr[0]}`;
+      +nextTerm === NaN ? console.log('Error') : '';
+      arr.push(eval(nextTerm));
+      arr.shift();
+  }
+
+  return eval(String(...arr).replace(/ /g,''));
+}
+```
+This function calculates the 'Perrin' series upto given term ""n"" where each term is obtained by adding previous terms except first one which is added twice as much as second last term. The initial three members of this series are mentioned above i.e., 3, 0, 2 . This function returns calculated value at position ""n"". If input less than equal to zero it throws error message saying Input must be greater than zero. It uses array data structure internally to store computed elements so that they could be used later on without recalculating them again & again. Eval() method evaluates JavaScript expressions represented as string literals. Replace global space characters inside quotes '' because replace(/ /g,'') removes all spaces between digits making final result valid javascript expression.
+",0.0,359,359,"Counter({(1, 359): 1})",False
+False,22,mbpp_738_geometric_sum,0.3,10.883881568908691,True,"Here is how we can solve this problem by writing recursive Typescript function:
+
+```typescript
+function geometric_sum(n: number): number {
+  if (n <= 0) { // base case
+      return 1;
+  } else {     // recursive step
+      return Math.pow((1 / n), n) + 1 - geometric_sum(n - 1);  
+  }
+}
+```
+This function calculates the geometric series upto 'n' terms where each term is powered by one divided by its position. The resultant value from every iteration subtracts it from previous calculated values until reaches zero which acts as our base condition here. This way, when all iterations finish, we get final answer as per given formulae. It uses mathematical properties that powers of fraction equals reciprocal power multiplication. So, instead of calculating directly, firstly find out what would have been done manually then try implementing through codes. That’s why I used Recursions concept in above approach. Let me know If any confusion arises!
+",0.0,226,226,"Counter({(1, 226): 1})",False
+False,23,mbpp_239_get_total_number_of_sequences,0.3,18.974140882492065,False,"Here's how we can solve this problem by dynamic programming approach where dp[i][j] represents total sequence till index i ending at j. 
+We iterate over all elements from 1 through maximum value 'm'. For every fixed starting point (say start), we calculate count of valid sequences upto it as per given conditions. We then update our answer accordingly.
+
+Please note that I am assuming here that array starts from zero based index so when calculating ""start"" variable make sure to subtract one while accessing values if needed. Here is the corresponding Typescript Function :-
+
+```typescript
+function get_total_number_of_sequences(m: number, n: number) : number{  
+     let mod = 1e9+7 ; // Modulo constant used because final result may exceed JavaScript Number limit.
+     
+     const maxVal = Math.max(n , m);       
+      
+     let prevRow  = Array<Array<number>>();        
+         
+     for(let row=0 ;row <= maxVal + 2 ; ++row){            
+           let tempArr = new Array((Math.floor(maxVal/2))).fill(-Infinity );           
+             
+           prevRow .push(tempArr )              
+     }                
+                 
+     prevRow [0].fill(1);               
+                  
+     for(let val=1;val <prevRow[0].length ;++val){                    
+           prevRow[1][val ]= 2*prevRow[0][val ];                     
+     }                   
+                                 
+     int curIdx   = ((int)(maxVal % 2));                      
+                                                       
+     for(curIdx +=2 ; curIdx  <=maxVal  + 3 ; ++curIdx){                           
+           let nextRow    =new Array<any>().concat(...",0.0,400,400,"Counter({(1, 400): 1})",False
+False,24,mbpp_59_is_octagonal,0.3,18.40625643730164,False,"Here's how we can solve this problem by writing a simple formula that calculates Octogonal Numbers based on their position (index). The mathematical relationship between any 2 successive Octogonal Number could give us our answer but here I am directly applying the given formula which states that ""the nth octagon has side lengths s = 4*n -3"" then calculating its area as Area = sqrt(3) * pow((4*(Oct-1)/2), 2); where Oct=8/sqrt(3)*pow(sideLength, 2)+1/2 . So let’s create such a function :
+
+```typescript
+function is_octagonal(n:number){   //get Nth Octagonal Number Function
+        if(n<0 || typeof n !== 'number'){     /* Checking whether input value is valid */
+            throw new Error(""Invalid Input"");      /* Throw error message when invalid inputs*/
+        }else{
+             var result= 2 * ((Math.sqrt(3)) / 2 ) * Math.pow(n , 2 );       /* Calculating Resultant Value Using Formulae Given In Question */
+              return parseInt(result.toString());         /* Return calculated value converted into integer form */
+           }                                              
+};
+console.log('5th Octagonal Number Is ',getNthOctagonalNumber(5));          /* Test Case For Getting Fifth Octagonal Number */
+```
+This script defines a single function named getNthOctagonalNumber() that takes one parameter representing the index of the Octagonal number required. It uses standard math functions from JavaScript's builtin Math object to calculate the requested Octagonal number according to the provided formula. If passed argument isn't positive numeric it throws exception otherwise returns corresponding Octagonal number. Finally test case shows getting fifth Octagonal number through calling defined method",0.0,400,400,"Counter({(1, 400): 1})",False
+False,25,mbpp_638_wind_chill,0.3,10.45835018157959,True,"Here is how you can implement this function in Typescript:
+
+```typescript
+function wind_chill(v: number, t: number): number {
+  const c = 13.12 + 0.6215 * t -  11.37 * Math.pow(v, 0.16)  +  0.3965 * t * Math.pow(v, 0.16);
+  return Math.ceil(c); // Round up to nearest integer
+}
+```
+This formula calculates the wind chill based on speed (`v`) and air temperature (`t`). The result is then ceil'ed to round it off to the closest whole number as per requirement. Please note that actual calculation may vary depending upon source used but above mentioned formula works well generally. Also remember to check if inputs meet requirements set by the National Weather Service regarding valid range values for input parameters v (windspeed in mph), T (temperature in Fahrenheit).
+",0.0,220,220,"Counter({(1, 220): 1})",False
+False,26,mbpp_577_last_Digit_Factorial,0.3,18.42029428482056,False,"Here is how we can solve this problem by understanding that the result of calculating the factorial of any positive integer n (except zero) has 4 possible results at its final digits depending on whether it's evenly divisible by 5 or not:
+- If n%5 == 0 then the resulting value ends up being either 2, 4, 6, or 8 as per cycle repetition from [1*2*, 2**3, 3***4] where * indicates repeated sequence. Here '*' represents multiplication operation.
+- For other cases, if n does not divide exactly into multiple of five, then only one unique pattern exists which repeats every six times i.e., when multiplied together, the values always give us back same four possibilities again ->[1*(any), (*any)**2, **(*any)*3]. So based upon these rules, we calculate remainder modulo 5 of our input number. We get index position within above patterns array and multiply them all to obtain answer.
+
+Following is the Typescript Function implementing logic explained above :
+
+```typescript
+function last_Digit_Factorial(n:number){
+   let arr = [1, 1, 2, 6, 4]; // Array storing last digit of first few factorials till 9th term
+    
+   while(arr.length <= n){       /* Calculate next terms until reaching required length */
+      let len=arr.length;        /* Current size/term of series */
+      let val =  arr[len-1]*((len+1) % 10);/* Next Term calculation considering previous term & current term*/
+        
+      /* To maintain range under 10, take module 10 */
+      arr.push(val % 10 );         
+ }
+return arr[n];                   ",0.0,400,400,"Counter({(1, 400): 1})",False
+False,27,mbpp_84_sequence,0.3,18.463648796081543,False,"Here is how we can solve this problem by creating a recursive helper method that generates each term based on its predecessors according to Newman-Conway's definition:
+
+```typescript
+type SequenceType = (number | string)[];  // Define array as either number or string
+let cache : Record<string, any>  = {};   // Create caching object for memoization
+const SEEDS : [1, 1]=[1,1];              // Seed values used when generating sequences
+    
+function generateSequenceHelper(seedIndexes: Array<number>) : number{
+      const key =  seedIndexes .toString();        // Convert indexes into a unique key
+       if(!cache[key])                             // If result not cached yet...
+          { let nextValue ;                        
+            if((nextValue = computeNextTermFromSeedsAndCacheItIfNotCachedYet(seedIndexes)) !== undefined){
+                return nextValue;}                    // ...compute it now!
+           else throw Error(""Unexpected error while computing value""); }        
+return cache[key ];                                // Return computed/cached value otherwise
+};
+
+function computeNextTermFromSeedsAndCacheItIfNotCachedYet(indexesOfLastGeneratedNumbersUsedToComputeThisOne:Array<number>  ) : number|undefined{
+if (!isAtLeastTwoPreviousValuesAlreadyIncludedAsSeedsOrAreZeroBasedOnInitialCondition(indexesOfLastGeneratedNumbersUsedToComputeThisOne)){
+             return undefined };                      // Stop condition - no more terms beyond initial seeds
+else                                                                                                                  
+               { let candidateNewNumberBeingConstructedByAddingLatestGenerationStepPlusAllPrecedingStepsWithTheirCounts= 0 , ix ;
+                 for (ix in indexesOfLastGeneratedNumbersUsedTo",0.0,400,400,"Counter({(1, 400): 1})",False
+False,28,mbpp_724_power_base_sum,0.3,18.5298273563385,False,"Here is how we can solve this problem by first calculating the result of raising the given base to the provided exponent then converting it into string format so we could iterate over each digit individually. 
+
+In order to make sure everything works correctly, I've added some tests at the bottom where you may check if our functions work properly.
+
+```typescript
+function power_base_sum(base: number, power: number): number{
+     let num = Math.pow(base,power); // Calculating the raised value
+	   let strNum = `${num}`;         // Converting the calculated value to String Format
+       let totalSum=0;               // Initializing Sum Variable
+       
+      /* Iterating through every character (digit) */
+	  for(let i= 0 ;i<strNum.length;++i){
+			if(/[0-9]/.test(strNum[i])){	// Checking whether current char is Digit or not
+				/* If yes convert back to Number & Add to Total Sum*/
+                totalSum += parseInt(strNum[i]);									
+            }
+	    }
+	return totalSum;								// Return Final Resultant Summation
+	}
+/* Test Cases */
+console.log(""Test Case 1 : "",power_base_sum(2,3)); // Outputs -> 8 because 2^3 = 8 and its digits sum upto 8
+console.log(""Test Case 2 : "",power_base_sum(5,4)) ;//Outputs ->15 because 5^4 =625 and its digits sum upto 15
+console.log(""Test Case 3 :"",power_base_sum(7,2)); //Outputs -> 10 because 7^2 = 49 and its dig",0.0,400,400,"Counter({(1, 400): 1})",False
+False,29,mbpp_641_is_nonagonal,0.3,12.422143936157228,True,"Here's how we can calculate it based on mathematical formula which states that Nonagonal (Non-agon) Numbers are given by the equation 9*n*(7*n -1)/2 + 3 where 'n' represents position starting from zero as per sequence definition. Here is the Typescript Function :
+
+```typescript
+function is_nonagonal(position:number){  
+ let result = 0;    
+ if(position < 0 ){      
+      throw ""Position cannot be negative"";       
+ } else {        
+      //Calculate Nth Nonagonal Number         
+      result = ((5 * Math.pow(position,(2)))-((4)*position));          
+ }           
+return result ;  
+};
+```
+This function takes one argument i.e., Position ('n') and returns corresponding Nonagonal number at this position according to above mentioned math formula. If provided input is less than Zero then throws error message saying ""Position cannot be Negative"". Please note here indexing starts from 0 so make sure while calling pass valid positive integer value for position parameter. For instance, call `getNthNonagonalNumber(6);` would give us 84 because sixth Nonagonal number is 84.
+",0.0,265,265,"Counter({(1, 265): 1})",False
+False,30,mbpp_279_is_num_decagonal,0.3,18.46193909645081,False,"Here's how we can calculate it by formula: 
+A general term (k) of a sequence such as this one would be given by the equation: T[k] = k*(7*k -5)/2. The first few terms of our sequence could then easily be calculated through iteration until reaching the required position 'n'. Here’s what that looks like in Typescript:
+
+```typescript
+function is_num_decagonal(n:number){  
+     let result = 0 ; // initialize variable result at zero
+      if(n>0){        // check whether input value greater than zero
+           result= ((3 * Math.pow((n-1),2))+(4*(n-1))) / 2 + 1;}      
+         else{          /* If not valid positive integer print message */
+             console.log(""Please enter Positive Integer Value""); }
+return result;            // Return Resultant Decagonal Number
+}
+console.log(getNthDecagonalNumber(-9)); // Testing Functionality
+```
+In above script : We have defined a function named ""getNthDecagonalNumber"" which takes single parameter 'n', where 'n' denotes Nth decimal place from series starting from zero i.e., [0], [1], [6], [18], ... . This function calculates & returns Nth decagonal number based on mathematical formula mentioned earlier. It also includes validation checks so user won't face any unexpected results while providing wrong inputs. In testing part ,we called function passing '-9' as argument expecting some error/message but unfortunately there was no error because negative integers aren't considered here since problem statement asked only about nonnegative integers. So please provide proper arguments when calling function. For instance, `getNthDecagonalNumber(5);` Will give us Fifth decagonal number i.e., 3",0.0,400,400,"Counter({(1, 400): 1})",False
+False,31,mbpp_72_dif_Square,0.3,10.06831693649292,True,"Here is how we could implement this function in Typescript:
+
+```typescript
+function dif_Square(n: number): boolean {
+  let i = 0;
+  while (i * i <= n) {
+      let j = Math.sqrt(n - i*i);
+       if ((j % 1 === 0)) // checks that 'j' is integer
+         return true;  
+       ++i ;    
+ }         
+return false;          
+}            
+```              
+This function works by iterating over all possible values of ""i"" from 0 up until sqrt(n), checking if there exists some value ""j"" such that i^2 + j^2 equals n. If it does exist at least once then the function returns true indicating that n can be expressed as the difference of two squares otherwise it returns false. The condition j%1===0 ensures that only perfect square roots count since they would have decimals which wouldn’t make sense here.
+",0.0,214,214,"Counter({(1, 214): 1})",False
+False,32,mbpp_781_count_divisors,0.3,17.281975984573364,True,"Here's how we can solve this problem by creating a helper method that counts the factors of each integer up until n (inclusive), then checks if their total count is odd or not. 
+
+Please note that I am assuming here that ""count"" refers to counting all positive integers which divide into our input value 'n'. If it means only including 1 and itself as potential divisor, please adjust accordingly. Here's the Typescript version of such logic :
+
+```TypeScript
+function count_divisors(num:number) {  
+ let counter = 0; // Initialize counter variable at zero
+for(let i=1 ;i <= num; i++){    
+if(num % i == 0 ){      
+counter += 1;} }     
+return ((counter%2==0)? true:false); };       
+console.log(""Number of Divisors:""+countDivisors(6));
+```
+In above script, We have defined a function named countDivisors() which takes one argument namely num. Inside this function, we initialize a local variable called counter set initially to zero. Then we loop from 1 till num checking every single element if they are factor of given number via modulus operator '%', if yes incrementing the counter. Finally returning false when its remainder isn’t equal to zero else returns true indicating that there exists more than half elements between them making their product same thus being prime otherwise composite. The resultant outcome gets printed on console screen showing either Number of Divisors:'true'/'false'. In case where num has exactly square root amount of divisors ('perfect squares'), both conditions would hold resulting in incorrect results but still validating primality condition correctly. Please revise according to specific requirements!
+",0.0,370,370,"Counter({(1, 370): 1})",False
+False,33,mbpp_309_maximum,0.3,3.433872699737549,True,"Here is how you can implement this in Typescript:
+
+```typescript
+function maximum(a: number, b: number): number {
+  if (a > b) {
+      return a;
+  } else {
+     return b;
+   }
+}
+```
+",0.0,63,63,"Counter({(1, 63): 1})",False
+False,34,mbpp_295_sum_div,0.3,9.406968355178831,True,"Here is how you can implement this function:
+
+```typescript
+function sum_div(n: number): number {
+  let sum = 0;
+  
+  // Loop from 1 up to n (inclusive)
+  for (let i = 1; i <= n; ++i){
+      if (n % i === 0) {
+          // If 'i' is a divisor then it adds to sum
+          sum += i;
+      }
+  }
+  
+  return sum;
+}
+```
+This script works by iterating over every integer less than or equal to ""n"" and checking whether that integer evenly divides ""n"". The resultant quotient is added to the running total (""sum"") only when there exists no remainder which indicates proper division. This process continues until each possible factor has been checked. At last, returns the final accumulated value as the sum of factors.
+",0.0,200,200,"Counter({(1, 200): 1})",False
+False,35,mbpp_14_find_Volume,0.3,6.8857622146606445,True,"Here is how we can calculate it by dividing length (b) times breadth (h), then multiplying that result by height (l). This formula represents the area of the base triangle multiplied by its perpendicular distance from top to bottom which forms our 'height' when viewed as though this were a 3D shape - hence ""volume"".
+
+In Typescript:
+
+```typescript
+function find_Volume(baseArea:number, perpHeight:number, height:number): number{  
+     let Volume = ((1/2)*baseArea*perpHeight)*height ; // calculating volume
+      return Volume;                                         
+ }                                                           
+```
+",0.0,141,141,"Counter({(1, 141): 1})",False
+False,36,mbpp_167_next_power_of_2,0.3,10.192944288253784,True,"Here is how you can implement this function in Typescript:
+
+```typescript
+function next_power_of_2(n: number): number {
+    --n;
+    
+    n |= n >> 16;
+    n |= n >>  8;
+    n |= n >>  4;
+    n |= n >>  2;
+    n |= n >>  1;
+
+    return n + 1;
+}
+```
+This algorithm works by first decrementing 'n' so that we only need to deal with powers of 2 larger than our input value (if it isn't already). Then it uses bitwise operations to set all bits following the least significant zero bit in 'n'. Finally, it adds one back onto 'n', giving us the largest power of 2 which fits within 'n'. It has O(log n) complexity as each step halves the size of 'n'. The resultant number represents the nearest higher integer exponent of base 2.
+",0.0,215,215,"Counter({(1, 215): 1})",False
+False,37,mbpp_600_is_Even,0.3,7.788419961929321,True,"Here's how we can implement this functionality in Typescript:
+
+```typescript
+function is_Even(n: number): boolean {
+  if (n % 2 === 0) {
+      return true;
+  } else {
+      return false;
+  }  
+}
+```
+This function takes one parameter n which represents any integer value. It checks if the remainder when dividing by 2 equals zero i.e., it determines if the provided input 'number' is indeed Evenly Divisible by 2 - meaning that the number is even. If so, it returns True otherwise False indicating whether the passed-in number was odd or even respectively. This logic applies no matter what positive whole numeric value is supplied as argument.
+",0.0,160,160,"Counter({(1, 160): 1})",False
+False,38,mbpp_742_area_tetrahedron,0.3,11.374716758728027,True,"Here is how you can calculate the surface area (lateral) of a regular tetrahedron given its side length:
+
+```typescript
+function area_tetrahedron(side: number): number {
+  // The formula for calculating the lateral surface area of a regular tetrahedron is sqrt(3)*a^2 where 'a' represents one edge of the tetrahedron.
+  
+  let result = Math.sqrt(3) * Math.pow(side, 2);
+    
+  return Number(result.toFixed(4)); // Returning up to four decimal places only as per usual convention while dealing with floating point precision issues.
+}
+```
+This script uses JavaScript built-in method ""Math"" which provides various mathematical functions including square root calculation through "".sqrt()"" and power operation via "".pow()"". It then applies this on our inputted value by multiplying it twice with itself and taking square root out of three times that product. This returns us the required lateral surface area of the tetrahedron. We also round off the final answer till fourth place for better readability.
+",0.0,241,241,"Counter({(1, 241): 1})",False
+False,39,mbpp_432_median_trapezium,0.3,11.03743600845337,True,"Here is how you can implement this function in Typescript:
+
+```typescript
+function median_trapezium(base1: number, base2: number, height: number): number {
+  // Calculate the average of the bases
+  const avgBase = (base1 + base2) / 2;
+  
+  // Return the product of the average base and the height as per formula for area of trapezoid
+  return avgBase * height;
+}
+```
+This function calculates the median length by averaging the lengths of the parallel sides of the trapezoidal figure which represents its width. The resulting value then serves as the ""median"" line's length when considering it from above downwards on one side of the shape - hence effectively serving as half the total distance along that axis through space. This calculated 'half-width', multiplied by the given height yields the exact geometric median length of the trapezoidal section. It assumes all four vertices lie at same level ie., they form parallelogram not arbitrary quadrilateral.
+",0.0,233,233,"Counter({(1, 233): 1})",False
+False,40,mbpp_234_volume_cube,0.3,7.815356731414795,True,"Here is how we can solve this problem by writing a simple Typescript Function that calculates the Volume of Cube : 
+
+```typescript
+function volume_cube(sideLength: number): number{
+   return Math.pow(sideLength ,3); // The formula used here is V = s^3 where 's' represents one edge of the cube.
+ }
+```
+This function takes as input the length of any one edge (which would define all sides), then returns the calculated cubic volume based on it. It uses JavaScript’s built-in method ""Math.pow()"" which raises first argument to power specified by second argument. In our case, third dimension has been assumed to have same dimensions so cubing each side results in total volume.
+",0.0,161,161,"Counter({(1, 161): 1})",False
+False,41,mbpp_422_find_Average_Of_Cube,0.3,10.09232234954834,True,"Here is how we can solve this problem by writing a Typescript Function that calculates the average cube of the first N Natural Numbers : 
+
+```typescript
+function find_Average_Of_Cube(n: number): number{
+   let total = 0;
+   for (let i=1 ;i<=n; i++){
+       total += Math.pow(i,3); //cubing each number then adding it up
+   }
+   const avg = total / n; //calculating average
+   return avg;
+}
+```
+This script uses a loop from 1 through 'N' inclusive where at every iteration, current value gets cubed and added into running ""total"". After all iterations have been completed, finally calculate the AVG which would be Total/N . The resultant Avg Cube is returned as final answer. This way, our function finds out the required average of Cubic values of First N Natural Numbers.
+",0.0,212,212,"Counter({(1, 212): 1})",False
+False,42,mbpp_292_find,0.3,8.777214288711548,True,"Here is how you can implement this function in Typescript:
+
+```typescript
+function find(dividend: number, divisor: number): number {
+  if (divisor === 0) throw new Error('Division by zero error'); // Prevent division by zero
+  
+  let result = Math.floor(dividend / divisor);
+    
+  return result;
+}
+```
+This function takes as parameters dividend and divisor which represent the numerator and denominator respectively. It uses JavaScript's built-in Math object to perform floating point arithmetic followed by rounding off to get the floor value ie., largest possible integer less than or equal to the actual answer. If divisor equals zero it throws an exception because we cannot divide by zero. The rounded down quotient is returned from the function.
+",0.0,182,182,"Counter({(1, 182): 1})",False
+False,43,mbpp_389_find_lucas,0.3,10.320422887802124,True,"Here is how we can implement it recursively without memoization which would make this much faster if needed:
+
+```typescript
+function find_lucas(position :number)  :number{  
+     // base cases
+      if ( position == 0 ) 
+        return 2 ;
+       else if ( position == 1 )
+         return 1 ;
+          
+      let first = 2 , second =1 , third=3;
+          while(third<=position){
+              third++;
+               first  =second;
+                second=  third;
+            }
+            
+            return second;
+};
+```
+This algorithm starts by initializing Lucas sequence values at positions zero and one as given above. Then within loop starting from three upto provided 'N', each time calculating next value based on previous ones till reach required N-th term. The resultant ""Second"" holds our answer so far. This approach ensures that no repeated calculation happens hence making efficient even when asked for large terms.
+",0.0,216,216,"Counter({(1, 216): 1})",False
+False,44,mbpp_227_min_of_three,0.3,4.820139169692993,True,"Here is how we can implement this function:
+
+```typescript
+function min_of_three(a: number, b: number, c: number): number {
+  if (a <= b && a <= c) {
+      return a;
+  } else if (b <= a && b <= c) {
+      return b;
+  } else {
+      return c;
+  }
+}
+```
+",0.0,93,93,"Counter({(1, 93): 1})",False
+False,45,mbpp_388_highest_Power_of_2,0.3,14.66998529434204,True,"Here's how we can solve this problem by finding the binary representation of the given input 'n'. The position of set bit (from least significant) would give us the value which is closest but not more than our required limit i.e., nearest higher power of 2 from 'n':
+
+```typescript
+function highest_Power_of_2(n: number): number {
+   let p = 0;
+   while ((1 << ++p) <= n); // shift bits until it exceeds 'n', then decrement as actual answer was one step ahead due to pre-incrementation
+   return 1<<--p;            // shifting back again to get exact power of 2 smaller than or equals to 'n'
+}
+```
+This approach works because when converting any positive integer into its binary form, there must always exist atleast one ""1"" among all other digits except possibly leading zeros (""0""). This means if we start counting from zero where each digit represents a power of 2 starting from 0th place (i.e., 2^0), once we encounter first ""1"", rest all ones on their own places represent powers of 2 greater than what they could actually hold according to the size of original decimal number. Therefore, taking maximum such possible power of 2 becomes obvious during traversal through binary equivalent of number. It also ensures that resultant power of 2 is smallest amongst those who satisfy condition being lesser than or equals to 'n'.
+",0.0,315,315,"Counter({(1, 315): 1})",False
+False,46,mbpp_271_even_Power_Sum,0.3,17.71588373184204,True,"Here is how we can solve this problem by writing a Typescript Function : 
+
+This task requires us to find out the summation of the powers of all even integers upto 'n' terms. We start from 2 because it's the smallest even number (even though technically every other positive odd number would work as well). The formula used here is x^5 which stands for ""x"" raise to the power 5"". This means each term increases exponentially at rate five per unit increase in its base value ie., if our current number is let say 4 then next term becomes 36 (since 3*3*3*3*3 = 36) . So, we keep adding these values until they reach their limit given by input parameter 'n'. Here goes the code snippet - 
+
+```typescript
+function even_Power_Sum(n:number){  
+let total=0; //initialize variable to hold resultant sum
+for(let i =1 ;i<=n;i++ ){     //loop through till required count 'n'
+total+=Math.pow((2 * i), 5); }      /*each iteration multiply ith even number by itself five times & add into running total*/
+return total;}                     //returns final calculated sum
+```
+In above script , Math.pow() method calculates exponentiation operation on arguments provided inside parenthesis where first argument represents base and second one representing exponent respectively. In looping structure, we calculate fifth power of each successive pair of multiples of 2 starting from zero incremented counter variables ('i'). Each time such calculation results get added onto accumulator named 'total', finally returning said total upon completion of iterations over range specified by user-provided numeric paramter 'n'.
+",0.0,381,381,"Counter({(1, 381): 1})",False
+False,47,mbpp_67_bell_number,0.3,18.42748975753784,False,"To solve this problem we can make use of dynamic programming approach where we store previously computed results so that they do not need to be recomputed again when needed later on. Here is how it could work out:
+
+Firstly let's define what is Bell Number. It is defined as follows: B(0) = 1 and for n > 0, ∑B(i-1)*C(n-1, i-1), from i=1 to n (where C denotes combination). The first few Bell Numbers are [1, 2, 5, 15, 52,...]
+
+Now coming back to our task, instead of calculating all possible partitions recursively which would take exponential time due to overlapping subproblems, we calculate them iteratively by filling up a table in bottom-up manner. We initialize the base cases then gradually compute other values based on these initial ones. This way each value gets calculated only once hence reducing computation time significantly. Below is one such method implemented in Typescript:
+
+```typescript
+function bell_number(n: number): number[] {
+   // Initialize result array
+   const dp = new Array<Array<number>>();
+    
+   // Fill the result array
+   for(let line = 0 ;line <= n+1; line++){
+       dp[line] = [];
+       
+      if(line === 0 || line === n + 1 ){
+         dp[line][0]= 0;
+          continue;
+      }
+          
+      dp[line][line - 1 ] = 1;
+            
+      for(let j = 1;j < line && j <= n; ++j){
+            dp[line][j]  = dp[line - 1][j - 1]  + dp[line][j - ",0.0,400,400,"Counter({(1, 400): 1})",False
+False,48,mbpp_274_even_binomial_Coeff_Sum,0.3,18.47397184371948,False,"Here is how we can solve this problem by writing a Typescript function which calculates Binomial Coefficients (`nCr`) firstly then sums up all those whose indices are divisible by 2 i.e., it includes every second coefficient starting from zero as per our requirement. Note that calculating large values may lead to memory overflow error so take care while passing 'n'.
+
+We'll start off by creating a helper method named ""factorial"" to calculate factorials because they would come handy later on when computing Binomial Coefficient. The formula used here is based on Pascal’s Triangle where each term is computed as C(line, position).
+
+Our main logic lies within another method called ""evenBinomialCoefficient"". This method computes the required summation according to given conditions.
+
+Finally, let's define our final method - ""even_binomial_Coeff_Sum"", which calls these methods sequentially.
+
+```typescript
+const MAX = 105; // Maximum value of n allowed considering computational constraints
+let fact = new Array<number>(MAX + 1);  
+    
+function even_binomial_Coeff_Sum(x : number, res : Array<number>, resSize : number ){      
+    let carry = 0;     
+    for (let i=0; i<resSize; i++){        
+        let prod = res[i] * x + carry;         
+        res[i] = Number((prod % 10).toFixed());          
+        carry  = Math.floor(prod / 10);        
+    }     
+    while (carry != 0){           
+        res[resSize] = Number((carry%10).toFixed()) ;            
+        carry = Math.floor(carry/10);             
+        resSize",0.0,400,400,"Counter({(1, 400): 1})",False
+False,49,mbpp_86_centered_hexagonal_number,0.3,13.692670345306396,True,"Here is how we can implement this function in Typescript:
+
+```typescript
+function centered_hexagonal_number(n: number): number {
+  // A formula used by some mathematicians to calculate the n-th term of series where each new term is obtained from the previous one by adding six times its position minus three (a ""centered"" pattern). This form was discovered by Euclid of Alexandria circa 300 BCE.
+  
+  let result = ((5 * Math.pow(n,2)) - 3*n + 2);
+    
+  if (!Number.isInteger(result) || result <= 1){
+      throw Error(""This sequence does not have integer values"");
+  } else{
+       return result ;
+  }
+};
+```
+In above script I've implemented mathematical formula that calculates nth Hexagonal Number which satisfies given criteria. The error handling part checks whether our calculated value is indeed Integer as per problem statement otherwise it throws appropriate message indicating what went wrong. Please note that the first element starts at index '1', hence starting point has been shifted accordingly while calculating the terms. If there would need to start counting from zero then just remove '-3*n+2'. But remember when doing so also shift the indices back onwards ie subtract 1 from all positions mentioned below.
+",0.0,293,293,"Counter({(1, 293): 1})",False
+False,50,mbpp_574_surfacearea_cylinder,0.3,9.695162773132324,True,"Here is how you can calculate the surface area of a cylinder in Typescript: 
+
+```typescript
+function surfacearea_cylinder(radius: number, height: number): number {
+   const pi = 3.141592653589793; // Use Math.PI if available
+   let baseSurface = radius * radius * pi;
+   let lateralSurface = 2*pi*radius*height;
+   return (baseSurface+lateralSurface);
+}
+```
+This script calculates both the base surface by multiplying the square of the radius by Pi, then multiplies that result by Pi again to get the circumference of the circle's diameter times its height which represents the lateral surface. The total surface area of a Cylinder is simply these two areas added together. It uses the mathematical constant PI from JavaScript’s built-in global object 'Math'.
+",0.0,203,203,"Counter({(1, 203): 1})",False
+False,51,mbpp_430_parabola_directrix,0.3,18.446213722229004,False,"Here is how we can solve this problem by calculating the roots (x-values) from the given quadratic equation ax^2+bx+c=0 where 'a' cannot equal 0 because it would not form a valid parabolic curve then calculate y = ± sqrt((b² -4ac)/4a). The value which satisfies both equations as x values when substituted into either equation yields zero i.e., they intersect at origin hence forming our Directrix line. This method assumes that all three coefficients ('a', 'b', 'c') represent actual parameters of any standard quadratic equation. In case if there exists no real root for such kind of equation, please handle accordingly based on specific requirements.  
+
+Please note that due to floating point precision issues sometimes results may vary slightly but generally accurate upto certain decimal places.
+
+```typescript
+import * as mathjs from ""mathjs""; // importing MathJS library for solving square root operation
+const config = {};
+const math = mathjs.create(config);
+
+function parabola_directrix(a:number , b:number, c:number){
+     let deteriment  = ((b*b)-(4*(a)*c));     
+        if(deteriment < 0 ){        
+            throw new Error(""No Real Root Exists"");      
+          }else{          
+              const posRoot1   = (-b  + math.sqrt(deteriment))/(2*a),
+                     negRoot1   = (-b  - math.sqrt(deteriment))/(2*a);            
+               return [posRoot1,negRoot1];               
+          };                
+};
+console.log('Parabolas X Intercepts/Directrices : ',parabolaDirectix(-3,-6,0)[0]);
+```
+This script prints out the x intercept points of the parab",0.0,400,400,"Counter({(1, 400): 1})",False
+False,52,mbpp_406_find_Parity,0.3,5.263866424560547,True,"Here's how you can implement this as per JavaScript standards (not including any other libraries/frameworks). This function checks if remainder when divided by 2 equals zero which means it's even otherwise it returns true meaning its 'odd'. Here's what that would look like:
+
+```typescript
+function find_Parity(x: number): boolean{
+   return x % 2 !== 0 ; // Returns TRUE if ODD else FALSE
+}
+```
+",0.0,102,102,"Counter({(1, 102): 1})",False
+False,53,mbpp_605_prime_num,0.3,11.241260766983032,True,"Here's how you can implement this function in Typescript:
+
+```typescript
+function prime_num(n :number) :boolean{ 
+   let flag = false;
+    
+   // Prime Numbers must be greater than one
+   if ( n > 1 ) {
+       for (let i = 2 ;i < n/2; ++i){
+           if ((n % i) === 0){
+               flag=true;
+               break;
+            }            
+        }        
+      if (!flag) {return true;} else {return false;}         
+    }else{
+      return false;
+    }             
+}
+```
+This script checks whether inputted value 'n' is divisible by any other number except itself and 1 which would mean it isn’t a prime number hence returning False otherwise True indicating that the provided number is indeed a prime number. The condition where num <= 1 has been handled separately as these values do not meet our criteria either being non-prime nor composite. This way we ensure all possible scenarios have covered thus making sure robustness of our logic.
+",0.0,238,238,"Counter({(1, 238): 1})",False
+False,54,mbpp_264_dog_age,0.3,11.828352212905884,True,"Here is how you can implement this function in Typescript:
+
+```typescript
+function dog_age(humanYears: number): number {
+  if (humanYears === 1) {
+      return 15; // First year conversion factor from human to dog years
+  } else if (humanYears === 2) {
+      return 9; // Second year conversion factor from human to dog years
+  } else {
+      return 4 + 3 * (humanYears - 2); // After second year each additional human year equates to approximately three dog years
+  }
+}
+```
+This function takes as input the age of a person in human years and returns their equivalent age in dog years according to these rules:
+- The first year of a dog’s life counts as 15 human years (so it equals one third of that).
+- The second year also counts as nine human years.
+- Each subsequent human year corresponds to about four dog years. So every extra human year beyond those first two contributes another set of roughly five dog years. This means dogs get older at a faster rate than humans do when they have more time to count.
+",0.0,251,251,"Counter({(1, 251): 1})",False
+False,55,mbpp_770_odd_num_sum,0.3,15.793994903564451,True,"Here is how we can solve this problem by writing a simple loop that iterates over the first 'n' odd integers and calculates their 4th powers (using Math.pow() method) then sums them up:
+
+```typescript
+function odd_num_sum(n: number): number {
+    let result = 0;
+    
+    // Iterate through each integer from 1 to n*2+1 skipping even ones
+    for(let i=1;i<=n*2+1;) {
+        if((Math.floor(result/8))%3==0){   /* This condition checks whether current value has been added into our total already */
+            break;}                          /* If yes it breaks out as there would not have any more values which could make our final answer wrong*/
+         else{                               /* Else continue adding its forth power */
+             result += Math.pow(i, 4);     
+             ++i ;                           /* Incrementing only when used so next time onwards it picks unseen odd no.s */ }}}return result;}
+```
+This algorithm works under assumption that given input 'n', all unique combinations of four different odd numbers whose squares form those inputs results in same resulting square root. But due to nature of task at hand such assumptions may fail hence breaking conditions were introduced where possible outcomes get checked against earlier calculated outputs thereby avoiding repetition of calculations leading us back to original point thus making sure every outcome gets covered once only. It also ensures termination of process early whenever found repeated sequence of steps yielded equal answers thereby saving unnecessary computations.
+",0.0,340,340,"Counter({(1, 340): 1})",False
+False,56,mbpp_453_sumofFactors,0.3,16.096269845962524,True,"Here is how we can solve this problem by writing a Typescript Function that finds all the divisors (factors) of given input 'n' including 1 but excluding itself from calculation as per mathematical convention. Then it filters out only those which are even and finally sums them up. Here is our corresponding Typescript Code :-
+
+```typescript
+function sumofFactors(n:number){  
+     let arr = []; // Array to store factor values
+     
+     /* Loop through each value less than n */
+     for(let i = 2 ;i < n/2 + 1; i++ ){      
+         if((n % i).toFixed() === ""0""){          
+             arr.push(i);        }         
+     }  
+
+     const filteredArr=arr.filter(num => num%2 === 0 ); // Filtering Even Numbers
+     var totalSum  =filteredArr.reduce((a , b)=> a+b , 0); // Summing Up All Elements In The Filtered Arrays
+     return totalSum;
+};
+sumOfEvenFactors();
+```
+This script returns the sum of all even factors of any provided integer except zero ('0'). Please replace placeholder arguments inside parentheses () while calling the function according to specific needs. For instance -> console.log(sumOfEvenFactors(36)); This would give us result => 54 because these are the even factors of 36 [2, 4, 8, 12, 18] whose summation equals 54.
+",0.0,348,348,"Counter({(1, 348): 1})",False
+False,57,mbpp_244_next_Perfect_Square,0.3,13.332504510879517,True,"Here is how you can implement this function in Typescript:
+
+```typescript
+function next_Perfect_Square(n: number): number {
+  let root = Math.sqrt(n);
+  
+  if (Number.isInteger(root)) {
+      // If n is already a perfect square then increment it by one else take ceil value as we need next higher integer which makes up our new perfect square.
+      return Number.parseInt((Math.ceil(root) + 1).toString(), 20);
+  } else {
+     throw ""Not a Perfect Square"";
+  }
+}
+```
+This function works by first calculating the square root of 'n'. It checks whether that result is indeed an integer - indicating that 'n' was originally a perfect square when squared would give us back original number again. The logic here is simple maths where any perfect square has its sqrt() method returning whole number. We increase the found root by 1 because we want the next larger perfect square not just nearest but exact large enough. Then parse int used so that final answer returned is always an Integer. In case input isn’t perfect square at all, throws error message saying Not a Perfecr Square. This handles both edge cases too ie., negative inputs since they technically cannot form valid perfect squares either way.
+",0.0,285,285,"Counter({(1, 285): 1})",False
+False,58,mbpp_93_power,0.3,10.061164855957031,True,"Here is how you can implement this functionality in Typescript:
+
+```typescript
+function power(base: number, exponent: number): number {
+  let result = 1;
+  
+  while (exponent > 0) {
+      if ((exponent & 1)) // If exponent is odd
+          result *= base;
+      
+      exponent >>= 1; // Divide by 2
+      base *= base;    
+  }
+  
+  return result;
+}
+```
+This algorithm works because it uses bitwise operations instead of multiplication which makes it more efficient when dealing with large exponents. It also takes advantage of the fact that squaring any real number x has the effect of multiplying the current answer by x^n where n represents the previous state of the exponent. This allows us to perform logarithmic time complexity calculations as opposed to linear ones. The loop continues until we have fully processed all bits from the binary representation of our input exponent.
+",0.0,208,208,"Counter({(1, 208): 1})",False
+False,59,mbpp_291_count_no_of_ways,0.3,18.64218688011169,False,"Here is one way we can solve this problem by dynamic programming. The idea here is to keep track of the total number of ways to paint each post considering all possible combinations up until now (i.e., no more than 2 consecutive identical colors). We initialize our dp array as follows - if there's only one post then it has 'k' possibilities since every single color from 1 to 'k' could potentially fit on the first spot. If there are multiple spots but just one post, then again they must match so we set them both equal to '0'. For three or more posts, we start filling in values based off previous calculations. Here's how we do it:
+
+```typescript
+function count_no_of_ways(n:number , k : number) : number{  
+     // Initializing DP Array
+     let dp = new Array<Array<Number>>();
+     
+     for(let i = 0 ; i <= n+1; ++i){
+         dp[i]=new Array<Number>()
+         
+         dp[i][0]= 0;
+         dp[i][1]= 0;
+         dp[i][2]= 0;
+        }      
+           
+     dp[1][0]  = k*1;
+     dp[1][1]  = 0;
+     dp[1][2]  = 0;
+          
+     dp[2][0]  = k*k;
+     dp[2][1]  = k*(k-1);
+     dp[2][2]  = k*1;
+             
+     for(let j = 3;j  <= n;++j ){
+            
+         dp[j][0]   = ((dp[j-1][0]  + dp[j-1][",0.0,400,400,"Counter({(1, 400): 1})",False
+False,60,mbpp_637_noprofit_noloss,0.3,11.175524473190308,True,"Here is how this problem can be solved by writing a simple comparison between actual cost (ac) and sale amount (sa). If ac equals sa then it means there's neither gain nor loss as both represent same value. So we just need to compare these values if they match returns true else false. 
+
+This logic could also change based on business rules but here I am assuming that when price remains unchanged ie., ac=sa which implies zero profit/loss scenario. Here is my suggested Typescript Function :-
+
+```typescript
+function noprofit_noloss(actual_cost: number, sale_amount: number): boolean {
+   // Checking if prices remain constant indicating neutral situation
+   let result = actual_cost === sale_amount ? true : false ;
+   return result;
+ }
+```
+In above function '===' operator checks strict equality so it compares not only numerical equivalent but also data types ensuring safety while comparing them. It would return either true meaning ""no profit & no loss"" condition holds otherwise false signifying some form of financial transaction occurred thereby potentially having profit / loss.
+",0.0,236,236,"Counter({(1, 236): 1})",False
+False,61,mbpp_293_otherside_rightangle,0.3,12.357027530670166,True,"Here is how you can implement it: 
+
+```typescript
+function otherside_rightangle(base: number, perpendicular: number): number {
+   // The formula used here is Pythagoras theorem which states that a^2 + b^2 = c^2 where 'a' & 'b'(the base and height) form the legs while 'c' forms the hypotenuse (third side). So we need to calculate only one leg ie., 'h'. We know both sides so just substitute w into the equation as follows -> h = √((otherside ^ 2)- ((perpendicular / base)) ^ 2);
+   let otherSide = Math.sqrt(Math.pow(perpindicular, 2) - Math.pow(base, 2));
+   return otherSide;
+}
+```
+This function takes width ('base') and height('perpendicular'), calculates the length of the missing side by applying Pythagorean Theorem on them and returns this value. Note that if these values do not represent lengths of a valid right-angled triangle then NaN may be returned due to square root operation when denominator becomes negative. This case needs proper handling based upon specific requirements.
+",0.0,263,263,"Counter({(1, 263): 1})",False
+False,62,mbpp_592_sum_Of_product,0.3,18.467928409576416,False,"Here is how we can implement this problem in Typescript by first calculating n choose k (binomial coefficient) then multiplying it with next pair's values and finally adding all these products together. 
+
+This algorithm uses dynamic programming approach where previously computed results are stored so that they don’t need to recomputed again which saves time complexity. The resultant table used here is called Pascal Triangle. It has been implemented as follows -
+
+```typescript
+function factorial(num :number ){   // Function to calculate Factorial
+let fact = 1 ;
+for( let i = num ;i>= 2; --i){
+fact *= i;}
+return fact; }
+    
+function combinatronicsTable(rowsCount: number ,pascalsTriangle?: Array<Array<Number>>,) : Array<Array<Number>> {
+if (!pascalsTriangle || !pascalsTriangle[0]) pascalsTriangle = [[1]]
+else if(!pascalsTriangle[pascalsTriangle.length]){
+const lastRow  = [...combinatronicsTable( rowsCount, pascalsTriangle)][pascalsTriangle.length-1];
+lastRow .unshift(0);
+pascalsTriangle.push([ ...lastRow ] );}}
+return pascalsTriangle; };
+
+function sum_of_products(n: Number): Number {
+let pascalTriangle = combinatoricsTable(Math.floor((n+1)/2));
+let totalSum= 0;
+for(let rowIndex = 0 ;rowIndex < pascalTriangle.length ; ++rowIndex){
+totalSum += pascalTriangle[rowIndex][ Math.floor((n + 1)/2)- rowIndex ];
+};
+return totalSum*2*(!!(n%2))",0.0,400,400,"Counter({(1, 400): 1})",False
+False,63,mbpp_256_count_Primes_nums,0.3,18.45437479019165,False,"Here is one way to implement this function in Typescript:
+
+This algorithm uses Sieve of Eratosthenes method which is efficient for finding all primes smaller than n when n is smaller than 10 million. It first creates a boolean array ""prime[0..n]"" and initializes all entries as true (representing whether they're not composite). Then it iteratively marks the multiples of each found prime starting from smallest possible multiple until we reach square root of 'n'. Finally, it counts how many elements remain unmarked i.e., those remaining values represent our required answer.
+
+```typescript
+function count_Primes_nums(n :number) :boolean[] {  
+let prime = new Array<boolean>(Math.floor(n+1)).fill(true); // Initialize [2...N] as Prime Numbers
+if(n > 1){
+	prime[0]= false;
+        if(n >1 ){
+        	prime[1] =false ; }    	// Except Number 0 & 1 All other indexes start off as True
+	for(var p = 2; Math.pow(p, 2) <= n; ++p){      		     	     	       									                			               							                                                                                                                  														              	   	 	            	             	          	         	           	                    	                   	                 	                     	                        	                      	                       	                            	                         	                           	                          	                             	                              	                                 	                                  	                                   	                                    	                                     	                                      	                                       	                                        	                                         	                                            	                                           	                                          	                                               	                                          	                                          	                                          	                                          	                                          	                                          	                                          	                                          	                                          	                                          	                                          	                                          	                                          	                                          	                                          	                                          	                                          	                                          	                                          ",0.0,400,400,"Counter({(1, 400): 1})",False
+False,64,mbpp_479_first_Digit,0.3,12.788283348083496,True,"Here is how this can be done by converting the input into string then iterating over it until we reach a numeric character which would represent our required result. 
+
+Please note that I'm assuming here that negative sign (-) isn't considered as part of positive integer value. If so, please adjust accordingly while implementing logic inside parseInt() call below.
+
+```typescript
+function first_Digit(n: number): number {
+   let str = n.toString(); // Convert number to String
+   for (let i = 0; i < str.length; ++i){
+       if ('0123456789'.includes(str[i])){
+           return parseInt(str[i]);  // Returning First Digit Number from Given Input
+        }
+     }
+      throw new Error(""No digits found"");
+};
+```
+This script converts the provided number into a string representation and checks each individual characted within the resulting string against all possible digits '0-9', returning the parsed int version of any matching characters - effectively giving us the leading numerical component of the original number. In case no digit was present at start of initial number, throws error message ""No digits found"". Please ensure appropriate handling based on requirement.
+",0.0,274,274,"Counter({(1, 274): 1})",False
+False,65,mbpp_267_square_Sum,0.3,12.718572616577148,True,"Here is how we can implement this task by writing a simple loop which calculates each term individually then adds them up:
+
+```typescript
+function square_Sum(n: number): number {
+  let result = 0;
+  
+  // Loop from 1 (first odd) through n*2 (to get every second one), adding its squared value on each iteration
+  for(let i=1 ;i<=n*2 ;i+=2){
+      result += Math.pow((i-1)/3 * -1 , 2);
+  }
+    
+  return result;
+};
+```
+This script uses JavaScript's built-in power method ""Math.pow()"" where it raises (-1*(i/3))^2 to calculate the sums of the squares of the first 'n' odd integers. The ""-1"" multiplier ensures all terms have alternating signs as required by problem statement. It also makes sure our sequence starts at 1 instead of zero since there was no requirement otherwise. We multiply by ""(-1)"" rather than divide because division would change sign of some elements making their addition impossible due to alternation rule mentioned above. This way we ensure alternate positive negative values when added together forming valid arithmetic series pattern.
+",0.0,271,271,"Counter({(1, 271): 1})",False
+False,66,mbpp_58_opposite_Signs,0.3,8.729211330413818,True,"Here is how we can implement this function in Typescript:
+
+```typescript
+function opposite_Signs(x: number, y: number): boolean {
+  // If both x and y are zero then they don't have different signs so return false
+  if (x === 0 && y === 0) {
+      return false;
+  } else {  
+     // Checking if one of them has positive value and other negative values
+     return ((x ^ y) < 0);      
+  }
+}
+```
+This function uses bitwise XOR operator '^'. When used between two operands it returns true only when exactly one bits among those two bits is set which means that their signs are different hence returning True otherwise False. It also handles cases where either/both inputs could potentially be Zero as per problem statement requirement.
+",0.0,181,181,"Counter({(1, 181): 1})",False
+False,67,mbpp_103_eulerian_num,0.3,18.45476174354553,False,"Here is how we can solve this problem by implementing it as described above:
+
+Firstly, let's understand what Eulerian Number (a(n,m)) means? It represents the coefficients used in generating functions that represent solutions to certain types of recurrence relations. 
+
+In terms of combinatorics, these sequences often appear when counting certain kinds of objects such as permutations of elements taken from sets of different sizes, paths through directed graphs etc., which leads us to define them recursively. The formula comes up quite naturally if one realizes that each object counted corresponds uniquely to some subset S of n labeled points where every point has been assigned either label ""1"" or ""2"". Then there are k=0,...,min{|S|, m-1} ways to choose those labels so far and then |S| − min{k+1, m}, max{0, k−1} more unlabeled points remain to be chosen among remaining ones not yet included in any set labelled thus far. This reasoning translates into our definition of a(n, m) = Σ[k = 0...m - 1] (-1)^k * binomial(m, k) * a((n - binomial(n - 1, k)), n - k), i.e., the sequence starts off being zero at negative indices except possibly index -1 where it becomes 1 according to convention. So here is the Typescript Function based on the same logic :
+
+```typescript
+type MatrixType = Array<Array<number>>;
+const moduloValue = 1E9 + 7; // A large prime number
+    
+let identityMatrixCache: Map<number, MatrixType> = new Map();  
+identityMatrixCache.set(-1, [[-1]]); // Base case for Identity matrix
+      
+/**
+* Returns the power of given",0.0,400,400,"Counter({(1, 400): 1})",False
+False,68,mbpp_20_is_woodall,0.3,18.378737449646,False,"A Woodall Number is defined as 2^P * (2^Q -1) where P > 0 and Q > 0 are positive integers such that both P and Q do not have any other divisor apart from 1 itself. For instance, first few Woodall Numbers are 4 = 2^2*(2^1-1), 8=2^3*(2^1−1). The task here requires checking whether a particular input integer can form part of this series by substituting different values into 'P' and 'Q'. If it does then we say the provided number is a ""Woodall"" otherwise its not. Here is how I would implement this functionality in Typescript:
+
+```typescript
+function is_woodall(n :number) :boolean{
+   // Iterate over all possible pairs of powers of 2 upto sqrt n
+   outerLoop:for (let p = 1 ; Math.pow(2 ,p ) <= n/2 ; ++p){
+       let np =Math.floor((n / Math.pow(2 ,p))+1);
+        innerloop:for (;np>1;--np){
+            if ((np & (np - 1)) === 0 && n === Math.pow(2,p)*Math.pow(2,(np-1))) break outerLoop;          
+         }     
+     }
+   //If none found above means no pair exists so returning false else true
+   return !outerLoop ? false :true;
+};
+console.log(""Is 56 a Woodall number? "",is_woodall(56));
+console.log(""Is 729 a Woodall number?"",is_woodall(729));
+```
+This script defines a single top level function named 'is_woodall', which takes one argument 'n' representing some arbitrary numer",0.0,400,400,"Counter({(1, 400): 1})",False
+False,69,mbpp_96_divisor,0.3,15.350879192352297,True,"Here is how you can solve this problem by writing a Typescript function that finds out all possible factors (divisors) of any positive integer n: 
+
+```typescript
+function divisor(n :number) :number{  
+     let cnt = 0; // Initialize result as zero
+     
+     /* Loop through each i from 1 upto sqrt(n), if it's divisible then increment counter */
+     for (let i=1 ;i<Math.sqrt(n); i++){
+         if (n % i == 0 ){
+             // If both divisors are same then only one else we get two different ones
+            if ((n / i == i)) 
+                cnt = cnt + 1;      
+               else          
+                 cnt += 2;}         
+        }             
+return cnt;                 
+};                  
+```                    
+This function works by iterating over every value less than the square root of 'n', checking whether they divide evenly into 'n'. It increments a counter whenever such a factor is found. The reason why we stop at Math.sqrt('n') instead of going until 'n' itself is because larger factors would have already been paired with smaller ones when their pair was checked. At the end, our counter holds the total number of unique factors. Note also that perfect squares yield double-counting - so special handling has been added above. This function returns the exact amount of distinct values which multiply together to give original input number ""n"".
+",0.0,331,331,"Counter({(1, 331): 1})",False
+False,70,mbpp_404_minimum,0.3,4.257419109344482,True,"Here is how you can implement this functionality in Typescript:
+
+```typescript
+function minimum(a: number, b: number): number {
+  if (a < b) {
+      return a;
+  } else {
+      return b;
+  }
+}
+```
+",0.0,64,64,"Counter({(1, 64): 1})",False
+False,71,mbpp_752_jacobsthal_num,0.3,19.960601806640625,True,"Here is how we can implement this recursively based on Jacobsthal's definition:
+
+```typescript
+function jacobsthal_num(n: number): number {
+   if (n === 0) { // Base case when n = 0
+       return 0;
+   } else if (n === 1){ // Base case when n = 1
+       return 1;
+   } else{
+      return 2 * jacobsthal_num(n - 1) + jacobsthal_num(n - 2);
+   }
+}
+```
+This function uses simple mathematical induction to compute the nth Jacobsthal Number by calling itself twice at each step. It starts from base cases where it returns directly as they were given in problem statement ie., 0 for n=0 & 1 for n=1. For higher values of n, it calculates them through formula J(n) = 2*J(n-1)+J(n-2). This way, every subsequent value depends upon previous ones which makes our approach efficient but also requires less computation power than iterative methods. The time complexity here would be O(2^N), due to repeated calculations involved in solving smaller subproblems multiple times. However, since these problems overlap significantly (i.e., many same subproblems occur again during calculation), memoization could help us reduce that redundant work leading to linear time complexity i.e., O(N). But implementing such optimization goes beyond what was asked initially so I kept my answer simpler without considering those factors.
+",0.0,336,336,"Counter({(1, 336): 1})",False
+False,72,mbpp_765_is_polite,0.3,20.50809526443481,False,"A polite number is one that can't be expressed as the sum of any two nonzero integers (called its parts). 
+In other words, it has no prime factors larger than 1 which have consecutive differences among their indices being also part of this sequence.
+
+To solve this problem we need to implement binary operations on bitsets representing our current set of ""parts"". We start by initializing all sets containing only bit '0'. Then iterate through each power of 2 up until N, adding these powers into every existing set where they don’t exceed N. If at some point there exists a subset whose elements together equal exactly K then such set represents a polite number. Otherwise not. The time complexity would thus roughly correspond to O((logN)^3), because for each new digit added we go over previous digits again.
+
+Here is how I could define this function:
+
+```typescript
+function is_polite(position : number) : number{
+   let dp = Array<Array<boolean>>(); // dynamic programming array
+    
+   // Initialize first row
+   dp[0]= [true];
+     
+   for(let i = 1 ;i <= position; ++i){       
+       dp[i]  = [];        
+       for(let j= 0;j < Math.pow(2 , i + 1);++j ){            
+           if(!dp[i - 1][j]) continue;           
+             
+          for(let k = 0;k  <Math.pow(2 , i );++k ){               
+               if ((j & k)!== 0 || (j&(k<<1))!== 0)continue;                
+                 
+               dp[i][j|k ]= true;                  
+          }                     
+       }                   
+   }                    
+                      
+  ",0.0,400,400,"Counter({(1, 400): 1})",False
+False,73,mbpp_801_test_three_equal,0.3,11.082237005233765,True,"Here is how you can implement this function in Typescript:
+
+```typescript
+function test_three_equal(x: number, y: number, z: number): number {
+  let result = 0; // initialize counter variable as zero
+  
+  if (x === y) {
+      result++; // increment counter when x equals y
+  }
+  
+  if (y === z) {
+      result++; // increment counter when y equals z
+  }
+  
+  if (z === x) {
+      result++; // increment counter when z equals x
+  }
+  
+  return result; // returns total counts of equal values among input parameters
+}
+```
+This function checks each pair of inputs against one another and increments a counter every time it finds pairs where both elements are identical. It then returns that final count. If all different, no matches found so it would give 'result' value as 0 which means none of them were same. In case there was at least single match between any two variables, its quantity gets returned by our function.
+",0.0,234,234,"Counter({(1, 234): 1})",False
