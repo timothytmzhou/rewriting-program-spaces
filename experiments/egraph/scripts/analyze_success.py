@@ -59,7 +59,7 @@ def main(results_dir: Path):
     )
 
     model_names = ["deepseek", "llama7b", "llama13b"]
-    temps = sorted(table_df['temperature'].unique())
+    temps = [0.01, 0.3, 0.5, 0.7, 1.0]
     checkers = ['Unconstrained', 'Grammar', 'Semantic']
 
     def create_table(codeblock_value, table_name):

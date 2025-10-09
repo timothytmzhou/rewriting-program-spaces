@@ -27,5 +27,4 @@ non_neg_atom: id
 id: ID {Var}
 num: INT {Num}
 
-BACKTICKS: /```/
-codeblock: BACKTICKS let BACKTICKS
+codeblock: "```" let "```"
