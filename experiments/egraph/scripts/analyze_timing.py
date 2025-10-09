@@ -1,9 +1,11 @@
 import pandas as pd
+import argparse
 from pathlib import Path
+from tabulate import tabulate
 
 def main(results_dir: Path = Path('.')):
-    # find all csv result files for constrained checker without codeblock
-    csv_files = [f for f in results_dir.glob('*-constrained.csv') if 'codeblock' not in f.stem]
+    # find all csv result files  
+    csv_files = list(results_dir.glob('*-constrained.csv'))
     if not csv_files:
         print(f'No constrained CSV files found in {results_dir.resolve()}')
         return
@@ -12,62 +14,95 @@ def main(results_dir: Path = Path('.')):
     for csv_file in csv_files:
         name = csv_file.stem
         parts = name.split('-')
-        # parse filename: model-constrained
-        model = parts[0]
+        # parse filename: model[-codeblock]-constrained
+        if parts[-1] == 'constrained':
+            codeblock = 'codeblock' in parts[:-1]
+            model = parts[0]
+        else:
+            continue
 
         df = pd.read_csv(csv_file)
         df['temperature'] = df['temperature'].astype(float)
         temps = sorted(df['temperature'].unique())
         
+        total_per_temp = df.groupby('temperature')['total_realizability_time'].sum()
+        tokens_per_temp = df.groupby('temperature')['num_tokens_generated'].sum()
+        total_all_time = total_per_temp.sum()
+        total_all_tokens = tokens_per_temp.sum()
+        
         for temp in temps:
-            temp_df = df[df['temperature'] == temp]
-            total_realiz_time = temp_df['total_realizability_time'].sum()
-            total_tokens = temp_df['num_tokens_generated'].sum()
+            total_time = total_per_temp.get(temp, 0)
+            total_tokens = tokens_per_temp.get(temp, 0)
             
             # Calculate time per token in milliseconds
-            time_per_token_ms = (total_realiz_time / total_tokens * 1000) if total_tokens > 0 else 0
+            time_per_token_ms = (total_time / total_tokens * 1000) if total_tokens > 0 else 0
             
             records.append({
                 'model': model,
+                'codeblock': codeblock,
                 'temperature': temp,
-                'total_realizability_time': total_realiz_time,
-                'time_per_token_ms': time_per_token_ms
+                'time_per_token_ms': time_per_token_ms,
+                'total_all_time': total_all_time,
+                'total_all_tokens': total_all_tokens
             })
 
     table_df = pd.DataFrame(records)
-    models = table_df['model'].unique()
+    totals_df = (
+        table_df
+        .groupby(['model', 'codeblock'], as_index=False)
+        .agg({'total_all_time': 'max', 'total_all_tokens': 'max'})
+    )
+
+    models = ["deepseek", "llama7b", "llama13b"]
     temps = sorted(table_df['temperature'].unique())
 
-    print('\\begin{table}[h]')
-    print('\\centering')
-    print('\\caption{Realizability Checking Time for Constrained Decoding (Without Codeblock)}')
-    print('\\label{tab:realizability-timing}')
-    print('\\begin{tabular}{@{}l cc@{}}')
-    print('\\toprule')
-    print('\\textbf{Model & Temperature} & \\textbf{Total Time (s)} & \\textbf{Time per Token (ms)} \\\\')
-    print('\\midrule')
-
-    for model in models:
-        print(f'\\textbf{{{model}}} \\\\')
-        for temp in temps:
-            row = table_df[
-                (table_df['model'] == model) &
-                (table_df['temperature'] == temp)
-            ]
-            if row.empty:
-                raise ValueError(f"Missing data for {model}, T={temp}")
-            
-            total_time = row['total_realizability_time'].iloc[0]
-            time_per_token = row['time_per_token_ms'].iloc[0]
-            
-            print(f'T={temp:.2f} & {total_time:.2f} & {time_per_token:.2f} \\\\')
+    def create_table(codeblock_value, table_name):
+        # Create timing table for the given codeblock value
+        data = []
         
-        if model != models[-1]:  # Don't add midrule after last model
-            print('\\midrule')
-    
-    print('\\bottomrule')
-    print('\\end{tabular}')
-    print('\\end{table}')
+        # Create model header row
+        model_header = []
+        for model in models:
+            model_header.append(model)
+            for _ in range(len(temps) - 1):
+                model_header.append("")
+        
+        # Create temperature header row
+        temp_header = []
+        for model in models:
+            for temp in temps:
+                temp_header.append(f"T={temp}")
+        
+        # Create data row
+        row = []
+        for model in models:
+            # Add temperature columns
+            for temp in temps:
+                sub = table_df[
+                    (table_df['model'] == model) &
+                    (table_df['codeblock'] == codeblock_value) &
+                    (table_df['temperature'] == temp)
+                ]
+                if not sub.empty:
+                    time_per_token = round(sub['time_per_token_ms'].iloc[0])
+                    row.append(f'{time_per_token}')
+                else:
+                    row.append('N/A')
+        
+        # Add headers as data rows and then the actual data
+        data.append(model_header)
+        data.append(temp_header)
+        data.append(row)
+        
+        print(f"\n{table_name}")
+        print(tabulate(data, tablefmt='grid'))
+
+    create_table(False, "No Delimit")
+    create_table(True, "Delimit")
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description='Analyze timing performance from CSV files')
+    parser.add_argument('results_dir', type=Path, help='Directory containing CSV result files')
+    args = parser.parse_args()
+    
+    main(args.results_dir)

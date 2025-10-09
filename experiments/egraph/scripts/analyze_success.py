@@ -1,7 +1,9 @@
 import pandas as pd
 from pathlib import Path
+import argparse
+from tabulate import tabulate
 
-def main(results_dir: Path = Path('.')):
+def main(results_dir: Path):
     # find all csv result files
     csv_files = list(results_dir.glob('*.csv'))
     if not csv_files:
@@ -11,8 +13,8 @@ def main(results_dir: Path = Path('.')):
     # mapping checker_type to column labels
     checker_map = {
         'unconstrained': 'Unconstrained',
-        'gcd': 'Syntax',
-        'constrained': 'Semantics'
+        'gcd': 'Grammar',
+        'constrained': 'Semantic'
     }
 
     records = []
@@ -56,61 +58,61 @@ def main(results_dir: Path = Path('.')):
         .agg({'success_all': 'max', 'total_all': 'max'})
     )
 
-    models = table_df['model'].unique()
+    models = ["deepseek", "llama7b", "llama13b"]
     temps = sorted(table_df['temperature'].unique())
-    col_order = ['Unconstr.', 'Syntax', 'Semantics']
+    checkers = ['Unconstrained', 'Grammar', 'Semantic']
 
-    print('\\begin{table}[h]')
-    print('\\centering')
-    print('\\caption{Performance of Different Decoding Strategies Across Models and Temperatures (Higher is Better). Best results per row are \\textbf{bolded}.}')
-    print('\\label{tab:decoding-performance}')
-    print('\\begin{tabular}{@{}l ccc ccc@{}}')
-    print('\\toprule')
-    # header
-    print('\\multirow{2}{*}{\\textbf{Model & Temperature}}'
-          ' & \\multicolumn{3}{c}{\\textbf{Without Codeblock}}'
-          ' & \\multicolumn{3}{c}{\\textbf{With Codeblock}} \\\\')
-    print('\\cmidrule(lr){2-4} \\cmidrule(lr){5-7}')
-    print(' & \\textbf{Unconstr.} & \\textbf{Syntax} & \\textbf{Semantics}'
-          ' & \\textbf{Unconstr.} & \\textbf{Syntax} & \\textbf{Semantics} \\\\')
-    print('\\midrule')
-
-    for model in models:
-        print(f'\\textbf{{{model}}} \\\\')
-        for temp in temps:
-            cells = []
-            for cb in [False, True]:
-                for checker in col_order:
+    def create_table(codeblock_value, table_name):
+        # Create pivot table for the given codeblock value
+        data = []
+        for checker in checkers:
+            row = [checker]
+            for model in models:
+                # Add temperature columns
+                for temp in temps:
                     sub = table_df[
                         (table_df['model'] == model) &
-                        (table_df['codeblock'] == cb) &
-                        (table_df['temperature'] == temp) &
-                        (table_df['checker'] == checker)
+                        (table_df['codeblock'] == codeblock_value) &
+                        (table_df['checker'] == checker) &
+                        (table_df['temperature'] == temp)
                     ]
-                    if sub.empty:
-                        raise ValueError(f"Missing data for {model}, codeblock={cb}, {checker}, T={temp}")
-                    s = int(sub['success'].iloc[0])
-                    t = int(sub['total'].iloc[0])
-                    cells.append(f'{s}/{t}')
-            print('T={:.2f} & '.format(temp) + ' & '.join(cells) + ' \\\\')
-        print('\\midrule')
-        total_cells = []
-        for cb in [False, True]:
-            for checker in col_order:
+                    if not sub.empty:
+                        s = int(sub['success'].iloc[0])
+                        t = int(sub['total'].iloc[0])
+                        row.append(f'{s}')
+                    else:
+                        row.append('N/A')
+                
+                # Add total column
                 sub_tot = totals_df[
                     (totals_df['model'] == model) &
-                    (totals_df['codeblock'] == cb) &
+                    (totals_df['codeblock'] == codeblock_value) &
                     (totals_df['checker'] == checker)
                 ]
-                if sub_tot.empty:
-                    raise ValueError(f"Missing totals for {model}, codeblock={cb}, {checker}")
-                s_all = int(sub_tot['success_all'].iloc[0])
-                t_all = int(sub_tot['total_all'].iloc[0])
-                total_cells.append(f'{s_all}/{t_all}')
-        print('Total & ' + ' & '.join(total_cells) + ' \\\\')
-    print('\\bottomrule')
-    print('\\end{tabular}')
-    print('\\end{table}')
+                if not sub_tot.empty:
+                    s_all = int(sub_tot['success_all'].iloc[0])
+                    t_all = int(sub_tot['total_all'].iloc[0])
+                    row.append(f'{s_all}')
+                else:
+                    row.append('N/A')
+            data.append(row)
+        
+        # Create headers
+        headers = ['Checker']
+        for model in models:
+            for temp in temps:
+                headers.append("")
+            headers.append(f'{model}\nTotal')
+        
+        print(f"\n{table_name}")
+        print(tabulate(data, headers=headers, tablefmt='grid'))
+
+    create_table(False, "No Delimit")
+    create_table(True, "Delimit")
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description='Analyze success rates from CSV files')
+    parser.add_argument('results_dir', type=Path, help='Directory containing CSV result files')
+    args = parser.parse_args()
+    
+    main(args.results_dir)

@@ -1,0 +1,265 @@
+success,benchmark,temperature,execution_time,llm_finished,output,total_realizability_time,num_tokens_guessed,num_tokens_generated,tries_per_token
+True,uppercase.egglog,0.01,4.6658616065979,True," ```
+let uppercase_chars = filter isAlpha s in
+let mapped_uppercase_chars = map toUpper uppercase_chars in
+mapped_uppercase_chars
+```",0.466810941696167,46,46,"Counter({(1, 46): 1})"
+False,lerp.egglog,0.01,4.612884998321533,True," ```
+let start_scaled = start * scale in
+let end_scaled = end * scale in
+(end_scaled - start_scaled)
+```",0.8805625438690186,39,39,"Counter({(1, 39): 1})"
+True,auth.egglog,0.01,5.467052698135376,True," ```
+let authorized_user = authenticate_user current_user web_request in
+let user_with_access = authorize_user_for_document authorized_user document_id in
+fetch_document user_with_access
+```",0.5636270046234131,56,56,"Counter({(1, 56): 1})"
+False,power.egglog,0.01,34.17591118812561,False," ```
+let power = power / 1000 in
+let cost = power * hours * price_per_kwh
+cost
+
+Note that this refactored version uses two separate binding statements instead of one long expression chain as before to make it more readable and easier to understand at a glance what each variable represents without having to read through all the calculations first to see how they relate to each other and what their values represent overall after everything has been calculated together at once like",23.690799713134766,140,100,"Counter({(1, 79): 1, (4, 4): 1, (2, 10): 1, (3, 5): 1, (5, 2): 1})"
+True,distance.egglog,0.01,4.879917860031128,True," ```
+let distance_squared = pow (x1 - x2) 2 + pow (y1 - y2) 2 in
+sqrt distance_squared
+```",0.6997699737548828,40,40,"Counter({(1, 40): 1})"
+False,gravity.egglog,0.01,6.737738609313965,True," ```
+let ten_to_the_negative_fifteen = pow 10 (-15) in
+let product = six_hundred_seventy_four_three * m1 * m2 in
+let result = product / (r * r) in
+result
+```",1.1039142608642578,67,64,"Counter({(1, 63): 1, (4, 1): 1})"
+True,image.egglog,0.01,6.605112552642822,True," ```
+let crop_img = crop_image original_image selection in
+let filtered_img = apply_filter crop_img filter_type in
+let final_img = add_watermark filtered_img watermark_image in
+final_img
+```",1.2469942569732666,63,63,"Counter({(1, 63): 1})"
+False,variance.egglog,0.01,9.252256393432617,True," ```
+let avg = (a + b + c) / 3 in
+let diff_sqr = pow(avg - a) 2 + pow(avg - b) 2 + pow(avg - c) 2 in
+sqrt(diff_sqr) / 3
+```",3.3031551837921143,71,69,"Counter({(1, 68): 1, (3, 1): 1})"
+False,positives.egglog,0.01,8.34426999092102,True," ```
+let sum_positive_xs = sum (filter positive xs) in
+let num_positive_xs = length (filter positive xs) in
+if num_positive_xs equals zero then zero else sum_positive_xs divided by num_positive_xs
+```",2.2907166481018066,74,64,"Counter({(1, 63): 1, (11, 1): 1})"
+False,quadratic.egglog,0.01,6.657618284225464,True," ```
+let discriminant = pow b 2 - 4 * a * c in
+if discriminant 0 then None else Some (-b + sqrt discriminant) / (2 * a)
+```",1.5086212158203125,60,49,"Counter({(1, 47): 1, (9, 1): 1, (4, 1): 1})"
+True,uppercase.egglog,0.3,5.064643144607544,True," ```
+let uppercase_chars = filter isAlpha s in
+let mapped_uppercase_chars = map toUpper uppercase_chars in
+mapped_uppercase_chars
+```",0.4677448272705078,46,46,"Counter({(1, 46): 1})"
+False,lerp.egglog,0.3,4.198931694030762,True," ```
+let start_scaled = start * scale in
+let end_scaled = end * scale in
+(end_scaled - start_scaled)
+```",0.4584684371948242,39,39,"Counter({(1, 39): 1})"
+True,auth.egglog,0.3,5.180094242095947,True," ```
+let authorizedUser = authenticate_user current_user web_request in
+let authorizedForDocument = authorize_user_for_document authorizedUser document_id in
+fetch_document authorizedForDocument
+```",0.5396773815155029,52,52,"Counter({(1, 52): 1})"
+True,power.egglog,0.3,4.800477027893066,True," ```
+let power_in_mw = power / 1000 in
+let energy_cost = power_in_mw * hours * price_per_kwh in
+energy_cost
+```",0.46404480934143066,48,48,"Counter({(1, 48): 1})"
+True,distance.egglog,0.3,4.933366298675537,True," ```
+let distance_squared = pow (x1 - x2) 2 + pow (y1 - y2) 2 in
+sqrt distance_squared
+```",0.690626859664917,40,40,"Counter({(1, 40): 1})"
+False,gravity.egglog,0.3,10.23977780342102,True," ```
+let ten = 10
+in let negative_fifteen = -15
+    in let six_six_seven_four_three = 66743
+        in let product = six_six_seven_four_three * m1 * m2
+            in let division = product / (r * r)
+                in ten * negative_fifteen * division
+```",2.7561452388763428,95,90,"Counter({(1, 87): 1, (2, 2): 1, (4, 1): 1})"
+True,image.egglog,0.3,4.726047992706299,True," ```
+let crop_result = apply_filter (crop_image original_image selection) filter_type
+in add_watermark crop_result watermark_image
+```",0.5649914741516113,45,45,"Counter({(1, 45): 1})"
+False,variance.egglog,0.3,9.188585042953491,True," ```
+let avg = (a + b + c) / 3 in
+let diff_sqr = pow(avg - a) 2 + pow(avg - b) 2 + pow(avg - c) 2 in
+sqrt(diff_sqr) / 3
+```",2.8363842964172363,71,69,"Counter({(1, 68): 1, (3, 1): 1})"
+False,positives.egglog,0.3,8.557549476623535,True," ```
+let sum_positive_xs =
+    sum (filter positive xs)
+in
+let count_positive_xs = length (filter positive xs)
+in
+if count_positive_xs eq zero then zero else sum_positive_xs div count_positive_xs
+```",2.2309365272521973,78,67,"Counter({(1, 64): 1, (2, 2): 1, (10, 1): 1})"
+False,quadratic.egglog,0.3,10.433377265930176,True," ```
+let discriminant = pow b 2 - 4 * a * c in
+if discriminant greater than zero then
+    (-b + sqrt discriminant) / (2 * a)
+else if discriminant equal to zero then
+    0
+else
+    raise error
+```",3.485427141189575,80,68,"Counter({(1, 64): 1, (10, 1): 1, (2, 3): 1})"
+False,uppercase.egglog,0.5,2.2261252403259277,True," ```
+toUpper (filter isAlpha s)
+```",0.1237025260925293,14,14,"Counter({(1, 14): 1})"
+False,lerp.egglog,0.5,17.72704529762268,True," ```
+let start_scaled = start * scale in
+let end_subtracted = end - start in
+let result = start_scaled + end_subtracted
+result
+
+Note how we first calculate the product of start and scale and store it in the variable ```
+",2.693225145339966,208,67,"Counter({(1, 56): 1, (2, 6): 1, (7, 1): 1, (3, 2): 1, (12, 1): 1, (115, 1): 1})"
+False,auth.egglog,0.5,4.319487810134888,True," ```
+let auth_result = authenticate_user current_user web_request
+in fetch_document authorized_user_for_document auth_result document_id
+```",0.3763258457183838,40,40,"Counter({(1, 40): 1})"
+False,power.egglog,0.5,4.041523694992065,True," ```
+let power = power / 1000 in
+let cost = power * price_per_kwh in
+cost
+```",0.7471508979797363,32,32,"Counter({(1, 32): 1})"
+True,distance.egglog,0.5,4.369896411895752,True," ```
+let dist_sq = pow (x1 - x2) 2 + pow (y1 - y2) 2 in
+sqrt dist_sq
+```",0.6607918739318848,38,38,"Counter({(1, 38): 1})"
+False,gravity.egglog,0.5,12.735612154006958,False," ```csharp
+double result10_15m1m2r2(double m1_val15m1m2r2)
+    double temp10_15m1m2r2(double m1_val15m1m2r2)
+        return 66743 * m1_val15m1m2r2
+    
+    return temp10_15m1m2",2.801750898361206,132,100,"Counter({(1, 81): 1, (4, 3): 1, (3, 7): 1, (2, 9): 1})"
+True,image.egglog,0.5,4.735300064086914,True," ```
+let crop_result = apply_filter (crop_image original_image selection) filter_type
+in add_watermark crop_result watermark_image
+```",0.5738658905029297,45,45,"Counter({(1, 45): 1})"
+False,variance.egglog,0.5,8.863513231277466,True," ```
+let avg = (a + b + c) / 3 in
+let dx = a - avg in
+let dy = b - avg in
+let dz = c - avg in
+(dx * dx + dy * dy + dz * dz) / 3
+```",3.147660255432129,68,65,"Counter({(1, 64): 1, (4, 1): 1})"
+False,positives.egglog,0.5,8.694410562515259,True," ```
+let sum_positive_xs =
+    sum (filter positive xs)
+in
+let count_positive_xs = length (filter positive xs)
+in
+if count_positive_xs equals zero
+then zero
+else sum_positive_xs divided by count_positive_xs
+```",2.3401198387145996,79,70,"Counter({(1, 69): 1, (10, 1): 1})"
+False,quadratic.egglog,0.5,7.5190558433532715,True," ```
+let discriminant = pow b 2 - 4 * a * c
+in if discriminant 0 then
+    (-b + sqrt discriminant) / (2 * a)
+else
+    None
+   ```",1.5926859378814697,65,54,"Counter({(1, 51): 1, (9, 1): 1, (3, 1): 1, (2, 1): 1})"
+False,uppercase.egglog,0.7,5.539056062698364,True," ```csharp
+list_comprehension(s) do
+    filter(isAlpha)(toUpper(x)) for x from s
+end
+```",0.9222376346588135,52,36,"Counter({(1, 28): 1, (3, 2): 1, (2, 4): 1, (5, 2): 1})"
+False,lerp.egglog,0.7,2.7163100242614746,True," ```c
+scale * (end - start) + start
+```",0.19170498847961426,20,16,"Counter({(1, 13): 1, (2, 2): 1, (3, 1): 1})"
+False,auth.egglog,0.7,3.533830165863037,True," ```
+let authorizedUser = authenticate_user current_user web_request
+in fetch_document authorizedUser document_id
+```",0.2570459842681885,32,32,"Counter({(1, 32): 1})"
+True,power.egglog,0.7,7.1489739418029785,True," ```
+let power_in_mw = power / 1000
+
+in let kwh_used = power_in_mw * hours
+    in let cost_of_energy = kwh_used * price_per_kwh
+        in cost_of_energy
+```",0.855496883392334,71,67,"Counter({(1, 64): 1, (2, 2): 1, (3, 1): 1})"
+False,distance.egglog,0.7,4.057327747344971,True," ```
+let dist_squared = pow x1 - x2 2 + pow y1 - y2 2 in
+sqrt dist_squared
+```",0.42435598373413086,37,36,"Counter({(1, 35): 1, (2, 1): 1})"
+False,gravity.egglog,0.7,4.878805875778198,True," ```
+m1 m2 r sqrt 10 div neg 15 log mul 66743 mul pow result pow 2 exp div result
+```",0.9282851219177246,42,38,"Counter({(1, 34): 1, (2, 4): 1})"
+False,image.egglog,0.7,12.992463111877441,True," ```
+let crop = fun(img) img in
+let applyFilter = fun(img) img in
+let addWatermark = fun(img) img in
+
+let croppedImage = crop original_image selection in
+let filteredCroppedImage = applyFilter croppedImage filterType in
+let finalImage = addWatermark filteredCroppedImage watermarkImage in
+finalImage
+```",4.590456008911133,109,94,"Counter({(1, 88): 1, (2, 4): 1, (4, 1): 1, (9, 1): 1})"
+False,variance.egglog,0.7,8.106267929077148,True," ```
+let average = (a + b + c) / 3 in
+let distance_from_average = pow (x - average) 2 in
+sqrt (distance_from_average + distance_from_average + distance_from_average) / 3
+```",1.9935996532440186,66,65,"Counter({(1, 64): 1, (2, 1): 1})"
+True,positives.egglog,0.7,3.9972620010375977,True," ```
+let average_positive_xs = sum (filter positive xs) / length (filter positive xs)
+in average_positive_xs
+```",0.5171480178833008,35,35,"Counter({(1, 35): 1})"
+False,quadratic.egglog,0.7,13.90497875213623,True," ```
+let discriminant = pow b 2 - 4 * a * c in
+if discriminant 0 do
+    None
+else if discriminant positive do
+    Some (-b + sqrt discriminant) / (2 * a)
+else
+    Some (-b - sqrt discriminant) / (2 * a)
+```",5.715834379196167,99,80,"Counter({(1, 76): 1, (2, 1): 1, (13, 1): 1, (4, 2): 1})"
+False,uppercase.egglog,1.0,25.50497269630432,False," ```csharp
+using System
+MappingExample(string s)
+    return MappingFilteredLetExpressionToUpperCase(s)(isalpha _)
+End Function
+Function FilterIsAlpha(arg1 As Integer)
+	If IsNumeric Then Return arg1 Else Return Nothing End If
+Return arg1
+End Function To Upper CaseLambda Expression Let MapVariable
+End Language DynamicLanguage objectMeleRuntimeFinalize for ReferencePortemonosPython digamos Que lambda Variable at dynamics",16.538263082504272,118,100,"Counter({(1, 87): 1, (3, 3): 1, (4, 1): 1, (2, 9): 1})"
+False,lerp.egglog,1.0,3.1976869106292725,True," ```
+let midpoint = span start end in
+(midpoint - start) * scale + start
+```",0.29567551612854004,26,25,"Counter({(1, 24): 1, (2, 1): 1})"
+False,auth.egglog,1.0,5.3506128787994385,True," ```let authorizedUser = authenticate_user current_user web_request in
+let document = fetch_document document_id in
+let requestedDocument = authorize_user_for_document authorizedUser document in
+requestedDocument```",0.681403636932373,53,53,"Counter({(1, 53): 1})"
+False,power.egglog,1.0,5.548338174819946,True, ```let price_per_kwh = power / 1000 * hours in price_per_kwh```,0.22823023796081543,63,29,"Counter({(1, 28): 1, (35, 1): 1})"
+False,distance.egglog,1.0,4.682100772857666,True," ```
+let dist_sqr = pow(x1-x2)*2 + pow(y1-y2)*2 in
+sqrt(dist_sqr)```",0.776496171951294,41,39,"Counter({(1, 37): 1, (2, 2): 1})"
+False,gravity.egglog,1.0,7.815308570861816,True," ```
+let power_term = (m1 * m2 / (r * r)) in
+let multiplier = (-15 * power_term) in
+let result     = power_term * 10 in
+result * pow(multiplier)
+```",2.333223819732666,65,59,"Counter({(1, 56): 1, (4, 1): 1, (2, 1): 1, (3, 1): 1})"
+False,image.egglog,1.0,22.993526458740234,False," ```lets
+    save",0.42174220085144043,300,5,"Counter({(1, 3): 1, (9, 1): 1, (5, 1): 1})"
+False,variance.egglog,1.0,55.33908009529114,False," ```
+let m = 1/(3-0)*(m*(e-t)+((1-d)(s-(t-n)))/g-v((j+(p-z))-(o*(1-n))))-i((r-(b-q)-u))/a-(4*h*(w-9))-b+l+5*k-k*m+x+i-8*ah+ac-16+8+dh",45.625256061553955,126,100,"Counter({(1, 80): 1, (2, 15): 1, (3, 4): 1, (4, 1): 1})"
+False,positives.egglog,1.0,21.171737670898438,False," ```
+let posXs = filter positive xs in
+case length posXs of
+  0                      cons (first xs) nilEndrec sortList aux (odds evenList (length (freeVars posX))) of
+
+   	          1                case head odds of 0      9
+    	         Tail wsCons nicepairished pLet pair sim NIL
+        Just res         lstRes findNilfind xsPair lastysNextHead xs",11.853134632110596,123,100,"Counter({(1, 88): 1, (2, 9): 1, (3, 1): 1, (4, 1): 1, (10, 1): 1})"
+False,quadratic.egglog,1.0,19.856199026107788,False," ```
+let discriminant = pow b 2 - 4 * a * c in
+if real(discriminant) and abs(discriminant) / max(abs(a)*max(abs(b)/10000000000000000000000000000000000000000000000000",8.116041898727417,145,100,"Counter({(1, 79): 1, (9, 1): 1, (8, 1): 1, (3, 9): 1, (2, 9): 1, (4, 1): 1})"
