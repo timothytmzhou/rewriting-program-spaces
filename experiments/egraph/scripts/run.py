@@ -207,7 +207,7 @@ def main():
         model_config = ModelConfig(model_id=valid_models[model_name])
         runner = LanguageModelRunner(model_config)
 
-        for code_block in args.codeblock:
+        for code_block in args.delimit:
             for checker_type in args.checkers:
                 name = f"{model_name}"
                 if code_block:

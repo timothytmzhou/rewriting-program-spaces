@@ -2,7 +2,6 @@ import gc
 from dataclasses import dataclass
 from collections import Counter, defaultdict
 from typing import Any
-from func_timeout import FunctionTimedOut, func_timeout
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from transformers.cache_utils import DynamicCache
@@ -21,13 +20,13 @@ class Config:
     """
     Configuration for language model generation.
     """
-
     max_new_tokens: int = 400
     temperature: float = 0.5
     repetition_penalty: float = 1.0
     top_p: float = 1.0
     top_k: float = 0
     num_guesses: int = 400
+    timeout: int = 99999 # no timeout by default
 
 
 @dataclass
@@ -119,24 +118,24 @@ class LanguageModelRunner:
         config: Config,
         prompt: str,
         context: str,
-        realizability_checker=None,
-        timeout: int = 150,
+        realizability_checker=None
     ) -> RunInfo:
         input_ids = self._tokenize_prompt(prompt, context)
         generated_tokens: list[int] = []
         forbidden_tokens: dict = defaultdict(set)
-        num_tokens_guessed = 0
         cache = DynamicCache()
         decoded_output = ""
+        num_tokens_guessed = 0
         total_realizability_time = 0.0
         tries = 0
         try_counts: Counter[int] = Counter()
-        timed_out = False
-        start_run = time.time()
+        start_time = time.time()
 
-        for _ in range(config.num_guesses):
-            if len(generated_tokens) >= config.max_new_tokens:
-                break
+        while (
+            num_tokens_guessed < config.num_guesses
+            and len(generated_tokens) < config.max_new_tokens
+            and time.time() - start_time <= config.timeout
+        ):
             num_tokens_guessed += 1
             tries += 1
             output = self._generate_next_token(
@@ -151,20 +150,16 @@ class LanguageModelRunner:
             decoded_output = self.tokenizer.decode(
                 generated_tokens + [new_token], skip_special_tokens=True
             )
+
             if realizability_checker is None:
                 is_realizable = True
             else:
                 check_start = time.time()
-                try:
-                    is_realizable = func_timeout(
-                        int((start_run + timeout) - check_start),
-                        realizability_checker.realizable,
-                        args=(decoded_output, is_final)
-                    )
-                except FunctionTimedOut:
-                    is_realizable = False
-                    timed_out = True
+                is_realizable = realizability_checker.realizable(
+                    decoded_output, is_final
+                )
                 total_realizability_time += time.time() - check_start
+
             if is_realizable:
                 try_counts[tries] += 1
                 tries = 0
@@ -177,11 +172,11 @@ class LanguageModelRunner:
                         num_tokens_guessed=num_tokens_guessed,
                         num_tokens_generated=len(generated_tokens),
                         tries_per_token=try_counts,
+                        timed_out=False,
                     )
             else:
                 forbidden_tokens[tuple(generated_tokens)].add(new_token)
                 cache.crop(-1)
-
         return RunInfo(
             llm_finished=False,
             output=decoded_output,
@@ -189,7 +184,7 @@ class LanguageModelRunner:
             num_tokens_guessed=num_tokens_guessed,
             num_tokens_generated=len(generated_tokens),
             tries_per_token=try_counts,
-            timed_out=timed_out,
+            timed_out=time.time() - start_time > config.timeout,
         )
 
     def __del__(self):

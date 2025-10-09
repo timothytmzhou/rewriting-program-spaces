@@ -198,7 +198,7 @@ if __name__ == "__main__":
         run_experiments(
             model_name,
             model_config,
-            replace(Config(), temperature=TEMP, repetition_penalty=1.2),
+            Config(temperature=TEMP, repetition_penalty=1.2, timeout=150),
             args.typescript_CD,
             args.typescript_noCD,
             args.typescript_GCD,

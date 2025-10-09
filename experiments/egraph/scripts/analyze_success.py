@@ -58,7 +58,7 @@ def main(results_dir: Path):
         .agg({'success_all': 'max', 'total_all': 'max'})
     )
 
-    models = ["deepseek", "llama7b", "llama13b"]
+    model_names = ["deepseek", "llama7b", "llama13b"]
     temps = sorted(table_df['temperature'].unique())
     checkers = ['Unconstrained', 'Grammar', 'Semantic']
 
@@ -67,11 +67,11 @@ def main(results_dir: Path):
         data = []
         for checker in checkers:
             row = [checker]
-            for model in models:
+            for model_name in model_names:
                 # Add temperature columns
                 for temp in temps:
                     sub = table_df[
-                        (table_df['model'] == model) &
+                        (table_df['model'] == model_name) &
                         (table_df['codeblock'] == codeblock_value) &
                         (table_df['checker'] == checker) &
                         (table_df['temperature'] == temp)
@@ -85,7 +85,7 @@ def main(results_dir: Path):
                 
                 # Add total column
                 sub_tot = totals_df[
-                    (totals_df['model'] == model) &
+                    (totals_df['model'] == model_name) &
                     (totals_df['codeblock'] == codeblock_value) &
                     (totals_df['checker'] == checker)
                 ]
@@ -99,10 +99,10 @@ def main(results_dir: Path):
         
         # Create headers
         headers = ['Checker']
-        for model in models:
+        for model_name in model_names:
             for temp in temps:
                 headers.append("")
-            headers.append(f'{model}\nTotal')
+            headers.append(f'{model_name}\nTotal')
         
         print(f"\n{table_name}")
         print(tabulate(data, headers=headers, tablefmt='grid'))
