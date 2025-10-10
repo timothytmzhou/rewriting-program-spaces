@@ -13,8 +13,8 @@ from experiments.typescript.compile_typescript import compile_typescript
 from experiments.typescript.typescript_typechecker import typescript_typechecker
 from experiments.typescript.typescript_abstract_syntax import typescript_grammar_checker
 
-CONTEXT_FILE_PATH = "../benchmarks/context.txt"
-BENCHMARKS_FILE_PATH = "../benchmarks/mbpp_benchmarks"
+CONTEXT_FILE_PATH = "experiments/typescript/benchmarks/context.txt"
+BENCHMARKS_FILE_PATH = "experiments/typescript/benchmarks/mbpp_benchmarks"
 
 
 def ts_clean(initial_output: str) -> str:
