@@ -168,8 +168,8 @@ def main():
     parser.add_argument(
         '--output',
         type=Path,
-        default=Path("experiments", "typescript", "generated_data"),
-        help='Directory to store outputs'
+        default=Path("experiments", "typescript", "data"),
+        help="Path to the output directory (default: experiments/typescript/data).",
     )
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)

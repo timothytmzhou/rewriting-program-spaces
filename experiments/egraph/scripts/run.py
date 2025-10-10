@@ -163,7 +163,7 @@ def main():
         "grammar": "gcd"
     }
 
-    parser = argparse.ArgumentParser(description="Run model experiments.")
+    parser = argparse.ArgumentParser(description="Run egraph experiments.")
     parser.add_argument(
         "--models",
         nargs="+",

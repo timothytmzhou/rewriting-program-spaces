@@ -60,19 +60,29 @@ Figure 6 shows the histogram for llama7b specifically.
 You can pass the `--output-dir` flag to specify the path where the images are saved (the current working directory by default).
 
 
-## Reproducing Raw Data (Requires GPUs with at least 30 GB of combined VRAM)
+## Reproducing Raw Data
+The largest model, llama-13b, requires ~30 GB of VRAM.
+The smallest model, deepseek-coder, requires ~15GB of VRAM.
+Because LLMs are inherently stochastic, data may differ from what is reported in the paper, but trends should be preserved. 
 ### EGraph Benchmarks
 The following command will run ALL egraph experiments:
 ```bash
 python -m experiments.egraph.scripts.run
 ```
-This may take a long time, so instead the reviewer may want to only run on a subset of the experiments. To do this, pass in additional arguments specifying which experiments to run. For example,
+This may take a long time, so instead the reviewer may want to only run on a subset of the experiments. 
+To do this, pass in additional arguments specifying which experiments to run.
+Experiments are split along several dimensions (models, temperature, checker type, etc.).
+Multiple values can be specified per dimension (e.g. to run with temperatures .01 AND .3).
+If a dimension is not specified, the script will default to using all values.
+For example,
 ```bash
-python -m experiments.egraph.scripts.run --models llama7b --temps 0.01
+python -m experiments.egraph.scripts.run --models llama7b --temps 0.01 .3
 ```
-will run only experiments using llama7b at temperature .01. 
+will run only experiments using llama7b at temperatures .01 and .3. 
 The options for the script are listed below.
 ```bash
+Run egraph experiments.
+
 options:
   -h, --help            show this help message and exit
   --models {llama13b,llama7b,deepseek} [{llama13b,llama7b,deepseek} ...]
@@ -80,7 +90,7 @@ options:
   --temps {0.01,0.3,0.5,0.7,1.0} [{0.01,0.3,0.5,0.7,1.0} ...]
                         Which temperatures to run (default: all).
   --delimit DELIMIT     Run with delimiters: yes, no, or both (default: both).
-  --checkers {constrained,unconstrained,gcd} [{constrained,unconstrained,gcd} ...]
+  --checkers {semantic,unconstrained,grammar} [{semantic,unconstrained,grammar} ...]
                         Which checker types to run (default: all).
   --output OUTPUT       Path to the output directory (default: experiments/egraph/data).
 ```
@@ -88,49 +98,32 @@ options:
 Once the output is generated, tables can be produced using the same procedure as with the raw data, just with the input directory changed to where the results were stored.
 
 ### TypeScript Benchmarks
-#### Run ALL experiments in sequence (~2 days)
-To run ALL typescript experiments in sequence, from the `rewriting-program-spaces` directory run 
+The following command will run ALL typescript experiments (expect this to take 2-3 days):
 ```bash
-python -m experiments.typescript.scripts.run --output path_to_my_output_directory/
+python -m experiments.typescript.scripts.run
 ```
-Substitute `path_to_my_output_directory/` with a directory of your choice; the csv files will be written there.
-Expect this to take up to two days.
-Because LLMs are inherently stochastic, data may differ from what is reported in the paper, but trends should be preserved. 
-The largest model, llama-13b, requires ~30 GB of VRAM.
-The smallest model, deepseek-coder, requires ~15GB of VRAM.
-
-#### Run SOME experiments, possibly in parallel
-If the reviewer has limited time/compute, they may choose to run only a subset of the experiments.
-Conversely, if the reviewer has a lot of compute and limited time, they may wish to run subsets of the experiments in parallel.
-To do this, they may pass in additional arguments specifying which experiments to run.
-Each experiment has 3 dimensions: model, temperature, and checker (see Table 1).
-Any number of arguments for any dimension may be passed in.
+As above, if this will take too long it is possible to only specify a subset of the experiments to run.
 For example,
 ```bash
-python -m experiments.typescript.scripts.run --models llama7b --temps 0.01 0.3 --output path_to_my_output_directory/
+python -m experiments.typescript.scripts.run --models llama7b --temps 0.01 0.3 
 ```
 will run only the 6 experiments using llama7b at temperatures .01 and 0.3.
-If a dimension is left unspecified, it defaults to running all possible values (e.g., in the command above, all checkers are run).
-
 The options for the script are listed below.
-Only the checker names differ from the egraph experiments.
 ```bash
+Run typescript experiments.
+
 options:
   -h, --help            show this help message and exit
   --models {llama13b,llama7b,deepseek} [{llama13b,llama7b,deepseek} ...]
                         Which models to run (default: all).
   --temps {0.01,0.3,0.5,0.7,1.0} [{0.01,0.3,0.5,0.7,1.0} ...]
                         Which temperatures to run (default: all).
-  --checkers {TypedCD,Unconstrained,GCD} [{TypedCD,Unconstrained,GCD} ...]
+  --checkers {semantic,unconstrained,grammar} [{semantic,unconstrained,grammar} ...]
                         Which checker types to run (default: all).
-  --output OUTPUT       Path to the output directory (default: experiments/egraph/data).
+  --output OUTPUT       Path to the output directory (default: experiments/typescript/data).
 ```
 
-Once the output is generated, tables can be produced using the same procedure as with the raw data.
-The reviewer should point the analysis script to the directory where their results were stored, e.g.,
-```bash
-python -m experiments.typescript.scripts.analyze_success path_to_my_output_directory/
-```
+Once the output is generated, tables can be produced using the same procedure as with the raw data, just with the input directory changed to where the results were stored.
 
 # Additional Description
 TODO: Add description of directory layout.
