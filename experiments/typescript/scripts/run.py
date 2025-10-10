@@ -161,18 +161,6 @@ def main():
         help="Which checker types to run (default: all).",
     )
     parser.add_argument(
-        '--num_runs',
-        type=int,
-        default=1,
-        help='Number of runs for each prompt (default: 1)'
-    )
-    parser.add_argument(
-        '--temp',
-        type=float,
-        default=1.0,
-        help='LLM Temperature (default: 1.0)'
-    )
-    parser.add_argument(
         '--output',
         type=Path,
         default=Path("experiments", "typescript", "generated_data"),
@@ -190,7 +178,7 @@ def main():
                 run_typescript(
                     model_runner,
                     Config(temperature=temp, repetition_penalty=1.2, timeout=150),
-                    args.num_runs,
+                    1,
                     checker,
                     model_name,
                     args.output
