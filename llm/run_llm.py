@@ -54,9 +54,9 @@ class LanguageModelRunner:
         tokenizer.pad_token = tokenizer.eos_token
 
         model = AutoModelForCausalLM.from_pretrained(
-            self.model_config.model_id, device_map="auto"
+            self.model_config.model_id, device_map="auto",
+            torch_dtype=self.model_config.dtype
         )
-        model.to(dtype=self.model_config.dtype)
         model.resize_token_embeddings(len(tokenizer))
         return model, tokenizer
 
