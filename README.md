@@ -10,6 +10,7 @@ Claim 3 (Section 6.2): In general, even with semantic constrained decoding the f
 - Docker must be installed.
 - You can evaluate parts of this artifact on CPU-only systems without a GPU (see **Evaluation**). However, Apple Silicon (M1/M2/M3) is not supported because the Docker image is built for x86_64 architecture using NVIDIA CUDA base images.
 
+## Instructions
 First, download the docker image from Zenodo.
 To start the container, run:
 ```bash
@@ -74,11 +75,11 @@ Figure 6 shows the histogram for llama7b specifically.
 You can pass the `--output-dir` flag to specify the path where the images are saved (the current working directory by default).
 
 ## Reproducing Raw Data
-The largest model, llama-13b, requires ~30 GB of VRAM.
-The smallest model, deepseek-coder, requires ~15GB of VRAM.
+The largest model, llama-13b, requires \~30 GB of VRAM.
+The smallest model, deepseek-coder, requires \~15GB of VRAM.
 Because LLMs are inherently stochastic, data may differ from what is reported in the paper, but trends should be preserved.
 The first time you run a model, the script will need to download the weights for that model from HuggingFace.
-This may take a while and requires enough disk space (~50GB if you want to run all three models).
+This may take a while and requires enough disk space (\~50GB if you want to run all three models).
 
 ### EGraph Benchmarks
 The following command will run ALL egraph experiments:
@@ -157,14 +158,14 @@ The repository is organized as follows:
   - `experiments/typescript`
 
   Each of these directories contains:
-  - **Realizability checker definition**  
+  - A realizability checker definition
     - A `.lark` file describing the concrete syntax.  
     - A `.py` file describing the abstract syntax.  
     - Another Python file defining a pruner.  
     - For `egraph` benchmarks, rewrite rules are included in an `.egglog` file.
-  - **`scripts`** subdirectory  
+  - A `scripts` subdirectory  
     Contains scripts to run experiments.
-  - **`paper_data`** subdirectory  
+  - a `paper_data` subdirectory  
     Contains the raw data used in the paper.
 
 - **`demo`**  
