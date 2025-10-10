@@ -6,7 +6,11 @@ Claim 2 (Section 6.2): Overhead on decoding time ranges from tens to a few hundr
 Claim 3 (Section 6.2): In general, even with semantic constrained decoding the first token tried is accepted most of the time (Figure 6). See the steps labeled Figure 6 in "Reproducing Tables and Figures".
 
 # Installation
-First, download the docker image from Zenodo and ensure docker is installed.
+## Requirements
+- Docker must be installed.
+- You can evaluate parts of this artifact on CPU-only systems without a GPU (see **Evaluation**). However, Apple Silicon (M1/M2/M3) is not supported because the Docker image is built for x86_64 architecture using NVIDIA CUDA base images.
+
+First, download the docker image from Zenodo.
 To start the container, run:
 ```bash
 docker run -it --rm --gpus all chopchop:latest
