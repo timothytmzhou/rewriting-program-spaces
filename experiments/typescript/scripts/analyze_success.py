@@ -18,7 +18,7 @@ def analyze_results(results_dir: Path):
 
     # Define the checkers, models, and temperatures we expect
     checkers = ['Unconstrained', 'GCD', 'TypedCD']
-    models = ['deepseek-coder', 'llama7b', 'llama13b']
+    models = ['deepseek', 'llama7b', 'llama13b']
     temps = ['0.01', '0.3', '0.5', '0.7', '1.0']
 
     # Process each CSV file

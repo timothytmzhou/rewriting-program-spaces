@@ -1,10 +1,10 @@
+import argparse
+from dataclasses import asdict
+import os
+import pandas as pd
 from pathlib import Path
 import time
-import argparse
-import os
-from dataclasses import asdict, replace
 from typing import Literal
-import pandas as pd
 
 from llm.realizability import RealizabilityChecker
 from llm.run_llm import Config, LanguageModelRunner, ModelConfig
@@ -45,7 +45,7 @@ def run_experiment(
     prompt = prompt.rstrip('\n')
     start = time.time()
     run_info = runner.run(config, prompt, context=context,
-                          realizability_checker=checker, timeout=1000)
+                          realizability_checker=checker)
     elapsed = time.time() - start
     # Check if program compiles with tsc
     compiled = compile_typescript(ts_clean(run_info.output))
@@ -100,14 +100,16 @@ def run_typescript(runner: LanguageModelRunner, config: Config, runs: int,
         if not os.path.isdir(os.path.join(benchmark_dir, subdir)):
             continue
         prompts_file = os.path.join(benchmark_dir, subdir, "prompt.txt")
-        output_file = os.path.join(benchmark_dir, subdir,
-                                   f"{mode}_results_temp_{TEMP}_model_{model_name}.txt")
+        output_file = os.path.join(
+            benchmark_dir, subdir,
+            f"{mode}_results_temp_{config.temperature}_model_{model_name}.txt"
+        )
 
         with open(prompts_file, "r") as promptfile, open(output_file, "w") as outfile:
             for run_num in range(runs):
                 run_experiment(
                     subdir,
-                    TEMP,
+                    config.temperature,
                     promptfile.read().rstrip(),
                     context,
                     prompt_num,
@@ -118,52 +120,45 @@ def run_typescript(runner: LanguageModelRunner, config: Config, runs: int,
                     outfile,
                     results
                 )
-    csv_path = output_directory / f'{mode}_temp_{TEMP}_model_{model_name}.csv'
+    csv_path = output_directory / \
+        f'{mode}_temp_{config.temperature}_model_{model_name}.csv'
     pd.DataFrame(results).to_csv(csv_path, index=False)
     return results
 
 
-def run_experiments(
-        model_name: str,
-        model_config: ModelConfig,
-        config: Config,
-        typescript_CD: bool,
-        typescript_noCD: bool,
-        typescript_GCD: bool,
-        output_directory: Path,
-        num_runs: int = 1,
-):
-    runner = LanguageModelRunner(model_config=model_config)
-    if typescript_CD:
-        run_typescript(
-            runner, config, num_runs, 'TypedCD', model_name, output_directory
-        )
-    if typescript_noCD:
-        run_typescript(
-            runner, config, num_runs, 'Unconstrained', model_name, output_directory
-        )
-    if typescript_GCD:
-        run_typescript(
-            runner, config, num_runs, 'GCD', model_name, output_directory
-        )
-    del runner
+def main():
+    valid_temps = [0.01, 0.3, 0.5, 0.7, 1.0]
+    valid_models = {
+        "llama13b": "codellama/CodeLlama-13b-Instruct-hf",
+        "llama7b": "codellama/CodeLlama-7b-Instruct-hf",
+        "deepseek": "deepseek-ai/deepseek-coder-6.7b-instruct",
+    }
+    valid_checkers = ["TypedCD", "Unconstrained", "GCD"]
 
-
-if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Run experiments with optional noninterference check."
+        description="Run typescript experiments."
     )
     parser.add_argument(
-        '-t', '--typescript_CD',
-        action='store_true', help='Run typescript experiments with our decoding'
+        "--models",
+        nargs="+",
+        choices=valid_models.keys(),
+        default=list(valid_models.keys()),
+        help="Which models to run (default: all).",
     )
     parser.add_argument(
-        '-o', '--typescript_noCD',
-        action='store_true', help='Run typescript experiments without our decoding'
+        "--temps",
+        nargs="+",
+        type=float,
+        choices=valid_temps,
+        default=valid_temps,
+        help="Which temperatures to run (default: all).",
     )
     parser.add_argument(
-        '-g', '--typescript_GCD',
-        action='store_true', help='Run typescript experiments with GCD'
+        "--checkers",
+        nargs="+",
+        choices=valid_checkers,
+        default=valid_checkers,
+        help="Which checker types to run (default: all).",
     )
     parser.add_argument(
         '--num_runs',
@@ -180,29 +175,29 @@ if __name__ == "__main__":
     parser.add_argument(
         '--output',
         type=Path,
-        default=".",
+        default=Path("experiments", "typescript", "generated_data"),
         help='Directory to store outputs'
     )
     args = parser.parse_args()
-    TEMP: float = float(args.temp)
+    args.output.mkdir(parents=True, exist_ok=True)
 
-    # Instantiate runner to load model
-    models = [
-        ("llama7b", ModelConfig(model_id="codellama/CodeLlama-7b-Instruct-hf")),
-        ("deepseek-coder",
-         ModelConfig(model_id="deepseek-ai/deepseek-coder-6.7b-instruct")),
-        ("llama13b", ModelConfig(model_id="codellama/CodeLlama-13b-Instruct-hf")),
-    ]
+    for model_name in args.models:
+        model_config = ModelConfig(model_id=valid_models[model_name])
+        model_runner = LanguageModelRunner(model_config=model_config)
 
-    for (model_name, model_config) in models:
-        run_experiments(
-            model_name,
-            model_config,
-            Config(temperature=TEMP, repetition_penalty=1.2, timeout=150),
-            args.typescript_CD,
-            args.typescript_noCD,
-            args.typescript_GCD,
-            args.output,
-            args.num_runs,
-            # seed=3587551093
-        )
+        for temp in args.temps:
+            for checker in args.checkers:
+                run_typescript(
+                    model_runner,
+                    Config(temperature=temp, repetition_penalty=1.2, timeout=150),
+                    args.num_runs,
+                    checker,
+                    model_name,
+                    args.output
+                )
+
+        del model_runner
+
+
+if __name__ == "__main__":
+    main()

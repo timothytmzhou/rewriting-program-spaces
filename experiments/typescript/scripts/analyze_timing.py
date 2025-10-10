@@ -41,7 +41,7 @@ def main(results_dir: Path = Path('results')):
             })
 
     table_df = pd.DataFrame(records)
-    models = ["deepseek-coder", "llama7b", "llama13b"]
+    models = ["deepseek", "llama7b", "llama13b"]
     temps = sorted(table_df['temperature'].unique())
 
     def create_table(table_name):
