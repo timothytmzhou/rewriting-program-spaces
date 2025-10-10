@@ -8,8 +8,6 @@ Claim 3: In general, even with semantic constrained decoding the first token tri
 # Installation
 TODO: Write installation instructions.
 
-# Smoke Test
-TODO: Write instructions to perform a quick smoke test so the reviewers can know if the system is working.
 
 # Evaluation Instructions
 
@@ -59,7 +57,7 @@ python -m experiments.typescript.scripts.visualize_tries experiments/typescript/
 ```
 This will save the histograms for every model as `.png` files.
 Figure 6 shows the histogram for llama7b specifically.
-You can pass the `--output-dir` flag to specify the path where the images are saved (the current working directory [`rewriting-program-spaces`] by default).
+You can pass the `--output-dir` flag to specify the path where the images are saved (the current working directory by default).
 
 
 ## Reproducing Raw Data (Requires GPUs with at least 30 GB of combined VRAM)
@@ -109,7 +107,7 @@ Each experiment has 3 dimensions: model, temperature, and checker (see Table 1).
 Any number of arguments for any dimension may be passed in.
 For example,
 ```bash
-python -m experiments.egraph.scripts.run --models llama7b --temps 0.01 0.3 --output path_to_my_output_directory/
+python -m experiments.typescript.scripts.run --models llama7b --temps 0.01 0.3 --output path_to_my_output_directory/
 ```
 will run only the 6 experiments using llama7b at temperatures .01 and 0.3.
 If a dimension is left unspecified, it defaults to running all possible values (e.g., in the command above, all checkers are run).

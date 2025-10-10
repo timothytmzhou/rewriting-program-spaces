@@ -156,7 +156,12 @@ def main():
         "llama7b": "codellama/CodeLlama-7b-Instruct-hf",
         "deepseek": "deepseek-ai/deepseek-coder-6.7b-instruct",
     }
-    valid_checkers = ["constrained", "unconstrained", "gcd"]
+    valid_checkers = ["semantic", "unconstrained", "grammar"]
+    checker_mapping = {
+        "semantic": "constrained",
+        "unconstrained": "unconstrained",
+        "grammar": "gcd"
+    }
 
     parser = argparse.ArgumentParser(description="Run model experiments.")
     parser.add_argument(
@@ -218,7 +223,7 @@ def main():
                     runner,
                     config,
                     args.temps,
-                    checker_type,
+                    checker_mapping[checker_type],
                     name,
                     code_block,
                 )

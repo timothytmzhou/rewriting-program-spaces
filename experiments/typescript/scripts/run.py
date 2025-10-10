@@ -133,7 +133,12 @@ def main():
         "llama7b": "codellama/CodeLlama-7b-Instruct-hf",
         "deepseek": "deepseek-ai/deepseek-coder-6.7b-instruct",
     }
-    valid_checkers = ["TypedCD", "Unconstrained", "GCD"]
+    valid_checkers = ["semantic", "unconstrained", "grammar"]
+    checker_mapping = {
+        "semantic": "TypedCD",
+        "unconstrained": "Unconstrained", 
+        "grammar": "GCD"
+    }
 
     parser = argparse.ArgumentParser(
         description="Run typescript experiments."
@@ -191,7 +196,7 @@ def main():
                     model_runner,
                     Config(temperature=temp, repetition_penalty=1.2, timeout=150),
                     args.num_runs,
-                    checker,
+                    checker_mapping[checker],
                     model_name,
                     args.output
                 )
