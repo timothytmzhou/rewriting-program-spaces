@@ -72,7 +72,10 @@ You can pass the `--output-dir` flag to specify the path where the images are sa
 ## Reproducing Raw Data
 The largest model, llama-13b, requires ~30 GB of VRAM.
 The smallest model, deepseek-coder, requires ~15GB of VRAM.
-Because LLMs are inherently stochastic, data may differ from what is reported in the paper, but trends should be preserved. 
+Because LLMs are inherently stochastic, data may differ from what is reported in the paper, but trends should be preserved.
+The first time you run a model, the script will need to download the weights for that model from HuggingFace.
+This may take a while and requires enough disk space (~50GB if you want to run all three models).
+
 ### EGraph Benchmarks
 The following command will run ALL egraph experiments:
 ```bash
