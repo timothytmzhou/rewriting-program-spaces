@@ -650,7 +650,8 @@ def test_min_max():
 
 
 @reset
-def test_slow_and_old_errors():
+def test_old_errors():
+    assert type_commands_test("let x = 5 / 19; x + 16;")
     assert type_commands_test("""function foo (x: number) : number {
                                     if (x > 10){
                                         x = 0;

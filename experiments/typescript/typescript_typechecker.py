@@ -404,7 +404,7 @@ def typeprune_return_seqs(
 
 @lru_cache()
 def parse_type(type_expression: TreeGrammar) -> Type:
-    """"WARNING: ONLY INVOKE THIS FUNCTION ON COMPLETELY PARSED TREEGRAMMARS"""
+    """WARNING: ONLY INVOKE THIS FUNCTION ON COMPLETELY PARSED TREEGRAMMARS"""
     match type_expression:
         case NumberTypeLit():
             return NUMBERTYPE
@@ -443,7 +443,7 @@ def infer_type_expression(env: Environment, exp: TreeGrammar) -> Type:
                 return functype.return_type
             return EmptyType()
         case Binop(_, _, _):
-            return NUMBERTYPE if exp is IntBinop else BOOLEANTYPE
+            return NUMBERTYPE if isinstance(exp, IntBinop) else BOOLEANTYPE
         case UnaryMinus(_, _):
             return NUMBERTYPE
         case TernaryExpression(_, then_val, else_val):
@@ -506,12 +506,12 @@ def get_new_bindings(env: Environment, stmt: TreeGrammar
             elif len(updates) == 1:
                 return updates.pop()
             raise ValueError(f"gather_env_update called on ambiguous stmt {stmt}")
-        case TypedLetDecl(var, type, _):
+        case TypedLetDecl(var, lhs_type, _):
             var_tree = as_tree(var)
-            return ((get_identifier_name(var_tree), parse_type(type), True),)
-        case TypedConstDecl(var, type, _):
+            return ((get_identifier_name(var_tree), parse_type(lhs_type), True),)
+        case TypedConstDecl(var, lhs_type, _):
             var_tree = as_tree(var)
-            return ((get_identifier_name(var_tree), parse_type(type), False),)
+            return ((get_identifier_name(var_tree), parse_type(lhs_type), False),)
         case UntypedLetDecl(var, rhs):
             var_tree = as_tree(var)
             return ((
@@ -553,7 +553,7 @@ def get_identifier_name(exp: TreeGrammar | None) -> str:
     match exp:
         case Var(var) if isinstance(var, Token):
             return var.prefix
-    return ""
+    raise ValueError(f"Cannot get identifier name of non-variable {exp}")
 
 
 @lru_cache(maxsize=None)
