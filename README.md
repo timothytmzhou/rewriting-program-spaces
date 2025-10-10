@@ -7,6 +7,15 @@ Claim 3: In general, even with semantic constrained decoding the first token tri
 
 # Installation
 TODO: Write installation instructions.
+Switch directories (IMPORTANT: run all commands from the `chopchop` directory).
+```bash
+cd chopchop
+```
+As a sanity check, you can run:
+```bash
+python -m pytest
+```
+The tests should take 1-2 minutes to pass.
 
 
 # Evaluation Instructions
