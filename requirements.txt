@@ -1,4 +1,5 @@
 networkx
+pytest
 transformers
 greenery
 torch

@@ -1,25 +1,29 @@
 # Claims
-Claim 1: Across nearly all configurations, semantic constrained decoding delivers consistent and often dramatic improvements (Table 1). 
+Claim 1 (Section 6.1): Across nearly all configurations, semantic constrained decoding delivers consistent and often dramatic improvements (Table 1). See "Reproducing Tables and Figures" (steps labeled Table 1) and "Reproducing Raw Data".
 
-Claim 2: Overhead on decoding time ranges from tens to a few hundred milliseconds per token. (Table 2)
+Claim 2 (Section 6.2): Overhead on decoding time ranges from tens to a few hundred milliseconds per token (Table 2). See the steps labeled Table 2 in "Reproducing Tables and Figures".
 
-Claim 3: In general, even with semantic constrained decoding the first token tried is accepted most of the time. (Figure 6)
+Claim 3 (Section 6.2): In general, even with semantic constrained decoding the first token tried is accepted most of the time (Figure 6). See the steps labeled Figure 6 in "Reproducing Tables and Figures".
 
 # Installation
-TODO: Write installation instructions.
-Switch directories (IMPORTANT: run all commands from the `chopchop` directory).
+First, download the docker image from Zenodo and ensure docker is installed.
+To start the container, run:
 ```bash
-cd chopchop
+docker run -it --rm --gpus all chopchop:latest
+```
+IMPORTANT: for all commands listed in this README, run them from the `chopchop` directory.
+This is the default directory for the container.
+Before running any commands, activate the virtual environment by running:
+```bash
+source /opt/venv/bin/activate
 ```
 As a sanity check, you can run:
 ```bash
 python -m pytest
 ```
-The tests should take 1-2 minutes to pass.
-
+The tests may take 1-2 minutes to pass.
 
 # Evaluation Instructions
-
 This section explains how to reproduce the results presented in the paper, including both (1) regenerating tables and figures from the provided raw data and (2) generating new data by re-running experiments. Since (2) requires GPU access and can take a long time (several days), you can also specify a subset of the experiments to run. With (2), there is some inherent nondeterminism from running LMs---the generated data should be similar but may not be exactly the same.
 
 ## Reproducing Tables and Figures from Provided Raw Data
@@ -37,13 +41,11 @@ Table 2:
 python -m experiments.egraph.scripts.analyze_timing experiments/egraph/paper_data
 ```
 
-
 Figure 6:
 ```bash
 python -m experiments.egraph.scripts.visualize_tries experiments/egraph/paper_data
 ```
 This will save the histograms for every model as `.png` files. You can pass the `--output-dir` flag to specify the path where the images are saved (root by default).
-
 
 ### TypeScript Benchmarks
 Table 1:
@@ -58,7 +60,6 @@ From the `rewriting-program-spaces` directory, run
 python -m experiments.typescript.scripts.analyze_timing experiments/typescript/paper_data
 ```
 
-
 Figure 6:
 From the `rewriting-program-spaces` directory, run
 ```bash
@@ -67,7 +68,6 @@ python -m experiments.typescript.scripts.visualize_tries experiments/typescript/
 This will save the histograms for every model as `.png` files.
 Figure 6 shows the histogram for llama7b specifically.
 You can pass the `--output-dir` flag to specify the path where the images are saved (the current working directory by default).
-
 
 ## Reproducing Raw Data
 The largest model, llama-13b, requires ~30 GB of VRAM.
@@ -135,4 +135,33 @@ options:
 Once the output is generated, tables can be produced using the same procedure as with the raw data, just with the input directory changed to where the results were stored.
 
 # Additional Description
-TODO: Add description of directory layout.
+The repository is organized as follows:
+
+## Directories
+- **`core`**  
+  Implements the backend of the tool (constructing and manipulating prefix spaces).
+
+- **`llm`**  
+  Provides functionality for running LLMs and interfacing an LLM with a realizability checker.
+
+- **`experiments`**  
+  Split into two subdirectories for benchmarks:
+  - `experiments/egraph`
+  - `experiments/typescript`
+
+  Each of these directories contains:
+  - **Realizability checker definition**  
+    - A `.lark` file describing the concrete syntax.  
+    - A `.py` file describing the abstract syntax.  
+    - Another Python file defining a pruner.  
+    - For `egraph` benchmarks, rewrite rules are included in an `.egglog` file.
+  - **`scripts`** subdirectory  
+    Contains scripts to run experiments.
+  - **`paper_data`** subdirectory  
+    Contains the raw data used in the paper.
+
+- **`demo`**  
+  Contains code for running a small web demo, allowing users to check realizability of various prefixes.  
+  A publicly available version is hosted at [chop.streamlit.app](https://chop.streamlit.app).
+  Users can provide prefixes and check realizability with respect to a checker: by default, there is a basic example with an egraph-based checker.
+  There is also a custom option to define your own checker.
