@@ -6,23 +6,69 @@ Claim 2 (Section 6.2): Overhead on decoding time ranges from tens to a few hundr
 Claim 3 (Section 6.2): In general, even with semantic constrained decoding the first token tried is accepted most of the time (Figure 6). See the steps labeled Figure 6 in "Reproducing Tables and Figures".
 
 # Installation
-## Requirements
+The artifact can be installed directly from the GitHub repository or through Docker.
+Running Docker with GPU support can sometimes be tricky, and our Docker container is not compatible with all platforms, so we recommend the former.
+
+## From GitHub (Recommended)
+### Requirements
+- The typescript compiler `tsc` must be installed. You can do this by installing nodejs and npm, then running `npm install -g typescript`.
+- Python 3.12+.
+### Instructions
+1. Clone the repository (be sure to use the `popl-artifact` branch):
+```bash
+git clone -b popl-artifact https://github.com/timothytmzhou/chopchop.git
+cd chopchop
+```
+
+2. Verify your Python version by running
+```bash
+python3 --version
+```
+If this shows a version <3.12, explicitly call the next step with the version you have (e.g. `python3.12` instead of `python3`).
+
+3. Make and activate a fresh virtual environment (see previous step):
+```bash
+python3 -m venv chopchop
+source chopchop/bin/activate
+```
+
+4. Install dependencies:
+```bash
+pip install --upgrade pip setuptools wheel
+pip install -r requirements.txt
+```
+
+5. Verify installation suceeded by running:
+```bash
+python -m pytest
+```
+the tests may take 1-2 minutes to pass.
+
+## With Docker
+### Requirements
 - Docker must be installed.
 - You can evaluate parts of this artifact on CPU-only systems without a GPU (see **Evaluation**). However, Apple Silicon (M1/M2/M3) is not supported because the Docker image is built for x86_64 architecture using NVIDIA CUDA base images.
 
-## Instructions
-First, download the docker image from Zenodo.
-To start the container, run:
+### Instructions
+1. Download the `tar.gz` for the docker image from Zenodo (`chopchop.tar.gz`).
+
+2. Load the image:
+```bash
+gunzip chopchop.tar.gz
+docker load -i chopchop.tar
+```
+
+3. Start the container. Only include `--gpus all` if you want to run with gpus.
 ```bash
 docker run -it --rm --gpus all chopchop:latest
 ```
-IMPORTANT: for all commands listed in this README, run them from the `chopchop` directory.
-This is the default directory for the container.
-Before running any commands, activate the virtual environment by running:
+
+4. Activate the virtual environment by running:
 ```bash
 source /opt/venv/bin/activate
 ```
-As a sanity check, you can run:
+
+5. Verify everything is working by running:
 ```bash
 python -m pytest
 ```
@@ -30,6 +76,10 @@ The tests may take 1-2 minutes to pass.
 
 # Evaluation Instructions
 This section explains how to reproduce the results presented in the paper, including both (1) regenerating tables and figures from the provided raw data and (2) generating new data by re-running experiments. Since (2) requires GPU access and can take a long time (several days), you can also specify a subset of the experiments to run. With (2), there is some inherent nondeterminism from running LMs---the generated data should be similar but may not be exactly the same.
+
+Notes (**IMPORTANT**):
+- Run all commands from the `chopchop` directory.
+- If generating raw data, do not use the same output directory for the egraph and typescript benchmarks, this will break the analysis scripts.
 
 ## Reproducing Tables and Figures from Provided Raw Data
 The raw data for our experiments is in `experiments/egraph/paper_data` and `experiments/typescript/paper_data` respectively. To get the tables and figures shown in the paper, run the following commands:
