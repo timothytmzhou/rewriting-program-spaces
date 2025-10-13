@@ -193,6 +193,7 @@ options:
 Once the output is generated, tables can be produced using the same procedure as with the raw data, just with the input directory changed to where the results were stored.
 
 # Additional Description
+The code for this project is publicly available at [github.com/timothytmzhou/chopchop](https://github.com/timothytmzhou/chopchop) under a MIT license. 
 The repository is organized as follows:
 
 ## Directories

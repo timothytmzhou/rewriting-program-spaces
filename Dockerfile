@@ -10,6 +10,12 @@ RUN apt-get update && apt-get install -y \
        python3.13 python3.13-venv python3.13-dev python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
+# Install Node.js and TypeScript
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g typescript \
+    && rm -rf /var/lib/apt/lists/*
+
 # Work directory
 WORKDIR /chopchop
 
